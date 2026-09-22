@@ -744,13 +744,10 @@
 
 <!-- FLOATING SOCIAL BUTTONS -->
 <div class="float-social-btns">
-    <a href="https://wa.me/your-number" class="float-btn wa-float" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-    <a href="https://facebook.com/your-page" class="float-btn fb-float" target="_blank">
+    <a href="https://www.facebook.com/bet369win" class="float-btn fb-float" target="_blank" rel="noopener">
         <i class="fab fa-facebook-f"></i>
     </a>
-    <a href="https://t.me/akashwebd" class="float-btn tg-float" target="_blank">
+    <a href="https://t.me/bet369win" class="float-btn tg-float" target="_blank" rel="noopener">
         <i class="fab fa-telegram-plane"></i>
     </a>
     <a href="#" class="float-btn live-float">

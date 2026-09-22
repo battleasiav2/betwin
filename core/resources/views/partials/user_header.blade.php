@@ -84,7 +84,7 @@
 
             <div class="footer-support-title">সাহায্য প্রয়োজন?</div>
             <div class="footer-support-icons">
-                <a href="https://t.me/+8801846476687" target="_blank" class="footer-icon-btn" style="--icon-color:#229ED9;"><i class="lab la-telegram"></i></a>
+                <a href="https://t.me/bet369win" target="_blank" class="footer-icon-btn" style="--icon-color:#229ED9;"><i class="lab la-telegram"></i></a>
             </div>
 
             <a href="{{ route('user.logout') }}" class="side-nav-logout-btn">

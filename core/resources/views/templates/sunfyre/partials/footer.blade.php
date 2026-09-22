@@ -27,14 +27,11 @@
                     </div>
 
                     <div class="footer-icons d-flex align-items-center">
-                        <a href="#" target="_blank" style="background: #1877f2; width: 26px; height: 26px; display: flex; justify-content: center; align-items: center; border-radius: 50%; margin-right: 8px; color: white; text-decoration: none; font-size: 12px;">
+                        <a href="https://www.facebook.com/bet369win" target="_blank" rel="noopener" style="background: #1877f2; width: 26px; height: 26px; display: flex; justify-content: center; align-items: center; border-radius: 50%; margin-right: 8px; color: white; text-decoration: none; font-size: 12px;">
                             <i class="fab fa-facebook-f"></i>
                         </a>
-                        <a href="#" target="_blank" style="background: #0088cc; width: 26px; height: 26px; display: flex; justify-content: center; align-items: center; border-radius: 50%; margin-right: 8px; color: white; text-decoration: none; font-size: 12px;">
+                        <a href="https://t.me/bet369win" target="_blank" rel="noopener" style="background: #0088cc; width: 26px; height: 26px; display: flex; justify-content: center; align-items: center; border-radius: 50%; margin-right: 8px; color: white; text-decoration: none; font-size: 12px;">
                             <i class="fab fa-telegram-plane"></i>
-                        </a>
-                        <a href="#" target="_blank" style="background: #25d366; width: 26px; height: 26px; display: flex; justify-content: center; align-items: center; border-radius: 50%; margin-right: 8px; color: white; text-decoration: none; font-size: 12px;">
-                            <i class="fab fa-whatsapp"></i>
                         </a>
                         <span style="background: white; color: #d9534f; width: 26px; height: 26px; display: flex; justify-content: center; align-items: center; border-radius: 50%; font-weight: bold; border: 1px solid #d9534f; font-size: 9px;">
                             18+
