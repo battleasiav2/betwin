@@ -1,0 +1,97 @@
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: hostinger-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Trigger Hostinger Git webhook
+        id: wh
+        env:
+          WEBHOOK: ${{ secrets.HOSTINGER_DEPLOY_WEBHOOK }}
+        run: |
+          set -e
+          if [ -z "${WEBHOOK}" ]; then
+            echo "used=false" >> "$GITHUB_OUTPUT"
+            echo "No HOSTINGER_DEPLOY_WEBHOOK secret."
+            exit 0
+          fi
+          echo "Posting to Hostinger webhook..."
+          code=$(curl -sS -o /tmp/wh.out -w "%{http_code}" -X POST "${WEBHOOK}" \
+            -H "Content-Type: application/x-www-form-urlencoded" \
+            --max-time 90 || echo "000")
+          echo "HTTP ${code}"
+          sed -n '1,20p' /tmp/wh.out || true
+          case "${code}" in
+            200|201|202|204) echo "used=true" >> "$GITHUB_OUTPUT" ;;
+            *) echo "used=false" >> "$GITHUB_OUTPUT"; echo "Webhook failed with ${code}" ;;
+          esac
+
+      - name: FTP deploy
+        id: ftp
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          if [ -z "${FTP_HOST}" ] || [ -z "${FTP_USER}" ] || [ -z "${FTP_PASSWORD}" ]; then
+            echo "used=false" >> "$GITHUB_OUTPUT"
+            echo "FTP secrets not set — skip."
+            exit 0
+          fi
+          echo "used=true" >> "$GITHUB_OUTPUT"
+
+      - name: Run FTP upload
+        if: steps.ftp.outputs.used == 'true'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftp
+          local-dir: ./
+          server-dir: ./
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            **/node_modules/**
+            core/.env
+            core/.env.backup
+            core/.env.production
+            core/storage/logs/**
+            core/storage/framework/cache/data/**
+            core/storage/framework/sessions/**
+            core/storage/framework/views/**
+            **/*.sql
+            **/push-to-hostinger.bat
+            **/setup-auto-deploy.ps1
+            **/AUTO-DEPLOY.md
+
+      - name: Deploy result
+        if: always()
+        env:
+          WH: ${{ steps.wh.outputs.used }}
+          FTP: ${{ steps.ftp.outputs.used }}
+          HAS_WH_SECRET: ${{ secrets.HOSTINGER_DEPLOY_WEBHOOK != '' }}
+        run: |
+          echo "webhook_step=${WH:-false} ftp_step=${FTP:-false}"
+          if [ "${WH}" = "true" ] || [ "${FTP}" = "true" ]; then
+            echo "Deploy triggered successfully."
+            exit 0
+          fi
+          echo "::error::Auto-deploy not configured. Add secret HOSTINGER_DEPLOY_WEBHOOK (Hostinger → Git → Auto Deployment URL) or FTP_HOST/FTP_USER/FTP_PASSWORD. See AUTO-DEPLOY.md"
+          exit 1

@@ -8,26 +8,28 @@ Laravel (Xaxino / sunfyre) for Hostinger.
 - DB_USERNAME=`u811189100_betwin`
 - DB_PASSWORD= only in server `core/.env` (never commit)
 
-## Auto update: Git → Hostinger
+## Auto deploy (GitHub → Hostinger)
 
-### 1) Hostinger (one time)
-1. hPanel → **Advanced** → **Git**
-2. Repository: `https://github.com/battleasiav2/betwin.git`
-3. Branch: `main`
-4. Deploy path: site `public_html` (repo root has `index.php`)
-5. Turn **Auto Deployment** ON
+**Full guide:** [AUTO-DEPLOY.md](./AUTO-DEPLOY.md)
 
-### 2) PC (every update)
-Double-click `push-to-hostinger.bat` or:
+One-time (required — repo previously had **zero** webhooks):
 
-```bash
-git add -A
-git commit --trailer "Co-authored-by: Cursor <cursoragent@cursor.com>" -m "your message"
-git push origin main
+1. Hostinger → Advanced → **Git** → **Auto Deployment** → copy Webhook URL  
+2. Run:
+   ```powershell
+   $env:GH_PUSH_TOKEN="your_pat"
+   .\setup-auto-deploy.ps1 -WebhookUrl "PASTE_WEBHOOK_URL"
+   ```
+   Or add GitHub secret `HOSTINGER_DEPLOY_WEBHOOK` manually.  
+3. Push to `main` → GitHub **Actions** runs "Deploy to Hostinger"
+
+Optional FTP secrets: `FTP_HOST`, `FTP_USER`, `FTP_PASSWORD`.
+
+### Daily update
+```bat
+push-to-hostinger.bat
 ```
-
-Hostinger pulls automatically after push.
+or `git push origin main`
 
 ### Server first-time
-Copy `core/.env.example` → `core/.env`, set DB password + APP_URL, then:
-`php core/artisan key:generate`
+Create `core/.env` from `core/env.hostinger.example` (File Manager). Never commit `.env`.
