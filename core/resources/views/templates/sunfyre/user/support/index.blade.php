@@ -376,30 +376,6 @@
 
 </div>
 
-<!-- BOTTOM NAVIGATION -->
-<div class="bottom-nav-container">
-    <div class="bottom-nav">
-        <a href="{{ route('user.home') }}" class="nav-item">
-            <i class="fas fa-home"></i>
-            <span>@lang('Home')</span>
-        </a>
-        <a href="{{ route('user.promotions') }}" class="nav-item">
-            <i class="fas fa-gift"></i>
-            <span>@lang('Promotion')</span>
-        </a>
-        <a href="{{ route('user.referrals') }}" class="nav-item center-item">
-            <div class="center-icon-circle"><i class="fas fa-share-nodes"></i></div>
-            <span>@lang('Invite')</span>
-        </a>
-        <a href="{{ route('user.redeem.index') }}" class="nav-item">
-            <i class="fas fa-trophy"></i>
-            <span>@lang('Reward')</span>
-        </a>
-        <a href="{{ route('user.account') }}" class="nav-item">
-            <i class="fas fa-user-circle"></i>
-            <span>@lang('Member')</span>
-        </a>
-    </div>
-</div>
+@include($activeTemplate . 'partials.mobile_bottom_nav')
 
 @endsection

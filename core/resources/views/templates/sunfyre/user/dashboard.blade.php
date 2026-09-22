@@ -755,31 +755,7 @@
     </a>
 </div>
 
-<!-- BOTTOM NAVIGATION -->
-<div class="bottom-nav-container">
-    <div class="bottom-nav">
-        <a href="{{ route('user.home') }}" class="nav-item {{ request()->routeIs('user.home') ? 'active' : '' }}">
-            <i class="fas fa-home"></i>
-            <span>@lang('Home')</span>
-        </a>
-        <a href="{{ route('user.promotions') }}" class="nav-item">
-            <i class="fas fa-gift"></i>
-            <span>@lang('Promotion')</span>
-        </a>
-        <a href="{{ route('user.referrals') }}" class="nav-item center-item {{ request()->routeIs('user.referrals') ? 'active' : '' }}">
-            <div class="center-icon-circle"><i class="fas fa-share-nodes"></i></div>
-            <span>@lang('Invite')</span>
-        </a>
-        <a href="{{ route('user.redeem.index') }}" class="nav-item {{ request()->routeIs('user.redeem.index') ? 'active' : '' }}">
-            <i class="fas fa-trophy"></i>
-            <span>@lang('Reward')</span>
-        </a>
-        <a href="{{ route('user.account') }}" class="nav-item {{ request()->routeIs('user.account') ? 'active' : '' }}">
-            <i class="fas fa-user-circle"></i>
-            <span>@lang('Member')</span>
-        </a>
-    </div>
-</div>
+@include($activeTemplate . 'partials.mobile_bottom_nav')
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
