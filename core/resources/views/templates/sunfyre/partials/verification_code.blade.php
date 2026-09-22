@@ -77,29 +77,19 @@
 
 @push('script')
     <script>
-        (function ($) {
-            "use strict";
-            let input = $('#verification-code');
-            let boxes = $('.verification-code .boxes span');
-
-            function updateBoxes() {
-                let val = input.val() || '';
-                boxes.each(function (i) {
-                    $(this).text(val[i] ? val[i] : '');
-                });
+        "use strict";
+        $('#verification-code').on('input', function() {
+            let val = $(this).val().replace(/\D/g, '').slice(0, 6);
+            $(this).val(val);
+            let spans = $('.boxes span');
+            spans.html('');
+            for (let i = 0; i < val.length; i++) {
+                $(spans[i]).html(val[i]);
             }
-
-            input.on('input', function () {
-                let v = $(this).val().replace(/\D/g, '').slice(0, 6);
-                $(this).val(v);
-                updateBoxes();
-            });
-
-            boxes.parent().on('click', function () {
-                input.trigger('focus');
-            });
-
-            updateBoxes();
-        })(jQuery);
+            if (val.length == 6) {
+                $('.submit-form').find('button[type=submit]').html('<i class="las la-spinner fa-spin"></i>');
+                $('.submit-form').submit();
+            }
+        });
     </script>
 @endpush
