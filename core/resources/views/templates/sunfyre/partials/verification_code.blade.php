@@ -1,5 +1,5 @@
 <div class="mb-3">
-    <label class="input-label">@lang('Verification Code')</label>
+    <label class="input-label" style="display:block;text-align:left;color:#6b7280;font-size:13px;margin-bottom:8px;font-weight:600;">@lang('Verification Code')</label>
     <div class="verification-code">
         <input type="number" name="code" id="verification-code" class="form-control" required autocomplete="off" inputmode="numeric">
         <div class="boxes">
@@ -16,13 +16,6 @@
 @push('style')
     <link rel="stylesheet" href="{{ asset('assets/global/css/verification-code.css') }}">
     <style>
-        :root {
-            --bg-dark: #002e2a; 
-            --input-bg: #003b36;
-            --border-color: #004d40;
-            --primary-gold: #FFD700; 
-        }
-
         .verification-code {
             position: relative;
             display: flex;
@@ -52,10 +45,10 @@
         }
 
         .verification-code span {
-            background-color: var(--input-bg) !important;
-            border: 1px solid var(--border-color) !important;
-            color: var(--primary-gold) !important;
-            border-radius: 6px !important;
+            background-color: #f8fafc !important;
+            border: 1.5px solid #d5e4f7 !important;
+            color: #123b66 !important;
+            border-radius: 10px !important;
             width: clamp(35px, 12vw, 45px) !important;
             height: clamp(40px, 14vw, 50px) !important;
             display: flex !important;
@@ -68,13 +61,13 @@
         }
 
         .verification-code #verification-code:focus ~ .boxes span {
-            border-color: var(--primary-gold) !important;
-            box-shadow: 0 0 5px rgba(255, 215, 0, 0.2);
+            border-color: #2563eb !important;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
         }
 
-        .verification-code span::after, 
+        .verification-code span::after,
         .verification-code span::before,
-        .verification-code::after, 
+        .verification-code::after,
         .verification-code::before {
             display: none !important;
             content: none !important;
@@ -84,26 +77,29 @@
 
 @push('script')
     <script>
-        "use strict";
-        $('#verification-code').on('input', function() {
-            let val = $(this).val();
-            let spans = $('.boxes span');
-            
-            if (val.length > 6) {
-                $(this).val(val.substring(0, 6));
-                val = $(this).val();
+        (function ($) {
+            "use strict";
+            let input = $('#verification-code');
+            let boxes = $('.verification-code .boxes span');
+
+            function updateBoxes() {
+                let val = input.val() || '';
+                boxes.each(function (i) {
+                    $(this).text(val[i] ? val[i] : '');
+                });
             }
 
-            spans.html(''); 
-            
-            for (let i = 0; i < val.length; i++) {
-                $(spans[i]).html(val[i]);
-            }
+            input.on('input', function () {
+                let v = $(this).val().replace(/\D/g, '').slice(0, 6);
+                $(this).val(v);
+                updateBoxes();
+            });
 
-            if (val.length == 6) {
-                $('.submit-form').find('button[type=submit]').html('<i class="las la-spinner fa-spin"></i>');
-                $('.submit-form').submit();
-            }
-        });
+            boxes.parent().on('click', function () {
+                input.trigger('focus');
+            });
+
+            updateBoxes();
+        })(jQuery);
     </script>
 @endpush
