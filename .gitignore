@@ -29,4 +29,3 @@ yarn-error.log
 .fleet
 
 assets/admin/push_config.json
-core/vendor/stripe/stripe-php/README.md

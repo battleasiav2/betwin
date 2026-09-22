@@ -1,0 +1,3 @@
+﻿{
+  "note": "Put Firebase/FCM service account JSON on the server only. Do not commit real keys."
+}
