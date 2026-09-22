@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+﻿@extends($activeTemplate . 'layouts.app')
 
 @section('app')
     @php
@@ -13,10 +13,10 @@
     body, html {
         margin: 0;
         padding: 0;
-        background-color: #042e23;
-        background-image: linear-gradient(180deg, #073f32 0%, #032119 100%);
+        background-color: #e8f0fa;
+        background-image: none;
         font-family: 'Roboto', Arial, sans-serif;
-        color: #ffffff;
+        color: #172033;
         min-height: 100vh;
     }
 
@@ -33,7 +33,7 @@
     }
 
     .back-btn {
-        color: #ffcc00;
+        color: #123b66;
         font-size: 20px;
         text-decoration: none;
         margin-top: 10px;
@@ -47,7 +47,7 @@
         font-size: 34px;
         font-weight: 900;
         font-style: italic;
-        color: #ffcc00;
+        color: #123b66;
         font-family: "Arial Black", sans-serif;
         letter-spacing: 1.5px;
         margin-top: 25px;
@@ -61,7 +61,7 @@
     }
     .page-title {
         text-align: center;
-        color: #ffcc00;
+        color: #123b66;
         font-size: 24px;
         font-weight: bold;
         margin-top: 30px;
@@ -74,7 +74,7 @@
         color: #ffffff;
     }
     .register-link a {
-        color: #1de9b6;
+        color: #2563eb;
         text-decoration: underline;
         font-weight: 500;
     }
@@ -107,29 +107,29 @@
     }
     .input-group input {
         width: 100%;
-        background-color: #021e18;
-        border: 1px solid #094a3e;
+        background-color: #f8fafc;
+        border: 1px solid #d5e4f7;
         border-radius: 10px;
         padding: 16px 16px 16px 48px;
-        color: #ffffff;
+        color: #172033;
         font-size: 15px;
         box-sizing: border-box;
         outline: none;
         transition: border-color 0.2s;
     }
     .input-group input::placeholder {
-        color: #1de9b6;
+        color: #6b7280;
         font-weight: 500;
     }
     .input-group input:focus {
-        border-color: #1de9b6;
+        border-color: #2563eb;
     }
     .input-group i.left-icon {
         position: absolute;
         left: 16px;
         top: 50%;
         transform: translateY(-50%);
-        color: #1de9b6;
+        color: #2563eb;
         font-size: 16px;
     }
     .input-group i.right-icon {
@@ -137,7 +137,7 @@
         right: 16px;
         top: 50%;
         transform: translateY(-50%);
-        color: #1de9b6;
+        color: #2563eb;
         font-size: 16px;
         cursor: pointer;
     }
@@ -170,7 +170,7 @@
         top: 2px;
         height: 18px;
         width: 18px;
-        border: 2px solid #ffcc00;
+        border: 2px solid #123b66;
         border-radius: 4px;
         display: flex;
         align-items: center;
@@ -179,7 +179,7 @@
         flex-shrink: 0;
     }
     .checkbox-container input:checked ~ .checkmark {
-        background: #ffcc00;
+        background: #123b66;
     }
     .checkmark i {
         display: none;
@@ -195,26 +195,26 @@
         line-height: 1.4;
     }
     .agree-text a {
-        color: #ffcc00;
+        color: #123b66;
         text-decoration: none;
     }
 
     .btn-register {
         width: 100%;
-        background: linear-gradient(180deg, #ffdf00 0%, #ff9d00 100%);
+        background: linear-gradient(180deg, #2563eb 0%, #123b66 100%);
         border: 1px solid rgba(255,255,255,0.4);
         border-radius: 8px;
         padding: 14px;
         font-size: 18px;
         font-weight: 900;
-        color: #8c2800;
+        color: #ffffff;
         cursor: pointer;
-        box-shadow: 0 4px 0px #c57300, 0 6px 10px rgba(0,0,0,0.3);
+        box-shadow: 0 8px 20px rgba(18, 59, 102, 0.25);
         transition: transform 0.1s, box-shadow 0.1s;
     }
     .btn-register:active {
         transform: translateY(4px);
-        box-shadow: 0 0px 0px #c57300, 0 2px 4px rgba(0,0,0,0.3);
+        box-shadow: 0 2px 8px rgba(18, 59, 102, 0.2);
     }
 
     .divider {
@@ -275,8 +275,8 @@
     input:-webkit-autofill:hover, 
     input:-webkit-autofill:focus, 
     input:-webkit-autofill:active {
-        -webkit-box-shadow: 0 0 0 1000px #021e18 inset !important;
-        -webkit-text-fill-color: #ffffff !important;
+        -webkit-box-shadow: 0 0 0 1000px #f8fafc inset !important;
+        -webkit-text-fill-color: #172033 !important;
         transition: background-color 5000s ease-in-out 0s;
     }
 </style>
@@ -329,7 +329,7 @@
             @endif
 
             {{-- Hidden fields --}}
-            <input type="hidden" name="lastname" value="★">
+            <input type="hidden" name="lastname" value="â˜…">
             <input type="hidden" name="username" class="checkUser" value="{{ old('username') }}">
             <input type="hidden" name="email" class="checkUser" value="{{ old('email') }}">
             <input type="hidden" name="country" value="Bangladesh">
@@ -401,12 +401,12 @@
 
 {{-- Exist Modal --}}
 <div id="existModal" style="position:fixed; inset:0; z-index:100; background:rgba(0,0,0,0.6); display:none; align-items:center; justify-content:center; padding:16px;">
-    <div style="background:#042e23; border:1px solid #ffcc00; border-radius:12px; padding:24px; max-width:360px; width:100%; text-align:center;">
-        <h5 style="color:#ffcc00; font-size:16px; font-weight:700; margin-bottom:12px;">@lang('You are with us')</h5>
+    <div style="background:#ffffff; border:1px solid #123b66; border-radius:12px; padding:24px; max-width:360px; width:100%; text-align:center;">
+        <h5 style="color:#123b66; font-size:16px; font-weight:700; margin-bottom:12px;">@lang('You are with us')</h5>
         <p style="color:#ccc; font-size:14px; margin-bottom:20px;">@lang('You already have an account please Login')</p>
         <div style="display:flex; gap:10px;">
-            <button onclick="closeExistModal()" style="flex:1; background:#094a3e; color:#fff; border:none; padding:10px; border-radius:6px; font-weight:700; cursor:pointer;">@lang('Close')</button>
-            <a href="{{ route('user.login') }}" style="flex:1; background:#ffcc00; color:#000; border:none; padding:10px; border-radius:6px; font-weight:700; text-decoration:none; text-align:center;">@lang('Login')</a>
+            <button onclick="closeExistModal()" style="flex:1; background:#d5e4f7; color:#fff; border:none; padding:10px; border-radius:6px; font-weight:700; cursor:pointer;">@lang('Close')</button>
+            <a href="{{ route('user.login') }}" style="flex:1; background:#123b66; color:#000; border:none; padding:10px; border-radius:6px; font-weight:700; text-decoration:none; text-align:center;">@lang('Login')</a>
         </div>
     </div>
 </div>

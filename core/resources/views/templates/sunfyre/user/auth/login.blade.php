@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+﻿@extends($activeTemplate . 'layouts.app')
 
 @section('app')
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -8,10 +8,10 @@
     body, html {
         margin: 0;
         padding: 0;
-        background-color: #042e23;
-        background-image: linear-gradient(180deg, #073f32 0%, #032119 100%);
+        background-color: #e8f0fa;
+        background-image: none;
         font-family: 'Roboto', Arial, sans-serif;
-        color: #ffffff;
+        color: #172033;
         min-height: 100vh;
     }
 
@@ -27,7 +27,7 @@
 
     /* Back Button */
     .back-btn {
-        color: #ffcc00;
+        color: #123b66;
         font-size: 20px;
         text-decoration: none;
         margin-top: 10px;
@@ -42,7 +42,7 @@
         font-size: 34px;
         font-weight: 900;
         font-style: italic;
-        color: #ffcc00;
+        color: #123b66;
         font-family: "Arial Black", sans-serif;
         letter-spacing: 1.5px;
         margin-top: 25px;
@@ -56,7 +56,7 @@
     }
     .page-title {
         text-align: center;
-        color: #ffcc00;
+        color: #123b66;
         font-size: 24px;
         font-weight: bold;
         margin-top: 30px;
@@ -66,10 +66,10 @@
         font-size: 14px;
         margin-top: 8px;
         margin-bottom: 35px;
-        color: #ffffff;
+        color: #6b7280;
     }
     .register-link a {
-        color: #1de9b6;
+        color: #2563eb;
         text-decoration: underline;
         font-weight: 500;
     }
@@ -93,29 +93,29 @@
     }
     .input-group input {
         width: 100%;
-        background-color: #021e18;
-        border: 1px solid #094a3e;
+        background-color: #f8fafc;
+        border: 1px solid #d5e4f7;
         border-radius: 10px;
         padding: 16px 16px 16px 48px;
-        color: #ffffff;
+        color: #172033;
         font-size: 15px;
         box-sizing: border-box;
         outline: none;
         transition: border-color 0.2s;
     }
     .input-group input::placeholder {
-        color: #1de9b6;
+        color: #6b7280;
         font-weight: 500;
     }
     .input-group input:focus {
-        border-color: #1de9b6;
+        border-color: #2563eb;
     }
     .input-group i.left-icon {
         position: absolute;
         left: 16px;
         top: 50%;
         transform: translateY(-50%);
-        color: #1de9b6;
+        color: #6b7280;
         font-size: 16px;
     }
     .input-group i.right-icon {
@@ -123,7 +123,7 @@
         right: 16px;
         top: 50%;
         transform: translateY(-50%);
-        color: #1de9b6;
+        color: #6b7280;
         font-size: 16px;
         cursor: pointer;
     }
@@ -140,7 +140,7 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        color: #ffffff;
+        color: #6b7280;
         font-size: 14px;
         cursor: pointer;
         font-weight: 500;
@@ -150,7 +150,7 @@
         width: 20px;
         height: 20px;
         background-color: transparent;
-        border: 2px solid #ffcc00;
+        border: 2px solid #123b66;
         border-radius: 50%;
         position: relative;
         cursor: pointer;
@@ -158,7 +158,7 @@
         flex-shrink: 0;
     }
     .custom-checkbox:checked {
-        background-color: #ffcc00;
+        background-color: #123b66;
     }
     .custom-checkbox:checked::after {
         content: '\f00c';
@@ -172,7 +172,7 @@
         transform: translate(-50%, -50%);
     }
     .forgot-link {
-        color: #ffcc00;
+        color: #123b66;
         font-size: 14px;
         text-decoration: none;
         font-weight: 500;
@@ -181,20 +181,20 @@
     /* 3D Login Button */
     .btn-login {
         width: 100%;
-        background: linear-gradient(180deg, #ffdf00 0%, #ff9d00 100%);
+        background: linear-gradient(180deg, #2563eb 0%, #123b66 100%);
         border: 1px solid rgba(255,255,255,0.4);
         border-radius: 8px;
         padding: 14px;
         font-size: 18px;
         font-weight: 900;
-        color: #8c2800;
+        color: #ffffff;
         cursor: pointer;
-        box-shadow: 0 4px 0px #c57300, 0 6px 10px rgba(0,0,0,0.3);
+        box-shadow: 0 8px 20px rgba(18, 59, 102, 0.25);
         transition: transform 0.1s, box-shadow 0.1s;
     }
     .btn-login:active {
         transform: translateY(4px);
-        box-shadow: 0 0px 0px #c57300, 0 2px 4px rgba(0,0,0,0.3);
+        box-shadow: 0 2px 8px rgba(18, 59, 102, 0.2);
     }
 
     /* Divider (Or Connect With) */
@@ -202,7 +202,7 @@
         display: flex;
         align-items: center;
         text-align: center;
-        color: #ffffff;
+        color: #6b7280;
         font-size: 12px;
         font-weight: bold;
         margin: 35px 0 25px;
@@ -253,8 +253,8 @@
     input:-webkit-autofill:hover, 
     input:-webkit-autofill:focus, 
     input:-webkit-autofill:active {
-        -webkit-box-shadow: 0 0 0 1000px #021e18 inset !important;
-        -webkit-text-fill-color: #ffffff !important;
+        -webkit-box-shadow: 0 0 0 1000px #f8fafc inset !important;
+        -webkit-text-fill-color: #172033 !important;
         transition: background-color 5000s ease-in-out 0s;
     }
 </style>
