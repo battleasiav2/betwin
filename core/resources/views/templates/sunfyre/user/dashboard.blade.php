@@ -1,0 +1,953 @@
+@extends($activeTemplate . 'layouts.master')
+@section('content')
+
+@php
+    $apiControls = App\Models\GeneralSetting::first()->whereNotNull('id')->get();
+    $gameStatus = Illuminate\Support\Facades\DB::table('api_game_controls')->get()->keyBy('slug');
+@endphp
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="referrer" content="no-referrer">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+
+<style>
+    :root {
+        --bg-deep:    #071f18;
+        --bg-main:    #0a2e22;
+        --bg-card:    #0d3d2c;
+        --bg-card2:   #0f4530;
+        --teal:       #0d7a55;
+        --teal-light: #13a36e;
+        --gold:       #f0c030;
+        --gold-dark:  #c89a10;
+        --gold-text:  #ffd84d;
+        --green-btn:  #0a6644;
+        --text-main:  #e8f5ee;
+        --text-muted: #7eb89a;
+        --border:     rgba(255,255,255,0.08);
+        --glass:      rgba(13, 61, 44, 0.6);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: var(--bg-deep);
+        color: var(--text-main);
+        padding-bottom: 70px;
+        min-height: 100vh;
+        -webkit-tap-highlight-color: transparent;
+        user-select: none;
+        background-image: linear-gradient(135deg, #071f18 0%, #0a2e22 50%, #071f18 100%);
+    }
+
+    .custom-home-wrapper {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100%;
+    }
+
+    /* ─── ANNOUNCEMENT BAR ─── */
+    .announce-bar {
+        background: rgba(255,255,255,0.04); border-bottom: 1px solid var(--border);
+        padding: 7px 14px; display: flex; align-items: center; gap: 8px;
+    }
+    .announce-bar .ann-icon { font-size: 14px; color: var(--gold-text); flex-shrink: 0; }
+    .announce-bar marquee { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+
+    /* ─── SLIDER ─── */
+    .slider-wrap { padding: 10px 10px 4px; }
+    .swiper.mainSlider { border-radius: 12px; overflow: hidden; }
+    .mainSlider img { width: 100%; height: 170px; object-fit: cover; display: block; border-radius: 12px; }
+    .swiper-pagination-bullet {
+        background: rgba(255,255,255,0.3) !important; opacity: 1 !important;
+        width: 6px !important; height: 6px !important; transition: all 0.3s;
+    }
+    .swiper-pagination-bullet-active {
+        background: var(--gold-text) !important; width: 18px !important; border-radius: 3px !important;
+    }
+
+    /* ─── DEPOSIT & WITHDRAW ─── */
+    .quick-actions { display: flex; gap: 10px; padding: 10px 10px 4px; }
+    .qa-btn {
+        flex: 1; display: flex; align-items: center; justify-content: center;
+        gap: 8px; padding: 13px 10px; border-radius: 10px;
+        font-size: 14px; font-weight: 800; text-decoration: none;
+        transition: all 0.15s; cursor: pointer; border: none;
+    }
+    .qa-btn i { font-size: 16px; }
+    .qa-btn.deposit {
+        background: linear-gradient(180deg, #1a9966 0%, #0d7a55 60%, #0a5c3e 100%);
+        color: #fff; box-shadow: 0 4px 0 #064028, 0 4px 12px rgba(13,122,85,0.4);
+        border-bottom: 2px solid #1dcc85;
+    }
+    .qa-btn.deposit:active { transform: translateY(3px); box-shadow: 0 1px 0 #064028; }
+    .qa-btn.withdraw {
+        background: linear-gradient(180deg, #ffe066 0%, #f0c030 60%, #c89a10 100%);
+        color: #2a1500; box-shadow: 0 4px 0 #8a6a00, 0 4px 12px rgba(240,192,48,0.3);
+        border-bottom: 2px solid #ffe57a;
+    }
+    .qa-btn.withdraw:active { transform: translateY(3px); box-shadow: 0 1px 0 #8a6a00; }
+
+    /* ─── SECTION HEADER ─── */
+    .sec-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 12px 8px; }
+    .sec-title {
+        display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 800;
+        color: var(--gold-text); text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .sec-title i { font-size: 18px; color: var(--gold-text); }
+
+    .btn-see-all {
+        padding: 6px 13px; border-radius: 7px; font-size: 12px; font-weight: 800;
+        color: var(--gold-text);
+        background: linear-gradient(180deg, rgba(255,220,70,0.18) 0%, rgba(240,192,48,0.10) 100%);
+        border: 1px solid rgba(240,192,48,0.4); border-bottom: 2px solid rgba(255,220,80,0.6);
+        text-decoration: none; transition: all 0.15s; box-shadow: 0 3px 0 rgba(0,0,0,0.3);
+        display: inline-flex; align-items: center;
+    }
+    .btn-see-all:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(0,0,0,0.3); }
+
+    /* ─── GAME GRID ─── */
+    .games-section { padding: 0 10px; margin-bottom: 6px; }
+    .game-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    @media (min-width: 600px) { .game-grid { grid-template-columns: repeat(4, 1fr); } }
+    @media (min-width: 900px) {
+        .game-grid { grid-template-columns: repeat(6, 1fr); }
+        .mainSlider img { height: 240px; }
+    }
+
+    .game-card {
+        position: relative; border-radius: 10px; overflow: hidden; background: var(--bg-card);
+        border: 1px solid rgba(255,255,255,0.07); border-bottom: 2px solid rgba(255,255,255,0.12);
+        transition: all 0.2s; text-decoration: none; display: block; box-shadow: 0 4px 0 rgba(0,0,0,0.4);
+    }
+    .game-card:active { transform: scale(0.94) translateY(3px); border-color: var(--teal-light); box-shadow: 0 1px 0 rgba(0,0,0,0.4); }
+    .game-card-img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+
+    .game-card-fav {
+        position: absolute; top: 5px; right: 5px; width: 26px; height: 26px;
+        border-radius: 50%; background: rgba(0,0,0,0.45); backdrop-filter: blur(4px);
+        display: flex; align-items: center; justify-content: center;
+        color: rgba(255,255,255,0.6); font-size: 13px; cursor: pointer;
+        z-index: 5; transition: color 0.2s, background 0.2s; border: none; flex-shrink: 0;
+    }
+    .game-card-fav.active { color: var(--gold-text); background: rgba(240,192,48,0.18); }
+
+    .game-card-name {
+        font-size: 10px; font-weight: 700; color: var(--text-main); padding: 5px 6px;
+        text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    /* ─── STATUS TAGS ─── */
+    .game-card[data-status="2"]::before {
+        content: 'কাজ চলছে';
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.75);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 5;
+        backdrop-filter: blur(2px);
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 13px;
+        border: 1px solid rgba(211, 47, 47, 0.5);
+        border-radius: 10px;
+    }
+
+    .game-card[data-status="0"]::before,
+    .game-card[data-status="3"]::before {
+        content: 'শীঘ্রই আসছে';
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.75);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 5;
+        backdrop-filter: blur(2px);
+        color: #ff9800;
+        font-weight: 700;
+        font-size: 13px;
+        border: 1px solid rgba(245, 127, 23, 0.5);
+        border-radius: 10px;
+    }
+
+    /* ─── JACKPOT ─── */
+    .jackpot-section {
+        margin: 8px 10px; border-radius: 14px;
+        background: linear-gradient(135deg, #0a2e22 0%, #0d3d2c 50%, #071f18 100%);
+        border: 1px solid rgba(240,192,48,0.25); padding: 18px 16px 16px;
+        text-align: center; position: relative; overflow: hidden;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+    .jackpot-section::before {
+        content: ''; position: absolute; top: -30px; left: -30px; width: 120px; height: 120px;
+        background: radial-gradient(circle, rgba(240,192,48,0.12) 0%, transparent 70%); border-radius: 50%;
+    }
+    .jackpot-section::after {
+        content: ''; position: absolute; bottom: -30px; right: -30px; width: 120px; height: 120px;
+        background: radial-gradient(circle, rgba(13,122,85,0.15) 0%, transparent 70%); border-radius: 50%;
+    }
+    .jackpot-label { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 6px; }
+    .jackpot-img-row {
+        display: flex; align-items: center; justify-content: center;
+        gap: 10px; margin-bottom: 10px; position: relative; z-index: 1;
+    }
+    .jackpot-logo-img { height: 48px; object-fit: contain; filter: drop-shadow(0 0 16px rgba(240,192,48,0.5)); }
+    .jackpot-number-wrap { display: flex; align-items: center; justify-content: center; gap: 2px; flex-wrap: nowrap; }
+    .jp-digit {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 34px; height: 46px;
+        background: linear-gradient(180deg, #1a1a0e 0%, #0d0d06 100%);
+        border: 1px solid rgba(240,192,48,0.3); border-radius: 6px;
+        font-size: 26px; font-weight: 900; color: var(--gold-text);
+        text-shadow: 0 0 12px rgba(240,192,48,0.6);
+        box-shadow: 0 3px 0 rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+        font-family: 'Courier New', monospace; transition: all 0.15s;
+    }
+    .jp-digit.changing { animation: digitFlip 0.15s ease; }
+    .jp-sep { font-size: 24px; font-weight: 900; color: var(--gold-text); margin: 0 1px; line-height: 1; padding-bottom: 4px; }
+    @keyframes digitFlip {
+        0%   { transform: scaleY(1); }
+        50%  { transform: scaleY(0.1); }
+        100% { transform: scaleY(1); }
+    }
+
+    /* ─── CATEGORY NAV ─── */
+    .cat-nav-wrap {
+        padding: 12px 10px 0; overflow-x: auto; white-space: nowrap;
+        scrollbar-width: none; -ms-overflow-style: none;
+    }
+    .cat-nav-wrap::-webkit-scrollbar { display: none; }
+    .cat-nav-inner { display: inline-flex; gap: 8px; padding-bottom: 10px; }
+    .cat-pill {
+        display: inline-flex; align-items: center; gap: 6px;
+        padding: 7px 14px; border-radius: 20px; font-size: 12px; font-weight: 700;
+        text-decoration: none; color: var(--text-muted);
+        background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07);
+        transition: all 0.2s; white-space: nowrap; cursor: pointer;
+    }
+    .cat-pill i { font-size: 13px; }
+    .cat-pill.active, .cat-pill:active {
+        background: var(--teal); border-color: var(--teal-light); color: #fff;
+        box-shadow: 0 2px 10px rgba(13,122,85,0.4);
+    }
+
+    /* Category section */
+    .cat-section {
+        margin-bottom: 6px; background: rgba(13,61,44,0.3);
+        border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding-bottom: 8px;
+    }
+
+    /* ─── PROVIDER GRID ─── */
+    .provider-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        padding: 0 10px;
+    }
+    @media (min-width: 600px) {
+        .provider-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    @media (min-width: 900px) {
+        .provider-grid { grid-template-columns: repeat(5, 1fr); }
+    }
+
+    .provider-card {
+        background: var(--bg-card);
+        border: 1px solid rgba(255,255,255,0.07);
+        border-radius: 12px;
+        padding: 16px 8px;
+        aspect-ratio: 1 / 0.9;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+        box-shadow: 0 4px 0 rgba(0,0,0,0.3);
+    }
+    .provider-card:active {
+        transform: scale(0.94) translateY(3px);
+        border-color: var(--teal-light);
+        box-shadow: 0 1px 0 rgba(0,0,0,0.3);
+    }
+    .provider-card img {
+        height: 32px;
+        max-width: 75%;
+        object-fit: contain;
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+    }
+    .provider-card i {
+        font-size: 28px;
+        color: var(--text-main);
+    }
+    .provider-card span {
+        color: var(--text-main);
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        text-align: center;
+        line-height: 1.2;
+    }
+
+    /* ─── GAME CENTER ─── */
+    .game-center { padding: 8px 12px 16px; }
+    .game-center-title { font-size: 18px; font-weight: 800; color: var(--gold-text); margin-bottom: 12px; }
+    .game-center-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .gc-pill {
+        padding: 8px 18px; border-radius: 8px; font-size: 13px; font-weight: 700;
+        color: var(--teal-light); border: 1px solid rgba(13,122,85,0.4);
+        border-bottom: 2px solid rgba(30,200,130,0.5);
+        background: linear-gradient(180deg, rgba(13,122,85,0.12) 0%, rgba(13,122,85,0.06) 100%);
+        text-decoration: none; transition: all 0.15s; box-shadow: 0 3px 0 rgba(0,0,0,0.3);
+    }
+    .gc-pill:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(0,0,0,0.3); }
+
+    /* ─── FLOATING SOCIAL BUTTONS ─── */
+    .float-social-btns {
+        position: fixed;
+        right: 12px;
+        bottom: 80px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .float-btn {
+        width: 46px; height: 46px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center; justify-content: center;
+        font-size: 20px;
+        text-decoration: none;
+        color: #fff;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+        transition: transform 0.2s, box-shadow 0.2s;
+        overflow: hidden;
+    }
+    .float-btn:active { transform: scale(0.9); }
+    .float-btn img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+    .float-btn.wa-float  { background: #25d366; }
+    .float-btn.fb-float  { background: #1877f2; }
+    .float-btn.tg-float  { background: #0088cc; }
+    .float-btn.live-float { background: linear-gradient(135deg, #0d7a55, #13a36e); }
+
+    /* ─── BOTTOM NAV ─── */
+    .bottom-nav-container {
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 480px;
+        z-index: 10000;
+        padding: 0 10px 8px 10px;
+    }
+
+    .bottom-nav {
+        width: 100%;
+        height: 58px;
+        background: linear-gradient(180deg, #0e3d2c 0%, #0a2d1f 100%);
+        border-radius: 999px;
+        border: 1.5px solid #1a5c40;
+        box-shadow:
+            0 0 0 2px #071f18,
+            inset 0 1px 0 rgba(30,200,130,0.18),
+            0 -2px 0 0 #1edd96,
+            0 4px 24px rgba(0,0,0,0.5);
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 0 6px;
+        position: relative;
+    }
+
+    .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        flex: 1;
+        text-decoration: none !important;
+        color: #3db88a;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+        padding: 6px 0;
+        transition: color 0.2s;
+        position: relative;
+    }
+
+    .nav-item.active { color: #f5c518; }
+
+    .nav-item i { font-size: 20px; }
+
+    .nav-item span { font-size: 10px; font-weight: 700; }
+
+    .center-item {
+        position: relative;
+        flex: 1;
+        justify-content: flex-end;
+        padding-bottom: 0;
+    }
+
+    .center-icon-circle {
+        width: 54px;
+        height: 54px;
+        border-radius: 50%;
+        background: linear-gradient(145deg, #1de9b6, #00897b);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow:
+            0 0 0 3px #071f18,
+            0 0 0 5px #1edd96,
+            0 6px 20px rgba(0,188,140,0.55);
+        font-size: 22px;
+        color: #fff;
+        margin-top: -18px;
+        border: none;
+    }
+
+    .section-container { transition: opacity 0.3s ease; }
+    .section-container.show-anim { animation: softFade 0.4s ease forwards; }
+
+    @keyframes softFade {
+        from { opacity: 0; transform: translateY(5px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .game-tag, .game-item__title, h4 { display: none !important; }
+    .main-footer-section { margin-top: 25px; padding-bottom: 20px; }
+
+    /* ─── DESKTOP ─── */
+    @media (min-width: 900px) {
+        .bottom-nav-container { max-width: 600px; }
+    }
+</style>
+
+<div class="custom-home-wrapper">
+
+<!-- ANNOUNCEMENT -->
+<div class="announce-bar">
+    <i class="fas fa-bullhorn ann-icon"></i>
+    <marquee scrollamount="4">{{ gs('announcement_text') }}</marquee>
+</div>
+
+<!-- SLIDER -->
+<div class="slider-wrap">
+    <div class="swiper mainSlider">
+        <div class="swiper-wrapper">
+<div class="swiper-slide"><img src="{{ asset('assets/images/banners/welcome.jpg') }}" alt="BET369WIN" loading="lazy"></div>
+<div class="swiper-slide"><img src="{{ asset('assets/images/banners/play.jpg') }}" alt="BET369WIN Play More" loading="lazy"></div>
+<div class="swiper-slide"><img src="{{ asset('assets/images/banners/rewards.jpg') }}" alt="BET369WIN Daily Rewards" loading="lazy"></div>
+        </div>
+        <div class="swiper-pagination" style="bottom:10px"></div>
+    </div>
+</div>
+
+<!-- DEPOSIT & WITHDRAW -->
+<div class="quick-actions">
+    <a href="{{ route('user.deposit.index') }}" class="qa-btn deposit">
+        <i class="fas fa-plus-circle"></i> @lang('Deposit')
+    </a>
+    <a href="{{ route('user.withdraw') }}" class="qa-btn withdraw">
+        <i class="fas fa-arrow-up-from-bracket"></i> @lang('Withdraw')
+    </a>
+</div>
+
+<!-- CATEGORY PILLS -->
+<nav class="cat-nav-wrap">
+    <div class="cat-nav-inner">
+        <a href="javascript:void(0)" class="cat-pill active" onclick="filterGames('hot', this)">
+            <i class="fas fa-fire"></i> @lang('HOT')
+        </a>
+        <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('sports', this)">
+            <i class="fas fa-futbol"></i> @lang('SPORTS')
+        </a>
+        <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('crash', this)">
+            <i class="fas fa-chart-line"></i> @lang('CRASH')
+        </a>
+        <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('slot', this)">
+            <i class="fas fa-dice"></i> @lang('SLOT')
+        </a>
+        <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('casino', this)">
+            <i class="fas fa-video"></i> @lang('CASINO')
+        </a>
+        <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('table', this)">
+            <i class="fas fa-table"></i> @lang('TABLE')
+        </a>
+        <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('fishing', this)">
+            <i class="fas fa-fish"></i> @lang('FISHING')
+        </a>
+        <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('poker', this)">
+            <i class="fas fa-chess"></i> @lang('POKER')
+        </a>
+    </div>
+</nav>
+
+<!-- JACKPOT SECTION -->
+<div class="jackpot-section">
+    <div class="jackpot-label">🔥 @lang('MEGA JACKPOT')</div>
+    <div class="jackpot-img-row">
+        <img src="{{ asset('assets/images/frontend/img/jackpot.png') }}" class="jackpot-logo-img"
+             onerror="this.outerHTML='<span style=\'font-size:28px;font-weight:900;font-style:italic;color:var(--gold-text);text-shadow:0 0 30px rgba(240,192,48,0.5);letter-spacing:1px\'>Jackpot</span>'"
+             alt="Jackpot">
+    </div>
+    <div class="jackpot-number-wrap" id="jackpotDisplay"></div>
+</div>
+
+<!-- GAMES SECTIONS -->
+<div id="gamesSections">
+    <div class="section-container" data-provider="hot">
+        <div class="sec-header">
+            <div class="sec-title"><i class="fas fa-fire"></i> @lang('HOT GAMES')</div>
+            <a href="javascript:void(0)" class="btn-see-all" onclick="seeAll('hot')" style="display:none;">@lang('See All')</a>
+        </div>
+        <div class="games-section" id="hot-wrapper" data-status="1">
+            <div class="game-grid">@include($activeTemplate . 'partials.hot-games')</div>
+        </div>
+    </div>
+
+    <div class="section-container" data-provider="sports" style="display:none;">
+        <div class="sec-header">
+            <div class="sec-title"><i class="fas fa-futbol"></i> @lang('SPORTS')</div>
+            <a href="javascript:void(0)" class="btn-see-all" onclick="seeAll('sports')">@lang('See All')</a>
+        </div>
+        <div class="games-section" id="sports-wrapper" data-status="1">
+            <div class="game-grid">@include($activeTemplate . 'partials.sports-games')</div>
+        </div>
+    </div>
+
+    <div class="section-container" data-provider="crash" style="display:none;">
+        <div class="sec-header">
+            <div class="sec-title"><i class="fas fa-chart-line"></i> @lang('CRASH GAMES')</div>
+            <a href="javascript:void(0)" class="btn-see-all" onclick="seeAll('crash')">@lang('See All')</a>
+        </div>
+        <div class="games-section" id="crash-wrapper" data-status="1">
+            <div class="game-grid">@include($activeTemplate . 'partials.crash-games')</div>
+        </div>
+    </div>
+
+    <div class="section-container" data-provider="casino" style="display:none;">
+        <div class="sec-header">
+            <div class="sec-title"><i class="fas fa-video"></i> @lang('CASINO')</div>
+            <a href="javascript:void(0)" class="btn-see-all" onclick="seeAll('casino')">@lang('See All')</a>
+        </div>
+        <div class="games-section" id="casino-wrapper" data-status="{{ isset($gameStatus['evo']) ? $gameStatus['evo']->status : 1 }}">
+            <div class="game-grid">@include($activeTemplate . 'partials.evo-games')</div>
+        </div>
+    </div>
+
+    <div id="provider-grid-container" style="display:none;">
+        <div class="sec-header">
+            <div class="sec-title"><i class="fas fa-dice"></i> @lang('SLOT PROVIDERS')</div>
+        </div>
+
+        <div class="provider-grid">
+            @if(isset($gameStatus['jili']) && $gameStatus['jili']->status != 0)
+            <div class="provider-card" data-key="jili" onclick="selectProvider('jili')">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_jili.png?v=1781595979466&source=mcdsrc" alt="JILI">
+                <span>JILI</span>
+            </div>
+            @endif
+            @if(isset($gameStatus['pg']) && $gameStatus['pg']->status != 0)
+            <div class="provider-card" data-key="pg" onclick="selectProvider('pg')">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_pg.png?v=1781595979466&source=mcdsrc" alt="PG">
+                <span>PG Soft</span>
+            </div>
+            @endif
+            @if(isset($gameStatus['jdb']) && $gameStatus['jdb']->status != 0)
+            <div class="provider-card" data-key="jdb" onclick="selectProvider('jdb')">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_jdb.png?v=1781595979466&source=mcdsrc" alt="JDB">
+                <span>JDB</span>
+            </div>
+            @endif
+            @if(isset($gameStatus['cq9']) && $gameStatus['cq9']->status != 0)
+            <div class="provider-card" data-key="cq9" onclick="selectProvider('cq9')">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-cq9.png?v=1781595979466&source=mcdsrc" alt="CQ9">
+                <span>CQ9</span>
+            </div>
+            @endif
+            @if(isset($gameStatus['idg']) && $gameStatus['idg']->status != 0)
+            <div class="provider-card" data-key="idg" onclick="selectProvider('idg')">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_dreamgaming.png?v=1781595979466&source=mcdsrc" alt="IDG">
+                <span>IDG</span>
+            </div>
+            @endif
+            @if(isset($gameStatus['km']) && $gameStatus['km']->status != 0)
+            <div class="provider-card" data-key="km" onclick="selectProvider('km')">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_kingmaker.png?v=1781595979466&source=mcdsrc" alt="KM">
+                <span>KM</span>
+            </div>
+            @endif
+            @if(isset($gameStatus['v8']) && $gameStatus['v8']->status != 0)
+            <div class="provider-card" data-key="v8" onclick="selectProvider('v8')">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_yesbingo.png?v=1781595979466&source=mcdsrc" alt="V8">
+                <span>V8</span>
+            </div>
+            @endif
+            @if(isset($gameStatus['mg']) && $gameStatus['mg']->status != 0)
+            <div class="provider-card" data-key="mg" onclick="selectProvider('mg')">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-mg.png?v=1781595979466&source=mcdsrc" alt="MG">
+                <span>MG</span>
+            </div>
+            @endif
+
+            <div class="provider-card" data-key="arcade">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-rich88.png?v=1781595979466&source=mcdsrc" alt="Arcade">
+                <span>@lang('Arcade')</span>
+            </div>
+            <div class="provider-card" data-key="lottery">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-saba.png?v=1781595979466&source=mcdsrc" alt="Lottery">
+                <span>@lang('Lottery')</span>
+            </div>
+            <div class="provider-card" data-key="bingo">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-playngo.png?v=1781595979466&source=mcdsrc" alt="Bingo">
+                <span>@lang('Bingo')</span>
+            </div>
+            <div class="provider-card" data-key="live">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_yl.png?v=1781595979466&source=mcdsrc" alt="Live">
+                <span>@lang('Live')</span>
+            </div>
+            <div class="provider-card" data-key="mini">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_mimi.png?v=1781595979466&source=mcdsrc" alt="Mini Game">
+                <span>@lang('Mini Game')</span>
+            </div>
+        </div>
+    </div>
+
+    @if(isset($gameStatus['jili']) && $gameStatus['jili']->status != 0)
+    <div class="section-container" data-provider="jili" style="display:none;">
+        <div class="sec-header">
+            <a href="javascript:void(0)" class="btn-see-all" onclick="backToProviders()"><i class="fas fa-arrow-left"></i> Back</a>
+            <div class="sec-title"><i class="fas fa-fire"></i> JILI GAMES</div>
+        </div>
+        <div class="games-section" id="jili-wrapper" data-status="{{ $gameStatus['jili']->status }}">
+            <div class="game-grid">@include($activeTemplate . 'partials.jili-games')</div>
+        </div>
+    </div>
+    @endif
+
+    @if(isset($gameStatus['pg']) && $gameStatus['pg']->status != 0)
+    <div class="section-container" data-provider="pg" style="display:none;">
+        <div class="sec-header">
+            <a href="javascript:void(0)" class="btn-see-all" onclick="backToProviders()"><i class="fas fa-arrow-left"></i> Back</a>
+            <div class="sec-title"><i class="fas fa-fire"></i> PG SOFT</div>
+        </div>
+        <div class="games-section" id="pg-wrapper" data-status="{{ $gameStatus['pg']->status }}">
+            <div class="game-grid">@include($activeTemplate . 'partials.pg-games')</div>
+        </div>
+    </div>
+    @endif
+
+    @if(isset($gameStatus['jdb']) && $gameStatus['jdb']->status != 0)
+    <div class="section-container" data-provider="jdb" style="display:none;">
+        <div class="sec-header">
+            <a href="javascript:void(0)" class="btn-see-all" onclick="backToProviders()"><i class="fas fa-arrow-left"></i> Back</a>
+            <div class="sec-title"><i class="fas fa-fire"></i> JDB GAMES</div>
+        </div>
+        <div class="games-section" id="jdb-wrapper" data-status="{{ $gameStatus['jdb']->status }}">
+            <div class="game-grid">@include($activeTemplate . 'partials.jdb-games')</div>
+        </div>
+    </div>
+    @endif
+
+    @if(isset($gameStatus['cq9']) && $gameStatus['cq9']->status != 0)
+    <div class="section-container" data-provider="cq9" style="display:none;">
+        <div class="sec-header">
+            <a href="javascript:void(0)" class="btn-see-all" onclick="backToProviders()"><i class="fas fa-arrow-left"></i> Back</a>
+            <div class="sec-title"><i class="fas fa-fire"></i> CQ9 GAMES</div>
+        </div>
+        <div class="games-section" id="cq9-wrapper" data-status="{{ $gameStatus['cq9']->status }}">
+            <div class="game-grid">@include($activeTemplate . 'partials.cq9-games')</div>
+        </div>
+    </div>
+    @endif
+
+    @if(isset($gameStatus['idg']) && $gameStatus['idg']->status != 0)
+    <div class="section-container" data-provider="idg" style="display:none;">
+        <div class="sec-header">
+            <a href="javascript:void(0)" class="btn-see-all" onclick="backToProviders()"><i class="fas fa-arrow-left"></i> Back</a>
+            <div class="sec-title"><i class="fas fa-fire"></i> IDG GAMES</div>
+        </div>
+        <div class="games-section" id="idg-wrapper" data-status="{{ $gameStatus['idg']->status }}">
+            <div class="game-grid">@include($activeTemplate . 'partials.idg-games')</div>
+        </div>
+    </div>
+    @endif
+
+    @if(isset($gameStatus['km']) && $gameStatus['km']->status != 0)
+    <div class="section-container" data-provider="km" style="display:none;">
+        <div class="sec-header">
+            <a href="javascript:void(0)" class="btn-see-all" onclick="backToProviders()"><i class="fas fa-arrow-left"></i> Back</a>
+            <div class="sec-title"><i class="fas fa-fire"></i> KM GAMES</div>
+        </div>
+        <div class="games-section" id="km-wrapper" data-status="{{ $gameStatus['km']->status }}">
+            <div class="game-grid">@include($activeTemplate . 'partials.km-games')</div>
+        </div>
+    </div>
+    @endif
+
+    @if(isset($gameStatus['v8']) && $gameStatus['v8']->status != 0)
+    <div class="section-container" data-provider="v8" style="display:none;">
+        <div class="sec-header">
+            <a href="javascript:void(0)" class="btn-see-all" onclick="backToProviders()"><i class="fas fa-arrow-left"></i> Back</a>
+            <div class="sec-title"><i class="fas fa-fire"></i> V8 GAMES</div>
+        </div>
+        <div class="games-section" id="v8-wrapper" data-status="{{ $gameStatus['v8']->status }}">
+            <div class="game-grid">@include($activeTemplate . 'partials.v8-games')</div>
+        </div>
+    </div>
+    @endif
+
+    @if(isset($gameStatus['mg']) && $gameStatus['mg']->status != 0)
+    <div class="section-container" data-provider="mg" style="display:none;">
+        <div class="sec-header">
+            <a href="javascript:void(0)" class="btn-see-all" onclick="backToProviders()"><i class="fas fa-arrow-left"></i> Back</a>
+            <div class="sec-title"><i class="fas fa-fire"></i> MG GAMES</div>
+        </div>
+        <div class="games-section" id="mg-wrapper" data-status="{{ $gameStatus['mg']->status }}">
+            <div class="game-grid">@include($activeTemplate . 'partials.mg-games')</div>
+        </div>
+    </div>
+    @endif
+</div>
+
+<!-- GAME CENTER -->
+<div class="game-center">
+    <div class="game-center-title">@lang('Game Center')</div>
+    <div class="game-center-pills">
+        <a href="#" class="gc-pill">@lang('Slots')</a>
+        <a href="#" class="gc-pill">@lang('Live Casino')</a>
+        <a href="#" class="gc-pill">@lang('Sports')</a>
+        <a href="#" class="gc-pill">@lang('E-sports')</a>
+        <a href="#" class="gc-pill">@lang('Poker')</a>
+        <a href="#" class="gc-pill">@lang('Fish')</a>
+        <a href="#" class="gc-pill">@lang('Lottery')</a>
+    </div>
+</div>
+
+<div class="main-footer-section">
+    @include($activeTemplate . 'partials.footer')
+</div>
+
+</div><!-- /custom-home-wrapper -->
+
+<!-- FLOATING SOCIAL BUTTONS -->
+<div class="float-social-btns">
+    <a href="https://wa.me/your-number" class="float-btn wa-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    <a href="https://facebook.com/your-page" class="float-btn fb-float" target="_blank">
+        <i class="fab fa-facebook-f"></i>
+    </a>
+    <a href="https://t.me/akashwebd" class="float-btn tg-float" target="_blank">
+        <i class="fab fa-telegram-plane"></i>
+    </a>
+    <a href="#" class="float-btn live-float">
+        <i class="fas fa-headset"></i>
+    </a>
+</div>
+
+<!-- BOTTOM NAVIGATION -->
+<div class="bottom-nav-container">
+    <div class="bottom-nav">
+        <a href="{{ route('user.home') }}" class="nav-item {{ request()->routeIs('user.home') ? 'active' : '' }}">
+            <i class="fas fa-home"></i>
+            <span>@lang('Home')</span>
+        </a>
+        <a href="{{ route('user.promotions') }}" class="nav-item">
+            <i class="fas fa-gift"></i>
+            <span>@lang('Promotion')</span>
+        </a>
+        <a href="{{ route('user.referrals') }}" class="nav-item center-item {{ request()->routeIs('user.referrals') ? 'active' : '' }}">
+            <div class="center-icon-circle"><i class="fas fa-share-nodes"></i></div>
+            <span>@lang('Invite')</span>
+        </a>
+        <a href="{{ route('user.redeem.index') }}" class="nav-item {{ request()->routeIs('user.redeem.index') ? 'active' : '' }}">
+            <i class="fas fa-trophy"></i>
+            <span>@lang('Reward')</span>
+        </a>
+        <a href="{{ route('user.account') }}" class="nav-item {{ request()->routeIs('user.account') ? 'active' : '' }}">
+            <i class="fas fa-user-circle"></i>
+            <span>@lang('Member')</span>
+        </a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+@endsection
+
+@push('script')
+<script>
+    new Swiper('.mainSlider', {
+        loop: true,
+        autoplay: { delay: 3500, disableOnInteraction: false },
+        pagination: { el: '.swiper-pagination', clickable: true }
+    });
+
+    const providerGridEl = document.querySelector('#provider-grid-container .provider-grid');
+    const originalProviderCards = providerGridEl ? Array.from(providerGridEl.children) : [];
+
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+
+    function resetProviderGrid() {
+        if (!providerGridEl) return;
+        originalProviderCards.forEach(card => {
+            card.style.display = '';
+            providerGridEl.appendChild(card);
+        });
+    }
+
+    function showRandomProviderGrid(excludeKeys) {
+        if (!providerGridEl) return;
+        let visibleCards = originalProviderCards.filter(card => !excludeKeys.includes(card.dataset.key));
+        shuffleArray(visibleCards);
+        visibleCards.forEach(card => {
+            card.style.display = '';
+            providerGridEl.appendChild(card);
+        });
+        originalProviderCards.forEach(card => {
+            if (excludeKeys.includes(card.dataset.key)) {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    function filterGames(category, btn) {
+        document.querySelectorAll('.cat-pill').forEach(el => el.classList.remove('active'));
+        btn.classList.add('active');
+
+        requestAnimationFrame(() => {
+            const sections = document.querySelectorAll('.section-container');
+            sections.forEach(s => { s.style.display = 'none'; s.classList.remove('show-anim'); });
+            document.getElementById('provider-grid-container').style.display = 'none';
+            document.querySelector('.main-footer-section').style.display = 'none';
+            document.querySelector('.game-center').style.display = 'none';
+
+            if (category === 'slot') {
+                document.getElementById('provider-grid-container').style.display = 'block';
+                resetProviderGrid();
+                return;
+            }
+
+            if (category === 'table' || category === 'fishing' || category === 'poker') {
+                document.getElementById('provider-grid-container').style.display = 'block';
+                showRandomProviderGrid(['jili', 'pg']);
+                return;
+            }
+
+            let target = document.querySelector('.section-container[data-provider="' + category + '"]');
+            if (target) {
+                target.style.display = 'block';
+                target.classList.add('show-anim');
+                document.querySelector('.main-footer-section').style.display = 'block';
+                document.querySelector('.game-center').style.display = 'block';
+            }
+        });
+    }
+
+    function selectProvider(provider) {
+        document.getElementById('provider-grid-container').style.display = 'none';
+        let target = document.querySelector('.section-container[data-provider="' + provider + '"]');
+        if (target) {
+            document.querySelectorAll('.section-container').forEach(s => { s.style.display = 'none'; s.classList.remove('show-anim'); });
+            target.style.display = 'block';
+            target.classList.add('show-anim');
+            document.querySelector('.main-footer-section').style.display = 'none';
+            document.querySelector('.game-center').style.display = 'none';
+        }
+    }
+
+    function backToProviders() {
+        document.querySelectorAll('.section-container').forEach(s => { s.style.display = 'none'; s.classList.remove('show-anim'); });
+        document.getElementById('provider-grid-container').style.display = 'block';
+    }
+
+    function seeAll(provider) {
+        // No specific swiper action needed as we are using grids
+    }
+
+    $(document).on('click', '.game-card', function(e) {
+        let status = $(this).data('status');
+        if (status && status != 1) {
+            e.preventDefault();
+            let msg = status == 2 ? "এই গেমটির কাজ চলছে। খুব শীঘ্রই ফিরবে!" : "এই গেমটি খুব শীঘ্রই আসছে। সাথে থাকুন!";
+            if (typeof iziToast !== 'undefined') {
+                iziToast.info({ message: msg, position: "topRight", timeout: 2000 });
+            } else {
+                alert(msg);
+            }
+        }
+    });
+
+    // JACKPOT COUNTER
+    (function() {
+        const BASE_NUMBER = 10921288702;
+        let currentVal = BASE_NUMBER;
+
+        function formatJackpot(val) {
+            let intPart = Math.floor(val / 100);
+            let decPart = (val % 100).toString().padStart(2, '0');
+            return intPart.toLocaleString('en-US') + '.' + decPart;
+        }
+
+        function buildDigitHTML(numStr) {
+            let html = '';
+            for (let i = 0; i < numStr.length; i++) {
+                let ch = numStr[i];
+                if (ch === ',')      html += '<span class="jp-sep">,</span>';
+                else if (ch === '.') html += '<span class="jp-sep">.</span>';
+                else                 html += '<span class="jp-digit" id="jpd-' + i + '">' + ch + '</span>';
+            }
+            return html;
+        }
+
+        function renderJackpot(animated) {
+            const container = document.getElementById('jackpotDisplay');
+            if (!container) return;
+            const numStr = formatJackpot(currentVal);
+            if (!animated) { container.innerHTML = buildDigitHTML(numStr); return; }
+            const spans = container.querySelectorAll('.jp-digit');
+            const digits = numStr.replace(/[,.]/g, '');
+            let idx = 0;
+            spans.forEach(span => {
+                const newChar = digits[idx] || '0';
+                if (span.textContent !== newChar) {
+                    span.classList.remove('changing');
+                    void span.offsetWidth;
+                    span.classList.add('changing');
+                    span.textContent = newChar;
+                    setTimeout(() => span.classList.remove('changing'), 200);
+                }
+                idx++;
+            });
+        }
+
+        renderJackpot(false);
+        (function scheduleNext() {
+            setTimeout(function() {
+                currentVal += Math.floor(Math.random() * 9998) + 1;
+                renderJackpot(true);
+                scheduleNext();
+            }, 1500 + Math.random() * 2000);
+        })();
+    })();
+</script>
+@endpush

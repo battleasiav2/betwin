@@ -1,0 +1,761 @@
+{
+        "gameCustomTypeLists": [],
+        "gameLists": [
+            {
+                "gameID": "b560b7c42bd29f7d0cda06485a3c4af5",
+                "gameNameEn": "Lucky Seven",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14027.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "bdb0459f7e116a20839a3b2a0063a2ff",
+                "gameNameEn": "Orient Animals",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14029.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "540da2ba4c849fc1c315f43ae74df220",
+                "gameNameEn": "Wonder Elephant",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14058.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "4042e5d0c777e1d3c3bd481dac0a867e",
+                "gameNameEn": "Super Niubi",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14036.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "5d940d11c48b64ec1e6a3c8be5228250",
+                "gameNameEn": "Super Niubi Deluxe",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14045.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "46016a772b92c7f47dfdc5873f184ef1",
+                "gameNameEn": "Elemental Link Fire",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14080.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "e270f0674dff538b181499d18ab47845",
+                "gameNameEn": "Mjolnir",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14041.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "16b1418fe87a6fa5628eec8cb40da056",
+                "gameNameEn": "Billionaire",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14006.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "f6e9fd31cbc3be8cd3bd95486177377b",
+                "gameNameEn": "Kong",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14055.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "ca11d9830495d2888d7e50770353ce32",
+                "gameNameEn": "Olympian Temple",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/8023.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14065",
+                "gameNameEn": "Blossom Of Wealth",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14065.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14054",
+                "gameNameEn": "Lucky Diamond",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14054.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14042",
+                "gameNameEn": "Treasure Bowl",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14042.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14025",
+                "gameNameEn": "Lucky Racing",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14025.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14034",
+                "gameNameEn": "Go Lai Fu",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14034.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14061",
+                "gameNameEn": "Maya Gold Crazy",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14061.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14033",
+                "gameNameEn": "Birds Party",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14033.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14035",
+                "gameNameEn": "Dragons World",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14035.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14079",
+                "gameNameEn": "Moneybags Man 2",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14079.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14043",
+                "gameNameEn": "Golden Disco",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14043.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14075",
+                "gameNameEn": "Fortune Neko",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14075.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "8048",
+                "gameNameEn": "OpenSesame II",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/8048.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14059",
+                "gameNameEn": "Marvelous IV",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14059.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14039",
+                "gameNameEn": "Fortune Treasure",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14039.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "8022",
+                "gameNameEn": "MahJong",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/8022.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14060",
+                "gameNameEn": "Lantern Wealth",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14060.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14038",
+                "gameNameEn": "Egypt Treasure",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14038.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14081",
+                "gameNameEn": "Birds Party Deluxe",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14081.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14063",
+                "gameNameEn": "Big Three Dragons",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14063.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14051",
+                "gameNameEn": "Dragons Gate",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14051.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "8050",
+                "gameNameEn": "Fortune Horse",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/8050.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14044",
+                "gameNameEn": "Funky King Kong",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14044.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "15005",
+                "gameNameEn": "Lucky Fuwa",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/15005.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "8017",
+                "gameNameEn": "New Year",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/8017.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14082",
+                "gameNameEn": "Elemental Link Water",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14082.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14070",
+                "gameNameEn": "Book of Mystery",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14070.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "8047",
+                "gameNameEn": "Winning Mask II",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/8047.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "8051",
+                "gameNameEn": "Xi Yang Yang",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/8051.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "8020",
+                "gameNameEn": "Open Sesame",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/8020.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "15002",
+                "gameNameEn": "Monkey King",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/15002.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14021",
+                "gameNameEn": "Rolling In Money",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14021.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14053",
+                "gameNameEn": "Spindrift 2",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14053.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14005",
+                "gameNameEn": "Mr. Bao",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14005.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14077",
+                "gameNameEn": "Trump Card",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14077.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14047",
+                "gameNameEn": "Moneybags Man",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14047.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14012",
+                "gameNameEn": "Street Fighter",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14012.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "15001",
+                "gameNameEn": "Rooster In Love",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/15001.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "15012",
+                "gameNameEn": "Legendary 5",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/15012.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14022",
+                "gameNameEn": "Mining Upstart",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14022.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "8001",
+                "gameNameEn": "Lucky Dragons",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/8001.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14067",
+                "gameNameEn": "Glamorous Girl",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14067.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "8003",
+                "gameNameEn": "Winning Mask",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/8003.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14052",
+                "gameNameEn": "Jungle Jungle",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14052.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14068",
+                "gameNameEn": "Prosperity Tiger",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14068.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "8035",
+                "gameNameEn": "Lucky Phoenix",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/8035.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14018",
+                "gameNameEn": "DaJi",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14018.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14030",
+                "gameNameEn": "Triple King Kong",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14030.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14046",
+                "gameNameEn": "Miner Babe",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14046.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "8028",
+                "gameNameEn": "Lucky Miner",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/8028.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "15010",
+                "gameNameEn": "Chef Panda",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/15010.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14064",
+                "gameNameEn": "Boom Fiesta",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14064.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "8015",
+                "gameNameEn": "Moonlight Treasure",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/8015.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14010",
+                "gameNameEn": "Dragon",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14010.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14016",
+                "gameNameEn": "Kingsman",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14016.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14040",
+                "gameNameEn": "Pirate Treasure",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14040.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "8044",
+                "gameNameEn": "Beauty And The Kingdom",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/8044.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "8014",
+                "gameNameEn": "Lucky Lion",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/8014.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14007",
+                "gameNameEn": "One Punch Man",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14007.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "8006",
+                "gameNameEn": "Formosa Bear",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/8006.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "8004",
+                "gameNameEn": "Wu Kong",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/8004.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "8021",
+                "gameNameEn": "Banana Saga",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/8021.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "8019",
+                "gameNameEn": "Four Treasures",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/8019.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "8007",
+                "gameNameEn": "Lucky Qilin",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/8007.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "8005",
+                "gameNameEn": "Llama Adventure",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/8005.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14008",
+                "gameNameEn": "Dragon Warrior",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14008.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "8018",
+                "gameNameEn": "Napoleon",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/8018.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14048",
+                "gameNameEn": "Double Wilds",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14048.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "8046",
+                "gameNameEn": "Guan Gong",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/8046.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "8049",
+                "gameNameEn": "Flirting Scholar Tang II",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/8049.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14003",
+                "gameNameEn": "Panda Panda",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14003_20250210134347978.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "8002",
+                "gameNameEn": "Flirting Scholar Tang",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/8002.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14050",
+                "gameNameEn": "Spindrift",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14050.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14093",
+                "gameNameEn": "Magic Ace Wild Lock",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14093.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            },
+            {
+                "gameID": "14095",
+                "gameNameEn": "Fortune Jewel",
+                "img": "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14095.png",
+                "vendorId": 6,
+                "vendorCode": "JDB",
+                "imgUrl2": null,
+                "customGameType": 0
+            }
+        ]
+    }
