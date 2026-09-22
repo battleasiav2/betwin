@@ -39,7 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $tpl = file_get_contents($examplePath);
         $tpl = preg_replace('/^APP_URL=.*/m', 'APP_URL=' . $appUrl, $tpl);
         $tpl = preg_replace('/^DB_HOST=.*/m', 'DB_HOST=localhost', $tpl);
-        $tpl = preg_replace('/^DB_PASSWORD=.*/m', 'DB_PASSWORD=' . $dbPass, $tpl);
+        // Quote password — special chars (^ ? @ /) break unquoted .env values
+        $quotedPass = '"' . str_replace(['\\', '"'], ['\\\\', '\\"'], $dbPass) . '"';
+        $tpl = preg_replace('/^DB_PASSWORD=.*/m', 'DB_PASSWORD=' . $quotedPass, $tpl);
         if ($token !== '') {
             if (preg_match('/^RAPIDVERSE_API_TOKEN=.*/m', $tpl)) {
                 $tpl = preg_replace('/^RAPIDVERSE_API_TOKEN=.*/m', 'RAPIDVERSE_API_TOKEN=' . $token, $tpl);
