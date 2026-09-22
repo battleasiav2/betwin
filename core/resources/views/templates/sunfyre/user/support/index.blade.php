@@ -33,7 +33,7 @@
         min-height: 100vh;
     }
 
-    /* ─── HEADER ─── */
+    /* â”€â”€â”€ HEADER â”€â”€â”€ */
     .header-bg { 
         background: linear-gradient(135deg, #0f395c 0%, #1a5c92 100%);
         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -62,7 +62,7 @@
         flex: 1;
     }
 
-    /* ─── NEW TICKET BUTTON ─── */
+    /* â”€â”€â”€ NEW TICKET BUTTON â”€â”€â”€ */
     .new-ticket-btn {
         background: linear-gradient(to bottom, #4caf50, #388e3c);
         color: #ffffff;
@@ -82,7 +82,7 @@
     }
     .new-ticket-btn:active { transform: scale(0.95); }
 
-    /* ─── TICKET CARD ─── */
+    /* â”€â”€â”€ TICKET CARD â”€â”€â”€ */
     .ticket-card {
         background-color: var(--card-bg);
         border: 1px solid var(--border-color);
@@ -171,7 +171,7 @@
     }
     .view-btn:active { background: #e0f2fe; border-color: #bae6fd; }
 
-    /* ─── EMPTY STATE ─── */
+    /* â”€â”€â”€ EMPTY STATE â”€â”€â”€ */
     .empty-state {
         text-align: center;
         padding: 60px 20px;
@@ -191,7 +191,7 @@
         font-weight: 600;
     }
 
-    /* ─── PAGINATION ─── */
+    /* â”€â”€â”€ PAGINATION â”€â”€â”€ */
     .pagination-wrapper {
         padding: 16px;
         text-align: center;
@@ -208,7 +208,7 @@
         color: #ffffff;
     }
 
-    /* ─── BOTTOM NAV ─── */
+    /* â”€â”€â”€ BOTTOM NAV â”€â”€â”€ */
     .bottom-nav-container {
         position: fixed;
         bottom: 0;
@@ -218,7 +218,7 @@
         max-width: 480px;
         z-index: 10000;
         padding: 0 10px 8px 10px;
-        background: #071f18;
+        background: #e8f0fa;
     }
 
     .bottom-nav {
@@ -228,9 +228,9 @@
         border-radius: 999px;
         border: 1.5px solid #1a5c40;
         box-shadow:
-            0 0 0 2px #071f18,
-            inset 0 1px 0 rgba(30,200,130,0.18),
-            0 -2px 0 0 #1edd96,
+            0 0 0 2px #e8f0fa,
+            inset 0 1px 0 rgba(37,99,235,0.12),
+            0 -2px 0 0 #2563eb,
             0 4px 24px rgba(0,0,0,0.5);
         display: flex;
         align-items: center;
@@ -273,14 +273,14 @@
         width: 54px;
         height: 54px;
         border-radius: 50%;
-        background: linear-gradient(145deg, #1de9b6, #00897b);
+        background: linear-gradient(145deg, #2563eb, #123b66);
         display: flex;
         align-items: center;
         justify-content: center;
         box-shadow:
-            0 0 0 3px #071f18,
-            0 0 0 5px #1edd96,
-            0 6px 20px rgba(0,188,140,0.55);
+            0 0 0 3px #e8f0fa,
+            0 0 0 5px #2563eb,
+            0 6px 20px rgba(37,99,235,0.45);
         font-size: 22px;
         color: #fff;
         margin-top: -18px;

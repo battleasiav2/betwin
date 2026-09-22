@@ -908,9 +908,9 @@ body:has(.mobile-container)::before {
   to { transform: rotate(360deg); }
 }
 
-/* Lift page content / float buttons above dock */
+/* Lift page content above dock — social float removed */
 .float-social-btns {
-  bottom: 92px !important;
+  display: none !important;
 }
 
 .custom-home-wrapper,
@@ -923,9 +923,6 @@ body {
   .m-dock {
     display: none;
   }
-  .float-social-btns {
-    bottom: 24px !important;
-  }
 }
 
 .header-bg,
@@ -933,4 +930,22 @@ body {
   display: flex !important;
   align-items: center !important;
   gap: 10px !important;
+}
+
+/* Kill leftover green page accents after theme load */
+.jackpot-section {
+  background: linear-gradient(135deg, #123b66 0%, #1a4a7a 50%, #0f2d4a 100%) !important;
+}
+.bottom-nav {
+  box-shadow:
+    0 0 0 2px #e8f0fa,
+    inset 0 1px 0 rgba(37,99,235,0.12),
+    0 8px 24px rgba(18,59,102,0.12) !important;
+}
+.center-icon-circle {
+  background: linear-gradient(145deg, #2563eb, #123b66) !important;
+  box-shadow:
+    0 0 0 3px #e8f0fa,
+    0 0 0 5px #2563eb,
+    0 6px 20px rgba(37,99,235,0.45) !important;
 }

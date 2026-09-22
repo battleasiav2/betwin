@@ -1,4 +1,4 @@
-@extends('templates.sunfyre.layouts.master')
+﻿@extends('templates.sunfyre.layouts.master')
 
 @section('content')
 <style>
@@ -32,7 +32,7 @@
         width: 40px;
         height: 40px;
         border: 3px solid #064e46;
-        border-top: 3px solid #00d094;
+        border-top: 3px solid #2563eb;
         border-radius: 50%;
         animation: spin 1s linear infinite;
         margin: 0 auto 10px;
@@ -44,7 +44,7 @@
     }
     
     .loading-text {
-        color: #00d094;
+        color: #2563eb;
         font-size: 14px;
     }
     

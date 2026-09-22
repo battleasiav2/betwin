@@ -33,7 +33,7 @@
         min-height: 100vh;
     }
 
-    /* ─── HEADER ─── */
+    /* â”€â”€â”€ HEADER â”€â”€â”€ */
     .header-bg { 
         background: linear-gradient(135deg, #0f395c 0%, #1a5c92 100%);
         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -61,7 +61,7 @@
         letter-spacing: 1px;
     }
 
-    /* ─── SECTION TITLE ─── */
+    /* â”€â”€â”€ SECTION TITLE â”€â”€â”€ */
     .section-title {
         border-left: 4px solid var(--accent-color);
         padding-left: 10px;
@@ -73,7 +73,7 @@
         letter-spacing: 0.5px;
     }
 
-    /* ─── CARD ─── */
+    /* â”€â”€â”€ CARD â”€â”€â”€ */
     .white-card {
         background-color: var(--card-bg);
         border: 1px solid var(--border-color);
@@ -83,7 +83,7 @@
         box-shadow: 0 2px 8px rgba(0,0,0,0.03);
     }
 
-    /* ─── QR CODE ─── */
+    /* â”€â”€â”€ QR CODE â”€â”€â”€ */
     .qr-wrapper {
         text-align: center;
         margin-bottom: 20px;
@@ -102,7 +102,7 @@
         display: block;
     }
 
-    /* ─── COPY INPUT ─── */
+    /* â”€â”€â”€ COPY INPUT â”€â”€â”€ */
     .copy-input-group {
         display: flex;
         align-items: center;
@@ -138,7 +138,7 @@
         background: #22c55e;
     }
 
-    /* ─── FORM INPUT ─── */
+    /* â”€â”€â”€ FORM INPUT â”€â”€â”€ */
     .form-group {
         margin-bottom: 16px;
     }
@@ -192,7 +192,7 @@
         box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2);
     }
 
-    /* ─── HELP SECTION ─── */
+    /* â”€â”€â”€ HELP SECTION â”€â”€â”€ */
     .help-section {
         background: var(--blue-light);
         border: 1px solid #bae6fd;
@@ -212,7 +212,7 @@
         text-decoration: underline;
     }
 
-    /* ─── INFO TEXT ─── */
+    /* â”€â”€â”€ INFO TEXT â”€â”€â”€ */
     .info-text {
         font-size: 12px;
         color: var(--text-muted);
@@ -221,7 +221,7 @@
         font-weight: 500;
     }
 
-    /* ─── COPIED TOAST ─── */
+    /* â”€â”€â”€ COPIED TOAST â”€â”€â”€ */
     .copy-toast {
         position: fixed;
         bottom: 100px;
@@ -240,7 +240,7 @@
     }
     .copy-toast.show { opacity: 1; }
 
-    /* ─── BOTTOM NAV ─── */
+    /* â”€â”€â”€ BOTTOM NAV â”€â”€â”€ */
     .bottom-nav-container {
         position: fixed;
         bottom: 0;
@@ -250,7 +250,7 @@
         max-width: 480px;
         z-index: 10000;
         padding: 0 10px 8px 10px;
-        background: #071f18;
+        background: #e8f0fa;
     }
 
     .bottom-nav {
@@ -260,9 +260,9 @@
         border-radius: 999px;
         border: 1.5px solid #1a5c40;
         box-shadow:
-            0 0 0 2px #071f18,
-            inset 0 1px 0 rgba(30,200,130,0.18),
-            0 -2px 0 0 #1edd96,
+            0 0 0 2px #e8f0fa,
+            inset 0 1px 0 rgba(37,99,235,0.12),
+            0 -2px 0 0 #2563eb,
             0 4px 24px rgba(0,0,0,0.5);
         display: flex;
         align-items: center;
@@ -305,14 +305,14 @@
         width: 54px;
         height: 54px;
         border-radius: 50%;
-        background: linear-gradient(145deg, #1de9b6, #00897b);
+        background: linear-gradient(145deg, #2563eb, #123b66);
         display: flex;
         align-items: center;
         justify-content: center;
         box-shadow:
-            0 0 0 3px #071f18,
-            0 0 0 5px #1edd96,
-            0 6px 20px rgba(0,188,140,0.55);
+            0 0 0 3px #e8f0fa,
+            0 0 0 5px #2563eb,
+            0 6px 20px rgba(37,99,235,0.45);
         font-size: 22px;
         color: #fff;
         margin-top: -18px;

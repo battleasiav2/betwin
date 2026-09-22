@@ -13,20 +13,22 @@
 
 <style>
     :root {
-        --bg-deep:    #071f18;
-        --bg-main:    #0a2e22;
-        --bg-card:    #0d3d2c;
-        --bg-card2:   #0f4530;
-        --teal:       #0d7a55;
-        --teal-light: #13a36e;
-        --gold:       #f0c030;
-        --gold-dark:  #c89a10;
-        --gold-text:  #ffd84d;
-        --green-btn:  #0a6644;
-        --text-main:  #e8f5ee;
-        --text-muted: #7eb89a;
-        --border:     rgba(255,255,255,0.08);
-        --glass:      rgba(13, 61, 44, 0.6);
+        --bg-deep:    #e8f0fa;
+        --bg-main:    #f5f7fa;
+        --bg-card:    #ffffff;
+        --bg-card2:   #ffffff;
+        --teal:       #2563eb;
+        --teal-light: #2563eb;
+        --gold:       #f4b942;
+        --gold-dark:  #d9a12a;
+        --gold-text:  #123b66;
+        --green-btn:  #2563eb;
+        --text-main:  #172033;
+        --text-muted: #6b7280;
+        --border:     rgba(18,59,102,0.1);
+        --glass:      rgba(255, 255, 255, 0.9);
+        --header-color: #123b66;
+        --accent-color: #2563eb;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -39,7 +41,7 @@
         min-height: 100vh;
         -webkit-tap-highlight-color: transparent;
         user-select: none;
-        background-image: linear-gradient(135deg, #071f18 0%, #0a2e22 50%, #071f18 100%);
+        background-image: none;
     }
 
     .custom-home-wrapper {
@@ -48,7 +50,7 @@
         width: 100%;
     }
 
-    /* ─── ANNOUNCEMENT BAR ─── */
+    /* â”€â”€â”€ ANNOUNCEMENT BAR â”€â”€â”€ */
     .announce-bar {
         background: rgba(255,255,255,0.04); border-bottom: 1px solid var(--border);
         padding: 7px 14px; display: flex; align-items: center; gap: 8px;
@@ -56,7 +58,7 @@
     .announce-bar .ann-icon { font-size: 14px; color: var(--gold-text); flex-shrink: 0; }
     .announce-bar marquee { font-size: 12px; color: var(--text-muted); font-weight: 500; }
 
-    /* ─── SLIDER ─── */
+    /* â”€â”€â”€ SLIDER â”€â”€â”€ */
     .slider-wrap { padding: 10px 10px 4px; }
     .swiper.mainSlider { border-radius: 12px; overflow: hidden; }
     .mainSlider img { width: 100%; height: 170px; object-fit: cover; display: block; border-radius: 12px; }
@@ -68,7 +70,7 @@
         background: var(--gold-text) !important; width: 18px !important; border-radius: 3px !important;
     }
 
-    /* ─── DEPOSIT & WITHDRAW ─── */
+    /* â”€â”€â”€ DEPOSIT & WITHDRAW â”€â”€â”€ */
     .quick-actions { display: flex; gap: 10px; padding: 10px 10px 4px; }
     .qa-btn {
         flex: 1; display: flex; align-items: center; justify-content: center;
@@ -78,11 +80,11 @@
     }
     .qa-btn i { font-size: 16px; }
     .qa-btn.deposit {
-        background: linear-gradient(180deg, #1a9966 0%, #0d7a55 60%, #0a5c3e 100%);
-        color: #fff; box-shadow: 0 4px 0 #064028, 0 4px 12px rgba(13,122,85,0.4);
-        border-bottom: 2px solid #1dcc85;
+        background: linear-gradient(180deg, #3b82f6 0%, #2563eb 60%, #1d4ed8 100%);
+        color: #fff; box-shadow: 0 4px 0 #1e3a8a, 0 4px 12px rgba(37,99,235,0.4);
+        border-bottom: 2px solid #60a5fa;
     }
-    .qa-btn.deposit:active { transform: translateY(3px); box-shadow: 0 1px 0 #064028; }
+    .qa-btn.deposit:active { transform: translateY(3px); box-shadow: 0 1px 0 #1e3a8a; }
     .qa-btn.withdraw {
         background: linear-gradient(180deg, #ffe066 0%, #f0c030 60%, #c89a10 100%);
         color: #2a1500; box-shadow: 0 4px 0 #8a6a00, 0 4px 12px rgba(240,192,48,0.3);
@@ -90,7 +92,7 @@
     }
     .qa-btn.withdraw:active { transform: translateY(3px); box-shadow: 0 1px 0 #8a6a00; }
 
-    /* ─── SECTION HEADER ─── */
+    /* â”€â”€â”€ SECTION HEADER â”€â”€â”€ */
     .sec-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 12px 8px; }
     .sec-title {
         display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 800;
@@ -108,7 +110,7 @@
     }
     .btn-see-all:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(0,0,0,0.3); }
 
-    /* ─── GAME GRID ─── */
+    /* â”€â”€â”€ GAME GRID â”€â”€â”€ */
     .games-section { padding: 0 10px; margin-bottom: 6px; }
     .game-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
     @media (min-width: 600px) { .game-grid { grid-template-columns: repeat(4, 1fr); } }
@@ -139,9 +141,9 @@
         text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
 
-    /* ─── STATUS TAGS ─── */
+    /* â”€â”€â”€ STATUS TAGS â”€â”€â”€ */
     .game-card[data-status="2"]::before {
-        content: 'কাজ চলছে';
+        content: 'à¦•à¦¾à¦œ à¦šà¦²à¦›à§‡';
         position: absolute;
         top: 0; left: 0; width: 100%; height: 100%;
         background: rgba(0, 0, 0, 0.75);
@@ -159,7 +161,7 @@
 
     .game-card[data-status="0"]::before,
     .game-card[data-status="3"]::before {
-        content: 'শীঘ্রই আসছে';
+        content: 'à¦¶à§€à¦˜à§à¦°à¦‡ à¦†à¦¸à¦›à§‡';
         position: absolute;
         top: 0; left: 0; width: 100%; height: 100%;
         background: rgba(0, 0, 0, 0.75);
@@ -175,10 +177,10 @@
         border-radius: 10px;
     }
 
-    /* ─── JACKPOT ─── */
+    /* â”€â”€â”€ JACKPOT â”€â”€â”€ */
     .jackpot-section {
         margin: 8px 10px; border-radius: 14px;
-        background: linear-gradient(135deg, #0a2e22 0%, #0d3d2c 50%, #071f18 100%);
+        background: linear-gradient(135deg, #123b66 0%, #1a4a7a 50%, #0f2d4a 100%);
         border: 1px solid rgba(240,192,48,0.25); padding: 18px 16px 16px;
         text-align: center; position: relative; overflow: hidden;
         box-shadow: 0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
@@ -189,7 +191,7 @@
     }
     .jackpot-section::after {
         content: ''; position: absolute; bottom: -30px; right: -30px; width: 120px; height: 120px;
-        background: radial-gradient(circle, rgba(13,122,85,0.15) 0%, transparent 70%); border-radius: 50%;
+        background: radial-gradient(circle, rgba(37,99,235,0.15) 0%, transparent 70%); border-radius: 50%;
     }
     .jackpot-label { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 6px; }
     .jackpot-img-row {
@@ -216,7 +218,7 @@
         100% { transform: scaleY(1); }
     }
 
-    /* ─── CATEGORY NAV ─── */
+    /* â”€â”€â”€ CATEGORY NAV â”€â”€â”€ */
     .cat-nav-wrap {
         padding: 12px 10px 0; overflow-x: auto; white-space: nowrap;
         scrollbar-width: none; -ms-overflow-style: none;
@@ -233,16 +235,16 @@
     .cat-pill i { font-size: 13px; }
     .cat-pill.active, .cat-pill:active {
         background: var(--teal); border-color: var(--teal-light); color: #fff;
-        box-shadow: 0 2px 10px rgba(13,122,85,0.4);
+        box-shadow: 0 2px 10px rgba(37,99,235,0.4);
     }
 
     /* Category section */
     .cat-section {
-        margin-bottom: 6px; background: rgba(13,61,44,0.3);
+        margin-bottom: 6px; background: rgba(18,59,102,0.06);
         border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding-bottom: 8px;
     }
 
-    /* ─── PROVIDER GRID ─── */
+    /* â”€â”€â”€ PROVIDER GRID â”€â”€â”€ */
     .provider-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -297,49 +299,22 @@
         line-height: 1.2;
     }
 
-    /* ─── GAME CENTER ─── */
+    /* â”€â”€â”€ GAME CENTER â”€â”€â”€ */
     .game-center { padding: 8px 12px 16px; }
     .game-center-title { font-size: 18px; font-weight: 800; color: var(--gold-text); margin-bottom: 12px; }
     .game-center-pills { display: flex; flex-wrap: wrap; gap: 8px; }
     .gc-pill {
         padding: 8px 18px; border-radius: 8px; font-size: 13px; font-weight: 700;
-        color: var(--teal-light); border: 1px solid rgba(13,122,85,0.4);
-        border-bottom: 2px solid rgba(30,200,130,0.5);
-        background: linear-gradient(180deg, rgba(13,122,85,0.12) 0%, rgba(13,122,85,0.06) 100%);
+        color: var(--teal-light); border: 1px solid rgba(37,99,235,0.4);
+        border-bottom: 2px solid rgba(37,99,235,0.45);
+        background: linear-gradient(180deg, rgba(37,99,235,0.12) 0%, rgba(37,99,235,0.06) 100%);
         text-decoration: none; transition: all 0.15s; box-shadow: 0 3px 0 rgba(0,0,0,0.3);
     }
     .gc-pill:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(0,0,0,0.3); }
 
-    /* ─── FLOATING SOCIAL BUTTONS ─── */
-    .float-social-btns {
-        position: fixed;
-        right: 12px;
-        bottom: 80px;
-        z-index: 9999;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-    .float-btn {
-        width: 46px; height: 46px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center; justify-content: center;
-        font-size: 20px;
-        text-decoration: none;
-        color: #fff;
-        box-shadow: 0 3px 10px rgba(0,0,0,0.4);
-        transition: transform 0.2s, box-shadow 0.2s;
-        overflow: hidden;
-    }
-    .float-btn:active { transform: scale(0.9); }
-    .float-btn img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-    .float-btn.wa-float  { background: #25d366; }
-    .float-btn.fb-float  { background: #1877f2; }
-    .float-btn.tg-float  { background: #0088cc; }
-    .float-btn.live-float { background: linear-gradient(135deg, #0d7a55, #13a36e); }
+    .float-social-btns { display: none !important; }
 
-    /* ─── BOTTOM NAV ─── */
+    /* â”€â”€â”€ BOTTOM NAV â”€â”€â”€ */
     .bottom-nav-container {
         position: fixed;
         bottom: 0;
@@ -354,13 +329,13 @@
     .bottom-nav {
         width: 100%;
         height: 58px;
-        background: linear-gradient(180deg, #0e3d2c 0%, #0a2d1f 100%);
+        background: #ffffff;
         border-radius: 999px;
-        border: 1.5px solid #1a5c40;
+        border: 1px solid #e8f0fa;
         box-shadow:
-            0 0 0 2px #071f18,
-            inset 0 1px 0 rgba(30,200,130,0.18),
-            0 -2px 0 0 #1edd96,
+            0 0 0 2px #e8f0fa,
+            inset 0 1px 0 rgba(37,99,235,0.12),
+            0 8px 24px rgba(18,59,102,0.12),
             0 4px 24px rgba(0,0,0,0.5);
         display: flex;
         align-items: center;
@@ -377,7 +352,7 @@
         gap: 3px;
         flex: 1;
         text-decoration: none !important;
-        color: #3db88a;
+        color: #6b7280;
         font-size: 10px;
         font-weight: 700;
         letter-spacing: 0.2px;
@@ -403,14 +378,14 @@
         width: 54px;
         height: 54px;
         border-radius: 50%;
-        background: linear-gradient(145deg, #1de9b6, #00897b);
+        background: linear-gradient(145deg, #2563eb, #123b66);
         display: flex;
         align-items: center;
         justify-content: center;
         box-shadow:
-            0 0 0 3px #071f18,
-            0 0 0 5px #1edd96,
-            0 6px 20px rgba(0,188,140,0.55);
+            0 0 0 3px #e8f0fa,
+            0 0 0 5px #2563eb,
+            0 6px 20px rgba(37,99,235,0.45);
         font-size: 22px;
         color: #fff;
         margin-top: -18px;
@@ -428,7 +403,7 @@
     .game-tag, .game-item__title, h4 { display: none !important; }
     .main-footer-section { margin-top: 25px; padding-bottom: 20px; }
 
-    /* ─── DESKTOP ─── */
+    /* â”€â”€â”€ DESKTOP â”€â”€â”€ */
     @media (min-width: 900px) {
         .bottom-nav-container { max-width: 600px; }
     }
@@ -496,7 +471,7 @@
 
 <!-- JACKPOT SECTION -->
 <div class="jackpot-section">
-    <div class="jackpot-label">🔥 @lang('MEGA JACKPOT')</div>
+    <div class="jackpot-label">ðŸ”¥ @lang('MEGA JACKPOT')</div>
     <div class="jackpot-img-row">
         <img src="{{ asset('assets/images/frontend/img/jackpot.png') }}" class="jackpot-logo-img"
              onerror="this.outerHTML='<span style=\'font-size:28px;font-weight:900;font-style:italic;color:var(--gold-text);text-shadow:0 0 30px rgba(240,192,48,0.5);letter-spacing:1px\'>Jackpot</span>'"
@@ -742,19 +717,6 @@
 
 </div><!-- /custom-home-wrapper -->
 
-<!-- FLOATING SOCIAL BUTTONS -->
-<div class="float-social-btns">
-    <a href="https://www.facebook.com/bet369win" class="float-btn fb-float" target="_blank" rel="noopener">
-        <i class="fab fa-facebook-f"></i>
-    </a>
-    <a href="https://t.me/bet369win" class="float-btn tg-float" target="_blank" rel="noopener">
-        <i class="fab fa-telegram-plane"></i>
-    </a>
-    <a href="#" class="float-btn live-float">
-        <i class="fas fa-headset"></i>
-    </a>
-</div>
-
 @include($activeTemplate . 'partials.mobile_bottom_nav')
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -861,7 +823,7 @@
         let status = $(this).data('status');
         if (status && status != 1) {
             e.preventDefault();
-            let msg = status == 2 ? "এই গেমটির কাজ চলছে। খুব শীঘ্রই ফিরবে!" : "এই গেমটি খুব শীঘ্রই আসছে। সাথে থাকুন!";
+            let msg = status == 2 ? "à¦à¦‡ à¦—à§‡à¦®à¦Ÿà¦¿à¦° à¦•à¦¾à¦œ à¦šà¦²à¦›à§‡à¥¤ à¦–à§à¦¬ à¦¶à§€à¦˜à§à¦°à¦‡ à¦«à¦¿à¦°à¦¬à§‡!" : "à¦à¦‡ à¦—à§‡à¦®à¦Ÿà¦¿ à¦–à§à¦¬ à¦¶à§€à¦˜à§à¦°à¦‡ à¦†à¦¸à¦›à§‡à¥¤ à¦¸à¦¾à¦¥à§‡ à¦¥à¦¾à¦•à§à¦¨!";
             if (typeof iziToast !== 'undefined') {
                 iziToast.info({ message: msg, position: "topRight", timeout: 2000 });
             } else {

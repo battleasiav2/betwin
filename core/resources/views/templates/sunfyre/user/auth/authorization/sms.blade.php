@@ -1,4 +1,4 @@
-@extends($activeTemplate . 'layouts.app')
+﻿@extends($activeTemplate . 'layouts.app')
 
 @section('app')
     <section class="login-section">
@@ -47,12 +47,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Russo+One&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #002e2a; 
-            --input-bg: #003b36;
-            --border-color: #004d40;
-            --primary-gold: #FFD700; 
+            --bg-dark: #e8f0fa; 
+            --input-bg: #ffffff;
+            --border-color: #d5e4f7;
+            --primary-gold: #123b66; 
             --text-white: #ffffff;
-            --icon-color: #00d094;
+            --icon-color: #2563eb;
         }
 
         body {
@@ -64,7 +64,7 @@
         .login-section {
             min-height: 100vh;
             background-color: var(--bg-dark);
-            background-image: url('{{ asset('assets/images/login_bg.jpg') }}');
+            background-image: none;
             background-size: cover;
             background-position: center;
             display: flex;

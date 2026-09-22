@@ -37,7 +37,7 @@
         min-height: 100vh;
     }
 
-    /* ─── HEADER ─── */
+    /* â”€â”€â”€ HEADER â”€â”€â”€ */
     .header-bg { 
         background: linear-gradient(135deg, #0f395c 0%, #1a5c92 100%);
         padding: 16px; 
@@ -63,7 +63,7 @@
         letter-spacing: 1px;
     }
 
-    /* ─── TABS ─── */
+    /* â”€â”€â”€ TABS â”€â”€â”€ */
     .tabs-container { 
         display: flex; 
         background-color: var(--card-bg); 
@@ -99,7 +99,7 @@
         background-color: var(--accent-color);
     }
 
-    /* ─── TAB CONTENT ─── */
+    /* â”€â”€â”€ TAB CONTENT â”€â”€â”€ */
     .tab-content { 
         display: none; 
         animation: fadeIn 0.3s ease; 
@@ -111,7 +111,7 @@
         to { opacity: 1; transform: translateY(0); } 
     }
 
-    /* ─── DATA CARD ─── */
+    /* â”€â”€â”€ DATA CARD â”€â”€â”€ */
     .data-card { 
         background-color: var(--card-bg); 
         padding: 16px; 
@@ -204,7 +204,7 @@
         font-weight: 800;
     }
 
-    /* ─── EMPTY STATE ─── */
+    /* â”€â”€â”€ EMPTY STATE â”€â”€â”€ */
     .no-data { 
         display: flex; 
         flex-direction: column; 
@@ -244,7 +244,7 @@
         letter-spacing: 0;
     }
 
-    /* ─── BOTTOM NAV ─── */
+    /* â”€â”€â”€ BOTTOM NAV â”€â”€â”€ */
     .bottom-nav-container {
         position: fixed;
         bottom: 0;
@@ -254,7 +254,7 @@
         max-width: 480px;
         z-index: 10000;
         padding: 0 10px 8px 10px;
-        background: #071f18;
+        background: #e8f0fa;
     }
 
     .bottom-nav {
@@ -264,9 +264,9 @@
         border-radius: 999px;
         border: 1.5px solid #1a5c40;
         box-shadow:
-            0 0 0 2px #071f18,
-            inset 0 1px 0 rgba(30,200,130,0.18),
-            0 -2px 0 0 #1edd96,
+            0 0 0 2px #e8f0fa,
+            inset 0 1px 0 rgba(37,99,235,0.12),
+            0 -2px 0 0 #2563eb,
             0 4px 24px rgba(0,0,0,0.5);
         display: flex;
         align-items: center;
@@ -309,14 +309,14 @@
         width: 54px;
         height: 54px;
         border-radius: 50%;
-        background: linear-gradient(145deg, #1de9b6, #00897b);
+        background: linear-gradient(145deg, #2563eb, #123b66);
         display: flex;
         align-items: center;
         justify-content: center;
         box-shadow:
-            0 0 0 3px #071f18,
-            0 0 0 5px #1edd96,
-            0 6px 20px rgba(0,188,140,0.55);
+            0 0 0 3px #e8f0fa,
+            0 0 0 5px #2563eb,
+            0 6px 20px rgba(37,99,235,0.45);
         font-size: 22px;
         color: #fff;
         margin-top: -18px;
@@ -369,7 +369,7 @@
                 </div>
                 <div style="text-align: right; flex-shrink: 0; margin-left: 12px;">
                     <div class="{{ $isCredit ? 'amount-positive' : 'amount-negative' }}" style="font-size: 15px; font-weight: 800;">
-                        {{ $isCredit ? '+' : '-' }}৳{{ number_format($trx->amount, 0) }}
+                        {{ $isCredit ? '+' : '-' }}à§³{{ number_format($trx->amount, 0) }}
                     </div>
                     <span class="{{ $isCredit ? 'badge-win' : 'badge-loss' }}">
                         {{ __(keyToTitle($trx->remark)) }}
@@ -410,7 +410,7 @@
                     </div>
                     <div style="text-align: right; flex-shrink: 0; margin-left: 12px;">
                         <div class="amount-positive" style="font-size: 15px; font-weight: 800;">
-                            +৳{{ number_format($trx->amount, 0) }}
+                            +à§³{{ number_format($trx->amount, 0) }}
                         </div>
                         <span class="badge-win">Deposit</span>
                     </div>
@@ -451,7 +451,7 @@
                     </div>
                     <div style="text-align: right; flex-shrink: 0; margin-left: 12px;">
                         <div class="amount-negative" style="font-size: 15px; font-weight: 800;">
-                            -৳{{ number_format($trx->amount, 0) }}
+                            -à§³{{ number_format($trx->amount, 0) }}
                         </div>
                         <span class="badge-loss">Withdraw</span>
                     </div>

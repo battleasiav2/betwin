@@ -1,4 +1,4 @@
-<header class="header" id="header" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 9999; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); background-color: #012b27;">
+<header class="header" id="header" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 9999; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); background-color: #123b66;">
     <div class="container-fluid px-3">
         <nav class="navbar d-flex justify-content-between align-items-center py-2">
             <div class="d-flex align-items-center gap-2">
@@ -12,7 +12,7 @@
             
             <div class="header-right d-flex align-items-center gap-2">
                 @auth
-                    <div class="balance-box d-flex align-items-center gap-1 px-2 py-1" style="background: #024641; border: 1px solid #065f58; border-radius: 20px; color: #fff; font-size: 13px;">
+                    <div class="balance-box d-flex align-items-center gap-1 px-2 py-1" style="background: #1a4a7a; border: 1px solid #2a5a8a; border-radius: 20px; color: #fff; font-size: 13px;">
                         <span class="amount fw-bold">{{ gs('cur_sym') }}{{ number_format(auth()->user()->balance, 2) }}</span>
                         <a href="javascript:void(0)" onclick="refreshBalance(this)" class="text-white ms-1 refresh-btn" style="display: inline-flex; align-items: center; transition: transform 0.5s ease;">
                             <i class="las la-sync"></i>
@@ -29,7 +29,7 @@
                             <li><a class="dropdown-item profile-link" href="{{ route('user.withdraw.history') }}"><i class="las la-wallet"></i> উত্তোলন রেকর্ড</a></li>
                             <li><a class="dropdown-item profile-link" href="{{ route('user.game.log') }}"><i class="las la-dice"></i> বেট রেকর্ড</a></li>
                             <li><a class="dropdown-item profile-link" href="{{ route('ticket.index') }}"><i class="las la-headset"></i> সাপোর্ট টিকেট</a></li>
-                            <li><hr class="dropdown-divider" style="border-top: 1px solid #065f58;"></li>
+                            <li><hr class="dropdown-divider" style="border-top: 1px solid #2a5a8a;"></li>
                             <li><a class="dropdown-item profile-link text-danger" href="{{ route('user.logout') }}" style="color: #ff4d4d !important;"><i class="las la-power-off"></i> লগআউট</a></li>
                         </ul>
                     </div>
@@ -82,11 +82,6 @@
         <div class="side-nav-footer">
             <div class="side-nav-divider"></div>
 
-            <div class="footer-support-title">সাহায্য প্রয়োজন?</div>
-            <div class="footer-support-icons">
-                <a href="https://t.me/bet369win" target="_blank" class="footer-icon-btn" style="--icon-color:#229ED9;"><i class="lab la-telegram"></i></a>
-            </div>
-
             <a href="{{ route('user.logout') }}" class="side-nav-logout-btn">
                 <i class="las la-power-off"></i>
                 <span>লগআউট</span>
@@ -109,7 +104,7 @@
         left: -280px;
         width: 280px;
         height: 100%;
-        background-color: #012b27;
+        background-color: #123b66;
         z-index: 10001;
         transition: 0.3s;
         overflow-y: auto;
@@ -120,9 +115,9 @@
 
     .side-nav-header {
         position: relative;
-        background: linear-gradient(135deg, #024641 0%, #012b27 100%);
+        background: linear-gradient(135deg, #1a4a7a 0%, #123b66 100%);
         padding: 22px 18px 18px 18px;
-        border-bottom: 1px solid #065f58;
+        border-bottom: 1px solid #2a5a8a;
         overflow: hidden;
     }
     .side-nav-close {
@@ -133,7 +128,7 @@
         height: 32px;
         border-radius: 50%;
         background: rgba(0,0,0,0.25);
-        border: 1px solid #065f58;
+        border: 1px solid #2a5a8a;
         color: #fff;
         font-size: 16px;
         display: flex;
@@ -145,7 +140,7 @@
     }
     .side-nav-close:active {
         background: #D4AF37;
-        color: #012b27;
+        color: #123b66;
         transform: scale(0.9);
     }
     .side-nav-header-glow {
@@ -204,7 +199,7 @@
     .side-nav-login-btn {
         display: inline-block;
         background: #D4AF37;
-        color: #012b27;
+        color: #123b66;
         font-weight: 700;
         font-size: 13px;
         padding: 8px 18px;
@@ -220,8 +215,8 @@
     }
     .side-nav-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .nav-box {
-        background: #024641;
-        border: 1px solid #065f58;
+        background: #1a4a7a;
+        border: 1px solid #2a5a8a;
         border-radius: 12px;
         padding: 16px 5px;
         text-align: center;
@@ -269,8 +264,8 @@
         width: 42px;
         height: 42px;
         border-radius: 50%;
-        background: #024641;
-        border: 1px solid #065f58;
+        background: #1a4a7a;
+        border: 1px solid #2a5a8a;
         color: var(--icon-color, #D4AF37);
         font-size: 19px;
         display: flex;
@@ -281,7 +276,7 @@
     }
     .footer-icon-btn:active {
         background: var(--icon-color, #D4AF37);
-        color: #012b27;
+        color: #123b66;
         transform: scale(0.92);
         box-shadow: 0 0 12px rgba(212,175,55,0.4);
     }
@@ -324,8 +319,8 @@
     .nav-overlay.show { display: block; }
 
     .custom-dropdown {
-        background-color: #012b27 !important;
-        border: 1px solid #065f58 !important;
+        background-color: #123b66 !important;
+        border: 1px solid #2a5a8a !important;
         border-radius: 10px !important;
         box-shadow: 0 5px 15px rgba(0,0,0,0.5) !important;
         padding: 10px 0 !important;
@@ -344,7 +339,7 @@
         gap: 10px !important;
     }
     .custom-dropdown .dropdown-item i { font-size: 18px; color: #ffc107; }
-    .custom-dropdown .dropdown-item:hover { background-color: #024641 !important; color: #ffc107 !important; }
+    .custom-dropdown .dropdown-item:hover { background-color: #1a4a7a !important; color: #ffc107 !important; }
 
     @keyframes spin {
         from { transform: rotate(0deg); }

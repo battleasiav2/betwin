@@ -6,7 +6,7 @@
     .banner-section {
         padding: 0;
         margin-top: 45px;
-        background-color: #001f1c !important;
+        background-color: #e8f0fa !important;
         width: 100%;
         overflow: hidden;
     }
@@ -14,13 +14,13 @@
     .banner-wrapper {
         width: 100%;
         padding: 0;
-        background-color: #001f1c !important;
+        background-color: #e8f0fa !important;
     }
 
     .banner-image-container {
         width: 100%;
         display: block;
-        background-color: #001f1c !important;
+        background-color: #e8f0fa !important;
     }
 
     .banner-image-container img {

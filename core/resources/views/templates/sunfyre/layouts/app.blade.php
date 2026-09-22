@@ -55,13 +55,23 @@
             --base-two-h: {{ $secondHsl['h'] }};
             --base-two-s: {{ $secondHsl['s'] }}%;
             --base-two-l: {{ $secondHsl['l'] }}%;
-            --bg-deep: #f5f7fa;
-            --bg-main: #f5f7fa;
-            --bg-color: #e8f0fa;
+            --bg-deep: #e8f0fa !important;
+            --bg-main: #f5f7fa !important;
+            --bg-card: #ffffff !important;
+            --bg-color: #e8f0fa !important;
+            --teal: #2563eb !important;
+            --teal-light: #2563eb !important;
+            --green-btn: #2563eb !important;
+            --header-color: #123b66 !important;
+            --text-main: #172033 !important;
+            --text-muted: #6b7280 !important;
         }
         html, body {
-            background-color: #e8f0fa;
+            background: #e8f0fa !important;
+            background-image: none !important;
+            color: #172033 !important;
         }
+        .float-social-btns { display: none !important; }
     </style>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -82,7 +92,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'css/main.css') }}?v={{ $colorCache }}">
     <link href="{{ asset($activeTemplateTrue . 'css/custom.css') }}?v={{ $colorCache }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'css/theme.css') }}?v=22-{{ $colorCache }}">
+    <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'css/theme.css') }}?v=23-{{ $colorCache }}">
 
     @stack('style-lib')
     <link rel="manifest" href="{{ route('pwa.configuration') }}">

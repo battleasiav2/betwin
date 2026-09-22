@@ -19,7 +19,7 @@
         min-height: 100vh;
     }
 
-    /* ─── REWARD HEADER ─── */
+    /* â”€â”€â”€ REWARD HEADER â”€â”€â”€ */
     .reward-header { 
         background: linear-gradient(180deg, #FF6B4A 0%, #FF9F4A 100%); 
         height: 220px; 
@@ -57,7 +57,7 @@
         margin-top: 16px;
     }
 
-    /* ─── PROFILE CARD ─── */
+    /* â”€â”€â”€ PROFILE CARD â”€â”€â”€ */
     .profile-card { 
         background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%); 
         border-radius: 20px; 
@@ -117,7 +117,7 @@
         transition: width 0.5s;
     }
 
-    /* ─── GRID BUTTONS ─── */
+    /* â”€â”€â”€ GRID BUTTONS â”€â”€â”€ */
     .grid-container {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -184,7 +184,7 @@
         text-align: center;
     }
 
-    /* ─── MODALS ─── */
+    /* â”€â”€â”€ MODALS â”€â”€â”€ */
     .modal-overlay {
         position: fixed;
         inset: 0;
@@ -240,7 +240,7 @@
         font-size: 12px;
     }
 
-    /* ─── NOTIFICATION TICKER ─── */
+    /* â”€â”€â”€ NOTIFICATION TICKER â”€â”€â”€ */
     .notification-frame {
         margin-top: 24px;
         background: rgba(207, 166, 67, 0.05);
@@ -273,7 +273,7 @@
         opacity: 0;
     }
 
-    /* ─── BOTTOM NAV ─── */
+    /* â”€â”€â”€ BOTTOM NAV â”€â”€â”€ */
     .bottom-nav-container {
         position: fixed;
         bottom: 0;
@@ -283,7 +283,7 @@
         max-width: 480px;
         z-index: 10000;
         padding: 0 10px 8px 10px;
-        background: #071f18;
+        background: #e8f0fa;
     }
 
     .bottom-nav {
@@ -293,9 +293,9 @@
         border-radius: 999px;
         border: 1.5px solid #1a5c40;
         box-shadow:
-            0 0 0 2px #071f18,
-            inset 0 1px 0 rgba(30,200,130,0.18),
-            0 -2px 0 0 #1edd96,
+            0 0 0 2px #e8f0fa,
+            inset 0 1px 0 rgba(37,99,235,0.12),
+            0 -2px 0 0 #2563eb,
             0 4px 24px rgba(0,0,0,0.5);
         display: flex;
         align-items: center;
@@ -338,14 +338,14 @@
         width: 54px;
         height: 54px;
         border-radius: 50%;
-        background: linear-gradient(145deg, #1de9b6, #00897b);
+        background: linear-gradient(145deg, #2563eb, #123b66);
         display: flex;
         align-items: center;
         justify-content: center;
         box-shadow:
-            0 0 0 3px #071f18,
-            0 0 0 5px #1edd96,
-            0 6px 20px rgba(0,188,140,0.55);
+            0 0 0 3px #e8f0fa,
+            0 0 0 5px #2563eb,
+            0 6px 20px rgba(37,99,235,0.45);
         font-size: 22px;
         color: #fff;
         margin-top: -18px;
@@ -386,7 +386,7 @@
                 </div>
                 <p style="color:#6b7280; font-size:12px; font-weight:600;">@lang('Nickname:') {{ auth()->user()->username }}</p>
                 <div style="display: flex; align-items: center; gap: 4px; color:#333; font-weight:900; margin-top: 4px;">
-                    <span style="font-size:18px;">৳ {{ number_format(auth()->user()->balance, 2) }}</span>
+                    <span style="font-size:18px;">à§³ {{ number_format(auth()->user()->balance, 2) }}</span>
                     <i class="fas fa-sync-alt" style="color:#9ca3af; font-size:12px; margin-left:8px; cursor:pointer;" onclick="location.reload()"></i>
                 </div>
             </div>
@@ -504,7 +504,7 @@
     function getNewMessage() {
         const num = prefixes[Math.floor(Math.random() * prefixes.length)] + "******" + Math.floor(10 + Math.random() * 90);
         const amt = amounts[Math.floor(Math.random() * amounts.length)];
-        return `🎉 User ${num} successfully redeemed ৳${amt}`;
+        return `ðŸŽ‰ User ${num} successfully redeemed à§³${amt}`;
     }
 
     function rotateMessage() {

@@ -47,7 +47,7 @@
         min-height: 100vh;
     }
 
-    /* ─── HEADER ─── */
+    /* â”€â”€â”€ HEADER â”€â”€â”€ */
     .header-bg { 
         background: linear-gradient(135deg, #0f395c 0%, #1a5c92 100%);
         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -73,7 +73,7 @@
         letter-spacing: 1px;
     }
 
-    /* ─── TABS ─── */
+    /* â”€â”€â”€ TABS â”€â”€â”€ */
     .tabs-container {
         display: flex;
         background-color: #ffffff;
@@ -114,7 +114,7 @@
         border-top-right-radius: 3px;
     }
 
-    /* ─── WHITE CARD ─── */
+    /* â”€â”€â”€ WHITE CARD â”€â”€â”€ */
     .white-card {
         background-color: var(--card-bg);
         border: 1px solid var(--border-color);
@@ -142,7 +142,7 @@
         letter-spacing: 0.5px;
     }
 
-    /* ─── COPY BOX ─── */
+    /* â”€â”€â”€ COPY BOX â”€â”€â”€ */
     .copy-box {
         background-color: #f8fafc;
         border: 1px solid var(--border-color);
@@ -193,7 +193,7 @@
     }
     .copy-icon-btn:active { transform: scale(0.95); }
 
-    /* ─── SHARE BUTTON FULL WIDTH ─── */
+    /* â”€â”€â”€ SHARE BUTTON FULL WIDTH â”€â”€â”€ */
     .share-full-btn {
         display: block;
         width: 100%;
@@ -210,7 +210,7 @@
     }
     .share-full-btn:active { transform: scale(0.97); }
 
-    /* ─── STAT GRID ─── */
+    /* â”€â”€â”€ STAT GRID â”€â”€â”€ */
     .stat-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -240,7 +240,7 @@
     }
     .stat-item p.text-green { color: #43a047; }
 
-    /* ─── CLAIM ROW ─── */
+    /* â”€â”€â”€ CLAIM ROW â”€â”€â”€ */
     .claim-row {
         display: flex;
         justify-content: space-between;
@@ -266,7 +266,7 @@
     }
     .claim-btn:active { background: #bae6fd; }
 
-    /* ─── PYRAMID IMAGE ─── */
+    /* â”€â”€â”€ PYRAMID IMAGE â”€â”€â”€ */
     .pyramid-img {
         width: 100%;
         max-width: 320px;
@@ -275,12 +275,12 @@
         border-radius: 8px;
     }
 
-    /* ─── TAB CONTENT ─── */
+    /* â”€â”€â”€ TAB CONTENT â”€â”€â”€ */
     .tab-content { display: none; animation: fadeIn 0.3s ease; }
     .tab-content.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    /* ─── EMPTY STATE ─── */
+    /* â”€â”€â”€ EMPTY STATE â”€â”€â”€ */
     .empty-state {
         display: flex;
         flex-direction: column;
@@ -309,7 +309,7 @@
         font-weight: 700;
     }
 
-    /* ─── INFO BOX ─── */
+    /* â”€â”€â”€ INFO BOX â”€â”€â”€ */
     .info-box {
         background: #e0f2fe;
         padding: 12px;
@@ -333,7 +333,7 @@
         letter-spacing: 1px;
     }
 
-    /* ─── BOTTOM NAV ─── */
+    /* â”€â”€â”€ BOTTOM NAV â”€â”€â”€ */
     .bottom-nav-container {
         position: fixed;
         bottom: 0;
@@ -343,7 +343,7 @@
         max-width: 480px;
         z-index: 10000;
         padding: 0 10px 8px 10px;
-        background: #071f18;
+        background: #e8f0fa;
     }
 
     .bottom-nav {
@@ -353,9 +353,9 @@
         border-radius: 999px;
         border: 1.5px solid #1a5c40;
         box-shadow:
-            0 0 0 2px #071f18,
-            inset 0 1px 0 rgba(30,200,130,0.18),
-            0 -2px 0 0 #1edd96,
+            0 0 0 2px #e8f0fa,
+            inset 0 1px 0 rgba(37,99,235,0.12),
+            0 -2px 0 0 #2563eb,
             0 4px 24px rgba(0,0,0,0.5);
         display: flex;
         align-items: center;
@@ -398,21 +398,21 @@
         width: 54px;
         height: 54px;
         border-radius: 50%;
-        background: linear-gradient(145deg, #1de9b6, #00897b);
+        background: linear-gradient(145deg, #2563eb, #123b66);
         display: flex;
         align-items: center;
         justify-content: center;
         box-shadow:
-            0 0 0 3px #071f18,
-            0 0 0 5px #1edd96,
-            0 6px 20px rgba(0,188,140,0.55);
+            0 0 0 3px #e8f0fa,
+            0 0 0 5px #2563eb,
+            0 6px 20px rgba(37,99,235,0.45);
         font-size: 22px;
         color: #fff;
         margin-top: -18px;
         border: none;
     }
 
-    /* ─── TOAST ─── */
+    /* â”€â”€â”€ TOAST â”€â”€â”€ */
     .copy-toast {
         position: fixed;
         bottom: 100px;
@@ -502,11 +502,11 @@
                 </div>
                 <div class="stat-item">
                     <h4>Today's Rewards</h4>
-                    <p>৳ {{ number_format($todayRewards, 0) }}</p>
+                    <p>à§³ {{ number_format($todayRewards, 0) }}</p>
                 </div>
                 <div class="stat-item">
                     <h4>Yesterday's Rewards</h4>
-                    <p>৳ {{ number_format($yesterdayRewards, 0) }}</p>
+                    <p>à§³ {{ number_format($yesterdayRewards, 0) }}</p>
                 </div>
             </div>
         </div>
@@ -515,7 +515,7 @@
         <div class="white-card">
             <div class="section-title">Available Cash Rewards</div>
             <div class="claim-row">
-                <span class="claim-amount">৳ {{ number_format($totalRewards, 0) }}</span>
+                <span class="claim-amount">à§³ {{ number_format($totalRewards, 0) }}</span>
                 <button class="claim-btn" onclick="claimReward()">Claim Now</button>
             </div>
         </div>

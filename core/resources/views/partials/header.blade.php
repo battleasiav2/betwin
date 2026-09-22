@@ -1,4 +1,4 @@
-<header class="header" id="header" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 9999; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); background-color: #012b27;">
+<header class="header" id="header" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 9999; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); background-color: #123b66;">
     <div class="container-fluid px-3">
         <nav class="navbar d-flex justify-content-between align-items-center py-2">
 
@@ -66,8 +66,8 @@
 
 <style>
     .custom-dropdown-menu {
-        background-color: #012b27;
-        border: 1px solid #065f58;
+        background-color: #123b66;
+        border: 1px solid #2a5a8a;
         border-radius: 10px;
         box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         padding: 10px 0;
@@ -87,10 +87,10 @@
         color: #ffc107;
     }
     .custom-dropdown-menu .dropdown-item:hover {
-        background-color: #024641;
+        background-color: #1a4a7a;
         color: #ffc107;
     }
     .custom-dropdown-menu .dropdown-divider {
-        border-top: 1px solid #065f58;
+        border-top: 1px solid #2a5a8a;
     }
 </style>

@@ -33,7 +33,7 @@
         min-height: 100vh;
     }
 
-    /* ─── HEADER ─── */
+    /* â”€â”€â”€ HEADER â”€â”€â”€ */
     .header-bg { 
         background: linear-gradient(135deg, #0f395c 0%, #1a5c92 100%);
         padding: 16px; 
@@ -59,7 +59,7 @@
         letter-spacing: 1px;
     }
 
-    /* ─── TABS ─── */
+    /* â”€â”€â”€ TABS â”€â”€â”€ */
     .tabs-container { 
         display: flex; 
         background-color: var(--card-bg); 
@@ -96,7 +96,7 @@
         background-color: var(--accent-color);
     }
 
-    /* ─── FILTER BAR ─── */
+    /* â”€â”€â”€ FILTER BAR â”€â”€â”€ */
     .filter-bar { 
         display: flex; 
         justify-content: space-between; 
@@ -133,7 +133,7 @@
         box-shadow: 0 1px 2px rgba(0,0,0,0.02);
     }
 
-    /* ─── DROPDOWN ─── */
+    /* â”€â”€â”€ DROPDOWN â”€â”€â”€ */
     .dropdown-menu { 
         display: none; 
         position: absolute; 
@@ -163,7 +163,7 @@
     .dropdown-item:last-child { border-bottom: none; }
     .dropdown-item:hover { background-color: var(--blue-light); color: var(--header-color); }
 
-    /* ─── TABLE HEADER ─── */
+    /* â”€â”€â”€ TABLE HEADER â”€â”€â”€ */
     .table-header { 
         display: grid; 
         grid-template-columns: 1fr 1.2fr 0.8fr 1fr; 
@@ -182,7 +182,7 @@
     }
     .col-item:last-child { border-right: none; }
     
-    /* ─── DATA ROW ─── */
+    /* â”€â”€â”€ DATA ROW â”€â”€â”€ */
     .data-row { 
         display: grid; 
         grid-template-columns: 1fr 1.2fr 0.8fr 1fr; 
@@ -219,7 +219,7 @@
         font-weight: 700;
     }
 
-    /* ─── EMPTY STATE ─── */
+    /* â”€â”€â”€ EMPTY STATE â”€â”€â”€ */
     .no-data { 
         display: flex; 
         flex-direction: column; 
@@ -252,7 +252,7 @@
         letter-spacing: 0.5px;
     }
 
-    /* ─── MODAL ─── */
+    /* â”€â”€â”€ MODAL â”€â”€â”€ */
     .modal-overlay {
         position: fixed;
         inset: 0;
@@ -307,7 +307,7 @@
     }
     .modal-close-btn:active { background: #0d2a45; }
 
-    /* ─── SUMMARY BAR ─── */
+    /* â”€â”€â”€ SUMMARY BAR â”€â”€â”€ */
     .fixed-bottom-summary {
         position: fixed;
         bottom: 0;
@@ -343,7 +343,7 @@
         margin-top: 2px;
     }
 
-    /* ─── BOTTOM NAV ─── */
+    /* â”€â”€â”€ BOTTOM NAV â”€â”€â”€ */
     .bottom-nav-container {
         position: fixed;
         bottom: 0;
@@ -353,7 +353,7 @@
         max-width: 480px;
         z-index: 10000;
         padding: 0 10px 8px 10px;
-        background: #071f18;
+        background: #e8f0fa;
     }
 
     .bottom-nav {
@@ -363,9 +363,9 @@
         border-radius: 999px;
         border: 1.5px solid #1a5c40;
         box-shadow:
-            0 0 0 2px #071f18,
-            inset 0 1px 0 rgba(30,200,130,0.18),
-            0 -2px 0 0 #1edd96,
+            0 0 0 2px #e8f0fa,
+            inset 0 1px 0 rgba(37,99,235,0.12),
+            0 -2px 0 0 #2563eb,
             0 4px 24px rgba(0,0,0,0.5);
         display: flex;
         align-items: center;
@@ -408,14 +408,14 @@
         width: 54px;
         height: 54px;
         border-radius: 50%;
-        background: linear-gradient(145deg, #1de9b6, #00897b);
+        background: linear-gradient(145deg, #2563eb, #123b66);
         display: flex;
         align-items: center;
         justify-content: center;
         box-shadow:
-            0 0 0 3px #071f18,
-            0 0 0 5px #1edd96,
-            0 6px 20px rgba(0,188,140,0.55);
+            0 0 0 3px #e8f0fa,
+            0 0 0 5px #2563eb,
+            0 6px 20px rgba(37,99,235,0.45);
         font-size: 22px;
         color: #fff;
         margin-top: -18px;
@@ -492,7 +492,7 @@
             <div class="data-row">
                 <div style="font-weight:700; font-size:11px;">{{ strtoupper($provider) }}</div>
                 <div style="font-size:11px; color:#4b5563;">{{ __($displayName) }}</div>
-                <div style="font-weight:700;">৳{{ number_format($log->invest, 2) }}</div>
+                <div style="font-weight:700;">à§³{{ number_format($log->invest, 2) }}</div>
                 <div>
                     <span class="{{ $isWin ? 'profit-win' : 'profit-loss' }}">
                         {{ $isWin ? '+' : '' }}{{ number_format($profitLoss, 2) }}
@@ -522,19 +522,19 @@
 <div class="fixed-bottom-summary" style="bottom: 70px;">
     <div class="summary-inner">
         <div class="summary-item">
-            <div class="summary-value green">৳{{ number_format($widget['bet_amount'] ?? 0, 2) }}</div>
+            <div class="summary-value green">à§³{{ number_format($widget['bet_amount'] ?? 0, 2) }}</div>
             <div class="summary-label">Bet Amount</div>
         </div>
         <div class="summary-item">
-            <div class="summary-value green">৳{{ number_format($widget['valid_bet'] ?? 0, 2) }}</div>
+            <div class="summary-value green">à§³{{ number_format($widget['valid_bet'] ?? 0, 2) }}</div>
             <div class="summary-label">Valid Bet</div>
         </div>
         <div class="summary-item">
-            <div class="summary-value green">৳{{ number_format($widget['winnings'] ?? 0, 2) }}</div>
+            <div class="summary-value green">à§³{{ number_format($widget['winnings'] ?? 0, 2) }}</div>
             <div class="summary-label">Winnings</div>
         </div>
         <div class="summary-item">
-            <div class="summary-value red">৳{{ number_format($widget['profit_loss'] ?? 0, 2) }}</div>
+            <div class="summary-value red">à§³{{ number_format($widget['profit_loss'] ?? 0, 2) }}</div>
             <div class="summary-label">Profit/Loss</div>
         </div>
     </div>

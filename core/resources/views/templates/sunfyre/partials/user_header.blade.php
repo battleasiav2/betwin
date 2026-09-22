@@ -140,22 +140,22 @@
 
 <style>
     :root {
-        --bg-deep:    #071f18;
-        --bg-main:    #0a2e22;
-        --bg-card:    #0d3d2c;
-        --teal:       #0d7a55;
-        --teal-light: #13a36e;
-        --gold:       #f0c030;
-        --gold-dark:  #c89a10;
-        --gold-text:  #ffd84d;
-        --text-main:  #e8f5ee;
-        --text-muted: #7eb89a;
-        --border:     rgba(255,255,255,0.08);
+        --bg-deep:    #e8f0fa;
+        --bg-main:    #f5f7fa;
+        --bg-card:    #ffffff;
+        --teal:       #2563eb;
+        --teal-light: #2563eb;
+        --gold:       #f4b942;
+        --gold-dark:  #d9a12a;
+        --gold-text:  #123b66;
+        --text-main:  #172033;
+        --text-muted: #6b7280;
+        --border:     rgba(18,59,102,0.1);
     }
 
     .site-header {
         position: sticky; top: 0; z-index: 100; height: 56px;
-        background: rgba(7,31,24,0.92); backdrop-filter: blur(12px);
+        background: rgba(255,255,255,0.96); backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);
         display: flex; align-items: center; justify-content: flex-start; padding: 0 12px;
     }
@@ -165,11 +165,11 @@
         padding: 7px 16px; border-radius: 6px; font-size: 13px; font-weight: 700;
         cursor: pointer; border: none; text-decoration: none;
         display: inline-flex; align-items: center; justify-content: center; transition: all 0.15s;
-        background: linear-gradient(180deg, #1a9966 0%, #0d7a55 60%, #0a5c3e 100%);
-        color: #fff; box-shadow: 0 4px 0 #064028, 0 4px 8px rgba(0,0,0,0.4);
-        border-bottom: 2px solid #1dcc85;
+        background: linear-gradient(180deg, #3b82f6 0%, #2563eb 60%, #1d4ed8 100%);
+        color: #fff; box-shadow: 0 4px 0 #1e3a8a, 0 4px 8px rgba(0,0,0,0.4);
+        border-bottom: 2px solid #60a5fa;
     }
-    .btn-login:active { transform: translateY(3px); box-shadow: 0 1px 0 #064028, 0 1px 4px rgba(0,0,0,0.4); }
+    .btn-login:active { transform: translateY(3px); box-shadow: 0 1px 0 #1e3a8a, 0 1px 4px rgba(0,0,0,0.4); }
 
     .btn-register {
         padding: 7px 16px; border-radius: 6px; font-size: 13px; font-weight: 700;
@@ -240,7 +240,7 @@
     }
 
     #sidebar {
-        background-color: #062c23 !important;
+        background-color: #123b66 !important;
         width: 280px !important;
         height: 100% !important;
         position: fixed !important;
@@ -254,7 +254,7 @@
     #sidebar { -ms-overflow-style: none !important; scrollbar-width: none !important; }
 
     .sb-header {
-        background-color: #062c23 !important;
+        background-color: #123b66 !important;
         display: flex !important;
         align-items: center !important;
         justify-content: space-between !important;
@@ -289,7 +289,7 @@
     }
 
     .sb-menu-card {
-        background: #093327 !important;
+        background: #1a4a7a !important;
         border-radius: 14px !important;
         padding: 18px 8px 14px !important;
         display: flex !important;
@@ -305,11 +305,11 @@
         border-top: 1.5px solid rgba(30, 180, 130, 0.35) !important;
         border-left: 1.5px solid rgba(30, 180, 130, 0.25) !important;
         border-right: 1.5px solid rgba(10, 60, 40, 0.8) !important;
-        border-bottom: 3px solid #031913 !important;
+        border-bottom: 3px solid #0f2d4a !important;
 
         box-shadow:
             inset 0 1px 0 rgba(255,255,255,0.07),
-            0 6px 0 #031510,
+            0 6px 0 #0f2d4a,
             0 8px 16px rgba(0,0,0,0.45) !important;
 
         transition: transform 0.12s ease, box-shadow 0.12s ease !important;
@@ -320,7 +320,7 @@
         border-bottom-width: 1px !important;
         box-shadow:
             inset 0 1px 0 rgba(255,255,255,0.07),
-            0 1px 0 #031510,
+            0 1px 0 #0f2d4a,
             0 2px 6px rgba(0,0,0,0.3) !important;
     }
 
