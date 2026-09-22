@@ -5,14 +5,11 @@ namespace App\Http\Controllers\GameProviders\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class ApiGameController extends Controller
 {
-    private string $API_URL = 'https://www.rapidverse.site/api/demo';
-    private string $API_TOKEN = '138647523b33be085931bd1514a2ec78ec53393d95715c9504b9a5c090accfb4';
-    private string $SECRET_KEY = '5d944b3769f42a36284a5935c144e287ac29fee8cd8b16714d7d33fb8e5c66c6';
-
     public function launch(Request $request)
     {
         $user = Auth::user();
@@ -27,10 +24,11 @@ class ApiGameController extends Controller
         ]);
 
         $user->refresh();
+        $settings = $this->getApiSettings();
 
         $provider = $request->provider ?? 'JILI';
         $vendorCode = $this->getVendorCode($provider);
-        
+
         $payload = [
             'userId'      => (string) $user->id,
             'gameCode'    => $request->game_code,
@@ -41,14 +39,14 @@ class ApiGameController extends Controller
             'returnUrl'   => route('user.home'),
         ];
 
-        $ch = curl_init($this->API_URL);
-        
+        $ch = curl_init($settings['api_url']);
+
         $headers = [
             'Content-Type: application/json',
-            'X-API-Token: ' . $this->API_TOKEN,
-            'X-Secret-Key: ' . $this->SECRET_KEY,
+            'X-API-Token: ' . $settings['api_token'],
+            'X-Secret-Key: ' . $settings['secret_key'],
         ];
-        
+
         curl_setopt_array($ch, [
             CURLOPT_POST           => true,
             CURLOPT_RETURNTRANSFER => true,
@@ -80,15 +78,45 @@ class ApiGameController extends Controller
             'pageTitle' => strtoupper($provider) . ' Game'
         ]);
     }
-    
+
+    private function getApiSettings(): array
+    {
+        $defaults = [
+            'api_url'    => env('RAPIDVERSE_API_URL', 'https://www.rapidverse.site/api/demo'),
+            'api_token'  => env('RAPIDVERSE_API_TOKEN', ''),
+            'secret_key' => env('RAPIDVERSE_SECRET_KEY', ''),
+        ];
+
+        if (!Schema::hasTable('api_game_settings')) {
+            return $defaults;
+        }
+
+        $row = DB::table('api_game_settings')->orderBy('id')->first();
+        if (!$row) {
+            return $defaults;
+        }
+
+        return [
+            'api_url'    => $row->api_url ?: $defaults['api_url'],
+            'api_token'  => $row->api_token ?: $defaults['api_token'],
+            'secret_key' => $row->secret_key ?: $defaults['secret_key'],
+        ];
+    }
+
     private function getVendorCode(string $provider): string
     {
-        return match(strtolower($provider)) {
+        return match (strtolower($provider)) {
             'pg' => 'PG',
             'jdb' => 'JDB',
-            'cq9' => 'CQ9',
-            'evo' => 'EVOLUTION',
-            'jili', 'default' => 'JILI'
+            'cq9', 'g9' => 'CQ9',
+            'evo', 'casino' => 'EVOLUTION',
+            'card365' => 'Card365',
+            'idg' => 'IDG',
+            'km' => 'KM',
+            'v8' => 'V8',
+            'mg' => 'MG',
+            'jili', 'hot', 'crash', 'sports', 'default' => 'JILI',
+            default => strtoupper($provider),
         };
     }
 }

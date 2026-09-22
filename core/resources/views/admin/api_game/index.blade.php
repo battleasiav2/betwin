@@ -1,8 +1,72 @@
 @extends('admin.layouts.app')
 @section('panel')
+    <div class="row mb-4">
+        <div class="col-lg-12">
+            <div class="card b-radius--10">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">@lang('RapidVerse API Credentials')</h5>
+                </div>
+                <div class="card-body">
+                    <form action="{{ route('admin.api.game.settings') }}" method="POST">
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>@lang('API URL')</label>
+                                    <input type="url" name="api_url" class="form-control" required
+                                           value="{{ old('api_url', $apiSettings->api_url ?? 'https://www.rapidverse.site/api/demo') }}">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>@lang('Agent Username')</label>
+                                    <input type="text" name="agent_user" class="form-control"
+                                           value="{{ old('agent_user', $apiSettings->agent_user ?? '') }}">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>@lang('Currency')</label>
+                                    <input type="text" name="currency" class="form-control"
+                                           value="{{ old('currency', $apiSettings->currency ?? 'BDT') }}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>@lang('API Token')</label>
+                                    <input type="text" name="api_token" class="form-control" required
+                                           value="{{ old('api_token', $apiSettings->api_token ?? '') }}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>@lang('Secret Key')</label>
+                                    <input type="text" name="secret_key" class="form-control" required
+                                           value="{{ old('secret_key', $apiSettings->secret_key ?? '') }}">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>@lang('Callback URL')</label>
+                                    <input type="url" name="callback_url" class="form-control" required
+                                           value="{{ old('callback_url', $apiSettings->callback_url ?? 'https://bet369win.com/callback.php') }}">
+                                    <small class="text-muted">@lang('RapidVerse panel e ei same callback set thakte hobe')</small>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn--primary">@lang('Save API Settings')</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-lg-12">
             <div class="card b-radius--10 ">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">@lang('Game Provider Status')</h5>
+                </div>
                 <div class="card-body p-0">
                     <div class="table-responsive--md  table-responsive">
                         <table class="table table--light style--two">
@@ -31,9 +95,9 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <button class="btn btn-sm btn-outline--primary editBtn" 
-                                            data-id="{{ $game->id }}" 
-                                            data-name="{{ $game->name }}" 
+                                    <button class="btn btn-sm btn-outline--primary editBtn"
+                                            data-id="{{ $game->id }}"
+                                            data-name="{{ $game->name }}"
                                             data-status="{{ $game->status }}">
                                         <i class="la la-pencil"></i> @lang('Manage')
                                     </button>
@@ -41,7 +105,7 @@
                             </tr>
                             @empty
                                 <tr>
-                                    <td class="text-muted text-center" colspan="100%">{{ __($emptyMessage) }}</td>
+                                    <td class="text-muted text-center" colspan="100%">{{ __($emptyMessage ?? 'No data') }}</td>
                                 </tr>
                             @endforelse
                             </tbody>
@@ -93,7 +157,7 @@
                 var id = $(this).data('id');
                 var name = $(this).data('name');
                 var status = $(this).data('status');
-                
+
                 modal.find('.provider-name').text(name);
                 modal.find('select[name=status]').val(status);
                 $('#editForm').attr('action', '{{ route("admin.api.game.update", "") }}/' + id);

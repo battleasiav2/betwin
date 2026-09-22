@@ -28,15 +28,15 @@ class AppServiceProvider extends ServiceProvider {
     public function boot(): void {
         if (!cache()->get('SystemInstalled')) {
             $envFilePath = base_path('.env');
-            if (!file_exists($envFilePath)) {
-                header('Location: /install/');
-                exit;
-            }
-            $envContents = file_get_contents($envFilePath);
-            if (empty(trim((string) $envContents))) {
-                header('Location: /install/');
-                exit;
-            } else {
+            $uri = (string) ($_SERVER['REQUEST_URI'] ?? '');
+            $onSetup = str_contains($uri, 'setup-env.php')
+                || str_contains($uri, '/install');
+
+            if (!$onSetup) {
+                if (!file_exists($envFilePath) || empty(trim((string) @file_get_contents($envFilePath)))) {
+                    header('Location: /setup-env.php', true, 302);
+                    exit;
+                }
                 cache()->put('SystemInstalled', true);
             }
         }

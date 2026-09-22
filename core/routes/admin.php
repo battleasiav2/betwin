@@ -187,6 +187,7 @@ Route::middleware('admin')->group(function () {
     Route::controller('ApiGameControlController')->prefix('api-game')->name('api.game.')->group(function () {
         Route::get('manage', 'index')->name('index');
         Route::post('update/{id}', 'update')->name('update');
+        Route::post('settings', 'updateSettings')->name('settings');
     });
 
     // Promotion Management System
