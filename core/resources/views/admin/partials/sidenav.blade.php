@@ -81,11 +81,6 @@
                 @endforeach
             </ul>
         </div>
-        
-        <div class="version-info text-center text-uppercase">
-            <a href="https://t.me/bet369win" target="_blank" class="text--primary" style="text-decoration: none;">
-Developer akash            </a>
-        </div>
     </div>
 </div>
 
