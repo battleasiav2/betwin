@@ -29,12 +29,12 @@ class AppServiceProvider extends ServiceProvider {
         if (!cache()->get('SystemInstalled')) {
             $envFilePath = base_path('.env');
             if (!file_exists($envFilePath)) {
-                header('Location: install');
+                header('Location: /install/');
                 exit;
             }
             $envContents = file_get_contents($envFilePath);
-            if (empty($envContents)) {
-                header('Location: install');
+            if (empty(trim((string) $envContents))) {
+                header('Location: /install/');
                 exit;
             } else {
                 cache()->put('SystemInstalled', true);

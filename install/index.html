@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BET369WIN Setup</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#e8f0fa;color:#172033;margin:0;padding:24px}
+    .box{max-width:640px;margin:40px auto;background:#fff;border:1px solid #d5e4f7;border-radius:16px;padding:28px;box-shadow:0 12px 30px rgba(18,59,102,.08)}
+    h1{color:#123b66;font-size:22px;margin:0 0 12px}
+    p,li{line-height:1.55;color:#6b7280}
+    code{background:#e8f0fa;padding:2px 6px;border-radius:6px;color:#123b66}
+    .ok{color:#2563eb;font-weight:700}
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>Site not ready — .env missing</h1>
+    <p class="ok">bet369win.com redirect loop was caused by missing <code>core/.env</code>.</p>
+    <ol>
+      <li>Hostinger File Manager → open site root → folder <code>core</code></li>
+      <li>Upload / create file named exactly <code>.env</code></li>
+      <li>Copy contents from <code>core/env.hostinger.example</code> and set:
+        <ul>
+          <li><code>APP_URL=https://bet369win.com</code></li>
+          <li><code>DB_DATABASE=u811189100_betwin</code></li>
+          <li><code>DB_USERNAME=u811189100_betwin</code></li>
+          <li><code>DB_PASSWORD=</code> your Hostinger MySQL password</li>
+          <li><code>DB_HOST=localhost</code></li>
+        </ul>
+      </li>
+      <li>Save, then open <a href="/">https://bet369win.com</a></li>
+    </ol>
+    <p>After the site works, delete this <code>install</code> folder.</p>
+  </div>
+</body>
+</html>
