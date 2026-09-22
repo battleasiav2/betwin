@@ -25,12 +25,7 @@
   --dark-l: 97%;
   --heading-color: 221 15% 15%;
   --body-color: 220 9% 46%;
-  --base-h: 221;
-  --base-s: 83%;
-  --base-l: 53%;
-  --base-two-h: 211;
-  --base-two-s: 70%;
-  --base-two-l: 24%;
+  /* Do NOT hardcode --base-* here — admin Color Changer (color.php) owns those */
 }
 
 html,

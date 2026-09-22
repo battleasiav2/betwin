@@ -7,6 +7,62 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title> {{ gs()->siteName(__($pageTitle)) }}</title>
     @include('partials.seo')
+
+    @php
+        $baseColor = ltrim((string) gs('base_color'), '#') ?: '123B66';
+        $secondColor = ltrim((string) gs('secondary_color'), '#') ?: '2563EB';
+        $colorCache = substr(md5($baseColor . $secondColor), 0, 8);
+        // Inline HSL so first paint matches admin color (no green FOUC from main.css defaults)
+        $hexToHsl = static function (string $hex): array {
+            $hex = str_pad(preg_replace('/[^a-f0-9]/i', '', $hex), 6, '0');
+            $r = hexdec(substr($hex, 0, 2)) / 255;
+            $g = hexdec(substr($hex, 2, 2)) / 255;
+            $b = hexdec(substr($hex, 4, 2)) / 255;
+            $min = min($r, $g, $b);
+            $max = max($r, $g, $b);
+            $d = $max - $min;
+            $l = ($max + $min) / 2;
+            if ($d < 0.00001) {
+                $h = 0;
+                $s = 0;
+            } else {
+                $s = $d / (1 - abs(2 * $l - 1));
+                if ($max === $r) {
+                    $h = fmod(($g - $b) / $d, 6);
+                } elseif ($max === $g) {
+                    $h = ($b - $r) / $d + 2;
+                } else {
+                    $h = ($r - $g) / $d + 4;
+                }
+                $h = round($h * 60);
+                if ($h < 0) {
+                    $h += 360;
+                }
+                $s = round($s * 100);
+            }
+            return ['h' => (int) $h, 's' => (int) $s, 'l' => (int) round($l * 100)];
+        };
+        $baseHsl = $hexToHsl($baseColor);
+        $secondHsl = $hexToHsl($secondColor);
+    @endphp
+
+    {{-- Critical colors BEFORE any stylesheet — stops 1-frame green/gold flash --}}
+    <style id="critical-theme-color">
+        :root {
+            --base-h: {{ $baseHsl['h'] }};
+            --base-s: {{ $baseHsl['s'] }}%;
+            --base-l: {{ $baseHsl['l'] }}%;
+            --base-two-h: {{ $secondHsl['h'] }};
+            --base-two-s: {{ $secondHsl['s'] }}%;
+            --base-two-l: {{ $secondHsl['l'] }}%;
+            --bg-deep: #f5f7fa;
+            --bg-main: #f5f7fa;
+            --bg-color: #e8f0fa;
+        }
+        html, body {
+            background-color: #e8f0fa;
+        }
+    </style>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,16 +77,16 @@
     <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'css/slick.css') }}">
     <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'css/odometer.css') }}">
     <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'css/iconmoon.css') }}">
-    <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'css/main.css') }}">
-    <link href="{{ asset($activeTemplateTrue . 'css/custom.css') }}" rel="stylesheet">
+    <link
+        href="{{ asset($activeTemplateTrue . 'css/color.php') }}?color={{ $baseColor }}&secondColor={{ $secondColor }}&v={{ $colorCache }}"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'css/main.css') }}?v={{ $colorCache }}">
+    <link href="{{ asset($activeTemplateTrue . 'css/custom.css') }}?v={{ $colorCache }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'css/theme.css') }}?v=19-{{ $colorCache }}">
 
     @stack('style-lib')
     <link rel="manifest" href="{{ route('pwa.configuration') }}">
     @stack('style')
-
-    <link
-        href="{{ asset($activeTemplateTrue . 'css/color.php') }}?color={{ gs('base_color') }}&secondColor={{ gs('secondary_color') }}"
-        rel="stylesheet">
 </head>
 
 @php echo loadExtension('google-analytics') @endphp
@@ -210,7 +266,6 @@
             registerSW();
         });
     </script>
-    <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'css/theme.css') }}?v=18">
 </body>
 
 </html>
