@@ -49,76 +49,84 @@
         </a>
 
         <nav class="sb-list">
-            <a href="{{ route('user.home') }}#casino" class="sb-list__item">
-                <span class="sb-list__ico"><i class="fas fa-dice"></i></span>
-                <span class="sb-list__label">@lang('Casino')</span>
-                <i class="fas fa-chevron-down sb-list__chev" aria-hidden="true"></i>
-            </a>
-            <a href="{{ route('user.home') }}#sports" class="sb-list__item">
-                <span class="sb-list__ico"><i class="fas fa-futbol"></i></span>
-                <span class="sb-list__label">@lang('Sports')</span>
-                <i class="fas fa-chevron-down sb-list__chev" aria-hidden="true"></i>
-            </a>
             <a href="{{ route('user.home') }}" class="sb-list__item">
                 <span class="sb-list__ico"><i class="fas fa-fire"></i></span>
                 <span class="sb-list__label">@lang('Hot Games')</span>
             </a>
+            <a href="{{ route('user.referrals') }}" class="sb-list__item">
+                <span class="sb-list__ico"><i class="fas fa-user-group"></i></span>
+                <span class="sb-list__label">@lang('Invite friends')</span>
+            </a>
+            <a href="#" class="sb-list__item">
+                <span class="sb-list__ico"><i class="fas fa-heart"></i></span>
+                <span class="sb-list__label">@lang('Favorites')</span>
+            </a>
             <a href="{{ route('user.promotions') }}" class="sb-list__item">
                 <span class="sb-list__ico"><i class="fas fa-gift"></i></span>
-                <span class="sb-list__label">@lang('Bonuses')</span>
-                <span class="sb-badge sb-badge--dot">1</span>
+                <span class="sb-list__label">@lang('Promotion')</span>
+            </a>
+            <a href="{{ route('user.home') }}#slots" class="sb-list__item">
+                <span class="sb-list__ico"><i class="fas fa-dice"></i></span>
+                <span class="sb-list__label">@lang('Slots')</span>
             </a>
             <a href="{{ route('user.redeem.index') }}" class="sb-list__item">
-                <span class="sb-list__ico"><i class="fas fa-trophy"></i></span>
-                <span class="sb-list__label">@lang('VIP Loyalty')</span>
-                <span class="sb-badge sb-badge--pill">@lang('New')</span>
+                <span class="sb-list__ico"><i class="fas fa-award"></i></span>
+                <span class="sb-list__label">@lang('Reward Center')</span>
             </a>
-            <a href="{{ route('user.referrals') }}" class="sb-list__item">
-                <span class="sb-list__ico"><i class="fas fa-crown"></i></span>
-                <span class="sb-list__label">@lang('VIP Club')</span>
+            <a href="{{ route('user.home') }}#live" class="sb-list__item">
+                <span class="sb-list__ico"><i class="fas fa-dharmachakra"></i></span>
+                <span class="sb-list__label">@lang('Live Casino')</span>
+            </a>
+            <a href="#" class="sb-list__item">
+                <span class="sb-list__ico"><i class="fas fa-hand-holding-dollar"></i></span>
+                <span class="sb-list__label">@lang('Manual Rebate')</span>
+            </a>
+            <a href="{{ route('user.home') }}#sports" class="sb-list__item">
+                <span class="sb-list__ico"><i class="fas fa-futbol"></i></span>
+                <span class="sb-list__label">@lang('Sports')</span>
+            </a>
+            <a href="#" class="sb-list__item">
+                <span class="sb-list__ico"><i class="fas fa-gem"></i></span>
+                <span class="sb-list__label">@lang('VIP')</span>
+            </a>
+            <a href="#" class="sb-list__item">
+                <span class="sb-list__ico"><i class="fas fa-gamepad"></i></span>
+                <span class="sb-list__label">@lang('E-sports')</span>
+            </a>
+            <a href="#" class="sb-list__item">
+                <span class="sb-list__ico"><i class="fas fa-bullseye"></i></span>
+                <span class="sb-list__label">@lang('Mission')</span>
+            </a>
+            <a href="#" class="sb-list__item">
+                <span class="sb-list__ico"><i class="fas fa-chess"></i></span>
+                <span class="sb-list__label">@lang('Poker')</span>
+            </a>
+            <a href="#" class="sb-list__item">
+                <span class="sb-list__ico"><i class="fas fa-fish"></i></span>
+                <span class="sb-list__label">@lang('Fish')</span>
+            </a>
+            <a href="#" class="sb-list__item">
+                <span class="sb-list__ico"><i class="fas fa-ticket"></i></span>
+                <span class="sb-list__label">@lang('Lottery')</span>
             </a>
         </nav>
 
         <div class="sb-divider"></div>
 
         <nav class="sb-list">
-            <a href="{{ route('user.promotions') }}" class="sb-list__item">
-                <span class="sb-list__ico"><i class="fas fa-tags"></i></span>
-                <span class="sb-list__label">@lang('Promotions')</span>
+            <a href="#" class="sb-list__item">
+                <span class="sb-list__ico"><i class="fas fa-cloud-arrow-down"></i></span>
+                <span class="sb-list__label">@lang('APP Download')</span>
+            </a>
+            <a href="{{ auth()->check() ? route('ticket.index') : route('contact') }}" class="sb-list__item">
+                <span class="sb-list__ico"><i class="fas fa-headset"></i></span>
+                <span class="sb-list__label">@lang('Customer Service')</span>
             </a>
             <a href="{{ route('user.referrals') }}" class="sb-list__item">
-                <span class="sb-list__ico"><i class="fas fa-user-plus"></i></span>
-                <span class="sb-list__label">@lang('Invite friends')</span>
-            </a>
-            <a href="{{ route('user.account') }}" class="sb-list__item">
-                <span class="sb-list__ico"><i class="fas fa-user-circle"></i></span>
-                <span class="sb-list__label">@lang('Member')</span>
+                <span class="sb-list__ico"><i class="fas fa-handshake"></i></span>
+                <span class="sb-list__label">@lang('Affiliate')</span>
             </a>
         </nav>
-
-        <a href="#" class="sb-app-card">
-            <span class="sb-app-card__ico" aria-hidden="true"><i class="fab fa-android"></i></span>
-            <span class="sb-app-card__text">
-                <strong>BET369WIN App</strong>
-                <small>@lang('Get bonus for installing the app')</small>
-            </span>
-            <i class="fas fa-chevron-right sb-app-card__chev" aria-hidden="true"></i>
-        </a>
-
-        <div class="sb-social-row">
-            <a href="https://t.me/bet369win" target="_blank" rel="noopener" class="sb-social" title="Telegram" aria-label="Telegram">
-                <i class="fab fa-telegram-plane"></i>
-            </a>
-            <a href="https://www.facebook.com/bet369win" target="_blank" rel="noopener" class="sb-social" title="Facebook" aria-label="Facebook">
-                <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="https://t.me/bet369win" target="_blank" rel="noopener" class="sb-social" title="Chat" aria-label="Chat">
-                <i class="fab fa-whatsapp"></i>
-            </a>
-            <div class="sb-lang">
-                @include($activeTemplate . 'partials.lang_switch')
-            </div>
-        </div>
 
         <a href="{{ auth()->check() ? route('ticket.index') : route('contact') }}" class="sb-support-btn">
             <i class="fas fa-comment-dots"></i>
