@@ -91,7 +91,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'css/main.css') }}?v={{ $colorCache }}">
     <link href="{{ asset($activeTemplateTrue . 'css/custom.css') }}?v={{ $colorCache }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'css/theme.css') }}?v=45-{{ $colorCache }}">
+    <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'css/theme.css') }}?v=46-{{ $colorCache }}">
 
     @stack('style-lib')
     <link rel="manifest" href="{{ route('pwa.configuration') }}">
@@ -110,8 +110,6 @@
     <a class="scroll-top"><i class="fas fa-angle-double-up"></i></a>
 
     @yield('app')
-
-    @include($activeTemplate . 'partials.float_contact')
 
     <div class="win-loss-popup">
         <div class="win-loss-popup__bg">

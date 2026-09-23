@@ -724,9 +724,10 @@ input.form-control {
 }
 
 /* Footer and template surfaces */
-.footer-area {
-  background: #123b66 !important;
-  color: #e8f0fa !important;
+.footer-area,
+.site-footer {
+  background: #0f2a4d !important;
+  color: #d7e3f4 !important;
 }
 
 .footer-area,
@@ -735,13 +736,173 @@ input.form-control {
 .footer-area h1,
 .footer-area h2,
 .footer-area h3,
-.footer-area h4 {
-  color: #e8f0fa !important;
+.footer-area h4,
+.site-footer,
+.site-footer p,
+.site-footer a {
+  color: #d7e3f4 !important;
 }
 
 .footer-circle-logo {
   border-color: #f4b942 !important;
   background: #123b66 !important;
+}
+
+/* Polished site footer */
+.site-footer {
+  position: relative;
+  margin-top: 8px;
+  padding: 0 0 calc(18px + env(safe-area-inset-bottom, 0px));
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.site-footer__glow {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.85), transparent);
+  pointer-events: none;
+}
+
+.site-footer__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 22px 16px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.site-footer__brand {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.site-footer__logo {
+  flex: 0 0 64px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #f4b942;
+  background: #123b66;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.site-footer__logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.site-footer__meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.site-footer__copy {
+  margin: 0 0 10px;
+  font-size: 11px;
+  line-height: 1.55;
+  color: #a9bdd8 !important;
+  text-align: left;
+}
+
+.site-footer__badges {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.site-footer__age {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  color: #d9534f !important;
+  border: 1.5px solid #d9534f;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.site-footer__social {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-top: 2px;
+}
+
+.site-footer__social a {
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  background: #1a2333 !important;
+  color: #ffffff !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none !important;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.site-footer__social a:hover,
+.site-footer__social a:focus-visible {
+  background: #243044 !important;
+  border-color: rgba(37, 99, 235, 0.45);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.site-footer__social a svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+  fill: currentColor;
+}
+
+.site-footer__social a.is-support svg {
+  fill: none;
+  stroke: currentColor;
+}
+
+.site-footer__partners {
+  position: relative;
+  z-index: 1;
+  max-width: 560px;
+  margin: 10px auto 0;
+  padding: 14px 16px 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  text-align: center;
+}
+
+.site-footer__partners img {
+  max-width: 92%;
+  height: auto;
+  opacity: 0.92;
+  filter: saturate(0.95);
+}
+
+/* Hide floating side contact — footer only */
+.b369-rail,
+.float-social-btns,
+.float-btn {
+  display: none !important;
 }
 
 .form--control::placeholder {
@@ -961,151 +1122,11 @@ body {
   }
 }
 
-/* ── BET369WIN float icons — dark squircle (footer social style) ── */
+/* Side float contact removed — contacts live in footer only */
+.b369-rail,
 .float-social-btns,
 .float-btn {
   display: none !important;
-}
-
-.b369-rail {
-  position: fixed;
-  right: max(10px, env(safe-area-inset-right));
-  bottom: calc(100px + env(safe-area-inset-bottom, 0px));
-  z-index: 9990;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding: 0;
-  width: auto;
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-  animation: b369-rail-in 0.45s ease both;
-}
-
-.b369-rail__brand {
-  display: none !important;
-}
-
-.b369-rail__btn {
-  position: relative;
-  width: 44px;
-  height: 44px;
-  border-radius: 10px !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none !important;
-  color: #ffffff !important;
-  background: #2c2c2c !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  transition: transform 0.15s ease, background 0.15s ease, filter 0.15s ease;
-}
-
-.b369-rail__btn svg {
-  width: 20px;
-  height: 20px;
-  display: block;
-  color: #ffffff !important;
-  fill: currentColor;
-}
-
-.b369-rail__btn--support svg {
-  fill: none;
-  stroke: currentColor;
-}
-
-.b369-rail__btn:hover,
-.b369-rail__btn:focus-visible {
-  transform: scale(1.06);
-  background: #3a3a3a !important;
-  filter: none;
-  outline: none;
-}
-
-.b369-rail__btn:active {
-  transform: scale(0.94);
-}
-
-.b369-rail__ico,
-.b369-rail__tip {
-  display: none !important;
-}
-
-.b369-rail__btn--wa,
-.b369-rail__btn--fb,
-.b369-rail__btn--tg,
-.b369-rail__btn--support {
-  background: #2c2c2c !important;
-  color: #ffffff !important;
-}
-
-@keyframes b369-rail-in {
-  from {
-    opacity: 0;
-    transform: translateX(14px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@media (min-width: 900px) {
-  .b369-rail {
-    bottom: 28px;
-    right: 18px;
-  }
-}
-
-/* Footer social row — same dark squircle style */
-.footer-social-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 10px;
-}
-
-.footer-social-row a {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  background: #2c2c2c;
-  color: #ffffff !important;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none !important;
-  font-size: 16px;
-  border: 0;
-  transition: background 0.15s ease, transform 0.15s ease;
-}
-
-.footer-social-row a:hover {
-  background: #3a3a3a;
-  transform: scale(1.05);
-}
-
-.footer-social-row a svg {
-  width: 18px;
-  height: 18px;
-  display: block;
-  fill: currentColor;
-}
-
-.footer-social-row a.footer-social--support svg {
-  fill: none;
-  stroke: currentColor;
-}
-
-@media (max-width: 360px) {
-  .b369-rail__btn {
-    width: 42px;
-    height: 42px;
-  }
 }
 
 .custom-home-wrapper,
