@@ -66,7 +66,7 @@ $envPath = __DIR__ . '/core/.env';
 $db = [
     'host' => 'localhost',
     'user' => 'u811189100_betwin',
-    'pass' => 'z5BO=Zu8e^;P',
+    'pass' => '',
     'name' => 'u811189100_betwin',
 ];
 $secretKey = '';
@@ -231,13 +231,18 @@ if (!$authOk && $secretKey !== '' && $sigHeader !== '') {
 }
 
 if (!$authOk) {
+    $hdrLens = [];
+    foreach ($headerMap as $hk => $hv) {
+        $hdrLens[$hk] = strlen((string) $hv);
+    }
     cb_log('unauthorized', [
-        'headers' => array_keys($headerMap),
+        'headers' => $hdrLens,
         'keys' => array_keys($data),
-        'has_secret_hdr' => isset($headerMap['x-secret-key']) || isset($headerMap['secret-key']),
-        'has_token_hdr' => isset($headerMap['x-api-token']) || isset($headerMap['authorization']),
-        'get' => array_keys($_GET),
+        'get_keys' => array_keys($_GET),
+        'has_get_secret' => isset($_GET['secret_key']) || isset($_GET['secret']),
+        'body_secret_len' => strlen((string) cb_val($data, ['secret_key', 'secretKey', 'secret'], '')),
         'ip' => $_SERVER['REMOTE_ADDR'] ?? '',
+        'ua' => substr((string) ($_SERVER['HTTP_USER_AGENT'] ?? ''), 0, 80),
     ]);
     http_response_code(401);
     echo json_encode(['code' => 1, 'msg' => 'unauthorized']);
