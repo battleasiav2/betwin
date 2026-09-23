@@ -128,6 +128,21 @@
             </a>
         </nav>
 
+        <div class="sb-social-row">
+            <a href="https://t.me/bet369win" target="_blank" rel="noopener" class="sb-social" title="Telegram" aria-label="Telegram">
+                <i class="fab fa-telegram-plane"></i>
+            </a>
+            <a href="https://www.facebook.com/bet369win" target="_blank" rel="noopener" class="sb-social" title="Facebook" aria-label="Facebook">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="https://t.me/bet369win" target="_blank" rel="noopener" class="sb-social" title="Chat" aria-label="Chat">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+            <a href="{{ auth()->check() ? route('ticket.index') : route('contact') }}" class="sb-social" title="Support" aria-label="Support">
+                <i class="fas fa-headset"></i>
+            </a>
+        </div>
+
         <a href="{{ auth()->check() ? route('ticket.index') : route('contact') }}" class="sb-support-btn">
             <i class="fas fa-comment-dots"></i>
             <span>@lang('Support')</span>
