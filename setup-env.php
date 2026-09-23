@@ -13,17 +13,18 @@ $envPath = $root . '/core/.env';
 $examplePath = $root . '/core/env.hostinger.example';
 $done = is_file($envPath) && trim((string) file_get_contents($envPath)) !== '';
 
-$defaultPass = '';
-$localEnv = $root . '/core/.env';
-// Prefer password already typed in the form / POST only — never hardcode here.
+// Block setup when .env already exists (unless SETUP_FORCE_TOKEN matches)
+$forceToken = getenv('SETUP_FORCE_TOKEN') ?: '';
+$reqToken = (string) ($_GET['token'] ?? $_POST['setup_token'] ?? '');
+if ($done && !($forceToken !== '' && hash_equals($forceToken, $reqToken))) {
+    http_response_code(403);
+    header('Content-Type: text/plain; charset=utf-8');
+    echo "setup-env disabled. Delete setup-env.php after install.";
+    exit;
+}
 
 $error = '';
 $ok = '';
-
-if ($done && ($_GET['force'] ?? '') !== '1') {
-    header('Location: /');
-    exit;
-}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $dbPass = (string) ($_POST['db_password'] ?? '');

@@ -34,15 +34,19 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>@lang('API Token')</label>
-                                    <input type="text" name="api_token" class="form-control" required
-                                           value="{{ old('api_token', $apiSettings->api_token ?? '') }}">
+                                    <input type="password" name="api_token" class="form-control" required
+                                           value="{{ old('api_token', $apiSettings->api_token ?? '') }}"
+                                           autocomplete="new-password">
+                                    <small class="text-muted">@lang('Do not share. Rotate if leaked.')</small>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>@lang('Secret Key')</label>
-                                    <input type="text" name="secret_key" class="form-control" required
-                                           value="{{ old('secret_key', $apiSettings->secret_key ?? '') }}">
+                                    <input type="password" name="secret_key" class="form-control" required
+                                           value="{{ old('secret_key', $apiSettings->secret_key ?? '') }}"
+                                           autocomplete="new-password">
+                                    <small class="text-muted">@lang('Callback requires X-Secret-Key header')</small>
                                 </div>
                             </div>
                             <div class="col-md-12">
