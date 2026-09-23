@@ -1088,7 +1088,7 @@ body:has(.mobile-container)::before {
   display: none !important;
 }
 
-/* ── Mobile dock: flat dark bar (ref style), same buttons ── */
+/* ── Mobile dock: flat white bar, same buttons ── */
 .m-dock {
   position: fixed;
   left: 0;
@@ -1098,8 +1098,8 @@ body:has(.mobile-container)::before {
   padding: 0;
   padding-bottom: env(safe-area-inset-bottom, 0px);
   pointer-events: none;
-  background: #1a1d24 !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: #ffffff !important;
+  border-top: 1px solid #e6e9ef !important;
   border-radius: 0 !important;
   box-shadow: none !important;
 }
@@ -1138,7 +1138,7 @@ body:has(.mobile-container)::before {
   cursor: pointer;
   font: inherit;
   text-decoration: none !important;
-  color: #9aa3b2 !important;
+  color: #8a93a3 !important;
   -webkit-tap-highlight-color: transparent;
   transition: color 0.12s ease;
 }
@@ -1195,7 +1195,7 @@ body:has(.mobile-container)::before {
 .m-dock a.m-dock__item.is-active i,
 .m-dock__item.is-active .m-dock__icon,
 .m-dock__item.is-active .m-dock__label {
-  color: #3b6ef5 !important;
+  color: #2563eb !important;
 }
 
 .m-dock__item.is-active .m-dock__label {
