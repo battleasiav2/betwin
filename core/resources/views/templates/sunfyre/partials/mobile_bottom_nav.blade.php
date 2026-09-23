@@ -16,10 +16,8 @@
             <span class="m-dock__icon" aria-hidden="true"><i class="fas fa-gift"></i></span>
             <span class="m-dock__label">@lang('Promotion')</span>
         </a>
-        <a href="{{ route('user.referrals') }}" class="m-dock__item m-dock__item--feature {{ $dockInvite ? 'is-active' : '' }}">
-            <span class="m-dock__orb" aria-hidden="true">
-                <i class="fas fa-user-plus"></i>
-            </span>
+        <a href="{{ route('user.referrals') }}" class="m-dock__item {{ $dockInvite ? 'is-active' : '' }}">
+            <span class="m-dock__icon" aria-hidden="true"><i class="fas fa-user-plus"></i></span>
             <span class="m-dock__label">@lang('Invite')</span>
         </a>
         <a href="{{ route('user.redeem.index') }}" class="m-dock__item {{ $dockReward ? 'is-active' : '' }}">
