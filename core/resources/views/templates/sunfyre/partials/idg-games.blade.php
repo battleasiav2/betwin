@@ -1,4 +1,4 @@
-@php
+﻿@php
     $idgGames = [
         ["id" => "d58b1c2dd6456da42b2c1a33c70c1630", "name" => "Emperor Qin", "img" => "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-emperorqin.png"],
         ["id" => "b6668f2abcfff3f7f78ae92fe908f99f", "name" => "Cracker", "img" => "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-cracker.png"],
@@ -67,7 +67,7 @@
 @foreach ($idgGames as $game)
     <div class="swiper-slide game-item-box game-card" data-category="idg">
         @auth
-            <a href="{{ url('user/jili/launch?game_code='.$game['id']) }}" class="game-card-img">
+            <a href="{{ url('user/jili/launch?game_code='.$game['id'].'&provider=idg') }}" class="game-card-img">
         @else
             <a href="{{ route('user.login') }}" class="game-card-img">
         @endauth

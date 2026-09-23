@@ -1,4 +1,4 @@
-@php
+﻿@php
 $crashGames = [
     [
         "id" => "a04d1f3eb8ccec8a4823bdf18e3f0e84",
@@ -65,7 +65,7 @@ $crashGames = [
 
 @foreach ($crashGames as $game)
     @auth
-        <a href="{{ url('user/jili/launch?game_code='.$game['id']) }}" class="game-card" data-status="1">
+        <a href="{{ url('user/jili/launch?game_code='.$game['id'].'&provider=jili') }}" class="game-card" data-status="1">
     @else
         <a href="{{ route('user.login') }}" class="game-card" data-status="1">
     @endauth

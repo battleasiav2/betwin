@@ -1,4 +1,4 @@
-@php
+﻿@php
     $kmGames = [
         ["id" => "af80e738b20ab5bbbd1853ffe96075ad", "name" => "Thai Hi Lo 2", "img" => "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/km/Game_KMQM_Thai_Hi_Lo_2_520x520.jpg"],
         ["id" => "1ae48ed5f6aba0545ed3728c93c1f174", "name" => "Fish Prawn Crab 2", "img" => "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/km/Game_KMQM_Fish_Prawn_Crab_2_520x520.jpg"],
@@ -65,7 +65,7 @@
 @foreach ($kmGames as $game)
     <div class="swiper-slide game-item-box game-card" data-category="km">
         @auth
-            <a href="{{ url('user/jili/launch?game_code='.$game['id']) }}" class="game-card-img">
+            <a href="{{ url('user/jili/launch?game_code='.$game['id'].'&provider=km') }}" class="game-card-img">
         @else
             <a href="{{ route('user.login') }}" class="game-card-img">
         @endauth

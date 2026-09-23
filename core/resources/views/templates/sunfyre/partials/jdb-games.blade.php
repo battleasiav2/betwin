@@ -1,4 +1,4 @@
-@php
+﻿@php
     $jdbGames = [
         ["id" => "b560b7c42bd29f7d0cda06485a3c4af5", "name" => "Lucky Seven", "img" => "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14027.png"],
         ["id" => "bdb0459f7e116a20839a3b2a0063a2ff", "name" => "Orient Animals", "img" => "https://ossimg.91admin123admin.com/91club/gamelogo/JDB/14029.png"],
@@ -57,7 +57,7 @@
 @foreach ($jdbGames as $game)
     <div class="swiper-slide game-item-box game-card" data-category="jdb">
         @auth
-            <a href="{{ url('user/jili/launch?game_code='.$game['id']) }}" class="game-card-img">
+            <a href="{{ url('user/jili/launch?game_code='.$game['id'].'&provider=jdb') }}" class="game-card-img">
         @else
             <a href="{{ route('user.login') }}" class="game-card-img">
         @endauth

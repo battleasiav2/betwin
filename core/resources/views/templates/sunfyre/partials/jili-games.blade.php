@@ -1,4 +1,4 @@
-@php
+﻿@php
 $hotGames = [
     ["id"=>"a04d1f3eb8ccec8a4823bdf18e3f0e84","name"=>"Aviator","img"=>"https://spribe.co/assets/images/games/Av-new@2x.png?v=2.5.61"],
 
@@ -89,7 +89,7 @@ $hotGames = [
 @foreach ($hotGames as $game)
     <div class="swiper-slide game-item-box game-card" data-category="hot">
         @auth
-            <a href="{{ url('user/jili/launch?game_code='.$game['id']) }}" class="game-card-img">
+            <a href="{{ url('user/jili/launch?game_code='.$game['id'].'&provider=jili') }}" class="game-card-img">
         @else
             <a href="{{ route('user.login') }}" class="game-card-img">
         @endauth

@@ -1,4 +1,4 @@
-@php
+﻿@php
     $card365Games = [
         ["id" => "707", "name" => "3 Patti Classic", "img" => "https://ossimg.91admin123admin.com/91club/gamelogo/Card365/707_20250210142254071.png"],
         ["id" => "710", "name" => "Rummy", "img" => "https://ossimg.91admin123admin.com/91club/gamelogo/Card365/710_20250210142312293.png"],
@@ -31,14 +31,14 @@
         ["id" => "703", "name" => "Bursting 3 Pictures", "img" => "https://ossimg.91admin123admin.com/91club/gamelogo/Card365/703_20250210143141953.png"],
         ["id" => "912", "name" => "Vietnam Fish Prawn Crab", "img" => "https://ossimg.91admin123admin.com/91club/gamelogo/Card365/912_20250210142423424.png"],
         ["id" => "548", "name" => "Bursting Baccarat", "img" => "https://ossimg.91admin123admin.com/91club/gamelogo/Card365/548_20250210142617774.png"],
-        ["id" => "916", "name" => "Vietnam Tài-Xỉu", "img" => "https://ossimg.91admin123admin.com/91club/gamelogo/Card365/916_20250210142453957.png"],
+        ["id" => "916", "name" => "Vietnam TÃ i-Xá»‰u", "img" => "https://ossimg.91admin123admin.com/91club/gamelogo/Card365/916_20250210142453957.png"],
     ];
 @endphp
 
 @foreach ($card365Games as $game)
     <div class="swiper-slide game-item-box game-card" data-category="card365">
         @auth
-            <a href="{{ url('user/jili/launch?game_code='.$game['id']) }}" class="game-card-img">
+            <a href="{{ url('user/jili/launch?game_code='.$game['id'].'&provider=card365') }}" class="game-card-img">
         @else
             <a href="{{ route('user.login') }}" class="game-card-img">
         @endauth

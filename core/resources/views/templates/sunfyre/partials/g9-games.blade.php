@@ -1,4 +1,4 @@
-@php
+﻿@php
     $g9Games = [
         ["id" => "777res", "name" => "Fruit 777", "img" => "https://ossimg.91admin123admin.com/91club/gamelogo/G9/777res.png"],
         ["id" => "CardSlots", "name" => "Card slot", "img" => "https://ossimg.91admin123admin.com/91club/gamelogo/G9/CardSlots.png"],
@@ -60,7 +60,7 @@
 @foreach ($g9Games as $game)
     <div class="swiper-slide game-item-box game-card" data-category="g9">
         @auth
-            <a href="{{ url('user/jili/launch?game_code='.$game['id']) }}" class="game-card-img">
+            <a href="{{ url('user/jili/launch?game_code='.$game['id'].'&provider=g9') }}" class="game-card-img">
         @else
             <a href="{{ route('user.login') }}" class="game-card-img">
         @endauth
