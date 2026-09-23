@@ -186,39 +186,35 @@
 
     /* â”€â”€â”€ JACKPOT â”€â”€â”€ */
     .jackpot-section {
-        margin: 8px 10px; border-radius: 14px;
-        background: linear-gradient(135deg, #123b66 0%, #1a4a7a 50%, #0f2d4a 100%);
-        border: 1px solid rgba(240,192,48,0.25); padding: 18px 16px 16px;
+        margin: 8px 10px; border-radius: 16px;
+        background: radial-gradient(ellipse at center, #1c305a 0%, #152a4d 55%, #0f1f3a 100%);
+        border: 1px solid rgba(212,176,99,0.35); padding: 18px 16px 16px;
         text-align: center; position: relative; overflow: hidden;
-        box-shadow: 0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+        box-shadow: 0 8px 24px rgba(15,31,58,0.35);
     }
-    .jackpot-section::before {
-        content: ''; position: absolute; top: -30px; left: -30px; width: 120px; height: 120px;
-        background: radial-gradient(circle, rgba(240,192,48,0.12) 0%, transparent 70%); border-radius: 50%;
+    .jackpot-section::before,
+    .jackpot-section::after { display: none; }
+    .jackpot-label {
+        font-size: 13px; font-weight: 800; text-transform: uppercase;
+        letter-spacing: 1.5px; color: #d4b063; margin-bottom: 8px;
     }
-    .jackpot-section::after {
-        content: ''; position: absolute; bottom: -30px; right: -30px; width: 120px; height: 120px;
-        background: radial-gradient(circle, rgba(37,99,235,0.15) 0%, transparent 70%); border-radius: 50%;
-    }
-    .jackpot-label { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 6px; }
     .jackpot-img-row {
         display: flex; align-items: center; justify-content: center;
-        gap: 10px; margin-bottom: 10px; position: relative; z-index: 1;
+        gap: 10px; margin-bottom: 12px; position: relative; z-index: 1;
     }
-    .jackpot-logo-img { height: 48px; object-fit: contain; filter: drop-shadow(0 0 16px rgba(240,192,48,0.5)); }
-    .jackpot-number-wrap { display: flex; align-items: center; justify-content: center; gap: 2px; flex-wrap: nowrap; }
+    .jackpot-logo-img { height: 42px; object-fit: contain; opacity: 0.55; }
+    .jackpot-number-wrap { display: flex; align-items: center; justify-content: center; gap: 3px; flex-wrap: nowrap; }
     .jp-digit {
         display: inline-flex; align-items: center; justify-content: center;
-        width: 34px; height: 46px;
-        background: linear-gradient(180deg, #1a1a0e 0%, #0d0d06 100%);
-        border: 1px solid rgba(240,192,48,0.3); border-radius: 6px;
-        font-size: 26px; font-weight: 900; color: var(--gold-text);
-        text-shadow: 0 0 12px rgba(240,192,48,0.6);
-        box-shadow: 0 3px 0 rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+        width: 30px; height: 42px;
+        background: #152a4d;
+        border: 1px solid #d4b063; border-radius: 6px;
+        font-size: 22px; font-weight: 900; color: #d4b063;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
         font-family: 'Courier New', monospace; transition: all 0.15s;
     }
     .jp-digit.changing { animation: digitFlip 0.15s ease; }
-    .jp-sep { font-size: 24px; font-weight: 900; color: var(--gold-text); margin: 0 1px; line-height: 1; padding-bottom: 4px; }
+    .jp-sep { font-size: 20px; font-weight: 900; color: #d4b063; margin: 0 1px; line-height: 1; padding-bottom: 4px; }
     @keyframes digitFlip {
         0%   { transform: scaleY(1); }
         50%  { transform: scaleY(0.1); }
@@ -480,10 +476,10 @@
 
 <!-- JACKPOT SECTION -->
 <div class="jackpot-section">
-    <div class="jackpot-label">ðŸ”¥ @lang('MEGA JACKPOT')</div>
+    <div class="jackpot-label">মেগা জ্যাকপট</div>
     <div class="jackpot-img-row">
         <img src="{{ asset('assets/images/frontend/img/jackpot.png') }}" class="jackpot-logo-img"
-             onerror="this.outerHTML='<span style=\'font-size:28px;font-weight:900;font-style:italic;color:var(--gold-text);text-shadow:0 0 30px rgba(240,192,48,0.5);letter-spacing:1px\'>Jackpot</span>'"
+             onerror="this.outerHTML='<span style=\'font-size:28px;font-weight:900;font-style:italic;color:#2b416e;letter-spacing:1px\'>Jackpot</span>'"
              alt="Jackpot">
     </div>
     <div class="jackpot-number-wrap" id="jackpotDisplay"></div>

@@ -370,10 +370,7 @@ header.header,
   border-color: #d5e4f7 !important;
 }
 
-.announce-bar .ann-icon,
-.jp-digit,
-.jp-sep,
-.jackpot-label {
+.announce-bar .ann-icon {
   color: #f4b942 !important;
 }
 
@@ -391,7 +388,6 @@ header.header,
 
 .game-card,
 .provider-card,
-.jackpot-section,
 .custom--card,
 .card {
   background: #ffffff !important;
@@ -448,8 +444,11 @@ a.game-card-img img {
 }
 
 .jp-digit {
-  background: #123b66 !important;
-  border-color: #f4b942 !important;
+  background: #152a4d !important;
+  border: 1px solid #d4b063 !important;
+  color: #d4b063 !important;
+  text-shadow: none !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.06) !important;
 }
 
 .cat-nav-wrap {
@@ -1009,10 +1008,30 @@ body {
   gap: 10px !important;
 }
 
-/* Kill leftover green page accents after theme load */
+/* Mega Jackpot — navy + gold match */
 .jackpot-section {
-  background: linear-gradient(135deg, #123b66 0%, #1a4a7a 50%, #0f2d4a 100%) !important;
+  background: radial-gradient(ellipse at center, #1c305a 0%, #152a4d 55%, #0f1f3a 100%) !important;
+  border: 1px solid rgba(212, 176, 99, 0.35) !important;
+  box-shadow: 0 8px 24px rgba(15, 31, 58, 0.35) !important;
+  color: #d4b063 !important;
 }
+
+.jackpot-label {
+  color: #d4b063 !important;
+  letter-spacing: 1.5px !important;
+}
+
+.jp-sep {
+  color: #d4b063 !important;
+}
+
+.jackpot-logo-img,
+.jackpot-img-row span {
+  color: #2b416e !important;
+  filter: none !important;
+  opacity: 0.55;
+}
+
 .bottom-nav {
   display: none !important;
 }
