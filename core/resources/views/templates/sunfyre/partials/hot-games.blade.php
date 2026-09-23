@@ -87,13 +87,13 @@ $hotGames = [
 @endphp
 
 @foreach ($hotGames as $game)
-    <div class="swiper-slide game-item-box game-card" data-category="hot">
+    <div class="game-card" data-category="hot">
         @auth
-            <a href="{{ url('user/jili/launch?game_code='.$game['id']) }}" class="game-card-img">
+            <a href="{{ url('user/jili/launch?game_code='.$game['id']) }}" class="game-card-img" title="{{ $game['name'] }}">
         @else
-            <a href="{{ route('user.login') }}" class="game-card-img">
+            <a href="{{ route('user.login') }}" class="game-card-img" title="{{ $game['name'] }}">
         @endauth
-                <img src="{{ $game['img'] }}" alt="{{ $game['name'] }}">
+                <img src="{{ $game['img'] }}" alt="{{ $game['name'] }}" loading="lazy">
             </a>
     </div>
 @endforeach

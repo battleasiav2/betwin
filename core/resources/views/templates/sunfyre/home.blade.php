@@ -120,12 +120,19 @@
     }
 
     .game-card {
-        position: relative; border-radius: 10px; overflow: hidden; background: var(--bg-card);
-        border: 1px solid rgba(255,255,255,0.07); border-bottom: 2px solid rgba(255,255,255,0.12);
-        transition: all 0.2s; text-decoration: none; display: block; box-shadow: 0 4px 0 rgba(0,0,0,0.4);
+        position: relative; border-radius: 12px; overflow: hidden; background: #ffffff;
+        border: 1px solid #e8f0fa; transition: all 0.2s; text-decoration: none; display: block;
+        box-shadow: 0 4px 14px rgba(18,59,102,0.08);
     }
-    .game-card:active { transform: scale(0.94) translateY(3px); border-color: var(--teal-light); box-shadow: 0 1px 0 rgba(0,0,0,0.4); }
-    .game-card-img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+    .game-card:active { transform: scale(0.96); }
+    .game-card-img {
+        display: block; width: 100%; aspect-ratio: 1 / 1; overflow: hidden;
+        background: #111827; position: relative;
+    }
+    .game-card-img img {
+        width: 100%; height: 100%; object-fit: cover; object-position: center;
+        display: block; vertical-align: top;
+    }
 
     .game-card-fav {
         position: absolute; top: 5px; right: 5px; width: 26px; height: 26px;

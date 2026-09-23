@@ -455,6 +455,52 @@ header.header,
   color: #172033 !important;
 }
 
+/* Fill game thumbnails — no white empty half (Aviator etc.) */
+.game-card {
+  overflow: hidden !important;
+  border-radius: 12px !important;
+}
+
+.game-card-img,
+a.game-card-img {
+  display: block !important;
+  width: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  overflow: hidden !important;
+  background: #111827 !important;
+  position: relative !important;
+}
+
+.game-card-img img,
+a.game-card-img img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  display: block !important;
+}
+
+.slider-wrap .mainSlider,
+.swiper.mainSlider {
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  background: #e8f0fa !important;
+}
+
+.mainSlider img {
+  width: 100% !important;
+  height: 170px !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  display: block !important;
+}
+
+@media (min-width: 900px) {
+  .mainSlider img {
+    height: 240px !important;
+  }
+}
+
 .jp-digit {
   background: #123b66 !important;
   border-color: #f4b942 !important;
