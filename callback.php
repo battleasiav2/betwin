@@ -71,6 +71,7 @@ $db = [
 ];
 $secretKey = '';
 $apiToken = '';
+$apiPrefix = 'nix6260006107'; // RapidVerse "API PREFIX" — stripped from callback userIds
 
 if (is_readable($envPath)) {
     foreach (file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
@@ -94,6 +95,7 @@ if (is_readable($envPath)) {
             'DB_DATABASE' => $db['name'] = $value,
             'RAPIDVERSE_SECRET_KEY' => $secretKey = $value,
             'RAPIDVERSE_API_TOKEN' => $apiToken = $value,
+            'RAPIDVERSE_API_PREFIX' => $apiPrefix = $value,
             default => null,
         };
     }
@@ -136,13 +138,25 @@ $conn->set_charset('utf8mb4');
 
 $tbl = $conn->query("SHOW TABLES LIKE 'api_game_settings'");
 if ($tbl && $tbl->num_rows > 0) {
-    $row = $conn->query('SELECT secret_key, api_token FROM api_game_settings ORDER BY id ASC LIMIT 1');
+    $row = $conn->query('SELECT secret_key, api_token, agent_user FROM api_game_settings ORDER BY id ASC LIMIT 1');
     if ($row && ($s = $row->fetch_assoc())) {
         if (!empty($s['secret_key'])) {
             $secretKey = $s['secret_key'];
         }
         if (!empty($s['api_token'])) {
             $apiToken = $s['api_token'];
+        }
+        // Prefer agent_user + digits if a dedicated prefix column is absent
+        if (!empty($s['agent_user']) && $apiPrefix === 'nix6260006107') {
+            // keep default; prefix is from RapidVerse panel
+        }
+    }
+    // Optional api_prefix column
+    $col = $conn->query("SHOW COLUMNS FROM api_game_settings LIKE 'api_prefix'");
+    if ($col && $col->num_rows > 0) {
+        $row2 = $conn->query('SELECT api_prefix FROM api_game_settings ORDER BY id ASC LIMIT 1');
+        if ($row2 && ($p = $row2->fetch_assoc()) && !empty($p['api_prefix'])) {
+            $apiPrefix = $p['api_prefix'];
         }
     }
 }
@@ -230,15 +244,20 @@ if (!$authOk) {
     exit;
 }
 
-cb_log('hit', ['keys' => array_keys($data), 'action' => cb_val($data, ['action', 'type', 'event', 'method', 'cmd', 'command'], '')]);
+cb_log('hit', ['keys' => array_keys($data), 'action' => cb_val($data, ['action', 'type', 'event', 'method', 'cmd', 'command'], ''), 'rawUser' => cb_val($data, ['userId', 'user_id', 'member_account'], '')]);
 
 // Resolve player: numeric id OR username / mobile / member_account
+// RapidVerse adds API PREFIX to userIds (e.g. nix6260006107 + 28 => nix626000610728)
 $rawUser = cb_val($data, [
     'user_id', 'userId', 'member_id', 'memberId', 'uid', 'player_id', 'playerId',
     'member_account', 'memberAccount', 'account', 'username', 'login', 'user', 'player',
 ], '');
 $userId = 0;
 $lookup = trim((string) $rawUser);
+if ($lookup !== '' && $apiPrefix !== '' && str_starts_with($lookup, $apiPrefix)) {
+    $lookup = substr($lookup, strlen($apiPrefix));
+    cb_log('prefix_stripped', ['prefix' => $apiPrefix, 'user' => $lookup]);
+}
 if ($lookup !== '') {
     // Auto-increment ids are digits without a leading zero (mobiles like 0177… stay as username lookup)
     if (preg_match('/^[1-9]\d{0,9}$/', $lookup)) {

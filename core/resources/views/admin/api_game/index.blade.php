@@ -68,6 +68,14 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
+                                    <label>@lang('API Prefix')</label>
+                                    <input type="text" name="api_prefix" class="form-control"
+                                           value="{{ old('api_prefix', $apiSettings->api_prefix ?? 'nix6260006107') }}">
+                                    <small class="text-muted">@lang('RapidVerse panel API PREFIX — stripped from callback userId')</small>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
                                     <label>@lang('Currency')</label>
                                     <input type="text" name="currency" class="form-control"
                                            value="{{ old('currency', $apiSettings->currency ?? 'BDT') }}">

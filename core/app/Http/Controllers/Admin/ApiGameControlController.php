@@ -57,6 +57,7 @@ class ApiGameControlController extends Controller
             'secret_key'   => 'required|string|min:10',
             'callback_url' => 'required|url',
             'agent_user'   => 'nullable|string|max:100',
+            'api_prefix'   => 'nullable|string|max:64',
             'currency'     => 'nullable|string|max:10',
         ]);
 
@@ -71,6 +72,9 @@ class ApiGameControlController extends Controller
             'currency'     => strtoupper($request->currency ?: 'BDT'),
             'updated_at'   => now(),
         ];
+        if (Schema::hasColumn('api_game_settings', 'api_prefix')) {
+            $payload['api_prefix'] = $request->api_prefix ?: 'nix6260006107';
+        }
 
         $existing = DB::table('api_game_settings')->orderBy('id')->first();
         if ($existing) {
@@ -86,19 +90,25 @@ class ApiGameControlController extends Controller
 
     private function ensureSettingsTable(): void
     {
-        if (Schema::hasTable('api_game_settings')) {
+        if (!Schema::hasTable('api_game_settings')) {
+            Schema::create('api_game_settings', function ($table) {
+                $table->id();
+                $table->string('api_url', 255)->default('https://www.rapidverse.site/api/versev1');
+                $table->text('api_token')->nullable();
+                $table->text('secret_key')->nullable();
+                $table->string('callback_url', 255)->nullable();
+                $table->string('agent_user', 100)->nullable();
+                $table->string('api_prefix', 64)->nullable();
+                $table->string('currency', 10)->default('BDT');
+                $table->timestamps();
+            });
             return;
         }
 
-        Schema::create('api_game_settings', function ($table) {
-            $table->id();
-            $table->string('api_url', 255)->default('https://www.rapidverse.site/api/versev1');
-            $table->text('api_token')->nullable();
-            $table->text('secret_key')->nullable();
-            $table->string('callback_url', 255)->nullable();
-            $table->string('agent_user', 100)->nullable();
-            $table->string('currency', 10)->default('BDT');
-            $table->timestamps();
-        });
+        if (!Schema::hasColumn('api_game_settings', 'api_prefix')) {
+            Schema::table('api_game_settings', function ($table) {
+                $table->string('api_prefix', 64)->nullable()->after('agent_user');
+            });
+        }
     }
 }
