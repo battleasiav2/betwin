@@ -125,6 +125,7 @@ class ApiGameController extends Controller
             'tf' => 'TF',
             'dpsports', 'dps' => 'DPSports',
             'dpesports', 'esport' => 'DPEsports',
+            'spribe', 'aviator' => 'SPRIBE',
             'jili', 'hot', 'crash', 'sports', 'default' => 'JILI',
             default => strtoupper($provider),
         };

@@ -1,6 +1,6 @@
 ﻿@php
 $hotGames = [
-    ["id"=>"a04d1f3eb8ccec8a4823bdf18e3f0e84","name"=>"Aviator","img"=>"https://spribe.co/assets/images/games/Av-new@2x.png?v=2.5.61"],
+    ["id"=>"a04d1f3eb8ccec8a4823bdf18e3f0e84","name"=>"Aviator","provider"=>"spribe","img"=>"https://ossimg.91admin123admin.com/91club/gamelogo/SPRIBE/aviator.png"],
 
     // JILI - top batch
     ["id"=>"bdfb23c974a2517198c5443adeea77a8","name"=>"Super Ace","img"=>"https://ossimg.91admin123admin.com/91club/gamelogo/JILI/49.png"],
@@ -89,11 +89,12 @@ $hotGames = [
 @foreach ($hotGames as $game)
     <div class="swiper-slide game-item-box game-card" data-category="hot">
         @auth
-            <a href="{{ url('user/jili/launch?game_code='.$game['id'].'&provider=jili') }}" class="game-card-img">
+            <a href="{{ url('user/jili/launch?game_code='.$game['id'].'&provider='.($game['provider'] ?? 'jili')) }}" class="game-card-img">
         @else
             <a href="{{ route('user.login') }}" class="game-card-img">
         @endauth
-                <img src="{{ $game['img'] }}" alt="{{ $game['name'] }}">
+                <img src="{{ $game['img'] }}" alt="{{ $game['name'] }}" loading="lazy" referrerpolicy="no-referrer"
+                     onerror="this.closest('.game-card')?.remove()">
             </a>
     </div>
 @endforeach

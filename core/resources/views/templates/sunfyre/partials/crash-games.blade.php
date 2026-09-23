@@ -3,7 +3,8 @@ $crashGames = [
     [
         "id" => "a04d1f3eb8ccec8a4823bdf18e3f0e84",
         "name" => "Aviator",
-        "img" => "https://spribe.co/assets/images/games/Av-new@2x.png?v=2.5.61"
+        "provider" => "spribe",
+        "img" => "https://ossimg.91admin123admin.com/91club/gamelogo/SPRIBE/aviator.png"
     ],
     [
         "id" => "edef29b5eda8e2eaf721d7315491c51d",
