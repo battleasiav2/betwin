@@ -658,14 +658,52 @@ input.form-control {
   -webkit-text-fill-color: #6b7280 !important;
 }
 
-.input-group i.left-icon,
-.input-group i.right-icon {
-  color: #6b7280 !important;
+.mobile-container .input-group {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  flex-wrap: nowrap !important;
+  margin-bottom: 18px !important;
 }
 
-.custom-checkbox {
-  border-color: #2563eb !important;
-  background: #ffffff !important;
+.mobile-container .input-group > .form-control,
+.mobile-container .input-group > input {
+  width: 100% !important;
+  flex: none !important;
+}
+
+.mobile-container .input-group i.left-icon,
+.mobile-container .input-group i.right-icon,
+.input-group i.left-icon,
+.input-group i.right-icon {
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 3 !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: #6b7280 !important;
+  font-size: 16px !important;
+  line-height: 1 !important;
+  pointer-events: none;
+}
+
+.mobile-container .input-group i.left-icon,
+.input-group i.left-icon {
+  left: 16px !important;
+  right: auto !important;
+}
+
+.mobile-container .input-group i.right-icon,
+.input-group i.right-icon {
+  right: 16px !important;
+  left: auto !important;
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 .input-group:focus-within i.left-icon,

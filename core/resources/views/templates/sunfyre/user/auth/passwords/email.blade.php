@@ -34,6 +34,34 @@
         object-fit: contain;
         display: inline-block;
     }
+    .mobile-container .input-group {
+        position: relative;
+        display: block;
+        width: 100%;
+        margin-bottom: 18px;
+    }
+    .mobile-container .input-group input {
+        width: 100%;
+        box-sizing: border-box;
+        height: 52px;
+        padding: 0 16px 0 46px;
+        background: #f8fafc;
+        border: 1.5px solid #d5e4f7;
+        border-radius: 14px;
+        color: #172033;
+        font-size: 15px;
+        outline: none;
+    }
+    .mobile-container .input-group i.left-icon {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 3;
+        color: #6b7280;
+        font-size: 16px;
+        pointer-events: none;
+    }
 </style>
 
 <div class="mobile-container">
