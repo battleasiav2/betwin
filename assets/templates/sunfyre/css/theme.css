@@ -789,7 +789,7 @@ body:has(.mobile-container)::before {
   display: none !important;
 }
 
-/* ── Mobile menu: same names, flat full-bar design ── */
+/* ── Mobile dock: clean flat bar (1win-style) ── */
 .m-dock {
   position: fixed;
   left: 0;
@@ -800,9 +800,9 @@ body:has(.mobile-container)::before {
   padding-bottom: env(safe-area-inset-bottom, 0px);
   pointer-events: none;
   background: #ffffff;
-  border-top: 1px solid #e8f0fa;
-  border-radius: 18px 18px 0 0;
-  box-shadow: 0 -4px 18px rgba(18, 59, 102, 0.08);
+  border-top: 1px solid #eceff3;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .m-dock__shell {
@@ -813,7 +813,7 @@ body:has(.mobile-container)::before {
   grid-template-columns: repeat(5, 1fr);
   align-items: center;
   gap: 0;
-  padding: 8px 4px 10px;
+  padding: 10px 6px 12px;
   border-radius: 0;
   background: transparent;
   border: 0;
@@ -826,50 +826,57 @@ body:has(.mobile-container)::before {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  min-height: 52px;
-  padding: 4px 2px;
+  gap: 5px;
+  min-height: 54px;
+  width: 100%;
+  padding: 2px 2px 0;
   margin: 0;
   border: 0;
   background: transparent;
+  cursor: pointer;
+  font: inherit;
   text-decoration: none !important;
-  color: #8b95a8 !important;
+  color: #8a93a3 !important;
   -webkit-tap-highlight-color: transparent;
-  transition: color 0.15s ease;
+  transition: color 0.12s ease;
 }
 
 .m-dock__icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: auto;
+  height: auto;
   font-size: 22px;
   line-height: 1;
   background: transparent !important;
   border: 0 !important;
+  border-radius: 0 !important;
   box-shadow: none !important;
-  color: inherit;
+  color: inherit !important;
 }
 
 .m-dock__label {
   font-size: 11px;
-  font-weight: 600;
-  line-height: 1.1;
-  color: inherit;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.15;
+  color: inherit !important;
   white-space: nowrap;
 }
 
 .m-dock__item:active {
-  opacity: 0.75;
+  opacity: 0.7;
 }
 
 .m-dock__item.is-active {
-  color: #2563eb !important;
+  color: #2f6fed !important;
 }
 
 .m-dock__item.is-active .m-dock__icon,
 .m-dock__item.is-active .m-dock__label {
-  color: #2563eb !important;
-  font-weight: 700;
+  color: #2f6fed !important;
+  font-weight: 600;
 }
 
 .m-dock__item.is-active::after,
@@ -880,7 +887,7 @@ body:has(.mobile-container)::before {
 }
 
 body {
-  padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px)) !important;
+  padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px)) !important;
 }
 
 @media (min-width: 900px) {
