@@ -25,7 +25,7 @@
             <span class="m-dock__label">@lang('Reward')</span>
         </a>
         <a href="{{ route('user.account') }}" class="m-dock__item {{ $dockMember ? 'is-active' : '' }}">
-            <span class="m-dock__icon" aria-hidden="true"><i class="fas fa-user-circle"></i></span>
+            <span class="m-dock__icon" aria-hidden="true"><i class="fas fa-user"></i></span>
             <span class="m-dock__label">@lang('Member')</span>
         </a>
     </div>

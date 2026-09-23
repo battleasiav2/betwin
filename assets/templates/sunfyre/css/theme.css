@@ -789,7 +789,7 @@ body:has(.mobile-container)::before {
   display: none !important;
 }
 
-/* ── Mobile dock: clean flat bar (1win-style) ── */
+/* ── Mobile dock: 1win clean look, same button names ── */
 .m-dock {
   position: fixed;
   left: 0;
@@ -799,10 +799,10 @@ body:has(.mobile-container)::before {
   padding: 0;
   padding-bottom: env(safe-area-inset-bottom, 0px);
   pointer-events: none;
-  background: #ffffff;
-  border-top: 1px solid #eceff3;
-  border-radius: 0;
-  box-shadow: none;
+  background: #ffffff !important;
+  border-top: 1px solid #e6e9ef !important;
+  border-radius: 18px 18px 0 0 !important;
+  box-shadow: 0 -2px 10px rgba(16, 24, 40, 0.06) !important;
 }
 
 .m-dock__shell {
@@ -810,73 +810,97 @@ body:has(.mobile-container)::before {
   max-width: 560px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   align-items: center;
+  justify-items: center;
   gap: 0;
-  padding: 10px 6px 12px;
-  border-radius: 0;
-  background: transparent;
-  border: 0;
-  box-shadow: none;
+  padding: 12px 8px 14px !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
 }
 
+.m-dock a.m-dock__item,
+.m-dock button.m-dock__item,
 .m-dock__item {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  min-height: 54px;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  min-height: 52px;
   width: 100%;
-  padding: 2px 2px 0;
-  margin: 0;
-  border: 0;
-  background: transparent;
+  padding: 0 2px !important;
+  margin: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
   cursor: pointer;
   font: inherit;
   text-decoration: none !important;
-  color: #8a93a3 !important;
+  color: #8e95a3 !important;
   -webkit-tap-highlight-color: transparent;
   transition: color 0.12s ease;
 }
 
+.m-dock__icon,
+.m-dock__icon i,
+.m-dock a.m-dock__item i,
+.m-dock a.m-dock__item:hover,
+.m-dock a.m-dock__item:focus,
+.m-dock a.m-dock__item:visited {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
 .m-dock__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: auto;
-  height: auto;
-  font-size: 22px;
-  line-height: 1;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 26px !important;
+  height: 26px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 22px !important;
+  line-height: 1 !important;
   background: transparent !important;
   border: 0 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
-  color: inherit !important;
+}
+
+.m-dock__icon i {
+  font-size: 22px !important;
+  line-height: 1 !important;
+  background: none !important;
+  box-shadow: none !important;
 }
 
 .m-dock__label {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0;
-  line-height: 1.15;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.1 !important;
   color: inherit !important;
-  white-space: nowrap;
+  white-space: nowrap !important;
 }
 
 .m-dock__item:active {
-  opacity: 0.7;
+  opacity: 0.72;
 }
 
-.m-dock__item.is-active {
-  color: #2f6fed !important;
-}
-
+.m-dock__item.is-active,
+.m-dock a.m-dock__item.is-active,
+.m-dock a.m-dock__item.is-active:hover,
+.m-dock a.m-dock__item.is-active i,
 .m-dock__item.is-active .m-dock__icon,
 .m-dock__item.is-active .m-dock__label {
-  color: #2f6fed !important;
-  font-weight: 600;
+  color: #3b6ef5 !important;
+}
+
+.m-dock__item.is-active .m-dock__label {
+  font-weight: 600 !important;
 }
 
 .m-dock__item.is-active::after,
@@ -887,7 +911,7 @@ body:has(.mobile-container)::before {
 }
 
 body {
-  padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px)) !important;
+  padding-bottom: calc(74px + env(safe-area-inset-bottom, 0px)) !important;
 }
 
 @media (min-width: 900px) {
