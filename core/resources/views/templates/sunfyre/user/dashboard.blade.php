@@ -176,43 +176,6 @@
         border-radius: 10px;
     }
 
-    /* JACKPOT — navy + gold */
-    .jackpot-section {
-        margin: 8px 10px; border-radius: 16px;
-        background: radial-gradient(ellipse at center, #1c305a 0%, #152a4d 55%, #0f1f3a 100%);
-        border: 1px solid rgba(212,176,99,0.35); padding: 18px 16px 16px;
-        text-align: center; position: relative; overflow: hidden;
-        box-shadow: 0 8px 24px rgba(15,31,58,0.35);
-    }
-    .jackpot-section::before,
-    .jackpot-section::after { display: none; }
-    .jackpot-label {
-        font-size: 13px; font-weight: 800; text-transform: uppercase;
-        letter-spacing: 1.5px; color: #d4b063; margin-bottom: 8px;
-    }
-    .jackpot-img-row {
-        display: flex; align-items: center; justify-content: center;
-        gap: 10px; margin-bottom: 12px; position: relative; z-index: 1;
-    }
-    .jackpot-logo-img { height: 42px; object-fit: contain; opacity: 0.55; }
-    .jackpot-number-wrap { display: flex; align-items: center; justify-content: center; gap: 3px; flex-wrap: nowrap; }
-    .jp-digit {
-        display: inline-flex; align-items: center; justify-content: center;
-        width: 30px; height: 42px;
-        background: #152a4d;
-        border: 1px solid #d4b063; border-radius: 6px;
-        font-size: 22px; font-weight: 900; color: #d4b063;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
-        font-family: 'Courier New', monospace; transition: all 0.15s;
-    }
-    .jp-digit.changing { animation: digitFlip 0.15s ease; }
-    .jp-sep { font-size: 20px; font-weight: 900; color: #d4b063; margin: 0 1px; line-height: 1; padding-bottom: 4px; }
-    @keyframes digitFlip {
-        0%   { transform: scaleY(1); }
-        50%  { transform: scaleY(0.1); }
-        100% { transform: scaleY(1); }
-    }
-
     /* â”€â”€â”€ CATEGORY NAV â”€â”€â”€ */
     .cat-nav-wrap {
         padding: 12px 12px 0; overflow-x: auto; white-space: nowrap;
@@ -460,17 +423,6 @@
         </a>
     </div>
 </nav>
-
-<!-- JACKPOT SECTION -->
-<div class="jackpot-section">
-    <div class="jackpot-label">মেগা জ্যাকপট</div>
-    <div class="jackpot-img-row">
-        <img src="{{ asset('assets/images/frontend/img/jackpot.png') }}" class="jackpot-logo-img"
-             onerror="this.outerHTML='<span style=\'font-size:28px;font-weight:900;font-style:italic;color:var(--gold-text);text-shadow:0 0 30px rgba(240,192,48,0.5);letter-spacing:1px\'>Jackpot</span>'"
-             alt="Jackpot">
-    </div>
-    <div class="jackpot-number-wrap" id="jackpotDisplay"></div>
-</div>
 
 <!-- GAMES SECTIONS -->
 <div id="gamesSections">
@@ -857,57 +809,5 @@
         }
     });
 
-    // JACKPOT COUNTER
-    (function() {
-        const BASE_NUMBER = 10921288702;
-        let currentVal = BASE_NUMBER;
-
-        function formatJackpot(val) {
-            let intPart = Math.floor(val / 100);
-            let decPart = (val % 100).toString().padStart(2, '0');
-            return intPart.toLocaleString('en-US') + '.' + decPart;
-        }
-
-        function buildDigitHTML(numStr) {
-            let html = '';
-            for (let i = 0; i < numStr.length; i++) {
-                let ch = numStr[i];
-                if (ch === ',')      html += '<span class="jp-sep">,</span>';
-                else if (ch === '.') html += '<span class="jp-sep">.</span>';
-                else                 html += '<span class="jp-digit" id="jpd-' + i + '">' + ch + '</span>';
-            }
-            return html;
-        }
-
-        function renderJackpot(animated) {
-            const container = document.getElementById('jackpotDisplay');
-            if (!container) return;
-            const numStr = formatJackpot(currentVal);
-            if (!animated) { container.innerHTML = buildDigitHTML(numStr); return; }
-            const spans = container.querySelectorAll('.jp-digit');
-            const digits = numStr.replace(/[,.]/g, '');
-            let idx = 0;
-            spans.forEach(span => {
-                const newChar = digits[idx] || '0';
-                if (span.textContent !== newChar) {
-                    span.classList.remove('changing');
-                    void span.offsetWidth;
-                    span.classList.add('changing');
-                    span.textContent = newChar;
-                    setTimeout(() => span.classList.remove('changing'), 200);
-                }
-                idx++;
-            });
-        }
-
-        renderJackpot(false);
-        (function scheduleNext() {
-            setTimeout(function() {
-                currentVal += Math.floor(Math.random() * 9998) + 1;
-                renderJackpot(true);
-                scheduleNext();
-            }, 1500 + Math.random() * 2000);
-        })();
-    })();
 </script>
 @endpush
