@@ -2,12 +2,19 @@
 
 @section('content')
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        height: 100vh;
-        background: #000;
+    body.is-game-play {
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        height: 100vh !important;
+        background: #000 !important;
+    }
+
+    body.is-game-play .site-topbar,
+    body.is-game-play .m-dock,
+    body.is-game-play #sidebar,
+    body.is-game-play #sidebarOverlay {
+        display: none !important;
     }
 
     .game-container {
@@ -16,7 +23,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        z-index: 9999;
+        z-index: 12000;
         background: #000;
     }
 
@@ -25,13 +32,14 @@
         top: 0;
         left: 0;
         right: 0;
-        z-index: 10001;
+        z-index: 12010;
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 10px;
         padding: 8px 12px;
-        background: linear-gradient(180deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.35) 70%, transparent 100%);
+        padding-top: calc(8px + env(safe-area-inset-top, 0px));
+        background: linear-gradient(180deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.35) 70%, transparent 100%);
         pointer-events: none;
     }
 
@@ -44,16 +52,19 @@
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        background: rgba(18, 59, 102, 0.92);
+        background: rgba(18, 59, 102, 0.95);
         color: #fff;
         font-weight: 800;
         font-size: 13px;
         padding: 7px 12px;
         border-radius: 999px;
         border: 1px solid rgba(255,255,255,0.18);
+        min-width: 120px;
+        justify-content: center;
     }
 
     .game-bal i { color: #f4b942; }
+    .game-bal .js-live-balance.live-balance-flash { color: #4ade80 !important; }
 
     .game-home-btn {
         display: inline-flex;
@@ -91,10 +102,7 @@
         100% { transform: rotate(360deg); }
     }
 
-    .loading-text {
-        color: #2563eb;
-        font-size: 14px;
-    }
+    .loading-text { color: #2563eb; font-size: 14px; }
 
     .game-iframe {
         width: 100%;
@@ -104,18 +112,16 @@
         display: none;
     }
 
-    .game-iframe.show {
-        display: block;
-    }
+    .game-iframe.show { display: block; }
 </style>
 
-<div class="game-container" data-balance-poll-ms="2500">
+<div class="game-container">
     <div class="game-topbar">
-        <a href="{{ route('user.home') }}" class="game-home-btn">
+        <a href="{{ route('user.home') }}" class="game-home-btn" id="gameHomeBtn">
             <i class="fas fa-arrow-left"></i> @lang('Home')
         </a>
         @auth
-        <div class="game-bal">
+        <div class="game-bal" title="@lang('Site wallet')">
             <i class="fas fa-wallet"></i>
             <span class="js-live-balance" data-live-balance="full">{{ showAmount(auth()->user()->balance) }} {{ __(gs('cur_text')) }}</span>
         </div>
@@ -131,7 +137,9 @@
 </div>
 
 <script>
-    document.body.dataset.balancePollMs = '2500';
+    document.body.classList.add('is-game-play');
+    document.body.dataset.balancePollMs = '1500';
+
     const iframe = document.getElementById('gameIframe');
     const loading = document.getElementById('loading');
 
@@ -140,8 +148,32 @@
         iframe.classList.add('show');
     };
 
-    if (window.Bet369LiveBalance) {
-        window.Bet369LiveBalance.start(2500);
+    function kickBalance() {
+        if (window.Bet369LiveBalance) {
+            window.Bet369LiveBalance.start(1500);
+            window.Bet369LiveBalance.refresh();
+        }
     }
+
+    // Live poller loads after this script — retry until ready
+    var tries = 0;
+    var boot = setInterval(function () {
+        tries++;
+        if (window.Bet369LiveBalance || tries > 20) {
+            clearInterval(boot);
+            kickBalance();
+        }
+    }, 200);
+
+    document.getElementById('gameHomeBtn')?.addEventListener('click', function () {
+        if (window.Bet369LiveBalance) window.Bet369LiveBalance.refresh();
+    });
+
+    // When returning to tab, sync site wallet immediately
+    document.addEventListener('visibilitychange', function () {
+        if (!document.hidden && window.Bet369LiveBalance) {
+            window.Bet369LiveBalance.refresh();
+        }
+    });
 </script>
 @endsection

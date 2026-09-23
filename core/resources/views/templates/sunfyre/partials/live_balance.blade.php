@@ -35,12 +35,14 @@
         }
     }
 
-    function fetchBalance() {
-        if (inflight || document.hidden) return;
+    function fetchBalance(force) {
+        if (inflight) return;
+        if (!force && document.hidden) return;
         inflight = true;
         fetch(url, {
             method: 'GET',
             credentials: 'same-origin',
+            cache: 'no-store',
             headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
         })
             .then(function (r) { return r.ok ? r.json() : null; })
@@ -52,22 +54,25 @@
     function start(ms) {
         if (timer) clearInterval(timer);
         intervalMs = ms || intervalMs;
-        fetchBalance();
-        timer = setInterval(fetchBalance, intervalMs);
+        fetchBalance(true);
+        timer = setInterval(function () { fetchBalance(false); }, intervalMs);
     }
 
     document.addEventListener('visibilitychange', function () {
-        if (!document.hidden) fetchBalance();
+        if (!document.hidden) fetchBalance(true);
     });
-    window.addEventListener('focus', fetchBalance);
+    window.addEventListener('focus', function () { fetchBalance(true); });
     document.querySelectorAll('.js-live-balance-refresh').forEach(function (btn) {
         btn.addEventListener('click', function (e) {
             e.preventDefault();
-            fetchBalance();
+            fetchBalance(true);
         });
     });
 
-    window.Bet369LiveBalance = { refresh: fetchBalance, start: start };
+    window.Bet369LiveBalance = {
+        refresh: function () { fetchBalance(true); },
+        start: start
+    };
     start(intervalMs);
 })();
 </script>
