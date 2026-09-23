@@ -1,6 +1,6 @@
 ﻿# BET369WIN
 
-Laravel (Xaxino / sunfyre) for Hostinger.
+BET369WIN (Laravel / sunfyre) for Hostinger.
 
 ## Database
 - DB_HOST=`localhost`
