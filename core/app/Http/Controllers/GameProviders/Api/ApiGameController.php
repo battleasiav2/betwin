@@ -29,6 +29,9 @@ class ApiGameController extends Controller
         $provider = $request->provider ?? 'JILI';
         $vendorCode = $this->getVendorCode($provider);
 
+        $callbackUrl = $settings['callback_url']
+            ?: env('RAPIDVERSE_CALLBACK_URL', 'https://bet369win.com/callback.php');
+
         $payload = [
             'userId'      => (string) $user->id,
             'gameCode'    => $request->game_code,
@@ -37,6 +40,10 @@ class ApiGameController extends Controller
             'language'    => '0',
             'phonetype'   => '1',
             'returnUrl'   => route('user.home'),
+            // Force seamless wallet so bet/win hit our callback → header/home balance syncs
+            'callbackUrl' => $callbackUrl,
+            'walletType'  => 'seamless',
+            'isSeamless'  => true,
         ];
 
         $ch = curl_init($settings['api_url']);
@@ -82,9 +89,10 @@ class ApiGameController extends Controller
     private function getApiSettings(): array
     {
         $defaults = [
-            'api_url'    => env('RAPIDVERSE_API_URL', 'https://www.rapidverse.site/api/versev1'),
-            'api_token'  => env('RAPIDVERSE_API_TOKEN', ''),
-            'secret_key' => env('RAPIDVERSE_SECRET_KEY', ''),
+            'api_url'      => env('RAPIDVERSE_API_URL', 'https://www.rapidverse.site/api/versev1'),
+            'api_token'    => env('RAPIDVERSE_API_TOKEN', ''),
+            'secret_key'   => env('RAPIDVERSE_SECRET_KEY', ''),
+            'callback_url' => env('RAPIDVERSE_CALLBACK_URL', 'https://bet369win.com/callback.php'),
         ];
 
         if (!Schema::hasTable('api_game_settings')) {
@@ -97,9 +105,10 @@ class ApiGameController extends Controller
         }
 
         return [
-            'api_url'    => $row->api_url ?: $defaults['api_url'],
-            'api_token'  => $row->api_token ?: $defaults['api_token'],
-            'secret_key' => $row->secret_key ?: $defaults['secret_key'],
+            'api_url'      => $row->api_url ?: $defaults['api_url'],
+            'api_token'    => $row->api_token ?: $defaults['api_token'],
+            'secret_key'   => $row->secret_key ?: $defaults['secret_key'],
+            'callback_url' => $row->callback_url ?: $defaults['callback_url'],
         ];
     }
 

@@ -8,7 +8,7 @@
     var inflight = false;
     var intervalMs = document.body && document.body.dataset.balancePollMs
         ? parseInt(document.body.dataset.balancePollMs, 10)
-        : 2000;
+        : (document.body && document.body.classList.contains('is-game-play') ? 1000 : 1500);
 
     function applyBalance(data) {
         if (!data || data.code !== 0) return;
