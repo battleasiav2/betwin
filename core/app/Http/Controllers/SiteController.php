@@ -107,6 +107,9 @@ class SiteController extends Controller {
         $policy      = Frontend::where('tempname', activeTemplateName())->where('slug', $slug)->where('data_keys', 'policy_pages.element')->firstOrFail();
         $pageTitle   = $policy->data_values->title;
         $seoContents = $policy->seo_content;
+        if (empty($seoContents) || (is_object($seoContents) && empty((array) $seoContents))) {
+            $seoContents = null;
+        }
         $seoImage    = @$seoContents->image ? frontendImage('policy_pages', $seoContents->image, getFileSize('seo'), true) : null;
         return view('Template::policy', compact('policy', 'pageTitle', 'seoContents', 'seoImage'));
     }
