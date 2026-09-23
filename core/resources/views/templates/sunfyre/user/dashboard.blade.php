@@ -58,16 +58,127 @@
     .announce-bar .ann-icon { font-size: 14px; color: var(--gold-text); flex-shrink: 0; }
     .announce-bar marquee { font-size: 12px; color: var(--text-muted); font-weight: 500; }
 
-    /* â”€â”€â”€ SLIDER â”€â”€â”€ */
+    /* ── Offer banners (simple, no crop) ── */
     .slider-wrap { padding: 10px 10px 4px; }
-    .swiper.mainSlider { border-radius: 12px; overflow: hidden; }
-    .mainSlider img { width: 100%; height: 170px; object-fit: cover; display: block; border-radius: 12px; }
+    .swiper.mainSlider,
+    .offer-slider {
+        border-radius: 14px;
+        overflow: hidden;
+        background: transparent;
+    }
+    .mainSlider img { display: none !important; }
+    .offer-banner {
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 128px;
+        padding: 18px 16px;
+        border-radius: 14px;
+        text-decoration: none !important;
+        overflow: hidden;
+        color: #ffffff !important;
+        box-sizing: border-box;
+    }
+    .offer-banner--deposit {
+        background: linear-gradient(135deg, #123b66 0%, #1a4f86 48%, #2563eb 100%);
+    }
+    .offer-banner--big {
+        background: linear-gradient(135deg, #0f2a4d 0%, #152a4d 40%, #1c3d6e 100%);
+        border: 1px solid rgba(212, 176, 99, 0.35);
+    }
+    .offer-banner--daily {
+        background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 55%, #3b82f6 100%);
+    }
+    .offer-banner__glow {
+        position: absolute;
+        right: -30px;
+        top: -40px;
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(244, 185, 66, 0.28) 0%, transparent 70%);
+        pointer-events: none;
+    }
+    .offer-banner__badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 2;
+        padding: 3px 8px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.16);
+        color: #fff;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.4px;
+    }
+    .offer-banner__badge--gold {
+        background: linear-gradient(180deg, #f7d06a, #d9a12a);
+        color: #123b66;
+    }
+    .offer-banner__copy {
+        position: relative;
+        z-index: 1;
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+    .offer-banner__kicker {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.6px;
+        text-transform: uppercase;
+        color: #f4b942;
+        opacity: 0.95;
+    }
+    .offer-banner__title {
+        font-size: 20px;
+        font-weight: 900;
+        line-height: 1.15;
+        color: #ffffff !important;
+    }
+    .offer-banner__sub {
+        font-size: 12px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.82);
+        line-height: 1.35;
+    }
+    .offer-banner__cta {
+        position: relative;
+        z-index: 1;
+        flex-shrink: 0;
+        padding: 10px 14px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.16);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        color: #ffffff !important;
+        font-size: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+    }
+    .offer-banner__cta--gold {
+        background: linear-gradient(180deg, #f7d06a 0%, #f4b942 60%, #d9a12a 100%);
+        border: 0;
+        color: #123b66 !important;
+        box-shadow: 0 3px 0 #b8860b;
+    }
+    .offer-slider__dots {
+        bottom: 8px !important;
+    }
     .swiper-pagination-bullet {
-        background: rgba(255,255,255,0.3) !important; opacity: 1 !important;
+        background: rgba(255,255,255,0.35) !important; opacity: 1 !important;
         width: 6px !important; height: 6px !important; transition: all 0.3s;
     }
     .swiper-pagination-bullet-active {
-        background: var(--gold-text) !important; width: 18px !important; border-radius: 3px !important;
+        background: #f4b942 !important; width: 18px !important; border-radius: 3px !important;
+    }
+    @media (min-width: 900px) {
+        .offer-banner { min-height: 160px; padding: 24px 22px; }
+        .offer-banner__title { font-size: 26px; }
     }
 
     /* â”€â”€â”€ DEPOSIT & WITHDRAW â”€â”€â”€ */
@@ -116,7 +227,7 @@
     @media (min-width: 600px) { .game-grid { grid-template-columns: repeat(4, 1fr); } }
     @media (min-width: 900px) {
         .game-grid { grid-template-columns: repeat(6, 1fr); }
-        .mainSlider img { height: 240px; }
+        
     }
 
     .game-card {
@@ -422,14 +533,9 @@
     <marquee scrollamount="4">{{ gs('announcement_text') }}</marquee>
 </div>
 
-<!-- SLIDER -->
-<div class="slider-wrap">
-    <div class="swiper mainSlider">
-        <div class="swiper-wrapper">
-<div class="swiper-slide"><img src="{{ asset('assets/images/banners/welcome.jpg') }}" alt="BET369WIN" loading="lazy"></div>
-<div class="swiper-slide"><img src="{{ asset('assets/images/banners/play.jpg') }}" alt="BET369WIN Play More" loading="lazy"></div>
-<div class="swiper-slide"><img src="{{ asset('assets/images/banners/rewards.jpg') }}" alt="BET369WIN Daily Rewards" loading="lazy"></div>
-        </div>
+<!-- OFFER BANNERS -->
+@include($activeTemplate . 'partials.offer_banners')
+
         <div class="swiper-pagination" style="bottom:10px"></div>
     </div>
 </div>
