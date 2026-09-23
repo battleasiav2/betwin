@@ -66,7 +66,7 @@ $envPath = __DIR__ . '/core/.env';
 $db = [
     'host' => 'localhost',
     'user' => 'u811189100_betwin',
-    'pass' => '',
+    'pass' => 'z5BO=Zu8e^;P',
     'name' => 'u811189100_betwin',
 ];
 $secretKey = '';
@@ -153,19 +153,36 @@ if ($secretKey === '' && $apiToken === '') {
     exit;
 }
 
-$headers = function_exists('getallheaders') ? getallheaders() : [];
+// Collect headers from getallheaders + $_SERVER (Hostinger/CGI often drops getallheaders)
 $headerMap = [];
-foreach ($headers as $hk => $hv) {
-    $headerMap[strtolower((string) $hk)] = trim((string) $hv);
+if (function_exists('getallheaders')) {
+    foreach (getallheaders() ?: [] as $hk => $hv) {
+        $headerMap[strtolower((string) $hk)] = trim((string) $hv);
+    }
+}
+foreach ($_SERVER as $sk => $sv) {
+    if (str_starts_with($sk, 'HTTP_') && is_string($sv)) {
+        $name = strtolower(str_replace('_', '-', substr($sk, 5)));
+        if (!isset($headerMap[$name])) {
+            $headerMap[$name] = trim($sv);
+        }
+    }
 }
 
 $providedSecret = $headerMap['x-secret-key']
     ?? $headerMap['x-api-secret']
     ?? $headerMap['secret-key']
-    ?? cb_val($data, ['secret_key', 'secretKey', 'secret'], '');
+    ?? $headerMap['api-secret']
+    ?? $headerMap['secret']
+    ?? ($_GET['secret_key'] ?? $_GET['secretKey'] ?? $_GET['secret'] ?? null)
+    ?? cb_val($data, ['secret_key', 'secretKey', 'secret', 'agentSecret', 'agent_secret'], '');
 $providedToken = $headerMap['x-api-token']
+    ?? $headerMap['x-api-key']
+    ?? $headerMap['api-token']
+    ?? $headerMap['api-key']
     ?? $headerMap['authorization']
-    ?? cb_val($data, ['api_token', 'apiToken', 'token'], '');
+    ?? ($_GET['api_token'] ?? $_GET['apiToken'] ?? $_GET['token'] ?? null)
+    ?? cb_val($data, ['api_token', 'apiToken', 'token', 'agentToken', 'agent_token'], '');
 if (str_starts_with(strtolower((string) $providedToken), 'bearer ')) {
     $providedToken = trim(substr($providedToken, 7));
 }
@@ -173,7 +190,7 @@ if (str_starts_with(strtolower((string) $providedToken), 'bearer ')) {
 $sigHeader = $headerMap['x-signature']
     ?? $headerMap['x-r4nkt-signature']
     ?? $headerMap['signature']
-    ?? '';
+    ?? ($_GET['signature'] ?? '');
 
 $authOk = false;
 if ($secretKey !== '' && $providedSecret !== '' && hash_equals($secretKey, (string) $providedSecret)) {
@@ -182,15 +199,32 @@ if ($secretKey !== '' && $providedSecret !== '' && hash_equals($secretKey, (stri
 if (!$authOk && $apiToken !== '' && $providedToken !== '' && hash_equals($apiToken, (string) $providedToken)) {
     $authOk = true;
 }
+// Bearer may carry either token OR secret
+if (!$authOk && $providedToken !== '') {
+    if ($secretKey !== '' && hash_equals($secretKey, (string) $providedToken)) {
+        $authOk = true;
+    }
+}
 if (!$authOk && $secretKey !== '' && $sigHeader !== '') {
     $expected = hash_hmac('sha256', $raw, $secretKey);
     if (hash_equals($expected, strtolower($sigHeader)) || hash_equals($expected, $sigHeader)) {
         $authOk = true;
     }
+    $expected2 = hash_hmac('sha256', $raw, $apiToken);
+    if (!$authOk && $apiToken !== '' && (hash_equals($expected2, strtolower($sigHeader)) || hash_equals($expected2, $sigHeader))) {
+        $authOk = true;
+    }
 }
 
 if (!$authOk) {
-    cb_log('unauthorized', ['headers' => array_keys($headerMap), 'keys' => array_keys($data)]);
+    cb_log('unauthorized', [
+        'headers' => array_keys($headerMap),
+        'keys' => array_keys($data),
+        'has_secret_hdr' => isset($headerMap['x-secret-key']) || isset($headerMap['secret-key']),
+        'has_token_hdr' => isset($headerMap['x-api-token']) || isset($headerMap['authorization']),
+        'get' => array_keys($_GET),
+        'ip' => $_SERVER['REMOTE_ADDR'] ?? '',
+    ]);
     http_response_code(401);
     echo json_encode(['code' => 1, 'msg' => 'unauthorized']);
     exit;

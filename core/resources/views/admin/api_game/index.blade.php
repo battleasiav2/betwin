@@ -31,8 +31,10 @@
                         </div>
                     @else
                         <div class="alert alert-success mb-3">
-                            @lang('Secret check OK. RapidVerse must send the same Secret as') <code>X-Secret-Key</code>
-                            @lang('header to') <code>{{ $apiSettings->callback_url ?? 'https://bet369win.com/callback.php' }}</code>
+                            @lang('Secret check OK. RapidVerse panel Callback URL must be')
+                            <code>https://bet369win.com/callback.php</code>
+                            @lang('and wallet mode') <strong>Seamless</strong>.
+                            @lang('Launch also sends secret in callback query for Hostinger header safety.')
                         </div>
                     @endif
 
