@@ -40,6 +40,23 @@
     </div>
 
     <div class="sb-scroll">
+        @guest
+            <a href="{{ route('user.login') }}" class="sb-login-row">
+                <span class="sb-login-row__avatar" aria-hidden="true"><i class="fas fa-user"></i></span>
+                <span class="sb-login-row__text">@lang('Log in')</span>
+                <i class="fas fa-chevron-right sb-login-row__chev" aria-hidden="true"></i>
+            </a>
+        @else
+            <a href="{{ route('user.account') }}" class="sb-login-row">
+                <span class="sb-login-row__avatar" aria-hidden="true"><i class="fas fa-user"></i></span>
+                <span class="sb-login-row__text">
+                    <strong>{{ auth()->user()->username ?? auth()->user()->firstname ?? __('Member') }}</strong>
+                    <small>{{ showAmount(auth()->user()->balance) }} {{ __(gs('cur_text')) }}</small>
+                </span>
+                <i class="fas fa-chevron-right sb-login-row__chev" aria-hidden="true"></i>
+            </a>
+        @endguest
+
         <a href="{{ route('user.promotions') }}" class="sb-promo-banner">
             <span class="sb-promo-banner__text">
                 <strong>@lang('Free money')</strong>
@@ -244,6 +261,24 @@
         -webkit-overflow-scrolling: touch;
     }
     .sb-scroll::-webkit-scrollbar { width: 0; }
+
+    .sb-login-row {
+        display: flex !important; align-items: center !important; gap: 12px !important;
+        padding: 10px 8px 14px !important; margin-bottom: 4px !important;
+        text-decoration: none !important; color: #172033 !important;
+    }
+    .sb-login-row__avatar {
+        width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+        background: #e8f0fa; color: #6b7280; display: grid; place-items: center; font-size: 18px;
+        border: 1px solid #d5e4f7;
+    }
+    .sb-login-row__text {
+        flex: 1; font-size: 16px; font-weight: 800; color: #123b66;
+        display: flex; flex-direction: column; gap: 2px; min-width: 0;
+    }
+    .sb-login-row__text strong { font-size: 15px; font-weight: 800; color: #123b66; }
+    .sb-login-row__text small { font-size: 12px; font-weight: 600; color: #6b7280; }
+    .sb-login-row__chev { color: #9aa3b2; font-size: 13px; }
 
     .sb-promo-banner {
         display: flex !important; align-items: center !important; justify-content: space-between !important;
