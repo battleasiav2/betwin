@@ -8,7 +8,7 @@
     var inflight = false;
     var intervalMs = document.body && document.body.dataset.balancePollMs
         ? parseInt(document.body.dataset.balancePollMs, 10)
-        : 4000;
+        : 2000;
 
     function applyBalance(data) {
         if (!data || data.code !== 0) return;

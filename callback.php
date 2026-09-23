@@ -1,11 +1,34 @@
 <?php
 /**
- * RapidVerse game settlement callback — authenticated + transactional.
- * Requires matching X-Secret-Key (or X-API-Token) from provider.
+ * RapidVerse seamless wallet callback.
+ * Accepts snake_case + camelCase payloads; supports balance/bet/win/settle.
  */
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
 header('Content-Type: application/json');
+
+function cb_log(string $msg, $ctx = null): void
+{
+    $dir = __DIR__ . '/core/storage/logs';
+    if (!is_dir($dir)) {
+        @mkdir($dir, 0755, true);
+    }
+    $line = date('Y-m-d H:i:s') . ' ' . $msg;
+    if ($ctx !== null) {
+        $line .= ' ' . (is_string($ctx) ? $ctx : json_encode($ctx, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+    }
+    @file_put_contents($dir . '/rapidverse_callback.log', $line . "\n", FILE_APPEND);
+}
+
+function cb_val(array $data, array $keys, $default = null)
+{
+    foreach ($keys as $k) {
+        if (array_key_exists($k, $data) && $data[$k] !== '' && $data[$k] !== null) {
+            return $data[$k];
+        }
+    }
+    return $default;
+}
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -53,6 +76,7 @@ if (is_readable($envPath)) {
 $raw = file_get_contents('php://input');
 $data = json_decode($raw ?: 'null', true);
 if (!is_array($data)) {
+    cb_log('invalid_json', $raw);
     http_response_code(400);
     echo json_encode(['code' => 1, 'msg' => 'invalid json']);
     exit;
@@ -60,13 +84,13 @@ if (!is_array($data)) {
 
 $conn = new mysqli($db['host'], $db['user'], $db['pass'], $db['name']);
 if ($conn->connect_error) {
+    cb_log('db_error', $conn->connect_error);
     http_response_code(500);
     echo json_encode(['code' => 1, 'msg' => 'db error']);
     exit;
 }
 $conn->set_charset('utf8mb4');
 
-// Prefer DB settings over .env when table exists
 $tbl = $conn->query("SHOW TABLES LIKE 'api_game_settings'");
 if ($tbl && $tbl->num_rows > 0) {
     $row = $conn->query('SELECT secret_key, api_token FROM api_game_settings ORDER BY id ASC LIMIT 1');
@@ -89,15 +113,15 @@ if ($secretKey === '' && $apiToken === '') {
 $headers = function_exists('getallheaders') ? getallheaders() : [];
 $headerMap = [];
 foreach ($headers as $hk => $hv) {
-    $headerMap[strtolower($hk)] = trim((string) $hv);
+    $headerMap[strtolower((string) $hk)] = trim((string) $hv);
 }
 
 $providedSecret = $headerMap['x-secret-key']
     ?? $headerMap['x-api-secret']
-    ?? ($data['secret_key'] ?? '');
+    ?? cb_val($data, ['secret_key', 'secretKey', 'secret'], '');
 $providedToken = $headerMap['x-api-token']
     ?? $headerMap['authorization']
-    ?? ($data['api_token'] ?? '');
+    ?? cb_val($data, ['api_token', 'apiToken', 'token'], '');
 if (str_starts_with(strtolower((string) $providedToken), 'bearer ')) {
     $providedToken = trim(substr($providedToken, 7));
 }
@@ -122,24 +146,79 @@ if (!$authOk && $secretKey !== '' && $sigHeader !== '') {
 }
 
 if (!$authOk) {
+    cb_log('unauthorized', ['headers' => array_keys($headerMap), 'body' => $data]);
     http_response_code(401);
     echo json_encode(['code' => 1, 'msg' => 'unauthorized']);
     exit;
 }
 
-$userId   = (int) ($data['user_id'] ?? 0);
-$gameName = !empty($data['game_code']) ? substr(trim((string) $data['game_code']), 0, 120) : 'API Game';
-$bet      = (float) ($data['bet_amount'] ?? 0);
-$win      = (float) ($data['win_amount'] ?? 0);
-$serial   = trim((string) ($data['serial_number'] ?? ''));
-$gameId   = 0;
-$winStat  = $win > $bet ? 1 : 0;
+$userId = (int) cb_val($data, ['user_id', 'userId', 'member_id', 'memberId', 'uid', 'player_id', 'playerId'], 0);
+$gameName = (string) cb_val($data, ['game_code', 'gameCode', 'game_id', 'gameId', 'game_name', 'gameName'], 'API Game');
+$gameName = substr(trim($gameName), 0, 120) ?: 'API Game';
+$serial = trim((string) cb_val($data, [
+    'serial_number', 'serialNumber', 'transaction_id', 'transactionId', 'txn_id', 'txnId',
+    'bet_id', 'betId', 'round_id', 'roundId', 'id',
+], ''));
+$action = strtolower((string) cb_val($data, ['action', 'type', 'event', 'method', 'cmd'], 'settle'));
 
-if ($userId <= 0 || $serial === '' || strlen($serial) > 190) {
+$bet = (float) cb_val($data, ['bet_amount', 'betAmount', 'bet', 'stake', 'debit_amount', 'debitAmount'], 0);
+$win = (float) cb_val($data, ['win_amount', 'winAmount', 'win', 'payout', 'credit_amount', 'creditAmount'], 0);
+$amount = (float) cb_val($data, ['amount', 'money', 'value'], 0);
+
+// Map action-based amount into bet/win
+if ($amount != 0.0 && $bet == 0.0 && $win == 0.0) {
+    if (in_array($action, ['bet', 'debit', 'withdraw', 'stake', 'wager'], true)) {
+        $bet = abs($amount);
+    } elseif (in_array($action, ['win', 'credit', 'deposit', 'payout', 'prize'], true)) {
+        $win = abs($amount);
+    } elseif (in_array($action, ['refund', 'cancel', 'rollback'], true)) {
+        $win = abs($amount);
+    } elseif ($amount < 0) {
+        $bet = abs($amount);
+    } else {
+        $win = abs($amount);
+    }
+}
+
+$gameId = 0;
+$winStat = $win > $bet ? 1 : 0;
+
+if ($userId <= 0) {
+    cb_log('invalid_user', $data);
     http_response_code(400);
-    echo json_encode(['code' => 1, 'msg' => 'invalid payload']);
+    echo json_encode(['code' => 1, 'msg' => 'invalid user']);
     exit;
 }
+
+// Balance inquiry only
+if (in_array($action, ['balance', 'getbalance', 'get_balance', 'query'], true)) {
+    $q = $conn->prepare('SELECT balance FROM users WHERE id=? LIMIT 1');
+    $q->bind_param('i', $userId);
+    $q->execute();
+    $userData = $q->get_result()->fetch_assoc();
+    if (!$userData) {
+        http_response_code(404);
+        echo json_encode(['code' => 1, 'msg' => 'user not found']);
+        exit;
+    }
+    $bal = round((float) $userData['balance'], 2);
+    echo json_encode(['code' => 0, 'balance' => $bal, 'userBalance' => $bal]);
+    exit;
+}
+
+if ($serial === '' || strlen($serial) > 190) {
+    // Allow pure balance push with unique serial fallback for credit-only sync
+    if ($win > 0 || $bet > 0) {
+        $serial = 'auto-' . $userId . '-' . md5($raw . microtime(true));
+        $serial = substr($serial, 0, 190);
+    } else {
+        cb_log('invalid_serial', $data);
+        http_response_code(400);
+        echo json_encode(['code' => 1, 'msg' => 'invalid payload']);
+        exit;
+    }
+}
+
 if ($bet < 0 || $win < 0 || $bet > 10000000 || $win > 10000000) {
     http_response_code(400);
     echo json_encode(['code' => 1, 'msg' => 'invalid amounts']);
@@ -152,8 +231,12 @@ try {
     $chk->bind_param('s', $serial);
     $chk->execute();
     if ($chk->get_result()->num_rows) {
+        $q = $conn->prepare('SELECT balance FROM users WHERE id=? LIMIT 1');
+        $q->bind_param('i', $userId);
+        $q->execute();
+        $bal = round((float) ($q->get_result()->fetch_assoc()['balance'] ?? 0), 2);
         $conn->commit();
-        echo json_encode(['code' => 0, 'msg' => 'duplicate']);
+        echo json_encode(['code' => 0, 'msg' => 'duplicate', 'balance' => $bal, 'userBalance' => $bal]);
         exit;
     }
 
@@ -171,11 +254,10 @@ try {
     $bal = (float) $userData['balance'];
     $turnover_req = (float) $userData['turnover_requirement'];
 
-    // Do not allow balance to go below zero from bet
     if ($bet > $bal + 0.0001) {
         $conn->rollback();
         http_response_code(400);
-        echo json_encode(['code' => 1, 'msg' => 'insufficient balance', 'balance' => $bal]);
+        echo json_encode(['code' => 1, 'msg' => 'insufficient balance', 'balance' => $bal, 'userBalance' => $bal]);
         exit;
     }
 
@@ -199,9 +281,11 @@ try {
     $l->execute();
 
     $conn->commit();
-    echo json_encode(['code' => 0, 'balance' => $newBal]);
+    cb_log('ok', ['user' => $userId, 'bet' => $bet, 'win' => $win, 'bal' => $newBal, 'serial' => $serial, 'action' => $action]);
+    echo json_encode(['code' => 0, 'balance' => $newBal, 'userBalance' => $newBal]);
 } catch (Throwable $e) {
     $conn->rollback();
+    cb_log('exception', $e->getMessage());
     http_response_code(500);
     echo json_encode(['code' => 1, 'msg' => 'server error']);
 }
