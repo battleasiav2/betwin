@@ -53,10 +53,9 @@ return [
     |
     */
 
-    'url' => env('APP_URL',
+    'url' => env('APP_URL', 'http://localhost'),
 
     'apk_url' => env('APK_DOWNLOAD_URL'),
- 'http://localhost'),
 
     /*
     |--------------------------------------------------------------------------
