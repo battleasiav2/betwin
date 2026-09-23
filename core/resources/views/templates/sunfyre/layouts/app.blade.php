@@ -91,10 +91,15 @@
         rel="stylesheet">
     <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'css/main.css') }}?v={{ $colorCache }}">
     <link href="{{ asset($activeTemplateTrue . 'css/custom.css') }}?v={{ $colorCache }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'css/theme.css') }}?v=48-{{ $colorCache }}">
+    <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'css/theme.css') }}?v=49-{{ $colorCache }}">
 
     @stack('style-lib')
     <link rel="manifest" href="{{ route('pwa.configuration') }}">
+    <meta name="theme-color" content="#123B66">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="{{ gs('site_name') }}">
     @stack('style')
 </head>
 
@@ -265,12 +270,18 @@
             if ('serviceWorker' in navigator) {
                 try {
                     await navigator.serviceWorker.register(
-                        "{{ asset('assets/global/js/pwa/serviceworker.js') }}");
+                        "{{ asset('assets/global/js/pwa/serviceworker.js') }}",
+                        { scope: '/' }
+                    );
                 } catch (e) {
                     console.warn('SW registration failed');
                 }
             }
         }
+        window.addEventListener('beforeinstallprompt', function (e) {
+            e.preventDefault();
+            window.__b369PwaPrompt = e;
+        });
         window.addEventListener('load', () => {
             registerSW();
         });

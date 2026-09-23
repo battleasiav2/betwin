@@ -220,12 +220,18 @@ class SiteController extends Controller {
         $gs   = gs();
         $json = [
             "name"             => $gs->site_name,
-            "sign"             => $gs->site_name,
-            "start_url"        => route('home'),
+            "short_name"       => $gs->site_name,
+            "id"               => "/",
+            "start_url"        => url('/'),
+            "scope"            => url('/'),
             "display"          => "standalone",
+            "orientation"      => "portrait",
             "background_color" => "#F5F7FA",
             "theme_color"      => "#123B66",
-            "description"      => $gs->site_name . " PWA",
+            "description"      => $gs->site_name . " App",
+            "lang"             => "bn",
+            "dir"              => "ltr",
+            "categories"       => ["games", "entertainment"],
             "icons"            => [
                 [
                     "src"   => getImage(getFilePath('logoIcon') . '/pwa_favicon.webp'),
@@ -253,6 +259,6 @@ class SiteController extends Controller {
                 ],
             ],
         ];
-        return response()->json($json);
+        return response()->json($json)->header('Content-Type', 'application/manifest+json');
     }
 }

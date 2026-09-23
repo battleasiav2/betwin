@@ -135,7 +135,7 @@
         <div class="sb-divider"></div>
 
         <nav class="sb-list">
-            <a href="{{ config('app.apk_url') ?: env('APK_DOWNLOAD_URL', asset('assets/apk/bet369win.apk')) }}" class="sb-list__item" download="bet369win.apk">
+            <a href="javascript:void(0)" class="sb-list__item" id="sbAppInstall" onclick="(window.__b369InstallApp||function(){})();">
                 <span class="sb-list__ico"><i class="fas fa-cloud-arrow-down"></i></span>
                 <span class="sb-list__label">@lang('APP Download')</span>
             </a>
