@@ -564,27 +564,24 @@
                 <span>MG</span>
             </div>
             @endif
-
-            <div class="provider-card" data-key="arcade">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-rich88.png?v=1781595979466&source=mcdsrc" alt="Arcade">
-                <span>@lang('Arcade')</span>
+            @if(isset($gameStatus['g9']) && $gameStatus['g9']->status != 0)
+            <div class="provider-card" data-key="g9" onclick="selectProvider('g9')">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-rich88.png?v=1781595979466&source=mcdsrc" alt="G9">
+                <span>G9</span>
             </div>
-            <div class="provider-card" data-key="lottery">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-saba.png?v=1781595979466&source=mcdsrc" alt="Lottery">
-                <span>@lang('Lottery')</span>
+            @endif
+            @if(isset($gameStatus['card365']) && $gameStatus['card365']->status != 0)
+            <div class="provider-card" data-key="card365" onclick="selectProvider('card365')">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-playngo.png?v=1781595979466&source=mcdsrc" alt="Card365">
+                <span>Card365</span>
             </div>
-            <div class="provider-card" data-key="bingo">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-playngo.png?v=1781595979466&source=mcdsrc" alt="Bingo">
-                <span>@lang('Bingo')</span>
+            @endif
+            @if(isset($gameStatus['evo']) && $gameStatus['evo']->status != 0)
+            <div class="provider-card" data-key="evo" onclick="selectProvider('evo')">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_yl.png?v=1781595979466&source=mcdsrc" alt="Evolution">
+                <span>Evolution</span>
             </div>
-            <div class="provider-card" data-key="live">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_yl.png?v=1781595979466&source=mcdsrc" alt="Live">
-                <span>@lang('Live')</span>
-            </div>
-            <div class="provider-card" data-key="mini">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_mimi.png?v=1781595979466&source=mcdsrc" alt="Mini Game">
-                <span>@lang('Mini Game')</span>
-            </div>
+            @endif
         </div>
     </div>
 
@@ -680,6 +677,42 @@
         </div>
         <div class="games-section" id="mg-wrapper" data-status="{{ $gameStatus['mg']->status }}">
             <div class="game-grid">@include($activeTemplate . 'partials.mg-games')</div>
+        </div>
+    </div>
+    @endif
+
+    @if(isset($gameStatus['g9']) && $gameStatus['g9']->status != 0)
+    <div class="section-container" data-provider="g9" style="display:none;">
+        <div class="sec-header">
+            <a href="javascript:void(0)" class="btn-see-all" onclick="backToProviders()"><i class="fas fa-arrow-left"></i> Back</a>
+            <div class="sec-title"><i class="fas fa-fire"></i> G9 GAMES</div>
+        </div>
+        <div class="games-section" id="g9-wrapper" data-status="{{ $gameStatus['g9']->status }}">
+            <div class="game-grid">@include($activeTemplate . 'partials.g9-games')</div>
+        </div>
+    </div>
+    @endif
+
+    @if(isset($gameStatus['card365']) && $gameStatus['card365']->status != 0)
+    <div class="section-container" data-provider="card365" style="display:none;">
+        <div class="sec-header">
+            <a href="javascript:void(0)" class="btn-see-all" onclick="backToProviders()"><i class="fas fa-arrow-left"></i> Back</a>
+            <div class="sec-title"><i class="fas fa-fire"></i> CARD365</div>
+        </div>
+        <div class="games-section" id="card365-wrapper" data-status="{{ $gameStatus['card365']->status }}">
+            <div class="game-grid">@include($activeTemplate . 'partials.card365-games')</div>
+        </div>
+    </div>
+    @endif
+
+    @if(isset($gameStatus['evo']) && $gameStatus['evo']->status != 0)
+    <div class="section-container" data-provider="evo" style="display:none;">
+        <div class="sec-header">
+            <a href="javascript:void(0)" class="btn-see-all" onclick="backToProviders()"><i class="fas fa-arrow-left"></i> Back</a>
+            <div class="sec-title"><i class="fas fa-fire"></i> EVOLUTION</div>
+        </div>
+        <div class="games-section" id="evo-slot-wrapper" data-status="{{ $gameStatus['evo']->status }}">
+            <div class="game-grid">@include($activeTemplate . 'partials.evo-games')</div>
         </div>
     </div>
     @endif

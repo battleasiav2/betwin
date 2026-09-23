@@ -108,7 +108,8 @@ class ApiGameController extends Controller
         return match (strtolower($provider)) {
             'pg' => 'PG',
             'jdb' => 'JDB',
-            'cq9', 'g9' => 'CQ9',
+            'cq9' => 'CQ9',
+            'g9' => 'G9',
             'evo', 'casino' => 'EVOLUTION',
             'card365' => 'Card365',
             'idg' => 'IDG',
