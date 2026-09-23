@@ -19,7 +19,7 @@ class ApiGameControlController extends Controller
 
         if (!$apiSettings) {
             DB::table('api_game_settings')->insert([
-                'api_url'      => env('RAPIDVERSE_API_URL', 'https://www.rapidverse.site/api/demo'),
+                'api_url'      => env('RAPIDVERSE_API_URL', 'https://www.rapidverse.site/api/versev1'),
                 'api_token'    => env('RAPIDVERSE_API_TOKEN', ''),
                 'secret_key'   => env('RAPIDVERSE_SECRET_KEY', ''),
                 'callback_url' => env('RAPIDVERSE_CALLBACK_URL', 'https://bet369win.com/callback.php'),
@@ -92,7 +92,7 @@ class ApiGameControlController extends Controller
 
         Schema::create('api_game_settings', function ($table) {
             $table->id();
-            $table->string('api_url', 255)->default('https://www.rapidverse.site/api/demo');
+            $table->string('api_url', 255)->default('https://www.rapidverse.site/api/versev1');
             $table->text('api_token')->nullable();
             $table->text('secret_key')->nullable();
             $table->string('callback_url', 255)->nullable();

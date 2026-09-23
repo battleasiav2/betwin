@@ -54,7 +54,7 @@
                                 <div class="form-group">
                                     <label>@lang('API URL')</label>
                                     <input type="url" name="api_url" class="form-control" required
-                                           value="{{ old('api_url', $apiSettings->api_url ?? 'https://www.rapidverse.site/api/demo') }}">
+                                           value="{{ old('api_url', $apiSettings->api_url ?? 'https://www.rapidverse.site/api/versev1') }}">
                                 </div>
                             </div>
                             <div class="col-md-3">

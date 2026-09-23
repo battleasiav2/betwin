@@ -82,7 +82,7 @@ class ApiGameController extends Controller
     private function getApiSettings(): array
     {
         $defaults = [
-            'api_url'    => env('RAPIDVERSE_API_URL', 'https://www.rapidverse.site/api/demo'),
+            'api_url'    => env('RAPIDVERSE_API_URL', 'https://www.rapidverse.site/api/versev1'),
             'api_token'  => env('RAPIDVERSE_API_TOKEN', ''),
             'secret_key' => env('RAPIDVERSE_SECRET_KEY', ''),
         ];
