@@ -40,20 +40,18 @@ class RegisterController extends Controller
         if (gs('secure_password')) {
             $passwordValidation = $passwordValidation->mixedCase()->numbers()->symbols()->uncompromised();
         }
-        $agree = 'nullable';
-        if (gs('agree')) {
-            $agree = 'required';
-        }
-
         $validate = Validator::make($data, [
-            'firstname' => 'required',
-            'lastname'  => 'required',
-            'email'     => 'required|string|email|unique:users',
-            'password'  => ['required', 'confirmed', $passwordValidation],
-            'agree'     => $agree,
+            'firstname'    => 'required',
+            'lastname'     => 'required',
+            'email'        => 'required|string|email|unique:users',
+            'password'     => ['required', 'confirmed', $passwordValidation],
+            'confirm_age'  => 'accepted',
+            'agree'        => 'accepted',
         ], [
-            'firstname.required' => 'The first name field is required',
-            'lastname.required'  => 'The last name field is required',
+            'firstname.required'   => 'The first name field is required',
+            'lastname.required'    => 'The last name field is required',
+            'confirm_age.accepted' => 'You must confirm that you are of legal gambling age.',
+            'agree.accepted'       => 'You must accept the Terms and Conditions and Privacy Policy.',
         ]);
 
         return $validate;

@@ -148,55 +148,81 @@
         display: block;
     }
 
+    .confirm-block {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        margin: 4px 0 22px;
+    }
     .checkbox-container {
         display: flex;
         align-items: flex-start;
+        gap: 12px;
         cursor: pointer;
         position: relative;
-        padding-left: 28px;
-        color: #ddd;
+        padding-left: 0;
+        color: #4b5563;
         font-size: 13px;
         margin-bottom: 0;
         user-select: none;
+        line-height: 1.45;
     }
     .checkbox-container input {
         position: absolute;
         opacity: 0;
         cursor: pointer;
+        width: 0;
+        height: 0;
     }
     .checkmark {
-        position: absolute;
-        left: 0;
-        top: 2px;
-        height: 18px;
-        width: 18px;
-        border: 2px solid #123b66;
-        border-radius: 4px;
+        position: relative;
+        left: auto;
+        top: auto;
+        height: 22px;
+        width: 22px;
+        min-width: 22px;
+        border: 1.5px solid #c9d2e0;
+        border-radius: 7px;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: transparent;
+        background: #f3f5f8;
         flex-shrink: 0;
+        margin-top: 1px;
+        transition: background 0.15s, border-color 0.15s;
     }
     .checkbox-container input:checked ~ .checkmark {
-        background: #123b66;
+        background: #2563eb;
+        border-color: #2563eb;
     }
     .checkmark i {
         display: none;
-        color: #000;
+        color: #ffffff;
         font-size: 11px;
     }
     .checkbox-container input:checked ~ .checkmark i {
         display: block;
     }
     .agree-text {
-        color: #ddd;
-        font-size: 12px;
-        line-height: 1.4;
+        color: #4b5563;
+        font-size: 13px;
+        line-height: 1.45;
+        flex: 1;
     }
     .agree-text a {
-        color: #123b66;
+        color: #2563eb;
         text-decoration: none;
+        font-weight: 600;
+    }
+    .agree-text a:hover {
+        text-decoration: underline;
+    }
+    .confirm-error {
+        color: #ef4444;
+        font-size: 12px;
+        margin-top: -8px;
+        margin-bottom: 12px;
+        display: none;
     }
 
     .btn-register {
@@ -359,23 +385,40 @@
                 <x-captcha />
             </div>
 
-            @if(gs('agree'))
-            <div class="input-group" style="margin-bottom: 25px;">
-                <label class="checkbox-container">
-                    <input type="checkbox" name="agree" id="agree" @checked(old('agree')) required>
-                    <span class="checkmark">
-                        <i class="fas fa-check"></i>
-                    </span>
+            @php
+                $termsPage = collect($policyPages)->first(function ($p) {
+                    $t = strtolower($p->data_values->title ?? '');
+                    $s = strtolower($p->slug ?? '');
+                    return str_contains($t, 'term') || str_contains($s, 'term');
+                });
+                $privacyPage = collect($policyPages)->first(function ($p) {
+                    $t = strtolower($p->data_values->title ?? '');
+                    $s = strtolower($p->slug ?? '');
+                    return str_contains($t, 'privacy') || str_contains($s, 'privacy');
+                });
+                $termsUrl = $termsPage ? route('policy.pages', $termsPage->slug) : url('/');
+                $privacyUrl = $privacyPage ? route('policy.pages', $privacyPage->slug) : url('/');
+            @endphp
+
+            <div class="confirm-block">
+                <label class="checkbox-container" for="confirm_age">
+                    <input type="checkbox" name="confirm_age" id="confirm_age" value="1" @checked(old('confirm_age')) required>
+                    <span class="checkmark"><i class="fas fa-check"></i></span>
+                    <span class="agree-text">@lang('I confirm that I am 18 or older, or have reached the legal gambling age in my jurisdiction')</span>
+                </label>
+
+                <label class="checkbox-container" for="agree">
+                    <input type="checkbox" name="agree" id="agree" value="1" @checked(old('agree')) required>
+                    <span class="checkmark"><i class="fas fa-check"></i></span>
                     <span class="agree-text">
-                        @lang('I agree with')
-                        @foreach ($policyPages as $policy)
-                            <a href="{{ route('policy.pages', $policy->slug) }}">{{ __($policy->data_values->title) }}</a>
-                            @if(!$loop->last), @endif
-                        @endforeach
+                        @lang('I confirm that I have read and accepted the')
+                        <a href="{{ $termsUrl }}" target="_blank" rel="noopener">@lang('General Terms and Conditions')</a>,
+                        <a href="{{ $privacyUrl }}" target="_blank" rel="noopener">@lang('Privacy Policy')</a>
+                        @lang('and other applicable rules')
                     </span>
                 </label>
             </div>
-            @endif
+            <div class="confirm-error" id="confirmError">@lang('Please accept both confirmations to continue.')</div>
 
             <button type="submit" class="btn-register" id="regSubmitBtn">@lang('Register')</button>
         </form>
@@ -461,6 +504,18 @@
                 mobileInput.focus();
                 return false;
             }
+
+            var ageOk = document.getElementById('confirm_age').checked;
+            var agreeOk = document.getElementById('agree').checked;
+            var confirmError = document.getElementById('confirmError');
+            if (!ageOk || !agreeOk) {
+                e.preventDefault();
+                confirmError.style.display = 'block';
+                if (!ageOk) document.getElementById('confirm_age').focus();
+                else document.getElementById('agree').focus();
+                return false;
+            }
+            confirmError.style.display = 'none';
         });
     });
 </script>

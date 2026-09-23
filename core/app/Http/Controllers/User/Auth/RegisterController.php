@@ -39,26 +39,24 @@ class RegisterController extends Controller
             $passwordValidation = $passwordValidation->mixedCase()->numbers()->symbols()->uncompromised();
         }
 
-        $agree = 'nullable';
-        if (gs('agree')) {
-            $agree = 'required';
-        }
-
         $validate = Validator::make($data, [
-            'firstname' => 'required',
-            'lastname'  => 'required',
-            'username'  => 'required|unique:users|min:6',
-            'email'     => 'required|string|email|unique:users',
-            'country'   => 'required',
-            'mobile'    => 'required',
-            'password'  => ['required', 'confirmed', $passwordValidation],
-            'captcha'   => 'sometimes|required',
-            'agree'     => $agree,
+            'firstname'    => 'required',
+            'lastname'     => 'required',
+            'username'     => 'required|unique:users|min:6',
+            'email'        => 'required|string|email|unique:users',
+            'country'      => 'required',
+            'mobile'       => 'required',
+            'password'     => ['required', 'confirmed', $passwordValidation],
+            'captcha'      => 'sometimes|required',
+            'confirm_age'  => 'accepted',
+            'agree'        => 'accepted',
         ], [
-            'firstname.required' => 'The first name field is required',
-            'lastname.required'  => 'The last name field is required',
-            'username.required'  => 'The username field is required',
-            'username.unique'    => 'The username has already been taken.',
+            'firstname.required'   => 'The first name field is required',
+            'lastname.required'    => 'The last name field is required',
+            'username.required'    => 'The username field is required',
+            'username.unique'      => 'The username has already been taken.',
+            'confirm_age.accepted' => 'You must confirm that you are of legal gambling age.',
+            'agree.accepted'       => 'You must accept the Terms and Conditions and Privacy Policy.',
         ]);
 
         return $validate;
