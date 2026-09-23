@@ -30,14 +30,11 @@
                             @lang('RapidVerse Token/Secret empty — games + secure callback will fail. Paste keys from RapidVerse panel and Save.')
                         </div>
                     @else
-                        <div class="alert alert-warning mb-3">
-                            <strong>@lang('RapidVerse panel Callback URL must include secret')</strong><br>
-                            <code style="word-break:break-all;">https://bet369win.com/callback.php?secret_key=YOUR_SECRET</code><br>
-                            <small>@lang('Hostinger often strips X-Secret-Key headers — without ?secret_key= bet/win returns unauthorized and site balance will not sync.')</small>
-                        </div>
                         <div class="alert alert-success mb-3">
-                            @lang('Secret check OK. Use wallet mode') <strong>Seamless</strong>.
-                            @lang('API Prefix') <code>nix6260006107</code>.
+                            @lang('Callback auth OK without panel URL edit: requests with API Prefix userId are accepted.')
+                            <br>@lang('Keep RapidVerse Callback URL as')
+                            <code>https://bet369win.com/callback.php</code>
+                            (@lang('plain URL is fine')).
                         </div>
                     @endif
 

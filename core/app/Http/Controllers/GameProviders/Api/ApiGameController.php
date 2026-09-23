@@ -31,10 +31,12 @@ class ApiGameController extends Controller
 
         $callbackUrl = $settings['callback_url']
             ?: env('RAPIDVERSE_CALLBACK_URL', 'https://bet369win.com/callback.php');
-        // Embed secret in query so auth works even if Hostinger strips X-Secret-Key headers
-        if (!empty($settings['secret_key']) && !str_contains($callbackUrl, 'secret_key=')) {
-            $callbackUrl .= (str_contains($callbackUrl, '?') ? '&' : '?')
-                . 'secret_key=' . rawurlencode($settings['secret_key']);
+        // Keep panel-compatible plain URL (RapidVerse often locks callback edit).
+        // Strip any previous ?secret_key= so launch matches panel URL.
+        $callbackUrl = preg_replace('/[?&]secret_key=[^&]*/', '', $callbackUrl);
+        $callbackUrl = rtrim($callbackUrl, '?&');
+        if ($callbackUrl === '' || !str_contains($callbackUrl, 'bet369win.com')) {
+            $callbackUrl = 'https://bet369win.com/callback.php';
         }
 
         $payload = [
@@ -46,7 +48,6 @@ class ApiGameController extends Controller
             'phonetype'   => '1',
             'returnUrl'   => route('user.home'),
             'currency'    => 'BDT',
-            // Force seamless wallet so bet/win hit our callback → header/home balance syncs
             'callbackUrl' => $callbackUrl,
             'walletType'  => 'seamless',
             'isSeamless'  => true,

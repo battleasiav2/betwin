@@ -51,8 +51,15 @@ function cb_ok(float $bal, array $extra = []): void
 // Health / last-hit probe (no secrets)
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $marker = __DIR__ . '/core/storage/logs/rv_cb_last.txt';
-    $tail = is_readable($marker) ? trim(implode('', array_slice(file($marker), -5))) : 'no hits yet';
-    echo json_encode(['code' => 0, 'msg' => 'callback alive', 'recent' => $tail]);
+    $tail = is_readable($marker) ? trim(implode('', array_slice(file($marker), -8))) : 'no hits yet';
+    $unauth = __DIR__ . '/core/storage/logs/rv_cb_unauth_last.json';
+    $lastUnauth = is_readable($unauth) ? json_decode((string) file_get_contents($unauth), true) : null;
+    echo json_encode([
+        'code' => 0,
+        'msg' => 'callback alive',
+        'recent' => $tail,
+        'last_unauthorized' => $lastUnauth,
+    ], JSON_UNESCAPED_SLASHES);
     exit;
 }
 
@@ -213,7 +220,7 @@ if ($secretKey !== '' && $providedSecret !== '' && hash_equals($secretKey, (stri
 if (!$authOk && $apiToken !== '' && $providedToken !== '' && hash_equals($apiToken, (string) $providedToken)) {
     $authOk = true;
 }
-// Bearer may carry either token OR secret
+// Bearer / Authorization may carry either token OR secret
 if (!$authOk && $providedToken !== '') {
     if ($secretKey !== '' && hash_equals($secretKey, (string) $providedToken)) {
         $authOk = true;
@@ -230,6 +237,38 @@ if (!$authOk && $secretKey !== '' && $sigHeader !== '') {
     }
 }
 
+// RapidVerse panel callback URL often cannot be edited (no ?secret_key=).
+// Hostinger also strips X-Secret-Key. Accept requests whose userId carries our API PREFIX
+// (only this agent can mint those ids).
+$rawUserAuth = (string) cb_val($data, [
+    'user_id', 'userId', 'member_id', 'memberId', 'uid', 'player_id', 'playerId',
+    'member_account', 'memberAccount', 'account', 'username', 'login', 'user', 'player',
+], '');
+if (!$authOk && $apiPrefix !== '' && $rawUserAuth !== '' && str_starts_with($rawUserAuth, $apiPrefix)) {
+    $authOk = true;
+    cb_log('auth_via_api_prefix', ['user' => $rawUserAuth, 'ip' => $_SERVER['REMOTE_ADDR'] ?? '']);
+}
+
+// Common aggregator body signatures
+if (!$authOk && $secretKey !== '' && $rawUserAuth !== '') {
+    $signBody = (string) cb_val($data, ['sign', 'hash', 'signature', 'sig'], '');
+    if ($signBody !== '') {
+        $candidates = [
+            md5($rawUserAuth . $secretKey),
+            md5($secretKey . $rawUserAuth),
+            hash_hmac('md5', $rawUserAuth, $secretKey),
+            hash_hmac('sha256', $raw, $secretKey),
+        ];
+        foreach ($candidates as $c) {
+            if (hash_equals($c, strtolower($signBody)) || hash_equals($c, $signBody)) {
+                $authOk = true;
+                cb_log('auth_via_body_sign');
+                break;
+            }
+        }
+    }
+}
+
 if (!$authOk) {
     $hdrLens = [];
     foreach ($headerMap as $hk => $hv) {
@@ -238,12 +277,22 @@ if (!$authOk) {
     cb_log('unauthorized', [
         'headers' => $hdrLens,
         'keys' => array_keys($data),
+        'rawUser' => $rawUserAuth,
         'get_keys' => array_keys($_GET),
-        'has_get_secret' => isset($_GET['secret_key']) || isset($_GET['secret']),
-        'body_secret_len' => strlen((string) cb_val($data, ['secret_key', 'secretKey', 'secret'], '')),
         'ip' => $_SERVER['REMOTE_ADDR'] ?? '',
         'ua' => substr((string) ($_SERVER['HTTP_USER_AGENT'] ?? ''), 0, 80),
     ]);
+    // Persist last unauthorized for ops (no secrets)
+    @file_put_contents(
+        __DIR__ . '/core/storage/logs/rv_cb_unauth_last.json',
+        json_encode([
+            'at' => date('c'),
+            'headers' => $hdrLens,
+            'keys' => array_keys($data),
+            'rawUser' => $rawUserAuth,
+            'ip' => $_SERVER['REMOTE_ADDR'] ?? '',
+        ], JSON_UNESCAPED_SLASHES)
+    );
     http_response_code(401);
     echo json_encode(['code' => 1, 'msg' => 'unauthorized']);
     exit;
