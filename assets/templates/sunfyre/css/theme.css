@@ -766,36 +766,32 @@ body:has(.mobile-container)::before {
   display: none !important;
 }
 
-/* ── Unique mobile dock menu ── */
+/* ── Polished mobile dock (simple icons, no bg card) ── */
 .m-dock {
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: 10050;
-  padding: 0 12px calc(10px + env(safe-area-inset-bottom, 0px));
+  padding: 0 10px calc(8px + env(safe-area-inset-bottom, 0px));
   pointer-events: none;
 }
 
 .m-dock__shell {
   pointer-events: auto;
-  max-width: 430px;
+  max-width: 440px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   align-items: end;
-  gap: 2px;
-  padding: 8px 8px 10px;
-  border-radius: 28px 28px 22px 22px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(248, 250, 252, 0.96) 100%);
-  border: 1px solid rgba(18, 59, 102, 0.08);
+  gap: 0;
+  padding: 6px 6px 8px;
+  border-radius: 24px;
+  background: #ffffff;
+  border: 1px solid #e8f0fa;
   box-shadow:
-    0 -1px 0 rgba(255, 255, 255, 0.9) inset,
-    0 12px 40px rgba(18, 59, 102, 0.18),
-    0 2px 8px rgba(18, 59, 102, 0.06);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+    0 8px 28px rgba(18, 59, 102, 0.14),
+    0 1px 0 rgba(255, 255, 255, 0.9) inset;
 }
 
 .m-dock__item {
@@ -804,33 +800,39 @@ body:has(.mobile-container)::before {
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  gap: 4px;
-  min-height: 52px;
-  padding: 4px 2px 2px;
+  gap: 3px;
+  min-height: 48px;
+  padding: 6px 2px 4px;
   text-decoration: none !important;
-  color: #7b8798 !important;
+  color: #8b95a5 !important;
   -webkit-tap-highlight-color: transparent;
-  transition: color 0.25s ease, transform 0.25s ease;
+  transition: color 0.2s ease, transform 0.15s ease;
 }
 
 .m-dock__icon {
-  width: 40px;
-  height: 36px;
-  border-radius: 14px;
+  width: auto;
+  height: auto;
+  min-width: 0;
+  min-height: 0;
+  border-radius: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 17px;
-  background: transparent;
-  transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+  font-size: 20px;
+  line-height: 1;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: inherit;
+  transition: color 0.2s ease, transform 0.15s ease;
 }
 
 .m-dock__label {
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   line-height: 1;
-  opacity: 0.9;
+  color: inherit;
 }
 
 .m-dock__item:active {
@@ -842,70 +844,84 @@ body:has(.mobile-container)::before {
 }
 
 .m-dock__item.is-active .m-dock__icon {
-  color: #ffffff;
-  background: linear-gradient(145deg, #2563eb 0%, #123b66 100%);
-  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.35);
-  transform: translateY(-2px);
+  color: #2563eb !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none;
 }
 
 .m-dock__item.is-active .m-dock__label {
-  color: #123b66;
+  color: #123b66 !important;
   font-weight: 800;
 }
 
+.m-dock__item.is-active::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 3px;
+  border-radius: 99px;
+  background: #2563eb;
+}
+
 .m-dock__item--center {
-  transform: translateY(-14px);
+  transform: translateY(-12px);
 }
 
 .m-dock__item--center:active {
-  transform: translateY(-14px) scale(0.96);
+  transform: translateY(-12px) scale(0.96);
+}
+
+.m-dock__item--center.is-active::after {
+  display: none;
 }
 
 .m-dock__orb {
-  width: 54px;
-  height: 54px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 19px;
   color: #ffffff;
-  background:
-    radial-gradient(circle at 30% 28%, rgba(255, 255, 255, 0.35), transparent 42%),
-    linear-gradient(145deg, #3b82f6 0%, #123b66 72%);
+  background: linear-gradient(145deg, #2563eb 0%, #123b66 100%);
   border: 3px solid #ffffff;
-  box-shadow:
-    0 10px 24px rgba(18, 59, 102, 0.35),
-    0 0 0 4px rgba(37, 99, 235, 0.12);
+  box-shadow: 0 8px 20px rgba(18, 59, 102, 0.3);
   position: relative;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .m-dock__orb::after {
-  content: "";
-  position: absolute;
-  inset: -7px;
-  border-radius: 50%;
-  border: 1.5px dashed rgba(37, 99, 235, 0.35);
-  animation: m-dock-spin 12s linear infinite;
-  pointer-events: none;
+  display: none !important;
 }
 
 .m-dock__item--center.is-active .m-dock__orb {
-  transform: scale(1.06);
-  box-shadow:
-    0 14px 28px rgba(18, 59, 102, 0.4),
-    0 0 0 5px rgba(37, 99, 235, 0.18);
+  transform: scale(1.04);
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.4);
 }
 
 .m-dock__item--center .m-dock__label {
   margin-top: 2px;
-  color: #123b66;
+  color: #123b66 !important;
   font-weight: 800;
 }
 
-@keyframes m-dock-spin {
-  to { transform: rotate(360deg); }
+/* Content clearance above dock */
+body {
+  padding-bottom: calc(78px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+@media (min-width: 900px) {
+  .m-dock {
+    display: none;
+  }
+  body {
+    padding-bottom: 0 !important;
+  }
 }
 
 /* ── BET369WIN simple float icons (no card / no rail box) ── */
@@ -917,7 +933,7 @@ body:has(.mobile-container)::before {
 .b369-rail {
   position: fixed;
   right: max(10px, env(safe-area-inset-right));
-  bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+  bottom: calc(100px + env(safe-area-inset-bottom, 0px));
   z-index: 9990;
   display: flex;
   flex-direction: column;
@@ -1013,15 +1029,8 @@ body:has(.mobile-container)::before {
 }
 
 .custom-home-wrapper,
-.account-page-wrap,
-body {
+.account-page-wrap {
   padding-bottom: 0;
-}
-
-@media (min-width: 900px) {
-  .m-dock {
-    display: none;
-  }
 }
 
 .header-bg,
@@ -1036,10 +1045,7 @@ body {
   background: linear-gradient(135deg, #123b66 0%, #1a4a7a 50%, #0f2d4a 100%) !important;
 }
 .bottom-nav {
-  box-shadow:
-    0 0 0 2px #e8f0fa,
-    inset 0 1px 0 rgba(37,99,235,0.12),
-    0 8px 24px rgba(18,59,102,0.12) !important;
+  display: none !important;
 }
 .center-icon-circle {
   background: linear-gradient(145deg, #2563eb, #123b66) !important;
