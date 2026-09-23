@@ -1,5 +1,5 @@
 ﻿@php
-{{-- RapidVerse versév1: only this sports gameCode launches. Fake lobby codes (bti/sb/cmd…) return "Game not found". --}}
+// RapidVerse: only this sports gameCode launches. Fake codes (bti/sb/cmd) return Game not found.
 $sportsGames = [
     [
         "id" => "92b24e4c25107367a80e0fe1a97c24e4",
