@@ -22,7 +22,7 @@
         @auth
             <div class="user-balance">
                 <i class="fas fa-wallet"></i>
-                <span>{{ showAmount(auth()->user()->balance) }} {{ __(gs('cur_text')) }}</span>
+                <span class="js-live-balance" data-live-balance="full">{{ showAmount(auth()->user()->balance) }} {{ __(gs('cur_text')) }}</span>
             </div>
         @else
             <a href="{{ route('user.login') }}" class="btn-login">@lang('Log In')</a>
@@ -55,7 +55,7 @@
                 <span class="sb-login-row__avatar" aria-hidden="true"><i class="fas fa-user"></i></span>
                 <span class="sb-login-row__text">
                     <strong>{{ auth()->user()->username ?? auth()->user()->firstname ?? __('Member') }}</strong>
-                    <small>{{ showAmount(auth()->user()->balance) }} {{ __(gs('cur_text')) }}</small>
+                    <small class="js-live-balance" data-live-balance="full">{{ showAmount(auth()->user()->balance) }} {{ __(gs('cur_text')) }}</small>
                 </span>
                 <i class="fas fa-chevron-right sb-login-row__chev" aria-hidden="true"></i>
             </a>

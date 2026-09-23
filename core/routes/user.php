@@ -63,6 +63,7 @@ Route::middleware('auth')->name('user.')->group(function () {
             Route::controller('UserController')->group(function () {
                 Route::get('dashboard', 'home')->name('home');
                 Route::get('my-account', 'account')->name('account');
+                Route::get('live-balance', 'liveBalance')->name('live.balance');
                 Route::get('download-attachments/{file_hash}', 'downloadAttachment')->name('download.attachment');
 
                 //2FA
