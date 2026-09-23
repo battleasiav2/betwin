@@ -961,7 +961,7 @@ body {
   }
 }
 
-/* ── BET369WIN simple float icons (no card / no rail box) ── */
+/* ── BET369WIN float icons — dark squircle (footer social style) ── */
 .float-social-btns,
 .float-btn {
   display: none !important;
@@ -975,7 +975,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   padding: 0;
   width: auto;
   background: transparent;
@@ -990,24 +990,38 @@ body {
 
 .b369-rail__btn {
   position: relative;
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px !important;
   display: flex;
   align-items: center;
   justify-content: center;
   text-decoration: none !important;
   color: #ffffff !important;
-  background: transparent;
-  border: 0;
-  box-shadow: 0 4px 12px rgba(18, 59, 102, 0.28);
-  transition: transform 0.15s ease, filter 0.15s ease;
+  background: #2c2c2c !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  transition: transform 0.15s ease, background 0.15s ease, filter 0.15s ease;
+}
+
+.b369-rail__btn svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+  color: #ffffff !important;
+  fill: currentColor;
+}
+
+.b369-rail__btn--support svg {
+  fill: none;
+  stroke: currentColor;
 }
 
 .b369-rail__btn:hover,
 .b369-rail__btn:focus-visible {
-  transform: scale(1.08);
-  filter: brightness(1.06);
+  transform: scale(1.06);
+  background: #3a3a3a !important;
+  filter: none;
   outline: none;
 }
 
@@ -1020,23 +1034,11 @@ body {
   display: none !important;
 }
 
-.b369-rail__btn--wa {
-  background: #25d366 !important;
-  color: #ffffff !important;
-}
-
-.b369-rail__btn--fb {
-  background: #1877f2 !important;
-  color: #ffffff !important;
-}
-
-.b369-rail__btn--tg {
-  background: #2aabee !important;
-  color: #ffffff !important;
-}
-
+.b369-rail__btn--wa,
+.b369-rail__btn--fb,
+.b369-rail__btn--tg,
 .b369-rail__btn--support {
-  background: #123b66 !important;
+  background: #2c2c2c !important;
   color: #ffffff !important;
 }
 
@@ -1056,6 +1058,47 @@ body {
     bottom: 28px;
     right: 18px;
   }
+}
+
+/* Footer social row — same dark squircle style */
+.footer-social-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.footer-social-row a {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #2c2c2c;
+  color: #ffffff !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none !important;
+  font-size: 16px;
+  border: 0;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.footer-social-row a:hover {
+  background: #3a3a3a;
+  transform: scale(1.05);
+}
+
+.footer-social-row a svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+  fill: currentColor;
+}
+
+.footer-social-row a.footer-social--support svg {
+  fill: none;
+  stroke: currentColor;
 }
 
 @media (max-width: 360px) {
