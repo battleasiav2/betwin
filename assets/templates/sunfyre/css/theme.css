@@ -370,8 +370,8 @@ header.header,
 
 .sb-card-icon.ic-gold {
   color: #d9a12a !important;
-  background: linear-gradient(145deg, #fff4d8, #ffffff) !important;
-  border-color: #f3e2b0 !important;
+  background: #ffffff !important;
+  border-color: #d5e4f7 !important;
 }
 
 .sb-card-label {
