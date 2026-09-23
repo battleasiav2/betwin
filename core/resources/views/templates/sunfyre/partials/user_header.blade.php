@@ -1,5 +1,8 @@
 {{-- user_header.blade.php --}}
 
+<div class="site-topbar">
+    @include($activeTemplate . 'partials.apk_banner')
+
 <header class="site-header">
     <button class="hamburger-btn" onclick="toggleSidebar()" type="button" aria-label="@lang('Menu')">
         <div class="hamburger-icon">
@@ -26,6 +29,7 @@
         @endauth
     </div>
 </header>
+</div>
 
 <div id="sidebarOverlay" onclick="toggleSidebar()" class="hidden"></div>
 
@@ -131,7 +135,7 @@
         <div class="sb-divider"></div>
 
         <nav class="sb-list">
-            <a href="#" class="sb-list__item">
+            <a href="{{ config('app.apk_url') ?: env('APK_DOWNLOAD_URL', asset('assets/apk/bet369win.apk')) }}" class="sb-list__item" download="bet369win.apk">
                 <span class="sb-list__ico"><i class="fas fa-cloud-arrow-down"></i></span>
                 <span class="sb-list__label">@lang('APP Download')</span>
             </a>
@@ -190,7 +194,7 @@
     }
 
     .site-header {
-        position: sticky; top: 0; z-index: 100; height: 56px;
+        position: relative; top: auto; z-index: 1; height: 56px;
         background: rgba(255,255,255,0.96); backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);
         display: flex; align-items: center; justify-content: flex-start; padding: 0 12px;
