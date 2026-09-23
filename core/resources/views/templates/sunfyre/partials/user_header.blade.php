@@ -299,13 +299,15 @@
         color: #f4b942; display: grid; place-items: center; font-size: 18px;
     }
 
-    .sb-list { display: flex; flex-direction: column; gap: 2px; }
+    .sb-list { display: flex; flex-direction: column; gap: 0; }
     .sb-list__item {
         display: flex !important; align-items: center !important; gap: 12px !important;
-        padding: 12px 10px !important; border-radius: 12px !important;
+        padding: 12px 10px !important; border-radius: 0 !important;
         text-decoration: none !important; color: #172033 !important;
         transition: background 0.15s ease;
+        border-bottom: 1px dotted #d5e4f7 !important;
     }
+    .sb-list__item:last-child { border-bottom: 0 !important; }
     .sb-list__item:active { background: #e8f0fa !important; }
     .sb-list__ico {
         width: 22px; text-align: center; color: #123b66; font-size: 16px; flex-shrink: 0;
