@@ -1,5 +1,5 @@
 ﻿@php
-{{-- Same working RapidVerse sports gameCode; lobby codes like bti/sb fail. --}}
+// Same working RapidVerse sports gameCode; lobby codes like bti/sb fail.
 $hash = '92b24e4c25107367a80e0fe1a97c24e4';
 $img = 'https://img.b6814jd.com/bjd/h5/assets/images/brand/white';
 $sportsGames = [
