@@ -227,23 +227,27 @@
 
     /* â”€â”€â”€ CATEGORY NAV â”€â”€â”€ */
     .cat-nav-wrap {
-        padding: 12px 10px 0; overflow-x: auto; white-space: nowrap;
+        padding: 12px 12px 0; overflow-x: auto; white-space: nowrap;
         scrollbar-width: none; -ms-overflow-style: none;
     }
     .cat-nav-wrap::-webkit-scrollbar { display: none; }
     .cat-nav-inner { display: inline-flex; gap: 8px; padding-bottom: 10px; }
     .cat-pill {
         display: inline-flex; align-items: center; gap: 6px;
-        padding: 7px 14px; border-radius: 20px; font-size: 12px; font-weight: 700;
-        text-decoration: none; color: var(--text-muted);
-        background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07);
-        transition: all 0.2s; white-space: nowrap; cursor: pointer;
+        padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 700;
+        text-decoration: none; color: #6b7280;
+        background: #ffffff; border: 1px solid #e8f0fa;
+        transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+        white-space: nowrap; cursor: pointer; box-shadow: none;
     }
-    .cat-pill i { font-size: 13px; }
-    .cat-pill.active, .cat-pill:active {
-        background: var(--teal); border-color: var(--teal-light); color: #fff;
-        box-shadow: 0 2px 10px rgba(37,99,235,0.4);
+    .cat-pill i { font-size: 13px; color: #2563eb; }
+    .cat-pill.active,
+    .cat-pill:active {
+        background: #2563eb; border-color: #2563eb; color: #ffffff;
+        box-shadow: none;
     }
+    .cat-pill.active i,
+    .cat-pill:active i { color: #ffffff; }
 
     /* Category section */
     .cat-section {
