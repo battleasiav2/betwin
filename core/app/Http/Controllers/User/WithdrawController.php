@@ -206,6 +206,16 @@ class WithdrawController extends Controller
     {
         $pageTitle = "Withdrawal Log";
         $withdraws = Withdrawal::where('user_id', auth()->id())->where('status', '!=', Status::PAYMENT_INITIATE);
+
+        $status = strtolower((string) $request->status);
+        if ($status === 'pending') {
+            $withdraws->where('status', Status::PAYMENT_PENDING);
+        } elseif ($status === 'approved' || $status === 'success') {
+            $withdraws->where('status', Status::PAYMENT_SUCCESS);
+        } elseif ($status === 'rejected') {
+            $withdraws->where('status', Status::PAYMENT_REJECT);
+        }
+
         if ($request->search) {
             $withdraws = $withdraws->where('trx', $request->search);
         }

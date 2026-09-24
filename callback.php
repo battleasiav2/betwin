@@ -79,7 +79,7 @@ $gameName = trim((string) ($data['game_code'] ?? $data['gameCode'] ?? 'API Game'
 if ($gameName === '') {
     $gameName = 'API Game';
 }
-$gameName = substr($gameName, 0, 120);
+$gameName = substr($gameName, 0, 40);
 
 $bet = (float) ($data['bet_amount'] ?? $data['betAmount'] ?? $data['bet'] ?? 0);
 $win = (float) ($data['win_amount'] ?? $data['winAmount'] ?? $data['win'] ?? 0);
@@ -113,7 +113,7 @@ if (in_array($action, ['balance', 'getbalance', 'get_balance'], true) || ($seria
 if ($serial === '') {
     $serial = 'auto-' . $userId . '-' . md5($raw . microtime(true));
 }
-$serial = substr($serial, 0, 190);
+$serial = substr($serial, 0, 100);
 
 $conn = new mysqli($db['host'], $db['user'], $db['pass'], $db['name']);
 if ($conn->connect_error) {

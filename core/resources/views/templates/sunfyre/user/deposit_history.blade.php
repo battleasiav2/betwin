@@ -416,9 +416,10 @@
         <div class="filter-date-badge">
             <i class="far fa-calendar-alt"></i>
             <span id="currentFilterLabel">
-                @if(request('date') == 'yesterday') Yesterday
+                @if(request('date') == 'today') Today
+                @elseif(request('date') == 'yesterday') Yesterday
                 @elseif(request('date') == 'week') Last 7 days
-                @else Today @endif
+                @else All @endif
             </span>
         </div>
         <button onclick="openFilter()" class="filter-open-btn">
@@ -450,7 +451,7 @@
                     3 => 'Rejected',
                     default => 'Pending'
                 };
-                $gatewayName = $deposit->gateway->name ?? 'Deposit';
+                $gatewayName = optional($deposit->gateway)->name ?? ($deposit->methodName() ?: 'Deposit');
             @endphp
             <div class="data-row">
                 <div style="font-weight:700; font-size:11px;">{{ __($gatewayName) }}</div>
@@ -488,15 +489,17 @@
 
     <div class="filter-modal-body">
         <p class="filter-sec-title">Status</p>
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
-            <div class="filter-btn f-status {{ request('status') == 'pending' || !request('status') ? 'active' : '' }}" data-val="pending" onclick="selectFilter(this, 'status')">Processing</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px;">
+            <div class="filter-btn f-status {{ !request('status') ? 'active' : '' }}" data-val="" onclick="selectFilter(this, 'status')">All</div>
+            <div class="filter-btn f-status {{ request('status') == 'pending' ? 'active' : '' }}" data-val="pending" onclick="selectFilter(this, 'status')">Processing</div>
             <div class="filter-btn f-status {{ request('status') == 'rejected' ? 'active' : '' }}" data-val="rejected" onclick="selectFilter(this, 'status')">Rejected</div>
             <div class="filter-btn f-status {{ request('status') == 'approved' ? 'active' : '' }}" data-val="approved" onclick="selectFilter(this, 'status')">Approved</div>
         </div>
 
         <p class="filter-sec-title">Date</p>
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
-            <div class="filter-btn f-date {{ request('date') == 'today' || !request('date') ? 'active' : '' }}" data-val="today" onclick="selectFilter(this, 'date')">Today</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px;">
+            <div class="filter-btn f-date {{ !request('date') ? 'active' : '' }}" data-val="" onclick="selectFilter(this, 'date')">All</div>
+            <div class="filter-btn f-date {{ request('date') == 'today' ? 'active' : '' }}" data-val="today" onclick="selectFilter(this, 'date')">Today</div>
             <div class="filter-btn f-date {{ request('date') == 'yesterday' ? 'active' : '' }}" data-val="yesterday" onclick="selectFilter(this, 'date')">Yesterday</div>
             <div class="filter-btn f-date {{ request('date') == 'week' ? 'active' : '' }}" data-val="week" onclick="selectFilter(this, 'date')">Last 7 days</div>
         </div>
@@ -511,7 +514,7 @@
 
 <script>
     let selectedStatus = '{{ request('status', '') }}';
-    let selectedDate = '{{ request('date', 'today') }}';
+    let selectedDate = '{{ request('date', '') }}';
 
     function openFilter() {
         document.getElementById('filterModal').classList.add('open');

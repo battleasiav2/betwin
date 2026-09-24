@@ -454,6 +454,7 @@
                 @elseif($days == 'yesterday') Yesterday
                 @elseif($days == '7days') Last 7 days
                 @elseif($days == '30days') Last 1 month
+                @elseif($days == 'all') All time
                 @else All time @endif
             </span> 
             <i class="fas fa-caret-down" style="margin-left:4px; font-size:10px;"></i>
@@ -464,7 +465,7 @@
             <a href="{{ route('user.game.log', ['days' => 'yesterday', 'provider' => request()->provider, 'tab' => request()->tab]) }}" class="dropdown-item">Yesterday</a>
             <a href="{{ route('user.game.log', ['days' => '7days', 'provider' => request()->provider, 'tab' => request()->tab]) }}" class="dropdown-item">Last 7 days</a>
             <a href="{{ route('user.game.log', ['days' => '30days', 'provider' => request()->provider, 'tab' => request()->tab]) }}" class="dropdown-item">Last 1 month</a>
-            <a href="{{ route('user.game.log', ['provider' => request()->provider, 'tab' => request()->tab]) }}" class="dropdown-item">All time</a>
+            <a href="{{ route('user.game.log', ['days' => 'all', 'provider' => request()->provider, 'tab' => request()->tab]) }}" class="dropdown-item">All time</a>
         </div>
 
         <button class="filter-icon-btn" onclick="openApiModal()">
@@ -484,13 +485,19 @@
     <div class="min-h-[50vh]" style="background:#fff;">
         @forelse($logs as $log)
             @php
-                $isWin = ($log->win_amo > $log->invest || $log->win_status != 0);
-                $profitLoss = $log->win_amo - $log->invest;
-                $displayName = $log->game ? $log->game->name : ($log->game_name ?? 'Game Result');
-                $provider = $log->provider ?? ($log->game->provider ?? 'N/A');
+                $isWin = ((float) $log->win_amo > (float) $log->invest) || (int) $log->win_status !== 0;
+                $profitLoss = (float) $log->win_amo - (float) $log->invest;
+                $displayName = $log->game_name ?: (optional($log->game)->name ?? 'Game Result');
+                $provider = 'API';
+                $gn = strtolower((string) ($log->game_name ?? ''));
+                if (strlen($gn) >= 24 && ctype_xdigit($gn)) {
+                    $provider = 'SPORTS';
+                } elseif (optional($log->game)->name) {
+                    $provider = strtoupper((string) strtok($log->game->name, ' '));
+                }
             @endphp
             <div class="data-row">
-                <div style="font-weight:700; font-size:11px;">{{ strtoupper($provider) }}</div>
+                <div style="font-weight:700; font-size:11px;">{{ $provider }}</div>
                 <div style="font-size:11px; color:#4b5563;">{{ __($displayName) }}</div>
                 <div style="font-weight:700;">à§³{{ number_format($log->invest, 2) }}</div>
                 <div>

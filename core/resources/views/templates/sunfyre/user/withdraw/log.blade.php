@@ -409,7 +409,7 @@
                     3 => 'Rejected',
                     default => 'Pending'
                 };
-                $methodName = $withdraw->method->name ?? 'Withdraw';
+                $methodName = optional($withdraw->method)->name ?? 'Withdraw';
                 
                 $details = [];
                 if($withdraw->withdraw_information){
