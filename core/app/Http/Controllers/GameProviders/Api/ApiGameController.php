@@ -122,7 +122,14 @@ class ApiGameController extends Controller
 
     private function getVendorCode(string $provider): string
     {
-        return match (strtolower($provider)) {
+        $slug = strtolower($provider);
+        foreach (config('rapidverse_providers', []) as $p) {
+            if (($p['slug'] ?? '') === $slug && !empty($p['vendor'])) {
+                return (string) $p['vendor'];
+            }
+        }
+
+        return match ($slug) {
             'pg' => 'PG',
             'jdb' => 'JDB',
             'cq9' => 'CQ9',
@@ -143,6 +150,9 @@ class ApiGameController extends Controller
             'dpsports', 'dps' => 'DPSports',
             'dpesports', 'esport' => 'DPEsports',
             'spribe', 'aviator' => 'SPRIBE',
+            'pp', 'pp_asia', 'pp_live', 'pp_live_asia' => 'PP',
+            'fc' => 'FC',
+            'tada' => 'TADA',
             'jili', 'hot', 'crash', 'sports', 'default' => 'JILI',
             default => strtoupper($provider),
         };

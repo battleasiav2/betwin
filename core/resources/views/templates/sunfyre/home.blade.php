@@ -464,76 +464,19 @@
 
     <div id="provider-grid-container" style="display:none;">
         <div class="sec-header">
-            <div class="sec-title"><i class="fas fa-dice"></i> @lang('SLOT PROVIDERS')</div>
+            <div class="sec-title"><i class="fas fa-dice"></i> <span id="provider-grid-title">@lang('PROVIDERS')</span></div>
         </div>
+        @include($activeTemplate . 'partials.provider-grid')
+    </div>
 
-        <div class="provider-grid">
-            @if(isset($gameStatus['jili']) && $gameStatus['jili']->status != 0)
-            <div class="provider-card" data-key="jili" onclick="selectProvider('jili')">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_jili.png?v=1781595979466&source=mcdsrc" alt="JILI">
-                <span>JILI</span>
-            </div>
-            @endif
-            @if(isset($gameStatus['pg']) && $gameStatus['pg']->status != 0)
-            <div class="provider-card" data-key="pg" onclick="selectProvider('pg')">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_pg.png?v=1781595979466&source=mcdsrc" alt="PG">
-                <span>PG Soft</span>
-            </div>
-            @endif
-            @if(isset($gameStatus['jdb']) && $gameStatus['jdb']->status != 0)
-            <div class="provider-card" data-key="jdb" onclick="selectProvider('jdb')">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_jdb.png?v=1781595979466&source=mcdsrc" alt="JDB">
-                <span>JDB</span>
-            </div>
-            @endif
-            @if(isset($gameStatus['cq9']) && $gameStatus['cq9']->status != 0)
-            <div class="provider-card" data-key="cq9" onclick="selectProvider('cq9')">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-cq9.png?v=1781595979466&source=mcdsrc" alt="CQ9">
-                <span>CQ9</span>
-            </div>
-            @endif
-            @if(isset($gameStatus['idg']) && $gameStatus['idg']->status != 0)
-            <div class="provider-card" data-key="idg" onclick="selectProvider('idg')">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_dreamgaming.png?v=1781595979466&source=mcdsrc" alt="IDG">
-                <span>IDG</span>
-            </div>
-            @endif
-            @if(isset($gameStatus['km']) && $gameStatus['km']->status != 0)
-            <div class="provider-card" data-key="km" onclick="selectProvider('km')">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_kingmaker.png?v=1781595979466&source=mcdsrc" alt="KM">
-                <span>KM</span>
-            </div>
-            @endif
-            @if(isset($gameStatus['v8']) && $gameStatus['v8']->status != 0)
-            <div class="provider-card" data-key="v8" onclick="selectProvider('v8')">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_yesbingo.png?v=1781595979466&source=mcdsrc" alt="V8">
-                <span>V8</span>
-            </div>
-            @endif
-            @if(isset($gameStatus['mg']) && $gameStatus['mg']->status != 0)
-            <div class="provider-card" data-key="mg" onclick="selectProvider('mg')">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-mg.png?v=1781595979466&source=mcdsrc" alt="MG">
-                <span>MG</span>
-            </div>
-            @endif
-            @if(isset($gameStatus['g9']) && $gameStatus['g9']->status != 0)
-            <div class="provider-card" data-key="g9" onclick="selectProvider('g9')">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-rich88.png?v=1781595979466&source=mcdsrc" alt="G9">
-                <span>G9</span>
-            </div>
-            @endif
-            @if(isset($gameStatus['card365']) && $gameStatus['card365']->status != 0)
-            <div class="provider-card" data-key="card365" onclick="selectProvider('card365')">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-playngo.png?v=1781595979466&source=mcdsrc" alt="Card365">
-                <span>Card365</span>
-            </div>
-            @endif
-            @if(isset($gameStatus['evo']) && $gameStatus['evo']->status != 0)
-            <div class="provider-card" data-key="evo" onclick="selectProvider('evo')">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_yl.png?v=1781595979466&source=mcdsrc" alt="Evolution">
-                <span>Evolution</span>
-            </div>
-            @endif
+    <div class="section-container" data-provider="__empty__" id="provider-empty-section" style="display:none;">
+        <div class="sec-header">
+            <a href="javascript:void(0)" class="btn-see-all" onclick="backToProviders()"><i class="fas fa-arrow-left"></i> Back</a>
+            <div class="sec-title"><i class="fas fa-gamepad"></i> <span id="provider-empty-title">Provider</span></div>
+        </div>
+        <div style="background:#fff;border-radius:12px;padding:28px 18px;text-align:center;color:#6b7280;">
+            <p style="margin:0 0 8px;font-weight:700;color:#123b66;">@lang('Games list syncing')</p>
+            <p style="margin:0;font-size:13px;">@lang('This provider is enabled from RapidVerse. Full game icons will appear after game-list import.')</p>
         </div>
     </div>
 
@@ -706,6 +649,15 @@
 
     const providerGridEl = document.querySelector('#provider-grid-container .provider-grid');
     const originalProviderCards = providerGridEl ? Array.from(providerGridEl.children) : [];
+    const providerTitleMap = {
+        slot: 'SLOT PROVIDERS',
+        casino: 'LIVE CASINO',
+        table: 'TABLE / MINI',
+        fishing: 'FISHING',
+        poker: 'CARD / POKER',
+        sports: 'SPORTS PROVIDERS',
+        crash: 'CRASH / MINI'
+    };
 
     function shuffleArray(arr) {
         for (let i = arr.length - 1; i > 0; i--) {
@@ -713,6 +665,27 @@
             [arr[i], arr[j]] = [arr[j], arr[i]];
         }
         return arr;
+    }
+
+    function setProviderTitle(category) {
+        const el = document.getElementById('provider-grid-title');
+        if (el) el.textContent = providerTitleMap[category] || 'PROVIDERS';
+    }
+
+    function showProviderGridByType(types) {
+        if (!providerGridEl) return;
+        const want = Array.isArray(types) ? types : [types];
+        let visible = 0;
+        originalProviderCards.forEach(card => {
+            const ok = want.includes(card.dataset.type);
+            card.style.display = ok ? '' : 'none';
+            if (ok) visible++;
+        });
+        // if none match, show all
+        if (visible === 0) {
+            originalProviderCards.forEach(card => { card.style.display = ''; });
+        }
+        document.getElementById('provider-grid-container').style.display = 'block';
     }
 
     function resetProviderGrid() {
@@ -750,14 +723,28 @@
             document.querySelector('.game-center').style.display = 'none';
 
             if (category === 'slot') {
-                document.getElementById('provider-grid-container').style.display = 'block';
-                resetProviderGrid();
+                setProviderTitle('slot');
+                showProviderGridByType('slot');
                 return;
             }
-
-            if (category === 'table' || category === 'fishing' || category === 'poker') {
-                document.getElementById('provider-grid-container').style.display = 'block';
-                showRandomProviderGrid(['jili', 'pg']);
+            if (category === 'casino') {
+                setProviderTitle('casino');
+                showProviderGridByType('casino');
+                return;
+            }
+            if (category === 'table') {
+                setProviderTitle('table');
+                showProviderGridByType(['table', 'cockfight']);
+                return;
+            }
+            if (category === 'fishing') {
+                setProviderTitle('fishing');
+                showProviderGridByType('fishing');
+                return;
+            }
+            if (category === 'poker') {
+                setProviderTitle('poker');
+                showProviderGridByType('poker');
                 return;
             }
 
@@ -774,13 +761,20 @@
     function selectProvider(provider) {
         document.getElementById('provider-grid-container').style.display = 'none';
         let target = document.querySelector('.section-container[data-provider="' + provider + '"]');
+        document.querySelectorAll('.section-container').forEach(s => { s.style.display = 'none'; s.classList.remove('show-anim'); });
         if (target) {
-            document.querySelectorAll('.section-container').forEach(s => { s.style.display = 'none'; s.classList.remove('show-anim'); });
             target.style.display = 'block';
             target.classList.add('show-anim');
-            document.querySelector('.main-footer-section').style.display = 'none';
-            document.querySelector('.game-center').style.display = 'none';
+        } else {
+            const card = document.querySelector('.provider-card[data-key="' + provider + '"]');
+            const name = card ? (card.querySelector('span')?.textContent || provider) : provider;
+            document.getElementById('provider-empty-title').textContent = name.toUpperCase();
+            const empty = document.getElementById('provider-empty-section');
+            empty.style.display = 'block';
+            empty.classList.add('show-anim');
         }
+        document.querySelector('.main-footer-section').style.display = 'none';
+        document.querySelector('.game-center').style.display = 'none';
     }
 
     function backToProviders() {
