@@ -38,9 +38,9 @@ class ApiGameController extends Controller
 
         // Official docs: https://rapidverse.site/api-docs — required launch fields only.
         // returnUrl = player return page (NOT wallet callback; wallet is set in RapidVerse panel).
-        $prefix = (string) ($settings['api_prefix'] ?? '');
+        // Plain numeric userId — matches FINAL callback.php ((int) user_id)
         $payload = [
-            'userId'      => $prefix !== '' ? ($prefix . $user->id) : (string) $user->id,
+            'userId'      => (string) $user->id,
             'gameCode'    => $request->game_code,
             'userBalance' => round((float) $user->balance, 2),
             'vendorCode'  => $vendorCode,
