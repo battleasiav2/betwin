@@ -15,7 +15,7 @@
                     </div>
                     <div class="money-hero-bal">
                         <span>@lang('Balance')</span>
-                        <strong>{{ showAmount(auth()->user()->balance) }}</strong>
+                        <strong class="js-live-balance" data-live-balance="full">{{ showAmount(auth()->user()->balance) }}</strong>
                     </div>
                 </div>
 

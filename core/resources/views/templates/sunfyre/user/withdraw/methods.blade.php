@@ -15,7 +15,7 @@
                     </div>
                     <div class="money-hero-bal">
                         <span>@lang('Balance')</span>
-                        <strong>{{ showAmount(auth()->user()->balance) }}</strong>
+                        <strong class="js-live-balance" data-live-balance="full">{{ showAmount(auth()->user()->balance) }}</strong>
                     </div>
                 </div>
 
@@ -86,7 +86,7 @@
                                 <div class="card-bottom">
                                     <small class="text-white d-block" style="opacity: 0.85; font-size: 11px;">@lang('Available Balance')</small>
                                     <p class="text-white fw-bold mb-0" style="font-size: 18px;">
-                                        {{ showAmount(auth()->user()->balance) }}
+                                        <span class="js-live-balance" data-live-balance="full">{{ showAmount(auth()->user()->balance) }}</span>
                                     </p>
                                 </div>
                             </div>

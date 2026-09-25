@@ -18,7 +18,7 @@
         @auth
             <div class="user-balance">
                 <i class="fas fa-wallet"></i>
-                <span>{{ showAmount(auth()->user()->balance) }} {{ __(gs('cur_text')) }}</span>
+                <span class="js-live-balance" data-live-balance="full">{{ showAmount(auth()->user()->balance) }} {{ __(gs('cur_text')) }}</span>
             </div>
         @else
             <a href="{{ route('user.login') }}" class="btn-login">Log In</a>

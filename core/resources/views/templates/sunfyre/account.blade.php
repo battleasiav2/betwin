@@ -377,10 +377,10 @@
 
         <div style="margin-top: 24px;">
             <div style="display: flex; align-items: center; gap: 8px;">
-                <span style="font-size: 30px; font-weight: 900; color: #e8b84a;">
+                <span style="font-size: 30px; font-weight: 900; color: #e8b84a;" class="js-live-balance" data-live-balance="sym">
                     ৳ {{ number_format(auth()->user()->balance, 2) }}
                 </span>
-                <i class="fas fa-sync-alt" style="color:#8b97a8; font-size:14px; cursor:pointer;" onclick="location.reload()"></i>
+                <i class="fas fa-sync-alt js-live-balance-refresh" style="color:#2563eb; font-size:14px; cursor:pointer;" title="@lang('Refresh')"></i>
             </div>
         </div>
 

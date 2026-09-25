@@ -103,6 +103,8 @@
 
     @stack('script')
 
+    @include($activeTemplate . 'partials.live_balance')
+
     <script>
         (function($) {
             "use strict";

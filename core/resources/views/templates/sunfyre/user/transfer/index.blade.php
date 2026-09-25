@@ -89,7 +89,7 @@
                                         <span>
                                             @lang('Available Balance:')
                                             <span class="symbol">{{ gs('cur_sym') }}</span><span
-                                                  class="available-balance">{{ showAmount(auth()->user()->balance, currencyFormat: false) }}</span>
+                                                  class="available-balance js-live-balance" data-live-balance="raw">{{ showAmount(auth()->user()->balance, currencyFormat: false) }}</span>
                                         </span>
                                     </span>
                                 </div>

@@ -44,6 +44,21 @@ class UserController extends Controller {
         return view('Template::user.dashboard', compact('pageTitle', 'games', 'widget', 'user', 'slides'));
     }
 
+    public function liveBalance() {
+        $user = auth()->user()->fresh();
+        $balance = round((float) $user->balance, 2);
+        $cur = __(gs('cur_text'));
+
+        return response()->json([
+            'code'            => 0,
+            'balance'         => $balance,
+            'balance_text'    => showAmount($balance, currencyFormat: false),
+            'balance_display' => showAmount($balance) . ' ' . $cur,
+            'cur_text'        => $cur,
+            'cur_sym'         => gs('cur_sym'),
+        ]);
+    }
+
     public function account() {
         $pageTitle = 'My Account';
         $user = auth()->user();
