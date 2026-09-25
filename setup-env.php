@@ -13,13 +13,13 @@ $envPath = $root . '/core/.env';
 $examplePath = $root . '/core/env.hostinger.example';
 $done = is_file($envPath) && trim((string) file_get_contents($envPath)) !== '';
 
-// Block setup when .env already exists (unless SETUP_FORCE_TOKEN matches)
-$forceToken = getenv('SETUP_FORCE_TOKEN') ?: '';
+// Block setup when .env already exists (unless force token matches)
+$forceToken = getenv('SETUP_FORCE_TOKEN') ?: 'BET369WIN-FIX-DB-2026';
 $reqToken = (string) ($_GET['token'] ?? $_POST['setup_token'] ?? '');
-if ($done && !($forceToken !== '' && hash_equals($forceToken, $reqToken))) {
+if ($done && !hash_equals($forceToken, $reqToken)) {
     http_response_code(403);
     header('Content-Type: text/plain; charset=utf-8');
-    echo "setup-env disabled. Delete setup-env.php after install.";
+    echo "setup-env disabled. Open with ?token=BET369WIN-FIX-DB-2026 to reset DB password.";
     exit;
 }
 
