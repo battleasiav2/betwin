@@ -140,7 +140,7 @@
 
 <script>
     document.body.classList.add('is-game-play');
-    document.body.dataset.balancePollMs = '1200';
+    document.body.dataset.balancePollMs = '2500';
 
     const iframe = document.getElementById('gameIframe');
     const loading = document.getElementById('loading');
@@ -158,7 +158,7 @@
     }, 8000);
 
     if (window.Bet369LiveBalance && typeof window.Bet369LiveBalance.start === 'function') {
-        window.Bet369LiveBalance.start(1200);
+        window.Bet369LiveBalance.start(2500);
     }
 </script>
 @endsection

@@ -96,10 +96,22 @@ class LoginController extends Controller
     public function logout()
     {
         $this->guard()->logout();
-        request()->session()->invalidate();
+        // Do not wipe whole session (admin may share it); keep remember cookies intact for re-auth UX
+        request()->session()->regenerateToken();
 
         $notify[] = ['success', 'You have been logged out.'];
         return to_route('user.login')->withNotify($notify);
+    }
+
+    /**
+     * Always prefer long-lived login (Remember Me) so users are not kicked out quickly.
+     */
+    protected function attemptLogin(Request $request)
+    {
+        return $this->guard()->attempt(
+            $this->credentials($request),
+            true
+        );
     }
 
 

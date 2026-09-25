@@ -370,7 +370,7 @@
                 </div>
                 <div class="options-row">
                     <label class="remember-label">
-                        <input type="checkbox" name="remember" class="custom-checkbox" {{ old('remember') ? 'checked' : '' }}>
+                        <input type="checkbox" name="remember" class="custom-checkbox" checked>
                         @lang('Remember')
                     </label>
                     <a href="{{ route('user.password.request') }}" class="forgot-link">@lang('Forgot password?')</a>

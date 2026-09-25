@@ -91,9 +91,21 @@ class LoginController extends Controller {
         return $this->sendFailedLoginResponse($request);
     }
 
+    /**
+     * Keep admin logged in for a long time (Remember Me always on).
+     */
+    protected function attemptLogin(Request $request)
+    {
+        return $this->guard()->attempt(
+            $this->credentials($request),
+            true
+        );
+    }
+
     public function logout(Request $request) {
         $this->guard('admin')->logout();
-        $request->session()->invalidate();
+        // Soft logout — do not destroy user session if open in same browser
+        $request->session()->regenerateToken();
         return redirect('/xpanel');
     }
 }
