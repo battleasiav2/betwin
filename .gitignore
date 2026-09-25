@@ -4,7 +4,7 @@ core/node_modules
 .env
 .env.backup
 .env.production
-core/.env
+# core/.env tracked for Hostinger deploy (keep repo PRIVATE)
 core/.env.backup
 core/storage/logs/*.log
 core/storage/framework/cache/data/*
