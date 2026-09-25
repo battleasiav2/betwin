@@ -225,10 +225,10 @@ class UserController extends Controller {
     public function gameLog(Request $request) {
         $pageTitle = "Game Logs";
         $user = auth()->user();
-        $days = $request->days ?? 'today';
+        $days = $request->days ?? '7days';
         $provider = $request->provider; 
 
-        $query = GameLog::where('user_id', $user->id);
+        $query = GameLog::where('user_id', $user->id)->where('demo_play', 0);
 
         if ($provider) {
             $query->where('game_name', 'LIKE', '%' . strtoupper($provider) . '%');
@@ -240,6 +240,8 @@ class UserController extends Controller {
             $query->whereDate('created_at', Carbon::yesterday());
         } elseif ($days == '7days') {
             $query->where('created_at', '>=', Carbon::now()->subDays(7));
+        } elseif ($days == '30days') {
+            $query->where('created_at', '>=', Carbon::now()->subDays(30));
         }
 
         $widget['bet_amount'] = (clone $query)->sum('invest');

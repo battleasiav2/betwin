@@ -38,8 +38,9 @@ class ApiGameController extends Controller
 
         // Official docs: https://rapidverse.site/api-docs — required launch fields only.
         // returnUrl = player return page (NOT wallet callback; wallet is set in RapidVerse panel).
+        $prefix = (string) ($settings['api_prefix'] ?? '');
         $payload = [
-            'userId'      => (string) $user->id,
+            'userId'      => $prefix !== '' ? ($prefix . $user->id) : (string) $user->id,
             'gameCode'    => $request->game_code,
             'userBalance' => round((float) $user->balance, 2),
             'vendorCode'  => $vendorCode,
@@ -115,6 +116,7 @@ class ApiGameController extends Controller
             'api_token'    => env('RAPIDVERSE_API_TOKEN', ''),
             'secret_key'   => env('RAPIDVERSE_SECRET_KEY', ''),
             'callback_url' => env('RAPIDVERSE_CALLBACK_URL', 'https://bet369win.com/callback.php'),
+            'api_prefix'   => env('RAPIDVERSE_API_PREFIX', 'nix6260006107'),
         ];
 
         if (!Schema::hasTable('api_game_settings')) {
@@ -131,6 +133,7 @@ class ApiGameController extends Controller
             'api_token'    => $row->api_token ?: $defaults['api_token'],
             'secret_key'   => $row->secret_key ?: $defaults['secret_key'],
             'callback_url' => $row->callback_url ?: $defaults['callback_url'],
+            'api_prefix'   => (isset($row->api_prefix) && $row->api_prefix !== '') ? $row->api_prefix : $defaults['api_prefix'],
         ];
     }
 
