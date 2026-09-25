@@ -55,7 +55,7 @@ php core/artisan cache:clear
 | Item | Note |
 |------|------|
 | `core/.env` | Gitignored — server e alada thakbe, pull overwrite korbe na |
-| `*.sql` | Gitignored — dump `public_html/sql/` e rakhun, `red/` e na |
+| SQL dump | `sql/akashwebd_redjili.sql` → Hostinger path `public_html/red/sql/` (web blocked) |
 | Branch | Always **`main`** |
 | Latest commit | `04c64ba` — Bet369win Clean Dark import |
 
