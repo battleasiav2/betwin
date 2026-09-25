@@ -4,7 +4,10 @@ core/node_modules
 .env
 .env.backup
 .env.production
-# core/.env tracked for Hostinger deploy (keep repo PRIVATE)
+# Hostinger: keep DB permanent on server — never overwrite via Git Pull
+core/.env
+core/.env.locked
+core/.env.server.bak
 core/.env.backup
 core/storage/logs/*.log
 core/storage/framework/cache/data/*

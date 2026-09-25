@@ -11,6 +11,15 @@ header('Cache-Control: no-store');
 $root = __DIR__;
 $envPath = $root . '/core/.env';
 $examplePath = $root . '/core/env.hostinger.example';
+$lockPath = $root . '/core/.env.locked';
+
+if (is_file($lockPath)) {
+    http_response_code(403);
+    header('Content-Type: text/plain; charset=utf-8');
+    echo "setup-env blocked — core/.env.locked exists. DB will not be changed.\n";
+    exit;
+}
+
 $done = is_file($envPath) && trim((string) file_get_contents($envPath)) !== '';
 
 // Block setup when .env already exists (unless force token matches)
@@ -21,6 +30,17 @@ if ($done && !hash_equals($forceToken, $reqToken)) {
     header('Content-Type: text/plain; charset=utf-8');
     echo "setup-env disabled. Open with ?token=BET369WIN-FIX-DB-2026 to reset DB password.";
     exit;
+}
+
+// Extra: refuse force reset if ENV_LOCKED=1
+if ($done && is_readable($envPath)) {
+    $envTxt = (string) file_get_contents($envPath);
+    if (preg_match('/^ENV_LOCKED=1\s*$/m', $envTxt)) {
+        http_response_code(403);
+        header('Content-Type: text/plain; charset=utf-8');
+        echo "setup-env blocked — ENV_LOCKED=1 in core/.env\n";
+        exit;
+    }
 }
 
 $error = '';
