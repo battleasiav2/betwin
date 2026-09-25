@@ -1,4 +1,4 @@
-﻿@php
+@php
 $evoGames = [
     [
         "id" => "8ef39602e589bf9f32fc351b1cbb338b", 
@@ -56,7 +56,7 @@ $evoGames = [
 @foreach ($evoGames as $game)
     <div class="swiper-slide game-item-box game-card" data-category="evo">
         @auth
-            <a href="{{ url('user/jili/launch?game_code='.$game['id'].'&provider=evo') }}" class="game-card-img">
+            <a href="{{ url('user/jili/launch?game_code='.$game['id']) }}" class="game-card-img">
         @else
             <a href="{{ route('user.login') }}" class="game-card-img">
         @endauth

@@ -276,8 +276,41 @@ class GeneralSettingController extends Controller
         return view('admin.setting.social_credential', compact('pageTitle'));
     }
 
+    public function socialLinks()
+    {
+        $pageTitle = 'Social Links';
+        $links = gs('social_links');
+        return view('admin.setting.social_links', compact('pageTitle', 'links'));
+    }
+
+    public function socialLinksUpdate(Request $request)
+    {
+        $request->validate([
+            'whatsapp' => 'nullable|string|max:255',
+            'telegram' => 'nullable|string|max:255',
+            'facebook' => 'nullable|string|max:255',
+            'support'  => 'nullable|string|max:255',
+        ]);
+
+        $general = gs();
+        $general->social_links = [
+            'whatsapp' => $request->whatsapp ?: '',
+            'telegram' => $request->telegram ?: '',
+            'facebook' => $request->facebook ?: '',
+            'support'  => $request->support ?: '',
+        ];
+        $general->save();
+
+        $notify[] = ['success', 'Social links updated successfully'];
+        return back()->withNotify($notify);
+    }
+
     public function updateSocialiteCredentialStatus($key)
     {
+        if ($key !== 'google') {
+            abort(404);
+        }
+
         $general     = gs();
         $credentials = $general->socialite_credentials;
         try {
@@ -295,6 +328,15 @@ class GeneralSettingController extends Controller
 
     public function updateSocialiteCredential(Request $request, $key)
     {
+        if ($key !== 'google') {
+            abort(404);
+        }
+
+        $request->validate([
+            'client_id'     => 'required',
+            'client_secret' => 'required',
+        ]);
+
         $general     = gs();
         $credentials = $general->socialite_credentials;
         try {

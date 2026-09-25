@@ -13,6 +13,7 @@ class GeneralSetting extends Model {
         'sms_config'            => 'object',
         'global_shortcodes'     => 'object',
         'socialite_credentials' => 'object',
+        'social_links'          => 'object',
         'firebase_config'       => 'object',
         'config_progress'       => 'object',
     ];

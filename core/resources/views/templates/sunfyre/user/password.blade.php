@@ -6,14 +6,14 @@
 
 <style>
     :root {
-        --bg-color: #e8f0fa;
-        --header-color: #154b77;
-        --accent-color: #43a047;
-        --card-bg: #ffffff;
-        --text-main: #333333;
-        --text-muted: #64748b;
-        --border-color: #e2e8f0;
-        --blue-light: #e0f2fe;
+        --bg-color: #0b0f14;
+        --header-color: #e8b84a;
+        --accent-color: #2dd4a8;
+        --card-bg: #151b24;
+        --text-main: #e8eef5;
+        --text-muted: #8b97a8;
+        --border-color: rgba(255, 255, 255, 0.08);
+        --blue-light: rgba(45, 212, 168, 0.12);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -38,9 +38,9 @@
         min-height: 100vh;
     }
 
-    /* â”€â”€â”€ HEADER â”€â”€â”€ */
+    /* ─── HEADER ─── */
     .header-bg { 
-        background: linear-gradient(135deg, #0f395c 0%, #1a5c92 100%);
+        background: linear-gradient(135deg, #0f1419 0%, #151b24 55%, #1a2330 100%);
         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         padding: 16px;
         display: flex;
@@ -64,7 +64,7 @@
         letter-spacing: 1px;
     }
 
-    /* â”€â”€â”€ SECURITY SCORE CARD â”€â”€â”€ */
+    /* ─── SECURITY SCORE CARD ─── */
     .security-card {
         background: var(--card-bg);
         border-radius: 12px;
@@ -105,7 +105,7 @@
     }
     .security-status {
         font-weight: 700;
-        color: #333;
+        color: #e8eef5;
         display: flex;
         align-items: center;
         gap: 8px;
@@ -121,7 +121,7 @@
         font-weight: 500;
     }
 
-    /* â”€â”€â”€ WARNING TEXT â”€â”€â”€ */
+    /* ─── WARNING TEXT ─── */
     .warning-text {
         text-align: center;
         font-size: 11px;
@@ -133,7 +133,7 @@
         font-style: italic;
     }
 
-    /* â”€â”€â”€ MENU LIST â”€â”€â”€ */
+    /* ─── MENU LIST ─── */
     .menu-list {
         background: var(--card-bg);
         margin: 0 16px;
@@ -177,7 +177,7 @@
 
     .menu-row-title {
         font-weight: 700;
-        color: #333;
+        color: #e8eef5;
         font-size: 14px;
         display: flex;
         align-items: center;
@@ -199,7 +199,7 @@
         font-size: 14px;
     }
 
-    /* â”€â”€â”€ CHANGE PASSWORD FORM â”€â”€â”€ */
+    /* ─── CHANGE PASSWORD FORM ─── */
     .form-card {
         background: var(--card-bg);
         border-radius: 12px;
@@ -222,9 +222,9 @@
     }
     .form-input {
         width: 100%;
-        background: #f8fafc;
+        background: #0f1419;
         border: 1.5px solid var(--border-color);
-        color: #333;
+        color: #e8eef5;
         border-radius: 8px;
         padding: 14px 16px;
         font-size: 14px;
@@ -268,7 +268,7 @@
         to { opacity: 1; transform: translateY(0); }
     }
 
-    /* â”€â”€â”€ TOGGLE SWITCH â”€â”€â”€ */
+    /* ─── TOGGLE SWITCH ─── */
     .toggle-wrapper {
         display: flex;
         align-items: center;
@@ -277,7 +277,7 @@
     }
     .toggle-label {
         font-weight: 700;
-        color: #333;
+        color: #e8eef5;
         font-size: 14px;
     }
     .toggle-switch {
@@ -317,7 +317,7 @@
         transform: translateX(22px);
     }
 
-    /* â”€â”€â”€ BOTTOM NAV â”€â”€â”€ */
+    /* ─── BOTTOM NAV ─── */
     .bottom-nav-container {
         position: fixed;
         bottom: 0;
@@ -327,19 +327,19 @@
         max-width: 480px;
         z-index: 10000;
         padding: 0 10px 8px 10px;
-        background: #e8f0fa;
+        background: #0b0f14;
     }
 
     .bottom-nav {
         width: 100%;
         height: 58px;
-        background: linear-gradient(180deg, #0e3d2c 0%, #0a2d1f 100%);
+        background: linear-gradient(180deg, #1a2330 0%, #151b24 100%);
         border-radius: 999px;
-        border: 1.5px solid #1a5c40;
+        border: 1.5px solid #2a3544;
         box-shadow:
-            0 0 0 2px #e8f0fa,
-            inset 0 1px 0 rgba(37,99,235,0.12),
-            0 -2px 0 0 #2563eb,
+            0 0 0 2px #0b0f14,
+            inset 0 1px 0 rgba(45,212,168,0.18),
+            0 -2px 0 0 #2dd4a8,
             0 4px 24px rgba(0,0,0,0.5);
         display: flex;
         align-items: center;
@@ -356,7 +356,7 @@
         gap: 3px;
         flex: 1;
         text-decoration: none !important;
-        color: #3db88a;
+        color: #8b97a8;
         font-size: 10px;
         font-weight: 700;
         letter-spacing: 0.2px;
@@ -365,8 +365,8 @@
         position: relative;
     }
 
-    .nav-item.active { color: #f5c518; }
-    .nav-item.active span { border-bottom: 2px solid #f5c518; padding-bottom: 1px; }
+    .nav-item.active { color: #e8b84a; }
+    .nav-item.active span { border-bottom: 2px solid #e8b84a; padding-bottom: 1px; }
 
     .nav-item i { font-size: 20px; }
     .nav-item span { font-size: 10px; font-weight: 700; }
@@ -382,14 +382,14 @@
         width: 54px;
         height: 54px;
         border-radius: 50%;
-        background: linear-gradient(145deg, #2563eb, #123b66);
+        background: linear-gradient(145deg, #2dd4a8, #1fa88a);
         display: flex;
         align-items: center;
         justify-content: center;
         box-shadow:
-            0 0 0 3px #e8f0fa,
-            0 0 0 5px #2563eb,
-            0 6px 20px rgba(37,99,235,0.45);
+            0 0 0 3px #0b0f14,
+            0 0 0 5px #2dd4a8,
+            0 6px 20px rgba(45,212,168,0.55);
         font-size: 22px;
         color: #fff;
         margin-top: -18px;
@@ -406,8 +406,7 @@
     <!-- HEADER -->
     <div class="header-bg">
         <a href="{{ route('user.account') }}"><i class="fas fa-chevron-left"></i></a>
-        <span class="page-accent-icon navy"><i class="fas fa-shield-halved"></i></span>
-        <h1>@lang('Security Center')</h1>
+        <h1>Security Center</h1>
     </div>
 
     <!-- SECURITY SCORE -->
@@ -499,7 +498,7 @@
                     <label class="form-label">Confirm Password</label>
                     <input type="password" name="password_confirmation" class="form-input" required autocomplete="new-password" placeholder="Confirm new password">
                 </div>
-                <button type="submit" class="submit-btn">@lang('Update Password')</button>
+                <button type="submit" class="submit-btn">Update Password</button>
             </form>
         </div>
 
@@ -541,7 +540,31 @@
 
 </div>
 
-@include($activeTemplate . 'partials.mobile_bottom_nav')
+<!-- BOTTOM NAVIGATION -->
+<div class="bottom-nav-container">
+    <div class="bottom-nav">
+        <a href="{{ route('user.home') }}" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="{{ route('user.promotions') }}" class="nav-item">
+            <i class="fas fa-gift"></i>
+            <span>Promotion</span>
+        </a>
+        <a href="{{ route('user.referrals') }}" class="nav-item center-item">
+            <div class="center-icon-circle"><i class="fas fa-share-nodes"></i></div>
+            <span>Invite</span>
+        </a>
+        <a href="{{ route('user.redeem.index') }}" class="nav-item">
+            <i class="fas fa-trophy"></i>
+            <span>Reward</span>
+        </a>
+        <a href="{{ route('user.account') }}" class="nav-item">
+            <i class="fas fa-user-circle"></i>
+            <span>Member</span>
+        </a>
+    </div>
+</div>
 
 <script>
     function togglePasswordForm() {

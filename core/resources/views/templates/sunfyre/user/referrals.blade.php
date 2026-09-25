@@ -24,13 +24,13 @@
 
 <style>
     :root {
-        --bg-color: #e8f0fa;
-        --header-color: #154b77;
-        --accent-color: #43a047;
-        --card-bg: #ffffff;
-        --text-main: #333333;
-        --text-muted: #64748b;
-        --border-color: #e2e8f0;
+        --bg-color: #0b0f14;
+        --header-color: #e8b84a;
+        --accent-color: #2dd4a8;
+        --card-bg: #151b24;
+        --text-main: #e8eef5;
+        --text-muted: #8b97a8;
+        --border-color: rgba(255, 255, 255, 0.08);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -47,9 +47,9 @@
         min-height: 100vh;
     }
 
-    /* â”€â”€â”€ HEADER â”€â”€â”€ */
+    /* ─── HEADER ─── */
     .header-bg { 
-        background: linear-gradient(135deg, #0f395c 0%, #1a5c92 100%);
+        background: linear-gradient(135deg, #0f1419 0%, #151b24 55%, #1a2330 100%);
         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         padding: 16px;
         display: flex;
@@ -73,10 +73,10 @@
         letter-spacing: 1px;
     }
 
-    /* â”€â”€â”€ TABS â”€â”€â”€ */
+    /* ─── TABS ─── */
     .tabs-container {
         display: flex;
-        background-color: #ffffff;
+        background-color: #151b24;
         border-bottom: 1px solid var(--border-color);
         box-shadow: 0 2px 5px rgba(0,0,0,0.02);
         position: sticky;
@@ -114,7 +114,7 @@
         border-top-right-radius: 3px;
     }
 
-    /* â”€â”€â”€ WHITE CARD â”€â”€â”€ */
+    /* ─── WHITE CARD ─── */
     .white-card {
         background-color: var(--card-bg);
         border: 1px solid var(--border-color);
@@ -142,9 +142,9 @@
         letter-spacing: 0.5px;
     }
 
-    /* â”€â”€â”€ COPY BOX â”€â”€â”€ */
+    /* ─── COPY BOX ─── */
     .copy-box {
-        background-color: #f8fafc;
+        background-color: #0f1419;
         border: 1px solid var(--border-color);
         border-radius: 6px;
         display: flex;
@@ -193,7 +193,7 @@
     }
     .copy-icon-btn:active { transform: scale(0.95); }
 
-    /* â”€â”€â”€ SHARE BUTTON FULL WIDTH â”€â”€â”€ */
+    /* ─── SHARE BUTTON FULL WIDTH ─── */
     .share-full-btn {
         display: block;
         width: 100%;
@@ -210,12 +210,12 @@
     }
     .share-full-btn:active { transform: scale(0.97); }
 
-    /* â”€â”€â”€ STAT GRID â”€â”€â”€ */
+    /* ─── STAT GRID ─── */
     .stat-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         text-align: center;
-        background-color: #f8fafc;
+        background-color: #0f1419;
         border-top: 1px solid var(--border-color);
         margin: 0;
         border-bottom-left-radius: 12px;
@@ -240,7 +240,7 @@
     }
     .stat-item p.text-green { color: #43a047; }
 
-    /* â”€â”€â”€ CLAIM ROW â”€â”€â”€ */
+    /* ─── CLAIM ROW ─── */
     .claim-row {
         display: flex;
         justify-content: space-between;
@@ -254,19 +254,19 @@
         text-shadow: 0 1px 2px rgba(0,0,0,0.1);
     }
     .claim-btn {
-        background: #e0f2fe;
+        background: rgba(45,212,168,0.12);
         color: var(--header-color);
         font-weight: 800;
         font-size: 13px;
         padding: 8px 24px;
         border-radius: 6px;
-        border: 1px solid #bae6fd;
+        border: 1px solid rgba(45,212,168,0.3);
         text-transform: uppercase;
         cursor: pointer;
     }
     .claim-btn:active { background: #bae6fd; }
 
-    /* â”€â”€â”€ PYRAMID IMAGE â”€â”€â”€ */
+    /* ─── PYRAMID IMAGE ─── */
     .pyramid-img {
         width: 100%;
         max-width: 320px;
@@ -275,24 +275,24 @@
         border-radius: 8px;
     }
 
-    /* â”€â”€â”€ TAB CONTENT â”€â”€â”€ */
+    /* ─── TAB CONTENT ─── */
     .tab-content { display: none; animation: fadeIn 0.3s ease; }
     .tab-content.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    /* â”€â”€â”€ EMPTY STATE â”€â”€â”€ */
+    /* ─── EMPTY STATE ─── */
     .empty-state {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         min-height: 350px;
-        background-color: #ffffff;
+        background-color: #151b24;
     }
     .empty-state .empty-icon {
         width: 80px;
         height: 80px;
-        background: #f8fafc;
+        background: #0f1419;
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -309,12 +309,12 @@
         font-weight: 700;
     }
 
-    /* â”€â”€â”€ INFO BOX â”€â”€â”€ */
+    /* ─── INFO BOX ─── */
     .info-box {
-        background: #e0f2fe;
+        background: rgba(45,212,168,0.12);
         padding: 12px;
         border-radius: 8px;
-        border: 1px solid #bae6fd;
+        border: 1px solid rgba(45,212,168,0.3);
         margin-top: 16px;
     }
     .info-box p {
@@ -333,7 +333,7 @@
         letter-spacing: 1px;
     }
 
-    /* â”€â”€â”€ BOTTOM NAV â”€â”€â”€ */
+    /* ─── BOTTOM NAV ─── */
     .bottom-nav-container {
         position: fixed;
         bottom: 0;
@@ -343,19 +343,19 @@
         max-width: 480px;
         z-index: 10000;
         padding: 0 10px 8px 10px;
-        background: #e8f0fa;
+        background: #0b0f14;
     }
 
     .bottom-nav {
         width: 100%;
         height: 58px;
-        background: linear-gradient(180deg, #0e3d2c 0%, #0a2d1f 100%);
+        background: linear-gradient(180deg, #1a2330 0%, #151b24 100%);
         border-radius: 999px;
-        border: 1.5px solid #1a5c40;
+        border: 1.5px solid #2a3544;
         box-shadow:
-            0 0 0 2px #e8f0fa,
-            inset 0 1px 0 rgba(37,99,235,0.12),
-            0 -2px 0 0 #2563eb,
+            0 0 0 2px #0b0f14,
+            inset 0 1px 0 rgba(45,212,168,0.18),
+            0 -2px 0 0 #2dd4a8,
             0 4px 24px rgba(0,0,0,0.5);
         display: flex;
         align-items: center;
@@ -372,7 +372,7 @@
         gap: 3px;
         flex: 1;
         text-decoration: none !important;
-        color: #3db88a;
+        color: #8b97a8;
         font-size: 10px;
         font-weight: 700;
         letter-spacing: 0.2px;
@@ -381,8 +381,8 @@
         position: relative;
     }
 
-    .nav-item.active { color: #f5c518; }
-    .nav-item.active span { border-bottom: 2px solid #f5c518; padding-bottom: 1px; }
+    .nav-item.active { color: #e8b84a; }
+    .nav-item.active span { border-bottom: 2px solid #e8b84a; padding-bottom: 1px; }
 
     .nav-item i { font-size: 20px; }
     .nav-item span { font-size: 10px; font-weight: 700; }
@@ -398,21 +398,21 @@
         width: 54px;
         height: 54px;
         border-radius: 50%;
-        background: linear-gradient(145deg, #2563eb, #123b66);
+        background: linear-gradient(145deg, #2dd4a8, #1fa88a);
         display: flex;
         align-items: center;
         justify-content: center;
         box-shadow:
-            0 0 0 3px #e8f0fa,
-            0 0 0 5px #2563eb,
-            0 6px 20px rgba(37,99,235,0.45);
+            0 0 0 3px #0b0f14,
+            0 0 0 5px #2dd4a8,
+            0 6px 20px rgba(45,212,168,0.55);
         font-size: 22px;
         color: #fff;
         margin-top: -18px;
         border: none;
     }
 
-    /* â”€â”€â”€ TOAST â”€â”€â”€ */
+    /* ─── TOAST ─── */
     .copy-toast {
         position: fixed;
         bottom: 100px;
@@ -441,8 +441,7 @@
     <!-- HEADER -->
     <div class="header-bg">
         <a href="{{ route('user.home') }}"><i class="fas fa-home"></i></a>
-        <span class="page-accent-icon"><i class="fas fa-user-group"></i></span>
-        <h1>@lang('Referral Program')</h1>
+        <h1>Referral Program</h1>
         <a href="{{ route('user.home') }}"><i class="fas fa-times"></i></a>
     </div>
 
@@ -466,7 +465,7 @@
 
                 <div style="display: flex; gap: 16px;">
                     <!-- QR Code -->
-                    <div style="background: #fff; padding: 4px; border-radius: 8px; width: 110px; height: 110px; flex-shrink: 0; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                    <div style="background: #151b24; padding: 4px; border-radius: 8px; width: 110px; height: 110px; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
                         <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ urlencode($refLink) }}" 
                              style="width: 100%; height: 100%; object-fit: contain;">
                     </div>
@@ -502,11 +501,11 @@
                 </div>
                 <div class="stat-item">
                     <h4>Today's Rewards</h4>
-                    <p>à§³ {{ number_format($todayRewards, 0) }}</p>
+                    <p>৳ {{ number_format($todayRewards, 0) }}</p>
                 </div>
                 <div class="stat-item">
                     <h4>Yesterday's Rewards</h4>
-                    <p>à§³ {{ number_format($yesterdayRewards, 0) }}</p>
+                    <p>৳ {{ number_format($yesterdayRewards, 0) }}</p>
                 </div>
             </div>
         </div>
@@ -515,7 +514,7 @@
         <div class="white-card">
             <div class="section-title">Available Cash Rewards</div>
             <div class="claim-row">
-                <span class="claim-amount">à§³ {{ number_format($totalRewards, 0) }}</span>
+                <span class="claim-amount">৳ {{ number_format($totalRewards, 0) }}</span>
                 <button class="claim-btn" onclick="claimReward()">Claim Now</button>
             </div>
         </div>
@@ -542,7 +541,7 @@
             <div class="empty-icon">
                 <i class="fas fa-box-open"></i>
             </div>
-            <p>@lang('No Records Found')</p>
+            <p>No Records Found</p>
         </div>
     </div>
 
@@ -551,7 +550,31 @@
 <!-- COPY TOAST -->
 <div class="copy-toast" id="copyToast">Copied to clipboard!</div>
 
-@include($activeTemplate . 'partials.mobile_bottom_nav')
+<!-- BOTTOM NAVIGATION -->
+<div class="bottom-nav-container">
+    <div class="bottom-nav">
+        <a href="{{ route('user.home') }}" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="{{ route('user.promotions') }}" class="nav-item">
+            <i class="fas fa-gift"></i>
+            <span>Promotion</span>
+        </a>
+        <a href="{{ route('user.referrals') }}" class="nav-item center-item active">
+            <div class="center-icon-circle"><i class="fas fa-share-nodes"></i></div>
+            <span>Invite</span>
+        </a>
+        <a href="{{ route('user.redeem.index') }}" class="nav-item">
+            <i class="fas fa-trophy"></i>
+            <span>Reward</span>
+        </a>
+        <a href="{{ route('user.account') }}" class="nav-item">
+            <i class="fas fa-user-circle"></i>
+            <span>Member</span>
+        </a>
+    </div>
+</div>
 
 <script>
     const refLink = "{{ $refLink }}";

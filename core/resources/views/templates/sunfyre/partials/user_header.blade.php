@@ -1,10 +1,7 @@
 {{-- user_header.blade.php --}}
 
-<div class="site-topbar">
-    @include($activeTemplate . 'partials.apk_banner')
-
 <header class="site-header">
-    <button class="hamburger-btn" onclick="toggleSidebar()" type="button" aria-label="@lang('Menu')">
+    <button class="hamburger-btn" onclick="toggleSidebar()">
         <div class="hamburger-icon">
             <div class="hb-arrow">
                 <span class="hb-arrow-left"></span>
@@ -14,369 +11,418 @@
             <span class="hb-line l3"></span>
         </div>
     </button>
-    <a class="navbar-brand logo me-auto" href="{{ route('home') }}" style="text-decoration: none; margin-left: 8px;">
-        <img src="{{ asset('assets/images/logo_icon/logo.png') }}" alt="{{ __(gs('site_name')) }}" class="brand-logo">
+    <a class="navbar-brand logo me-auto" href="{{ route('home') }}" style="text-decoration: none; margin-left: 8px; display:flex; align-items:center;">
+        <img src="{{ asset('assets/images/logo_icon/logo.png') }}" alt="{{ __(gs('site_name')) }}" class="site-logo-img">
     </a>
     <div class="header-right">
-        @include($activeTemplate . 'partials.lang_switch')
         @auth
             <div class="user-balance">
                 <i class="fas fa-wallet"></i>
-                <span class="js-live-balance" data-live-balance="full">{{ showAmount(auth()->user()->balance) }} {{ __(gs('cur_text')) }}</span>
+                <span>{{ showAmount(auth()->user()->balance) }} {{ __(gs('cur_text')) }}</span>
             </div>
         @else
-            <a href="{{ route('user.login') }}" class="btn-login">@lang('Log In')</a>
+            <a href="{{ route('user.login') }}" class="btn-login">Log In</a>
+            <a href="{{ route('user.register') }}" class="btn-register">Register</a>
         @endauth
     </div>
 </header>
-</div>
 
 <div id="sidebarOverlay" onclick="toggleSidebar()" class="hidden"></div>
 
-<aside id="sidebar" aria-label="BET369WIN menu">
+<div id="sidebar">
     <div class="sb-header">
-        <a href="{{ route('home') }}" class="sb-logo-link">
-            <img src="{{ asset('assets/images/logo_icon/logo.png') }}" alt="{{ __(gs('site_name')) }}" class="brand-logo brand-logo--sidebar">
+        <a href="{{ route('home') }}" style="text-decoration: none;">
+            <img src="{{ asset('assets/images/logo_icon/logo.png') }}" alt="{{ __(gs('site_name')) }}" class="sidebar-logo-img">
         </a>
-        <button type="button" onclick="toggleSidebar()" class="sb-close-btn" aria-label="@lang('Close')">
+        <button onclick="toggleSidebar()" class="sb-close-btn">
             <i class="fas fa-times"></i>
         </button>
     </div>
 
-    <div class="sb-scroll">
-        @guest
-            <a href="{{ route('user.login') }}" class="sb-login-row">
-                <span class="sb-login-row__avatar" aria-hidden="true"><i class="fas fa-user"></i></span>
-                <span class="sb-login-row__text">@lang('Log in')</span>
-                <i class="fas fa-chevron-right sb-login-row__chev" aria-hidden="true"></i>
-            </a>
-        @else
-            <a href="{{ route('user.account') }}" class="sb-login-row">
-                <span class="sb-login-row__avatar" aria-hidden="true"><i class="fas fa-user"></i></span>
-                <span class="sb-login-row__text">
-                    <strong>{{ auth()->user()->username ?? auth()->user()->firstname ?? __('Member') }}</strong>
-                    <small class="js-live-balance" data-live-balance="full">{{ showAmount(auth()->user()->balance) }} {{ __(gs('cur_text')) }}</small>
-                </span>
-                <i class="fas fa-chevron-right sb-login-row__chev" aria-hidden="true"></i>
-            </a>
-        @endguest
-
-        <a href="{{ route('user.promotions') }}" class="sb-promo-banner">
-            <span class="sb-promo-banner__text">
-                <strong>@lang('Free money')</strong>
-                <small>@lang('Promotions & rewards')</small>
-            </span>
-            <span class="sb-promo-banner__ico" aria-hidden="true"><i class="fas fa-gift"></i></span>
+    <div class="sb-menu-grid">
+        <a href="{{ route('user.home') }}" class="sb-menu-card">
+            <div class="sb-card-icon ic-red"><i class="fa-solid fa-fire"></i></div>
+            <span class="sb-card-label">Hot Games</span>
         </a>
 
-        <nav class="sb-list">
-            <a href="{{ route('user.home') }}" class="sb-list__item">
-                <span class="sb-list__ico"><i class="fas fa-fire"></i></span>
-                <span class="sb-list__label">@lang('Hot Games')</span>
-            </a>
-            <a href="{{ route('user.referrals') }}" class="sb-list__item">
-                <span class="sb-list__ico"><i class="fas fa-user-group"></i></span>
-                <span class="sb-list__label">@lang('Invite friends')</span>
-            </a>
-            <a href="#" class="sb-list__item">
-                <span class="sb-list__ico"><i class="fas fa-heart"></i></span>
-                <span class="sb-list__label">@lang('Favorites')</span>
-            </a>
-            <a href="{{ route('user.promotions') }}" class="sb-list__item">
-                <span class="sb-list__ico"><i class="fas fa-gift"></i></span>
-                <span class="sb-list__label">@lang('Promotion')</span>
-            </a>
-            <a href="{{ route('user.home') }}#slots" class="sb-list__item">
-                <span class="sb-list__ico"><i class="fas fa-dice"></i></span>
-                <span class="sb-list__label">@lang('Slots')</span>
-            </a>
-            <a href="{{ route('user.redeem.index') }}" class="sb-list__item">
-                <span class="sb-list__ico"><i class="fas fa-award"></i></span>
-                <span class="sb-list__label">@lang('Reward Center')</span>
-            </a>
-            <a href="{{ route('user.home') }}#live" class="sb-list__item">
-                <span class="sb-list__ico"><i class="fas fa-dharmachakra"></i></span>
-                <span class="sb-list__label">@lang('Live Casino')</span>
-            </a>
-            <a href="#" class="sb-list__item">
-                <span class="sb-list__ico"><i class="fas fa-hand-holding-dollar"></i></span>
-                <span class="sb-list__label">@lang('Manual Rebate')</span>
-            </a>
-            <a href="{{ route('user.home') }}#sports" class="sb-list__item">
-                <span class="sb-list__ico"><i class="fas fa-futbol"></i></span>
-                <span class="sb-list__label">@lang('Sports')</span>
-            </a>
-            <a href="#" class="sb-list__item">
-                <span class="sb-list__ico"><i class="fas fa-gem"></i></span>
-                <span class="sb-list__label">@lang('VIP')</span>
-            </a>
-            <a href="#" class="sb-list__item">
-                <span class="sb-list__ico"><i class="fas fa-gamepad"></i></span>
-                <span class="sb-list__label">@lang('E-sports')</span>
-            </a>
-            <a href="#" class="sb-list__item">
-                <span class="sb-list__ico"><i class="fas fa-bullseye"></i></span>
-                <span class="sb-list__label">@lang('Mission')</span>
-            </a>
-            <a href="#" class="sb-list__item">
-                <span class="sb-list__ico"><i class="fas fa-chess"></i></span>
-                <span class="sb-list__label">@lang('Poker')</span>
-            </a>
-            <a href="#" class="sb-list__item">
-                <span class="sb-list__ico"><i class="fas fa-fish"></i></span>
-                <span class="sb-list__label">@lang('Fish')</span>
-            </a>
-            <a href="#" class="sb-list__item">
-                <span class="sb-list__ico"><i class="fas fa-ticket"></i></span>
-                <span class="sb-list__label">@lang('Lottery')</span>
-            </a>
-        </nav>
-
-        <div class="sb-divider"></div>
-
-        <nav class="sb-list">
-            <a href="javascript:void(0)" class="sb-list__item" id="sbAppInstall" onclick="(window.__b369InstallApp||function(){})();">
-                <span class="sb-list__ico"><i class="fas fa-cloud-arrow-down"></i></span>
-                <span class="sb-list__label">@lang('APP Download')</span>
-            </a>
-            <a href="{{ auth()->check() ? route('ticket.index') : route('contact') }}" class="sb-list__item">
-                <span class="sb-list__ico"><i class="fas fa-headset"></i></span>
-                <span class="sb-list__label">@lang('Customer Service')</span>
-            </a>
-            <a href="{{ route('user.referrals') }}" class="sb-list__item">
-                <span class="sb-list__ico"><i class="fas fa-handshake"></i></span>
-                <span class="sb-list__label">@lang('Affiliate')</span>
-            </a>
-        </nav>
-
-        <div class="sb-social-row">
-            <a href="https://t.me/bet369win" target="_blank" rel="noopener" class="sb-social" title="Telegram" aria-label="Telegram">
-                <i class="fab fa-telegram-plane"></i>
-            </a>
-            <a href="https://www.facebook.com/bet369win" target="_blank" rel="noopener" class="sb-social" title="Facebook" aria-label="Facebook">
-                <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="https://t.me/bet369win" target="_blank" rel="noopener" class="sb-social" title="Chat" aria-label="Chat">
-                <i class="fab fa-whatsapp"></i>
-            </a>
-            <a href="{{ auth()->check() ? route('ticket.index') : route('contact') }}" class="sb-social" title="Support" aria-label="Support">
-                <i class="fas fa-headset"></i>
-            </a>
-        </div>
-
-        <a href="{{ auth()->check() ? route('ticket.index') : route('contact') }}" class="sb-support-btn">
-            <i class="fas fa-comment-dots"></i>
-            <span>@lang('Support')</span>
-            <span class="sb-badge sb-badge--live">24/7</span>
+        <a href="{{ route('user.referrals') }}" class="sb-menu-card">
+            <div class="sb-card-icon ic-teal"><i class="fa-solid fa-user-group"></i></div>
+            <span class="sb-card-label">Invite friends</span>
         </a>
 
-        @auth
-            <a href="{{ route('user.logout') }}" class="sb-logout">
-                <i class="fas fa-sign-out-alt"></i> @lang('Logout')
-            </a>
-        @endauth
+        <a href="#" class="sb-menu-card">
+            <div class="sb-card-icon ic-red"><i class="fa-solid fa-heart"></i></div>
+            <span class="sb-card-label">Favorites</span>
+        </a>
+
+        <a href="{{ route('user.promotions') }}" class="sb-menu-card">
+            <div class="sb-card-icon ic-gold"><i class="fa-solid fa-gift"></i></div>
+            <span class="sb-card-label">Promotion</span>
+        </a>
+
+        <a href="#" class="sb-menu-card">
+            <div class="sb-card-icon ic-red"><i class="fa-solid fa-dice"></i></div>
+            <span class="sb-card-label">Slots</span>
+        </a>
+
+        <a href="{{ route('user.redeem.index') }}" class="sb-menu-card">
+            <div class="sb-card-icon ic-gold"><i class="fa-solid fa-award"></i></div>
+            <span class="sb-card-label">Reward Center</span>
+        </a>
+
+        <a href="#" class="sb-menu-card">
+            <div class="sb-card-icon ic-red"><i class="fa-solid fa-dharmachakra"></i></div>
+            <span class="sb-card-label">Live Casino</span>
+        </a>
+
+        <a href="#" class="sb-menu-card">
+            <div class="sb-card-icon ic-gold"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+            <span class="sb-card-label">Manual Rebate</span>
+        </a>
+
+        <a href="#" class="sb-menu-card">
+            <div class="sb-card-icon ic-red"><i class="fa-solid fa-cricket-bat-ball"></i></div>
+            <span class="sb-card-label">Sports</span>
+        </a>
+
+        <a href="#" class="sb-menu-card">
+            <div class="sb-card-icon ic-gold"><i class="fa-solid fa-gem"></i></div>
+            <span class="sb-card-label">VIP</span>
+        </a>
+
+        <a href="#" class="sb-menu-card">
+            <div class="sb-card-icon ic-red"><i class="fa-solid fa-gamepad"></i></div>
+            <span class="sb-card-label">E-sports</span>
+        </a>
+
+        <a href="#" class="sb-menu-card">
+            <div class="sb-card-icon ic-gold"><i class="fa-solid fa-bullseye"></i></div>
+            <span class="sb-card-label">Mission</span>
+        </a>
+
+        <a href="#" class="sb-menu-card">
+            <div class="sb-card-icon ic-red"><i class="fa-solid fa-spade"></i></div>
+            <span class="sb-card-label">Poker</span>
+        </a>
+
+        <a href="#" class="sb-menu-card">
+            <div class="sb-card-icon ic-red"><i class="fa-solid fa-fish"></i></div>
+            <span class="sb-card-label">Fish</span>
+        </a>
+
+        <a href="#" class="sb-menu-card">
+            <div class="sb-card-icon ic-red"><i class="fa-solid fa-ticket"></i></div>
+            <span class="sb-card-label">Lottery</span>
+        </a>
+
+        <a href="#" class="sb-menu-card">
+            <div class="sb-card-icon ic-teal"><i class="fa-solid fa-cloud-arrow-down"></i></div>
+            <span class="sb-card-label">APP Download</span>
+        </a>
+
+        <a href="#" class="sb-menu-card">
+            <div class="sb-card-icon ic-teal"><i class="fa-solid fa-headset"></i></div>
+            <span class="sb-card-label">Customer Service</span>
+        </a>
+
+        <a href="#" class="sb-menu-card">
+            <div class="sb-card-icon ic-gold"><i class="fa-solid fa-handshake"></i></div>
+            <span class="sb-card-label">Affiliate</span>
+        </a>
     </div>
-</aside>
+
+    <div class="sb-bottom-strip">
+        <a href="{{ route('user.logout') }}" class="btn-logout-sidebar">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
+</div>
 
 <style>
     :root {
-        --bg-deep:    #e8f0fa;
-        --bg-main:    #f5f7fa;
-        --bg-card:    #ffffff;
-        --teal:       #2563eb;
-        --teal-light: #2563eb;
-        --gold:       #f4b942;
-        --gold-dark:  #d9a12a;
-        --gold-text:  #123b66;
-        --text-main:  #172033;
-        --text-muted: #6b7280;
-        --border:     rgba(18,59,102,0.1);
+        --bg-deep:    #0b0f14;
+        --bg-main:    #0f1419;
+        --bg-card:    #151b24;
+        --teal:       #1fa88a;
+        --teal-light: #2dd4a8;
+        --gold:       #e8b84a;
+        --gold-dark:  #c49a3a;
+        --gold-text:  #e8b84a;
+        --text-main:  #e8eef5;
+        --text-muted: #8b97a8;
+        --border:     rgba(255,255,255,0.08);
     }
 
     .site-header {
-        position: relative; top: auto; z-index: 1; height: 56px;
-        background: rgba(255,255,255,0.96); backdrop-filter: blur(12px);
+        position: sticky; top: 0; z-index: 100; height: 58px;
+        background: rgba(11,15,20,0.92); backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);
-        display: flex; align-items: center; justify-content: flex-start; padding: 0 12px;
+        display: flex; align-items: center; justify-content: flex-start; gap: 8px; padding: 0 10px;
     }
-    .header-right { display: flex; align-items: center; gap: 8px; margin-left: auto; flex-shrink: 0; }
+    .navbar-brand.logo {
+        flex: 1 1 auto;
+        min-width: 0;
+        margin-left: 4px !important;
+        margin-right: 6px;
+        overflow: hidden;
+    }
+    .site-logo-img {
+        height: 36px;
+        width: auto;
+        max-width: 100%;
+        object-fit: contain;
+        display: block;
+    }
+    .sidebar-logo-img {
+        height: 40px;
+        width: auto;
+        max-width: 180px;
+        object-fit: contain;
+        display: block;
+    }
+    .header-right { display: flex; align-items: center; gap: 6px; margin-left: auto; flex-shrink: 0; }
 
     .btn-login {
-        padding: 7px 16px; border-radius: 10px; font-size: 13px; font-weight: 700;
-        cursor: pointer; border: none; text-decoration: none;
-        display: inline-flex; align-items: center; justify-content: center;
-        background: #2563eb; color: #fff; box-shadow: 0 6px 14px rgba(37,99,235,0.28);
+        padding: 8px 14px; border-radius: 10px; font-size: 12px; font-weight: 800;
+        cursor: pointer; text-decoration: none;
+        display: inline-flex; align-items: center; justify-content: center; transition: all 0.15s;
+        position: relative; overflow: hidden;
+        background: linear-gradient(135deg, rgba(45,212,168,0.14) 0%, #151b24 55%);
+        color: #e8eef5; border: 1px solid rgba(45,212,168,0.28); box-shadow: none;
     }
+    .btn-login::before {
+        content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+        background: #2dd4a8; border-radius: 10px 0 0 10px;
+    }
+    .btn-login:active { transform: scale(0.98); }
+
+    .btn-register {
+        padding: 8px 14px; border-radius: 10px; font-size: 12px; font-weight: 800;
+        cursor: pointer; text-decoration: none;
+        display: inline-flex; align-items: center; justify-content: center; transition: all 0.15s;
+        position: relative; overflow: hidden;
+        background: linear-gradient(135deg, rgba(232,184,74,0.14) 0%, #151b24 55%);
+        color: #e8eef5; border: 1px solid rgba(232,184,74,0.28); box-shadow: none;
+    }
+    .btn-register::before {
+        content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+        background: #e8b84a; border-radius: 10px 0 0 10px;
+    }
+    .btn-register:active { transform: scale(0.98); }
 
     .user-balance {
-        background: #e8f0fa; padding: 6px 12px; border-radius: 8px;
-        border: 1px solid #d5e4f7; white-space: nowrap; color: #123b66;
-        font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 6px;
+        background: rgba(232, 184, 74, 0.1);
+        padding: 6px 12px;
+        border-radius: 8px;
+        border: 1px solid rgba(232, 184, 74, 0.25);
+        white-space: nowrap;
+        color: #e8b84a;
+        font-weight: 700;
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
     }
 
     .hamburger-btn {
-        background: #e8f0fa; border: 1px solid #d5e4f7; border-radius: 8px;
-        cursor: pointer; padding: 7px 8px; display: flex; align-items: center;
-        justify-content: center; width: 36px; height: 36px; flex-shrink: 0;
+        background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 8px; cursor: pointer; padding: 7px 8px;
+        display: flex; align-items: center; justify-content: center;
+        width: 36px; height: 36px; position: relative; transition: background 0.2s;
+        flex-shrink: 0;
     }
-    .hamburger-icon { display: flex; flex-direction: column; gap: 4px; width: 18px; }
+    .hamburger-btn:active { background: rgba(255,255,255,0.15); }
+    .hamburger-icon { display: flex; flex-direction: column; gap: 4px; position: relative; width: 18px; }
     .hamburger-icon .hb-arrow { display: flex; align-items: center; gap: 2px; }
     .hamburger-icon .hb-arrow-left {
         width: 0; height: 0; border-top: 4px solid transparent;
-        border-bottom: 4px solid transparent; border-right: 5px solid #123b66;
+        border-bottom: 4px solid transparent; border-right: 5px solid #fff; flex-shrink: 0;
     }
-    .hamburger-icon .hb-line { height: 2px; background: #123b66; border-radius: 2px; display: block; }
-    .hamburger-icon .hb-line.l1, .hamburger-icon .hb-line.l2 { width: 100%; }
+    .hamburger-icon .hb-line { height: 2px; background: #fff; border-radius: 2px; display: block; }
+    .hamburger-icon .hb-line.l1 { width: 100%; }
+    .hamburger-icon .hb-line.l2 { width: 100%; }
     .hamburger-icon .hb-line.l3 { width: 65%; }
 
+    /* ─── SIDEBAR ─── */
     @media (min-width: 900px) {
         #sidebarOverlay { display: none !important; }
         #sidebar {
-            position: fixed !important; top: 0 !important; left: 0 !important;
-            transform: translateX(0) !important; height: 100vh !important; z-index: 50 !important;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            transform: translateX(0) !important;
+            height: 100vh !important;
+            z-index: 50 !important;
+            box-shadow: 2px 0 16px rgba(0,0,0,0.4) !important;
         }
-        body { padding-left: 300px; }
-        .sb-close-btn { display: none !important; }
+        body { padding-left: 280px; }
     }
+
     @media (max-width: 899px) {
-        #sidebar { transform: translateX(-100%); transition: transform 0.3s ease !important; }
-        #sidebar.open { transform: translateX(0) !important; }
+        #sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        #sidebar.open {
+            transform: translateX(0) !important;
+        }
     }
 
     #sidebar {
-        background: #ffffff !important; width: 300px !important; height: 100% !important;
-        position: fixed !important; top: 0 !important; left: 0 !important; z-index: 70 !important;
-        overflow: hidden !important; display: flex !important; flex-direction: column !important;
-        box-shadow: 4px 0 24px rgba(18,59,102,0.12) !important;
+        background-color: #0f1419 !important;
+        width: 280px !important;
+        height: 100% !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        z-index: 70 !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
     }
+    #sidebar::-webkit-scrollbar { display: none !important; }
+    #sidebar { -ms-overflow-style: none !important; scrollbar-width: none !important; }
+
     .sb-header {
-        background: #ffffff !important; display: flex !important; align-items: center !important;
-        justify-content: space-between !important; padding: 12px 14px !important;
-        border-bottom: 1px solid #e8f0fa !important; flex-shrink: 0 !important;
+        background-color: #0f1419 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 14px 16px !important;
+        border-bottom: 1px solid rgba(255,255,255,0.06) !important;
     }
     .sb-close-btn {
-        width: 34px !important; height: 34px !important; border-radius: 50% !important;
-        border: 0 !important; background: #e8f0fa !important; color: #123b66 !important;
-        display: flex !important; align-items: center !important; justify-content: center !important;
+        background: transparent !important;
+        border: none !important;
+        color: #ffffff !important;
+        width: 34px !important;
+        height: 34px !important;
+        border-radius: 50% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
         cursor: pointer !important;
+        font-size: 18px !important;
+        transition: background 0.2s !important;
     }
-    .sb-scroll {
-        flex: 1 !important; overflow-y: auto !important; padding: 12px 12px 24px !important;
-        -webkit-overflow-scrolling: touch;
-    }
-    .sb-scroll::-webkit-scrollbar { width: 0; }
+    .sb-close-btn:hover { background: rgba(255,255,255,0.1) !important; }
 
-    .sb-login-row {
-        display: flex !important; align-items: center !important; gap: 12px !important;
-        padding: 10px 8px 14px !important; margin-bottom: 4px !important;
-        text-decoration: none !important; color: #172033 !important;
-    }
-    .sb-login-row__avatar {
-        width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
-        background: #e8f0fa; color: #6b7280; display: grid; place-items: center; font-size: 18px;
-        border: 1px solid #d5e4f7;
-    }
-    .sb-login-row__text {
-        flex: 1; font-size: 16px; font-weight: 800; color: #123b66;
-        display: flex; flex-direction: column; gap: 2px; min-width: 0;
-    }
-    .sb-login-row__text strong { font-size: 15px; font-weight: 800; color: #123b66; }
-    .sb-login-row__text small { font-size: 12px; font-weight: 600; color: #6b7280; }
-    .sb-login-row__chev { color: #9aa3b2; font-size: 13px; }
-
-    .sb-promo-banner {
-        display: flex !important; align-items: center !important; justify-content: space-between !important;
-        gap: 10px !important; padding: 12px 14px !important; margin-bottom: 10px !important;
-        border-radius: 14px !important; text-decoration: none !important;
-        background: linear-gradient(135deg, #123b66 0%, #1a4a7a 55%, #2563eb 100%) !important;
-        color: #ffffff !important; box-shadow: 0 8px 18px rgba(18,59,102,0.2) !important;
-    }
-    .sb-promo-banner__text { display: flex; flex-direction: column; gap: 2px; }
-    .sb-promo-banner__text strong { font-size: 15px; font-weight: 800; }
-    .sb-promo-banner__text small { font-size: 11px; opacity: 0.85; }
-    .sb-promo-banner__ico {
-        width: 40px; height: 40px; border-radius: 12px; background: rgba(244,185,66,0.2);
-        color: #f4b942; display: grid; place-items: center; font-size: 18px;
+    @media (min-width: 900px) {
+        .sb-close-btn { display: none !important; }
     }
 
-    .sb-list { display: flex; flex-direction: column; gap: 0; }
-    .sb-list__item {
-        display: flex !important; align-items: center !important; gap: 12px !important;
-        padding: 12px 10px !important; border-radius: 0 !important;
-        text-decoration: none !important; color: #172033 !important;
-        transition: background 0.15s ease;
-        border-bottom: 1px dotted #d5e4f7 !important;
-    }
-    .sb-list__item:last-child { border-bottom: 0 !important; }
-    .sb-list__item:active { background: #e8f0fa !important; }
-    .sb-list__ico {
-        width: 22px; text-align: center; color: #123b66; font-size: 16px; flex-shrink: 0;
-    }
-    .sb-list__label { flex: 1; font-size: 14px; font-weight: 600; }
-    .sb-list__chev { color: #9aa3b2; font-size: 11px; }
-
-    .sb-badge {
-        display: inline-flex; align-items: center; justify-content: center;
-        font-size: 10px; font-weight: 800; line-height: 1; color: #fff;
-    }
-    .sb-badge--dot {
-        min-width: 18px; height: 18px; border-radius: 50%; background: #f59e0b; padding: 0 4px;
-    }
-    .sb-badge--pill {
-        border-radius: 999px; background: #f59e0b; padding: 4px 8px; text-transform: uppercase;
-    }
-    .sb-badge--live {
-        border-radius: 999px; background: #2563eb; padding: 4px 8px; margin-left: auto;
+    .sb-menu-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 8px !important;
+        padding: 12px 14px !important;
     }
 
-    .sb-divider {
-        height: 1px; background: #e8f0fa; margin: 10px 4px;
+    .sb-menu-card {
+        background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, #151b24 60%) !important;
+        border-radius: 12px !important;
+        padding: 11px 14px !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        gap: 12px !important;
+        text-decoration: none !important;
+        cursor: pointer !important;
+        min-height: 0 !important;
+        position: relative !important;
+        overflow: hidden !important;
+        border: 1px solid rgba(255,255,255,0.08) !important;
+        box-shadow: none !important;
+        transition: transform 0.12s ease, border-color 0.15s ease, background 0.15s ease !important;
     }
 
-    .sb-app-card {
-        display: flex !important; align-items: center !important; gap: 12px !important;
-        margin-top: 12px !important; padding: 12px !important; border-radius: 14px !important;
-        background: #f5f7fa !important; border: 1px solid #e8f0fa !important;
-        text-decoration: none !important; color: #172033 !important;
-    }
-    .sb-app-card__ico {
-        width: 40px; height: 40px; border-radius: 12px; background: #22c55e; color: #fff;
-        display: grid; place-items: center; font-size: 20px; flex-shrink: 0;
-    }
-    .sb-app-card__text { flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-    .sb-app-card__text strong { font-size: 13px; font-weight: 800; color: #123b66; }
-    .sb-app-card__text small { font-size: 11px; color: #6b7280; }
-    .sb-app-card__chev { color: #9aa3b2; font-size: 12px; }
-
-    .sb-social-row {
-        display: flex; align-items: center; gap: 8px; margin-top: 14px; flex-wrap: wrap;
-    }
-    .sb-social {
-        width: 40px; height: 40px; border-radius: 12px; background: #e8f0fa; color: #123b66;
-        display: grid; place-items: center; text-decoration: none; font-size: 16px;
-        border: 1px solid #d5e4f7;
-    }
-    .sb-lang { margin-left: auto; }
-
-    .sb-support-btn {
-        margin-top: 12px !important; display: flex !important; align-items: center !important;
-        gap: 10px !important; padding: 12px 14px !important; border-radius: 14px !important;
-        background: #ffffff !important; border: 1px solid #d5e4f7 !important;
-        color: #123b66 !important; text-decoration: none !important; font-weight: 700 !important;
-        box-shadow: 0 4px 12px rgba(18,59,102,0.06) !important;
+    .sb-menu-card::before {
+        content: "" !important;
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        bottom: 0 !important;
+        width: 3px !important;
+        background: #2dd4a8 !important;
+        border-radius: 12px 0 0 12px !important;
+        opacity: 0.85 !important;
     }
 
-    .sb-logout {
-        margin-top: 10px !important; display: flex !important; align-items: center !important;
-        justify-content: center !important; gap: 8px !important; padding: 12px !important;
-        border-radius: 12px !important; color: #ef4444 !important; text-decoration: none !important;
-        font-weight: 700 !important; border: 1px solid rgba(239,68,68,0.2) !important;
-        background: #fff5f5 !important;
+    .sb-menu-card:nth-child(even)::before {
+        background: #e8b84a !important;
+    }
+
+    .sb-menu-card:active {
+        transform: scale(0.98) !important;
+        border-color: rgba(45,212,168,0.35) !important;
+        box-shadow: none !important;
+    }
+
+    .sb-card-icon {
+        width: 36px !important;
+        height: 36px !important;
+        border-radius: 10px !important;
+        font-size: 16px !important;
+        line-height: 1 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-shrink: 0 !important;
+        background: rgba(255,255,255,0.04) !important;
+        box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06) !important;
+    }
+
+    .sb-card-label {
+        color: #e8eef5 !important;
+        font-size: 13px !important;
+        font-weight: 700 !important;
+        text-align: left !important;
+        line-height: 1.2 !important;
+        letter-spacing: 0.2px !important;
+        font-family: Arial, sans-serif !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+    }
+
+    .ic-red  { color: #f07167 !important; }
+    .ic-teal { color: #2dd4a8 !important; }
+    .ic-gold { color: #e8b84a !important; }
+
+    .sb-bottom-strip {
+        padding: 0 16px 40px 16px !important;
+    }
+    .btn-logout-sidebar {
+        background: rgba(239,68,68,0.08) !important;
+        border: 1px solid rgba(239,68,68,0.25) !important;
+        border-bottom: 3px solid rgba(180,30,30,0.5) !important;
+        color: #ef4444 !important;
+        padding: 12px !important;
+        border-radius: 10px !important;
+        text-align: center !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        text-decoration: none !important;
+        font-size: 14px !important;
+        font-weight: 700 !important;
+        width: 100% !important;
+        transition: all 0.15s !important;
+        box-shadow: 0 4px 0 rgba(120,20,20,0.4) !important;
+    }
+    .btn-logout-sidebar:active {
+        transform: translateY(3px) !important;
+        box-shadow: 0 1px 0 rgba(120,20,20,0.4) !important;
     }
 
     #sidebarOverlay {
-        background: rgba(18,59,102,0.35) !important; backdrop-filter: blur(6px) !important;
-        z-index: 60 !important; position: fixed !important; inset: 0;
+        background-color: rgba(0,0,0,0.65) !important;
+        backdrop-filter: blur(6px) !important;
+        -webkit-backdrop-filter: blur(6px) !important;
+        z-index: 60 !important;
+        position: fixed !important;
+        top: 0; left: 0; right: 0; bottom: 0;
     }
     .hidden { display: none !important; }
 </style>
@@ -387,8 +433,8 @@
         if (window.innerWidth >= 900) return;
         var sidebar = document.getElementById('sidebar');
         var overlay = document.getElementById('sidebarOverlay');
-        if (sidebar) sidebar.classList.toggle('open');
-        if (overlay) overlay.classList.toggle('hidden');
+        if(sidebar) sidebar.classList.toggle('open');
+        if(overlay) overlay.classList.toggle('hidden');
     }
 </script>
 @endpush

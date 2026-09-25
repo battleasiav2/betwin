@@ -268,6 +268,21 @@
         "icon": "las la-user-circle",
         "route_name": "admin.setting.socialite.credentials"
     },
+    "social_links_setting": {
+        "keyword": [
+            "social links",
+            "whatsapp",
+            "telegram",
+            "facebook",
+            "social media",
+            "floating buttons",
+            "contact social"
+        ],
+        "title": "Social Links",
+        "subtitle": "Set WhatsApp, Telegram and Facebook URLs for floating buttons and footer.",
+        "icon": "lab la-telegram",
+        "route_name": "admin.setting.social.links"
+    },
     "language": {
         "keyword": [
             "language",

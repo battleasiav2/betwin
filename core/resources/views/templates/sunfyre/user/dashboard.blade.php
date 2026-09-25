@@ -13,22 +13,20 @@
 
 <style>
     :root {
-        --bg-deep:    #e8f0fa;
-        --bg-main:    #f5f7fa;
-        --bg-card:    #ffffff;
-        --bg-card2:   #ffffff;
-        --teal:       #2563eb;
-        --teal-light: #2563eb;
-        --gold:       #f4b942;
-        --gold-dark:  #d9a12a;
-        --gold-text:  #123b66;
-        --green-btn:  #2563eb;
-        --text-main:  #172033;
-        --text-muted: #6b7280;
-        --border:     rgba(18,59,102,0.1);
-        --glass:      rgba(255, 255, 255, 0.9);
-        --header-color: #123b66;
-        --accent-color: #2563eb;
+        --bg-deep:    #0b0f14;
+        --bg-main:    #0f1419;
+        --bg-card:    #151b24;
+        --bg-card2:   #1a2330;
+        --teal:       #1fa88a;
+        --teal-light: #2dd4a8;
+        --gold:       #e8b84a;
+        --gold-dark:  #c49a3a;
+        --gold-text:  #e8b84a;
+        --green-btn:  #1a9b7a;
+        --text-main:  #e8eef5;
+        --text-muted: #8b97a8;
+        --border:     rgba(255,255,255,0.08);
+        --glass:      rgba(21, 27, 36, 0.75);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -41,7 +39,7 @@
         min-height: 100vh;
         -webkit-tap-highlight-color: transparent;
         user-select: none;
-        background-image: none;
+        background-image: linear-gradient(135deg, #0b0f14 0%, #0f1419 50%, #0b0f14 100%);
     }
 
     .custom-home-wrapper {
@@ -50,7 +48,7 @@
         width: 100%;
     }
 
-    /* â”€â”€â”€ ANNOUNCEMENT BAR â”€â”€â”€ */
+    /* ─── ANNOUNCEMENT BAR ─── */
     .announce-bar {
         background: rgba(255,255,255,0.04); border-bottom: 1px solid var(--border);
         padding: 7px 14px; display: flex; align-items: center; gap: 8px;
@@ -58,33 +56,198 @@
     .announce-bar .ann-icon { font-size: 14px; color: var(--gold-text); flex-shrink: 0; }
     .announce-bar marquee { font-size: 12px; color: var(--text-muted); font-weight: 500; }
 
-    /* Offer banner styles live in theme.css (.ob) */
-    .slider-wrap { padding: 10px 10px 6px; }
-    .mainSlider img { display: none !important; }
+    /* ─── SLIDER ─── */
+    .slider-wrap { padding: 10px 10px 4px; }
+    .swiper.mainSlider { border-radius: 12px; overflow: hidden; }
+    .mainSlider .home-banner {
+        width: 100%; height: 170px; display: flex !important; border-radius: 12px;
+    }
+    .home-banner {
+        position: relative;
+        overflow: hidden;
+        align-items: center;
+        padding: 0 16px;
+        isolation: isolate;
+        background: #0b0f14;
+    }
+    .home-banner .hb-art {
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: 72% center !important;
+        opacity: 0.42 !important;
+        border-radius: 12px !important;
+        z-index: 0 !important;
+        pointer-events: none;
+        filter: saturate(0.95) contrast(1.05);
+    }
+    .home-banner::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+            linear-gradient(90deg, rgba(11,15,20,0.92) 0%, rgba(11,15,20,0.78) 34%, rgba(11,15,20,0.35) 62%, rgba(11,15,20,0.18) 100%),
+            radial-gradient(ellipse 55% 80% at 12% 40%, rgba(232,184,74,0.12), transparent 50%);
+        z-index: 1;
+        pointer-events: none;
+        border-radius: 12px;
+    }
+    .hb-content { position: relative; z-index: 3; max-width: 62%; }
+    .hb-kicker {
+        display: inline-block;
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
+        color: #0b0f14;
+        background: linear-gradient(90deg, #f0d078, #2dd4a8);
+        padding: 3px 8px;
+        border-radius: 4px;
+        margin-bottom: 6px;
+    }
+    .hb-title {
+        font-size: 20px;
+        font-weight: 900;
+        line-height: 1.15;
+        letter-spacing: 0.2px;
+        color: #e8eef5;
+        margin: 0 0 4px;
+        text-shadow: 0 2px 12px rgba(0,0,0,0.45);
+    }
+    .hb-title span {
+        background: linear-gradient(90deg, #f0d078, #e8b84a, #2dd4a8);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    .hb-sub {
+        font-size: 11px;
+        font-weight: 600;
+        color: rgba(232,238,245,0.72);
+        margin: 0;
+        letter-spacing: 0.2px;
+    }
+    .hb-games {
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 2;
+        display: flex;
+        align-items: flex-end;
+        gap: 0;
+        pointer-events: none;
+    }
+    .hb-games img.hb-g {
+        width: 54px !important;
+        height: 54px !important;
+        object-fit: cover !important;
+        border-radius: 10px !important;
+        opacity: 0.55 !important;
+        border: 1px solid rgba(255,255,255,0.14);
+        box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+        background: rgba(21,27,36,0.6);
+    }
+    .hb-games img.hb-g:nth-child(1) {
+        width: 68px !important;
+        height: 68px !important;
+        opacity: 0.7 !important;
+        transform: translateY(-6px) rotate(-6deg);
+        z-index: 3;
+    }
+    .hb-games img.hb-g:nth-child(2) {
+        opacity: 0.58 !important;
+        transform: translateY(8px) rotate(5deg);
+        z-index: 2;
+        margin-left: -14px;
+    }
+    .hb-games img.hb-g:nth-child(3) {
+        opacity: 0.48 !important;
+        transform: translateY(-2px) rotate(-3deg);
+        z-index: 1;
+        margin-left: -12px;
+    }
+    .swiper-pagination-bullet {
+        background: rgba(255,255,255,0.3) !important; opacity: 1 !important;
+        width: 6px !important; height: 6px !important; transition: all 0.3s;
+    }
+    .swiper-pagination-bullet-active {
+        background: var(--gold-text) !important; width: 18px !important; border-radius: 3px !important;
+    }
 
-    /* â”€â”€â”€ DEPOSIT & WITHDRAW â”€â”€â”€ */
-    .quick-actions { display: flex; gap: 10px; padding: 10px 10px 4px; }
+    /* ─── DEPOSIT & WITHDRAW — glass action tiles ─── */
+    .quick-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        padding: 12px 12px 6px;
+    }
     .qa-btn {
-        flex: 1; display: flex; align-items: center; justify-content: center;
-        gap: 8px; padding: 13px 10px; border-radius: 10px;
-        font-size: 14px; font-weight: 800; text-decoration: none;
-        transition: all 0.15s; cursor: pointer; border: none;
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px;
+        border-radius: 14px;
+        font-size: 14px;
+        font-weight: 800;
+        text-decoration: none;
+        letter-spacing: 0.3px;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.08);
+        background: #151b24;
+        color: #e8eef5;
+        box-shadow: none;
+        transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
     }
-    .qa-btn i { font-size: 16px; }
+    .qa-btn::before {
+        content: '';
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 3px;
+        border-radius: 14px 0 0 14px;
+    }
+    .qa-btn i {
+        width: 38px;
+        height: 38px;
+        border-radius: 11px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        flex-shrink: 0;
+    }
     .qa-btn.deposit {
-        background: linear-gradient(180deg, #3b82f6 0%, #2563eb 60%, #1d4ed8 100%);
-        color: #fff; box-shadow: 0 4px 0 #1e3a8a, 0 4px 12px rgba(37,99,235,0.4);
-        border-bottom: 2px solid #60a5fa;
+        background: linear-gradient(135deg, rgba(45,212,168,0.14) 0%, #151b24 55%);
+        border-color: rgba(45,212,168,0.28);
+        color: #e8eef5;
+        box-shadow: none;
+        border-bottom: 1px solid rgba(45,212,168,0.28);
     }
-    .qa-btn.deposit:active { transform: translateY(3px); box-shadow: 0 1px 0 #1e3a8a; }
+    .qa-btn.deposit::before { background: #2dd4a8; }
+    .qa-btn.deposit i {
+        background: rgba(45,212,168,0.18);
+        color: #2dd4a8;
+        box-shadow: inset 0 0 0 1px rgba(45,212,168,0.35);
+    }
     .qa-btn.withdraw {
-        background: linear-gradient(180deg, #ffe066 0%, #f0c030 60%, #c89a10 100%);
-        color: #2a1500; box-shadow: 0 4px 0 #8a6a00, 0 4px 12px rgba(240,192,48,0.3);
-        border-bottom: 2px solid #ffe57a;
+        background: linear-gradient(135deg, rgba(232,184,74,0.14) 0%, #151b24 55%);
+        border-color: rgba(232,184,74,0.28);
+        color: #e8eef5;
+        box-shadow: none;
+        border-bottom: 1px solid rgba(232,184,74,0.28);
     }
-    .qa-btn.withdraw:active { transform: translateY(3px); box-shadow: 0 1px 0 #8a6a00; }
+    .qa-btn.withdraw::before { background: #e8b84a; }
+    .qa-btn.withdraw i {
+        background: rgba(232,184,74,0.18);
+        color: #e8b84a;
+        box-shadow: inset 0 0 0 1px rgba(232,184,74,0.35);
+    }
+    .qa-btn:active { transform: scale(0.98); }
 
-    /* â”€â”€â”€ SECTION HEADER â”€â”€â”€ */
+    /* ─── SECTION HEADER ─── */
     .sec-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 12px 8px; }
     .sec-title {
         display: flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 800;
@@ -95,36 +258,35 @@
     .btn-see-all {
         padding: 6px 13px; border-radius: 7px; font-size: 12px; font-weight: 800;
         color: var(--gold-text);
-        background: linear-gradient(180deg, rgba(255,220,70,0.18) 0%, rgba(240,192,48,0.10) 100%);
-        border: 1px solid rgba(240,192,48,0.4); border-bottom: 2px solid rgba(255,220,80,0.6);
+        background: linear-gradient(180deg, rgba(232,184,74,0.18) 0%, rgba(232,184,74,0.10) 100%);
+        border: 1px solid rgba(232,184,74,0.4); border-bottom: 2px solid rgba(232,184,74,0.6);
         text-decoration: none; transition: all 0.15s; box-shadow: 0 3px 0 rgba(0,0,0,0.3);
         display: inline-flex; align-items: center;
     }
     .btn-see-all:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(0,0,0,0.3); }
 
-    /* â”€â”€â”€ GAME GRID â”€â”€â”€ */
+    /* ─── GAME GRID ─── */
     .games-section { padding: 0 10px; margin-bottom: 6px; }
     .game-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
     @media (min-width: 600px) { .game-grid { grid-template-columns: repeat(4, 1fr); } }
     @media (min-width: 900px) {
         .game-grid { grid-template-columns: repeat(6, 1fr); }
-        
+        .mainSlider .home-banner { height: 240px; }
+        .hb-title { font-size: 28px; }
+        .hb-sub { font-size: 13px; }
+        .hb-kicker { font-size: 10px; padding: 4px 10px; }
+        .hb-games img.hb-g { width: 72px !important; height: 72px !important; }
+        .hb-games img.hb-g:nth-child(1) { width: 90px !important; height: 90px !important; }
+        .home-banner .hb-art { opacity: 0.48 !important; }
     }
 
     .game-card {
-        position: relative; border-radius: 12px; overflow: hidden; background: #ffffff;
-        border: 1px solid #e8f0fa; transition: all 0.2s; text-decoration: none; display: block;
-        box-shadow: 0 4px 14px rgba(18,59,102,0.08);
+        position: relative; border-radius: 10px; overflow: hidden; background: var(--bg-card);
+        border: 1px solid rgba(255,255,255,0.07); border-bottom: 2px solid rgba(255,255,255,0.12);
+        transition: all 0.2s; text-decoration: none; display: block; box-shadow: 0 4px 0 rgba(0,0,0,0.4);
     }
-    .game-card:active { transform: scale(0.96); }
-    .game-card-img {
-        display: block; width: 100%; aspect-ratio: 1 / 1; overflow: hidden;
-        background: #111827; position: relative;
-    }
-    .game-card-img img {
-        width: 100%; height: 100%; object-fit: cover; object-position: center;
-        display: block; vertical-align: top;
-    }
+    .game-card:active { transform: scale(0.94) translateY(3px); border-color: var(--teal-light); box-shadow: 0 1px 0 rgba(0,0,0,0.4); }
+    .game-card-img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
 
     .game-card-fav {
         position: absolute; top: 5px; right: 5px; width: 26px; height: 26px;
@@ -133,16 +295,16 @@
         color: rgba(255,255,255,0.6); font-size: 13px; cursor: pointer;
         z-index: 5; transition: color 0.2s, background 0.2s; border: none; flex-shrink: 0;
     }
-    .game-card-fav.active { color: var(--gold-text); background: rgba(240,192,48,0.18); }
+    .game-card-fav.active { color: var(--gold-text); background: rgba(232,184,74,0.18); }
 
     .game-card-name {
         font-size: 10px; font-weight: 700; color: var(--text-main); padding: 5px 6px;
         text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
 
-    /* â”€â”€â”€ STATUS TAGS â”€â”€â”€ */
+    /* ─── STATUS TAGS ─── */
     .game-card[data-status="2"]::before {
-        content: 'à¦•à¦¾à¦œ à¦šà¦²à¦›à§‡';
+        content: 'কাজ চলছে';
         position: absolute;
         top: 0; left: 0; width: 100%; height: 100%;
         background: rgba(0, 0, 0, 0.75);
@@ -160,7 +322,7 @@
 
     .game-card[data-status="0"]::before,
     .game-card[data-status="3"]::before {
-        content: 'à¦¶à§€à¦˜à§à¦°à¦‡ à¦†à¦¸à¦›à§‡';
+        content: 'শীঘ্রই আসছে';
         position: absolute;
         top: 0; left: 0; width: 100%; height: 100%;
         background: rgba(0, 0, 0, 0.75);
@@ -176,37 +338,53 @@
         border-radius: 10px;
     }
 
-    /* â”€â”€â”€ CATEGORY NAV â”€â”€â”€ */
+    /* ─── CATEGORY NAV — underline rail ─── */
     .cat-nav-wrap {
-        padding: 12px 12px 0; overflow-x: auto; white-space: nowrap;
+        padding: 8px 10px 0; overflow-x: auto; white-space: nowrap;
         scrollbar-width: none; -ms-overflow-style: none;
     }
     .cat-nav-wrap::-webkit-scrollbar { display: none; }
-    .cat-nav-inner { display: inline-flex; gap: 8px; padding-bottom: 10px; }
+    .cat-nav-inner {
+        display: inline-flex;
+        gap: 4px;
+        padding: 4px;
+        margin-bottom: 8px;
+        border-radius: 12px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.06);
+    }
     .cat-pill {
         display: inline-flex; align-items: center; gap: 6px;
-        padding: 8px 16px; border-radius: 999px; font-size: 13px; font-weight: 700;
-        text-decoration: none; color: #6b7280;
-        background: #ffffff; border: 1px solid #e8f0fa;
-        transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
-        white-space: nowrap; cursor: pointer; box-shadow: none;
+        padding: 8px 14px; border-radius: 9px; font-size: 11px; font-weight: 800;
+        text-decoration: none; color: #8b97a8; letter-spacing: 0.6px;
+        text-transform: uppercase;
+        background: transparent; border: 1px solid transparent;
+        transition: all 0.2s; white-space: nowrap; cursor: pointer;
+        position: relative;
     }
-    .cat-pill i { font-size: 13px; color: #2563eb; }
-    .cat-pill.active,
-    .cat-pill:active {
-        background: #2563eb; border-color: #2563eb; color: #ffffff;
+    .cat-pill i { font-size: 12px; opacity: 0.85; }
+    .cat-pill.active, .cat-pill:active {
+        background: rgba(232,184,74,0.12);
+        border-color: rgba(232,184,74,0.35);
+        color: #e8b84a;
         box-shadow: none;
     }
-    .cat-pill.active i,
-    .cat-pill:active i { color: #ffffff; }
+    .cat-pill.active::after {
+        content: '';
+        position: absolute;
+        left: 12px; right: 12px; bottom: 3px;
+        height: 2px;
+        border-radius: 2px;
+        background: #e8b84a;
+    }
 
     /* Category section */
     .cat-section {
-        margin-bottom: 6px; background: rgba(18,59,102,0.06);
+        margin-bottom: 6px; background: rgba(21,27,36,0.45);
         border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding-bottom: 8px;
     }
 
-    /* â”€â”€â”€ PROVIDER GRID â”€â”€â”€ */
+    /* ─── PROVIDER GRID ─── */
     .provider-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -261,96 +439,56 @@
         line-height: 1.2;
     }
 
-    /* â”€â”€â”€ GAME CENTER â”€â”€â”€ */
+    /* ─── GAME CENTER ─── */
     .game-center { padding: 8px 12px 16px; }
     .game-center-title { font-size: 18px; font-weight: 800; color: var(--gold-text); margin-bottom: 12px; }
     .game-center-pills { display: flex; flex-wrap: wrap; gap: 8px; }
     .gc-pill {
         padding: 8px 18px; border-radius: 8px; font-size: 13px; font-weight: 700;
-        color: var(--teal-light); border: 1px solid rgba(37,99,235,0.4);
-        border-bottom: 2px solid rgba(37,99,235,0.45);
-        background: linear-gradient(180deg, rgba(37,99,235,0.12) 0%, rgba(37,99,235,0.06) 100%);
+        color: var(--teal-light); border: 1px solid rgba(45,212,168,0.4);
+        border-bottom: 2px solid rgba(45,212,168,0.5);
+        background: linear-gradient(180deg, rgba(45,212,168,0.12) 0%, rgba(45,212,168,0.06) 100%);
         text-decoration: none; transition: all 0.15s; box-shadow: 0 3px 0 rgba(0,0,0,0.3);
     }
     .gc-pill:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(0,0,0,0.3); }
 
-    /* â”€â”€â”€ BOTTOM NAV â”€â”€â”€ */
-    .bottom-nav-container {
+    /* ─── FLOATING SOCIAL BUTTONS ─── */
+    .float-social-btns {
         position: fixed;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 100%;
-        max-width: 480px;
-        z-index: 10000;
-        padding: 0 10px 8px 10px;
-    }
-
-    .bottom-nav {
-        width: 100%;
-        height: 58px;
-        background: #ffffff;
-        border-radius: 999px;
-        border: 1px solid #e8f0fa;
-        box-shadow:
-            0 0 0 2px #e8f0fa,
-            inset 0 1px 0 rgba(37,99,235,0.12),
-            0 8px 24px rgba(18,59,102,0.12),
-            0 4px 24px rgba(0,0,0,0.5);
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        padding: 0 6px;
-        position: relative;
-    }
-
-    .nav-item {
+        right: 12px;
+        bottom: 90px;
+        z-index: 9999;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 3px;
-        flex: 1;
-        text-decoration: none !important;
-        color: #6b7280;
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 0.2px;
-        padding: 6px 0;
-        transition: color 0.2s;
-        position: relative;
+        gap: 12px;
     }
-
-    .nav-item.active { color: #f5c518; }
-
-    .nav-item i { font-size: 20px; }
-
-    .nav-item span { font-size: 10px; font-weight: 700; }
-
-    .center-item {
-        position: relative;
-        flex: 1;
-        justify-content: flex-end;
-        padding-bottom: 0;
-    }
-
-    .center-icon-circle {
-        width: 54px;
-        height: 54px;
+    .float-btn {
+        width: 52px; height: 52px;
         border-radius: 50%;
-        background: linear-gradient(145deg, #2563eb, #123b66);
         display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow:
-            0 0 0 3px #e8f0fa,
-            0 0 0 5px #2563eb,
-            0 6px 20px rgba(37,99,235,0.45);
-        font-size: 22px;
-        color: #fff;
-        margin-top: -18px;
+        align-items: center; justify-content: center;
+        text-decoration: none;
+        padding: 0;
+        background: transparent !important;
         border: none;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.35);
+        transition: transform 0.2s, box-shadow 0.2s;
+        overflow: hidden;
     }
+    .float-btn:active { transform: scale(0.92); }
+    .float-btn img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        display: block;
+    }
+    .float-btn.wa-float,
+    .float-btn.fb-float,
+    .float-btn.tg-float,
+    .float-btn.live-float { background: transparent !important; }
+
+    /* Bottom nav styles live in clean-dark.css (Crystal Rail) */
 
     .section-container { transition: opacity 0.3s ease; }
     .section-container.show-anim { animation: softFade 0.4s ease forwards; }
@@ -361,9 +499,24 @@
     }
 
     .game-tag, .game-item__title, h4 { display: none !important; }
-    .main-footer-section { margin-top: 25px; padding-bottom: 20px; }
+    .main-footer-section {
+        margin-top: 25px;
+        padding-bottom: 90px; /* clear fixed bottom nav */
+    }
+    .main-footer-section .footer-area {
+        margin-top: 0 !important;
+        overflow: hidden;
+    }
+    .main-footer-section .footer-area::before,
+    .main-footer-section .footer-area::after {
+        content: none !important;
+        display: none !important;
+    }
+    .main-footer-section .footer-area__thumb {
+        display: none !important;
+    }
 
-    /* â”€â”€â”€ DESKTOP â”€â”€â”€ */
+    /* ─── DESKTOP ─── */
     @media (min-width: 900px) {
         .bottom-nav-container { max-width: 600px; }
     }
@@ -377,9 +530,71 @@
     <marquee scrollamount="4">{{ gs('announcement_text') }}</marquee>
 </div>
 
-<!-- OFFER BANNERS -->
-@include($activeTemplate . 'partials.offer_banners')
-
+<!-- SLIDER -->
+<div class="slider-wrap">
+    <div class="swiper mainSlider">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <div class="home-banner hb-1">
+                    <img class="hb-art" src="{{ asset($activeTemplateTrue . 'images/banner/gaming-bg.png') }}" alt="" loading="lazy">
+                    <div class="hb-content">
+                        <span class="hb-kicker">Welcome</span>
+                        <h3 class="hb-title"><span>BET369WIN</span></h3>
+                        <p class="hb-sub">Premium slots, sports &amp; casino — play in style</p>
+                    </div>
+                    <div class="hb-games">
+                        <img class="hb-g" src="https://ossimg.91admin123admin.com/91club/gamelogo/JILI/49.png" alt="" loading="lazy" referrerpolicy="no-referrer">
+                        <img class="hb-g" src="https://ossimg.91admin123admin.com/91club/gamelogo/JILI/109.png" alt="" loading="lazy" referrerpolicy="no-referrer">
+                        <img class="hb-g" src="https://ossimg.91admin123admin.com/91club/gamelogo/PG/126.png" alt="" loading="lazy" referrerpolicy="no-referrer">
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="home-banner hb-2">
+                    <img class="hb-art" src="{{ asset($activeTemplateTrue . 'images/banner/gaming-slots.png') }}" alt="" loading="lazy">
+                    <div class="hb-content">
+                        <span class="hb-kicker">Jackpot</span>
+                        <h3 class="hb-title">Spin &amp; <span>Win Big</span></h3>
+                        <p class="hb-sub">Hot slots every day — bigger pots, faster fun</p>
+                    </div>
+                    <div class="hb-games">
+                        <img class="hb-g" src="https://ossimg.91admin123admin.com/91club/gamelogo/JILI/35.png" alt="" loading="lazy" referrerpolicy="no-referrer">
+                        <img class="hb-g" src="https://ossimg.91admin123admin.com/91club/gamelogo/JILI/51.png" alt="" loading="lazy" referrerpolicy="no-referrer">
+                        <img class="hb-g" src="https://ossimg.91admin123admin.com/91club/gamelogo/JILI/134.png" alt="" loading="lazy" referrerpolicy="no-referrer">
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="home-banner hb-3">
+                    <img class="hb-art" src="{{ asset($activeTemplateTrue . 'images/banner/gaming-sports.png') }}" alt="" loading="lazy">
+                    <div class="hb-content">
+                        <span class="hb-kicker">Sports</span>
+                        <h3 class="hb-title">Bet Live. <span>Feel It</span></h3>
+                        <p class="hb-sub">Football, cricket &amp; more — odds that move with you</p>
+                    </div>
+                    <div class="hb-games">
+                        <img class="hb-g" src="https://spribe.co/assets/images/games/Av-new@2x.png?v=2.5.61" alt="" loading="lazy" referrerpolicy="no-referrer">
+                        <img class="hb-g" src="https://ossimg.91admin123admin.com/91club/gamelogo/JILI/77.png" alt="" loading="lazy" referrerpolicy="no-referrer">
+                        <img class="hb-g" src="https://ossimg.91admin123admin.com/91club/gamelogo/PG/74.png" alt="" loading="lazy" referrerpolicy="no-referrer">
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-slide">
+                <div class="home-banner hb-4">
+                    <img class="hb-art" src="{{ asset($activeTemplateTrue . 'images/banner/gaming-bg.png') }}" alt="" loading="lazy">
+                    <div class="hb-content">
+                        <span class="hb-kicker">Bonus</span>
+                        <h3 class="hb-title">Deposit. <span>Play Fast</span></h3>
+                        <p class="hb-sub">Instant top-up · smooth withdraw · secure wallet</p>
+                    </div>
+                    <div class="hb-games">
+                        <img class="hb-g" src="https://ossimg.91admin123admin.com/91club/gamelogo/PG/135.png" alt="" loading="lazy" referrerpolicy="no-referrer">
+                        <img class="hb-g" src="https://ossimg.91admin123admin.com/91club/gamelogo/JILI/103.png" alt="" loading="lazy" referrerpolicy="no-referrer">
+                        <img class="hb-g" src="https://ossimg.91admin123admin.com/91club/gamelogo/JILI/110.png" alt="" loading="lazy" referrerpolicy="no-referrer">
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="swiper-pagination" style="bottom:10px"></div>
     </div>
 </div>
@@ -387,10 +602,10 @@
 <!-- DEPOSIT & WITHDRAW -->
 <div class="quick-actions">
     <a href="{{ route('user.deposit.index') }}" class="qa-btn deposit">
-        <i class="fas fa-plus-circle"></i> @lang('Deposit')
+        <i class="fas fa-plus-circle"></i> Deposit
     </a>
     <a href="{{ route('user.withdraw') }}" class="qa-btn withdraw">
-        <i class="fas fa-arrow-up-from-bracket"></i> @lang('Withdraw')
+        <i class="fas fa-arrow-up-from-bracket"></i> Withdraw
     </a>
 </div>
 
@@ -398,28 +613,28 @@
 <nav class="cat-nav-wrap">
     <div class="cat-nav-inner">
         <a href="javascript:void(0)" class="cat-pill active" onclick="filterGames('hot', this)">
-            <i class="fas fa-fire"></i> @lang('HOT')
+            <i class="fas fa-fire"></i> HOT
         </a>
         <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('sports', this)">
-            <i class="fas fa-futbol"></i> @lang('SPORTS')
+            <i class="fas fa-futbol"></i> SPORTS
         </a>
         <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('crash', this)">
-            <i class="fas fa-chart-line"></i> @lang('CRASH')
+            <i class="fas fa-chart-line"></i> CRASH
         </a>
         <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('slot', this)">
-            <i class="fas fa-dice"></i> @lang('SLOT')
+            <i class="fas fa-dice"></i> SLOT
         </a>
         <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('casino', this)">
-            <i class="fas fa-video"></i> @lang('CASINO')
+            <i class="fas fa-video"></i> CASINO
         </a>
         <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('table', this)">
-            <i class="fas fa-table"></i> @lang('TABLE')
+            <i class="fas fa-table"></i> TABLE
         </a>
         <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('fishing', this)">
-            <i class="fas fa-fish"></i> @lang('FISHING')
+            <i class="fas fa-fish"></i> FISHING
         </a>
         <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('poker', this)">
-            <i class="fas fa-chess"></i> @lang('POKER')
+            <i class="fas fa-spade"></i> POKER
         </a>
     </div>
 </nav>
@@ -428,8 +643,8 @@
 <div id="gamesSections">
     <div class="section-container" data-provider="hot">
         <div class="sec-header">
-            <div class="sec-title"><i class="fas fa-fire"></i> @lang('HOT GAMES')</div>
-            <a href="javascript:void(0)" class="btn-see-all" onclick="seeAll('hot')" style="display:none;">@lang('See All')</a>
+            <div class="sec-title"><i class="fas fa-fire"></i> HOT GAMES</div>
+            <a href="javascript:void(0)" class="btn-see-all" onclick="seeAll('hot')" style="display:none;">See All</a>
         </div>
         <div class="games-section" id="hot-wrapper" data-status="1">
             <div class="game-grid">@include($activeTemplate . 'partials.hot-games')</div>
@@ -438,8 +653,8 @@
 
     <div class="section-container" data-provider="sports" style="display:none;">
         <div class="sec-header">
-            <div class="sec-title"><i class="fas fa-futbol"></i> @lang('SPORTS')</div>
-            <a href="javascript:void(0)" class="btn-see-all" onclick="seeAll('sports')">@lang('See All')</a>
+            <div class="sec-title"><i class="fas fa-futbol"></i> SPORTS</div>
+            <a href="javascript:void(0)" class="btn-see-all" onclick="seeAll('sports')">See All</a>
         </div>
         <div class="games-section" id="sports-wrapper" data-status="1">
             <div class="game-grid">@include($activeTemplate . 'partials.sports-games')</div>
@@ -448,8 +663,8 @@
 
     <div class="section-container" data-provider="crash" style="display:none;">
         <div class="sec-header">
-            <div class="sec-title"><i class="fas fa-chart-line"></i> @lang('CRASH GAMES')</div>
-            <a href="javascript:void(0)" class="btn-see-all" onclick="seeAll('crash')">@lang('See All')</a>
+            <div class="sec-title"><i class="fas fa-chart-line"></i> CRASH GAMES</div>
+            <a href="javascript:void(0)" class="btn-see-all" onclick="seeAll('crash')">See All</a>
         </div>
         <div class="games-section" id="crash-wrapper" data-status="1">
             <div class="game-grid">@include($activeTemplate . 'partials.crash-games')</div>
@@ -458,8 +673,8 @@
 
     <div class="section-container" data-provider="casino" style="display:none;">
         <div class="sec-header">
-            <div class="sec-title"><i class="fas fa-video"></i> @lang('CASINO')</div>
-            <a href="javascript:void(0)" class="btn-see-all" onclick="seeAll('casino')">@lang('See All')</a>
+            <div class="sec-title"><i class="fas fa-video"></i> CASINO</div>
+            <a href="javascript:void(0)" class="btn-see-all" onclick="seeAll('casino')">See All</a>
         </div>
         <div class="games-section" id="casino-wrapper" data-status="{{ isset($gameStatus['evo']) ? $gameStatus['evo']->status : 1 }}">
             <div class="game-grid">@include($activeTemplate . 'partials.evo-games')</div>
@@ -468,16 +683,81 @@
 
     <div id="provider-grid-container" style="display:none;">
         <div class="sec-header">
-            <div class="sec-title"><i class="fas fa-dice"></i> <span id="provider-grid-title">@lang('PROVIDERS')</span></div>
+            <div class="sec-title"><i class="fas fa-dice"></i> SLOT PROVIDERS</div>
         </div>
-        @include($activeTemplate . 'partials.provider-grid')
-    </div>
 
-    <div class="section-container" data-provider="__empty__" id="provider-empty-section" style="display:none;">
-        <div class="sec-header">
-            <a href="javascript:void(0)" class="btn-see-all" onclick="backToProviders()"><i class="fas fa-arrow-left"></i> Back</a>
-            <div class="sec-title"><i class="fas fa-gamepad"></i> <span id="provider-empty-title">Provider</span></div>
+        <div class="provider-grid">
+            @if(isset($gameStatus['jili']) && $gameStatus['jili']->status != 0)
+            <div class="provider-card" data-key="jili" onclick="selectProvider('jili')">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_jili.png?v=1781595979466&source=mcdsrc" alt="JILI">
+                <span>JILI</span>
+            </div>
+            @endif
+            @if(isset($gameStatus['pg']) && $gameStatus['pg']->status != 0)
+            <div class="provider-card" data-key="pg" onclick="selectProvider('pg')">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_pg.png?v=1781595979466&source=mcdsrc" alt="PG">
+                <span>PG Soft</span>
+            </div>
+            @endif
+            @if(isset($gameStatus['jdb']) && $gameStatus['jdb']->status != 0)
+            <div class="provider-card" data-key="jdb" onclick="selectProvider('jdb')">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_jdb.png?v=1781595979466&source=mcdsrc" alt="JDB">
+                <span>JDB</span>
+            </div>
+            @endif
+            @if(isset($gameStatus['cq9']) && $gameStatus['cq9']->status != 0)
+            <div class="provider-card" data-key="cq9" onclick="selectProvider('cq9')">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-cq9.png?v=1781595979466&source=mcdsrc" alt="CQ9">
+                <span>CQ9</span>
+            </div>
+            @endif
+            @if(isset($gameStatus['idg']) && $gameStatus['idg']->status != 0)
+            <div class="provider-card" data-key="idg" onclick="selectProvider('idg')">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_dreamgaming.png?v=1781595979466&source=mcdsrc" alt="IDG">
+                <span>IDG</span>
+            </div>
+            @endif
+            @if(isset($gameStatus['km']) && $gameStatus['km']->status != 0)
+            <div class="provider-card" data-key="km" onclick="selectProvider('km')">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_kingmaker.png?v=1781595979466&source=mcdsrc" alt="KM">
+                <span>KM</span>
+            </div>
+            @endif
+            @if(isset($gameStatus['v8']) && $gameStatus['v8']->status != 0)
+            <div class="provider-card" data-key="v8" onclick="selectProvider('v8')">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_yesbingo.png?v=1781595979466&source=mcdsrc" alt="V8">
+                <span>V8</span>
+            </div>
+            @endif
+            @if(isset($gameStatus['mg']) && $gameStatus['mg']->status != 0)
+            <div class="provider-card" data-key="mg" onclick="selectProvider('mg')">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-mg.png?v=1781595979466&source=mcdsrc" alt="MG">
+                <span>MG</span>
+            </div>
+            @endif
+
+            <div class="provider-card" data-key="arcade">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-rich88.png?v=1781595979466&source=mcdsrc" alt="Arcade">
+                <span>Arcade</span>
+            </div>
+            <div class="provider-card" data-key="lottery">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-saba.png?v=1781595979466&source=mcdsrc" alt="Lottery">
+                <span>Lottery</span>
+            </div>
+            <div class="provider-card" data-key="bingo">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-playngo.png?v=1781595979466&source=mcdsrc" alt="Bingo">
+                <span>Bingo</span>
+            </div>
+            <div class="provider-card" data-key="live">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_yl.png?v=1781595979466&source=mcdsrc" alt="Live">
+                <span>Live</span>
+            </div>
+            <div class="provider-card" data-key="mini">
+                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_mimi.png?v=1781595979466&source=mcdsrc" alt="Mini Game">
+                <span>Mini Game</span>
+            </div>
         </div>
+    </div>
 
     @if(isset($gameStatus['jili']) && $gameStatus['jili']->status != 0)
     <div class="section-container" data-provider="jili" style="display:none;">
@@ -574,55 +854,19 @@
         </div>
     </div>
     @endif
-
-    @if(isset($gameStatus['g9']) && $gameStatus['g9']->status != 0)
-    <div class="section-container" data-provider="g9" style="display:none;">
-        <div class="sec-header">
-            <a href="javascript:void(0)" class="btn-see-all" onclick="backToProviders()"><i class="fas fa-arrow-left"></i> Back</a>
-            <div class="sec-title"><i class="fas fa-fire"></i> G9 GAMES</div>
-        </div>
-        <div class="games-section" id="g9-wrapper" data-status="{{ $gameStatus['g9']->status }}">
-            <div class="game-grid">@include($activeTemplate . 'partials.g9-games')</div>
-        </div>
-    </div>
-    @endif
-
-    @if(isset($gameStatus['card365']) && $gameStatus['card365']->status != 0)
-    <div class="section-container" data-provider="card365" style="display:none;">
-        <div class="sec-header">
-            <a href="javascript:void(0)" class="btn-see-all" onclick="backToProviders()"><i class="fas fa-arrow-left"></i> Back</a>
-            <div class="sec-title"><i class="fas fa-fire"></i> CARD365</div>
-        </div>
-        <div class="games-section" id="card365-wrapper" data-status="{{ $gameStatus['card365']->status }}">
-            <div class="game-grid">@include($activeTemplate . 'partials.card365-games')</div>
-        </div>
-    </div>
-    @endif
-
-    @if(isset($gameStatus['evo']) && $gameStatus['evo']->status != 0)
-    <div class="section-container" data-provider="evo" style="display:none;">
-        <div class="sec-header">
-            <a href="javascript:void(0)" class="btn-see-all" onclick="backToProviders()"><i class="fas fa-arrow-left"></i> Back</a>
-            <div class="sec-title"><i class="fas fa-fire"></i> EVOLUTION</div>
-        </div>
-        <div class="games-section" id="evo-slot-wrapper" data-status="{{ $gameStatus['evo']->status }}">
-            <div class="game-grid">@include($activeTemplate . 'partials.evo-games')</div>
-        </div>
-    </div>
-    @endif
 </div>
 
 <!-- GAME CENTER -->
 <div class="game-center">
-    <div class="game-center-title">@lang('Game Center')</div>
+    <div class="game-center-title">Game Center</div>
     <div class="game-center-pills">
-        <a href="#" class="gc-pill">@lang('Slots')</a>
-        <a href="#" class="gc-pill">@lang('Live Casino')</a>
-        <a href="#" class="gc-pill">@lang('Sports')</a>
-        <a href="#" class="gc-pill">@lang('E-sports')</a>
-        <a href="#" class="gc-pill">@lang('Poker')</a>
-        <a href="#" class="gc-pill">@lang('Fish')</a>
-        <a href="#" class="gc-pill">@lang('Lottery')</a>
+        <a href="#" class="gc-pill">Slots</a>
+        <a href="#" class="gc-pill">Live Casino</a>
+        <a href="#" class="gc-pill">Sports</a>
+        <a href="#" class="gc-pill">E-sports</a>
+        <a href="#" class="gc-pill">Poker</a>
+        <a href="#" class="gc-pill">Fish</a>
+        <a href="#" class="gc-pill">Lottery</a>
     </div>
 </div>
 
@@ -632,7 +876,34 @@
 
 </div><!-- /custom-home-wrapper -->
 
-@include($activeTemplate . 'partials.mobile_bottom_nav')
+<!-- FLOATING SOCIAL BUTTONS -->
+@include($activeTemplate . 'partials.float_social')
+
+<!-- BOTTOM NAVIGATION -->
+<div class="bottom-nav-container">
+    <div class="bottom-nav">
+        <a href="{{ route('user.home') }}" class="nav-item {{ request()->routeIs('user.home') ? 'active' : '' }}">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="{{ route('user.promotions') }}" class="nav-item">
+            <i class="fas fa-gift"></i>
+            <span>Promotion</span>
+        </a>
+        <a href="{{ route('user.referrals') }}" class="nav-item center-item {{ request()->routeIs('user.referrals') ? 'active' : '' }}">
+            <div class="center-icon-circle"><i class="fas fa-share-nodes"></i></div>
+            <span>Invite</span>
+        </a>
+        <a href="{{ route('user.redeem.index') }}" class="nav-item {{ request()->routeIs('user.redeem.index') ? 'active' : '' }}">
+            <i class="fas fa-trophy"></i>
+            <span>Reward</span>
+        </a>
+        <a href="{{ route('user.account') }}" class="nav-item {{ request()->routeIs('user.account') ? 'active' : '' }}">
+            <i class="fas fa-user-circle"></i>
+            <span>Member</span>
+        </a>
+    </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
@@ -648,15 +919,6 @@
 
     const providerGridEl = document.querySelector('#provider-grid-container .provider-grid');
     const originalProviderCards = providerGridEl ? Array.from(providerGridEl.children) : [];
-    const providerTitleMap = {
-        slot: 'SLOT PROVIDERS',
-        casino: 'LIVE CASINO',
-        table: 'TABLE / MINI',
-        fishing: 'FISHING',
-        poker: 'CARD / POKER',
-        sports: 'SPORTS PROVIDERS',
-        crash: 'CRASH / MINI'
-    };
 
     function shuffleArray(arr) {
         for (let i = arr.length - 1; i > 0; i--) {
@@ -664,27 +926,6 @@
             [arr[i], arr[j]] = [arr[j], arr[i]];
         }
         return arr;
-    }
-
-    function setProviderTitle(category) {
-        const el = document.getElementById('provider-grid-title');
-        if (el) el.textContent = providerTitleMap[category] || 'PROVIDERS';
-    }
-
-    function showProviderGridByType(types) {
-        if (!providerGridEl) return;
-        const want = Array.isArray(types) ? types : [types];
-        let visible = 0;
-        originalProviderCards.forEach(card => {
-            const ok = want.includes(card.dataset.type);
-            card.style.display = ok ? '' : 'none';
-            if (ok) visible++;
-        });
-        // if none match, show all
-        if (visible === 0) {
-            originalProviderCards.forEach(card => { card.style.display = ''; });
-        }
-        document.getElementById('provider-grid-container').style.display = 'block';
     }
 
     function resetProviderGrid() {
@@ -722,28 +963,14 @@
             document.querySelector('.game-center').style.display = 'none';
 
             if (category === 'slot') {
-                setProviderTitle('slot');
-                showProviderGridByType('slot');
+                document.getElementById('provider-grid-container').style.display = 'block';
+                resetProviderGrid();
                 return;
             }
-            if (category === 'casino') {
-                setProviderTitle('casino');
-                showProviderGridByType('casino');
-                return;
-            }
-            if (category === 'table') {
-                setProviderTitle('table');
-                showProviderGridByType(['table', 'cockfight']);
-                return;
-            }
-            if (category === 'fishing') {
-                setProviderTitle('fishing');
-                showProviderGridByType('fishing');
-                return;
-            }
-            if (category === 'poker') {
-                setProviderTitle('poker');
-                showProviderGridByType('poker');
+
+            if (category === 'table' || category === 'fishing' || category === 'poker') {
+                document.getElementById('provider-grid-container').style.display = 'block';
+                showRandomProviderGrid(['jili', 'pg']);
                 return;
             }
 
@@ -760,20 +987,13 @@
     function selectProvider(provider) {
         document.getElementById('provider-grid-container').style.display = 'none';
         let target = document.querySelector('.section-container[data-provider="' + provider + '"]');
-        document.querySelectorAll('.section-container').forEach(s => { s.style.display = 'none'; s.classList.remove('show-anim'); });
         if (target) {
+            document.querySelectorAll('.section-container').forEach(s => { s.style.display = 'none'; s.classList.remove('show-anim'); });
             target.style.display = 'block';
             target.classList.add('show-anim');
-        } else {
-            const card = document.querySelector('.provider-card[data-key="' + provider + '"]');
-            const name = card ? (card.querySelector('span')?.textContent || provider) : provider;
-            document.getElementById('provider-empty-title').textContent = name.toUpperCase();
-            const empty = document.getElementById('provider-empty-section');
-            empty.style.display = 'block';
-            empty.classList.add('show-anim');
+            document.querySelector('.main-footer-section').style.display = 'none';
+            document.querySelector('.game-center').style.display = 'none';
         }
-        document.querySelector('.main-footer-section').style.display = 'none';
-        document.querySelector('.game-center').style.display = 'none';
     }
 
     function backToProviders() {
@@ -789,7 +1009,7 @@
         let status = $(this).data('status');
         if (status && status != 1) {
             e.preventDefault();
-            let msg = status == 2 ? "à¦à¦‡ à¦—à§‡à¦®à¦Ÿà¦¿à¦° à¦•à¦¾à¦œ à¦šà¦²à¦›à§‡à¥¤ à¦–à§à¦¬ à¦¶à§€à¦˜à§à¦°à¦‡ à¦«à¦¿à¦°à¦¬à§‡!" : "à¦à¦‡ à¦—à§‡à¦®à¦Ÿà¦¿ à¦–à§à¦¬ à¦¶à§€à¦˜à§à¦°à¦‡ à¦†à¦¸à¦›à§‡à¥¤ à¦¸à¦¾à¦¥à§‡ à¦¥à¦¾à¦•à§à¦¨!";
+            let msg = status == 2 ? "এই গেমটির কাজ চলছে। খুব শীঘ্রই ফিরবে!" : "এই গেমটি খুব শীঘ্রই আসছে। সাথে থাকুন!";
             if (typeof iziToast !== 'undefined') {
                 iziToast.info({ message: msg, position: "topRight", timeout: 2000 });
             } else {

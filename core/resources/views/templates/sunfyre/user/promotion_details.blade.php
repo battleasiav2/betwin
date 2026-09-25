@@ -6,7 +6,7 @@
 <style>
     * { box-sizing: border-box; touch-action: manipulation; }
     ::-webkit-scrollbar { display: none; }
-    body { -ms-overflow-style: none; scrollbar-width: none; background-color: #e8f0fa !important; font-family: 'Hind Siliguri', sans-serif; overflow-x: hidden; width: 100%; position: relative; }
+    body { -ms-overflow-style: none; scrollbar-width: none; background-color: #0b0f14 !important; font-family: 'Hind Siliguri', sans-serif; overflow-x: hidden; width: 100%; position: relative; }
     
     .details-page-wrapper { 
         padding-top: 85px; 
@@ -21,7 +21,7 @@
     }
 
     .details-card { 
-        background: #123b66; 
+        background: #012b27; 
         border: 1px solid #064e46; 
         border-radius: 12px; 
         overflow: hidden; 
@@ -36,7 +36,7 @@
     }
     
     .info-box { 
-        background: #e8f0fa; 
+        background: #0b0f14; 
         padding: 10px; 
         border-radius: 8px; 
         border: 1px solid #064e46; 
@@ -76,7 +76,7 @@
 
     .claim-btn:hover, .claim-btn:active, .claim-btn:focus { 
         background: #ffc107 !important; 
-        color: #000 !important; 
+        color: #e8eef5 !important; 
         border: 1px solid #ffc107;
         box-shadow: 0 0 15px rgba(255, 193, 7, 0.3);
     }
@@ -103,7 +103,7 @@
                             </div>
                             <div class="info-box">
                                 <span>@lang('Turnover')</span>
-                                <h4 style="color: #2563eb;">{{ $promotion->turnover_multiplier }}x</h4>
+                                <h4 style="color: #2dd4a8;">{{ $promotion->turnover_multiplier }}x</h4>
                             </div>
                             <div class="info-box">
                                 <span>@lang('Bonus %')</span>
@@ -119,9 +119,9 @@
                         <div class="p-3 mb-4" style="border: 1px dashed #ffc107; background: rgba(255,193,7,0.03); border-radius: 10px;">
                             <h6 class="text-warning small mb-2" style="font-size: 12px;"><i class="fas fa-info-circle"></i> @lang('Rules')</h6>
                             <ul class="text-light opacity-75 list-unstyled mb-0" style="font-size: 11px; line-height: 1.6;">
-                                <li class="mb-1">â€¢ @lang('Valid for successful deposits only.')</li>
-                                <li class="mb-1">â€¢ @lang('Turnover must be completed before withdrawal.')</li>
-                                <li>â€¢ @lang('One claim per eligible deposit.')</li>
+                                <li class="mb-1">• @lang('Valid for successful deposits only.')</li>
+                                <li class="mb-1">• @lang('Turnover must be completed before withdrawal.')</li>
+                                <li>• @lang('One claim per eligible deposit.')</li>
                             </ul>
                         </div>
 

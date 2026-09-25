@@ -585,6 +585,7 @@
             "admin.setting.system",
             "admin.setting.general",
             "admin.setting.socialite.credentials",
+            "admin.setting.social.links",
             "admin.cron*",
             "admin.setting.system.configuration",
             "admin.setting.logo.icon",

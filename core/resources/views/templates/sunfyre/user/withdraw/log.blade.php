@@ -6,14 +6,14 @@
 
 <style>
     :root {
-        --bg-color: #e8f0fa;
-        --header-color: #154b77;
-        --accent-color: #43a047;
-        --card-bg: #ffffff;
-        --text-main: #333333;
-        --text-muted: #64748b;
-        --border-color: #e2e8f0;
-        --blue-light: #e0f2fe;
+        --bg-color: #0b0f14;
+        --header-color: #e8b84a;
+        --accent-color: #2dd4a8;
+        --card-bg: #151b24;
+        --text-main: #e8eef5;
+        --text-muted: #8b97a8;
+        --border-color: rgba(255, 255, 255, 0.08);
+        --blue-light: rgba(45, 212, 168, 0.12);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -33,9 +33,9 @@
         min-height: 100vh;
     }
 
-    /* â”€â”€â”€ HEADER â”€â”€â”€ */
+    /* ─── HEADER ─── */
     .header-bg { 
-        background: linear-gradient(135deg, #0f395c 0%, #1a5c92 100%);
+        background: linear-gradient(135deg, #0f1419 0%, #151b24 55%, #1a2330 100%);
         padding: 16px; 
         display: flex; 
         justify-content: space-between; 
@@ -59,7 +59,7 @@
         letter-spacing: 1px;
     }
 
-    /* â”€â”€â”€ TABS â”€â”€â”€ */
+    /* ─── TABS ─── */
     .tabs-container { 
         display: flex; 
         background-color: var(--card-bg); 
@@ -96,11 +96,11 @@
         background-color: var(--accent-color);
     }
 
-    /* â”€â”€â”€ TABLE HEADER â”€â”€â”€ */
+    /* ─── TABLE HEADER ─── */
     .tbl-header {
         display: grid; 
         grid-template-columns: 1fr 1fr 1fr 1fr;
-        background-color: #e0f2fe; 
+        background-color: rgba(45,212,168,0.12); 
         padding: 12px 5px; 
         font-size: 11px; 
         font-weight: 800; 
@@ -115,7 +115,7 @@
     }
     .tbl-col:last-child { border-right: none; }
 
-    /* â”€â”€â”€ DATA ROW â”€â”€â”€ */
+    /* ─── DATA ROW ─── */
     .data-row {
         display: grid; 
         grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -128,7 +128,7 @@
         transition: background 0.2s;
         cursor: pointer;
     }
-    .data-row:active { background-color: #f8fafc; }
+    .data-row:active { background-color: #0f1419; }
     
     .st-approved { 
         color: #166534; 
@@ -167,7 +167,7 @@
         width: 100%;
     }
 
-    /* â”€â”€â”€ DETAILS MODAL â”€â”€â”€ */
+    /* ─── DETAILS MODAL ─── */
     .modal-overlay {
         position: fixed;
         inset: 0;
@@ -180,7 +180,7 @@
     }
     .modal-overlay.hidden { display: none; }
     .modal-box {
-        background: #ffffff;
+        background: #151b24;
         border-radius: 12px;
         width: 100%;
         max-width: 400px;
@@ -226,7 +226,7 @@
     }
     .detail-value {
         font-size: 13px;
-        color: #333;
+        color: #e8eef5;
         font-weight: 700;
         text-align: right;
     }
@@ -248,7 +248,7 @@
         font-size: 11px;
     }
 
-    /* â”€â”€â”€ EMPTY STATE â”€â”€â”€ */
+    /* ─── EMPTY STATE ─── */
     .no-data { 
         display: flex; 
         flex-direction: column; 
@@ -256,7 +256,7 @@
         justify-content: center; 
         min-height: 60vh;
         opacity: 0.8; 
-        background: #ffffff;
+        background: #151b24;
     }
     .no-data .empty-icon-wrap {
         width: 80px;
@@ -281,7 +281,7 @@
         letter-spacing: 1px;
     }
 
-    /* â”€â”€â”€ BOTTOM NAV â”€â”€â”€ */
+    /* ─── BOTTOM NAV ─── */
     .bottom-nav-container {
         position: fixed;
         bottom: 0;
@@ -291,19 +291,19 @@
         max-width: 480px;
         z-index: 10000;
         padding: 0 10px 8px 10px;
-        background: #e8f0fa;
+        background: #0b0f14;
     }
 
     .bottom-nav {
         width: 100%;
         height: 58px;
-        background: linear-gradient(180deg, #0e3d2c 0%, #0a2d1f 100%);
+        background: linear-gradient(180deg, #1a2330 0%, #151b24 100%);
         border-radius: 999px;
-        border: 1.5px solid #1a5c40;
+        border: 1.5px solid #2a3544;
         box-shadow:
-            0 0 0 2px #e8f0fa,
-            inset 0 1px 0 rgba(37,99,235,0.12),
-            0 -2px 0 0 #2563eb,
+            0 0 0 2px #0b0f14,
+            inset 0 1px 0 rgba(45,212,168,0.18),
+            0 -2px 0 0 #2dd4a8,
             0 4px 24px rgba(0,0,0,0.5);
         display: flex;
         align-items: center;
@@ -320,7 +320,7 @@
         gap: 3px;
         flex: 1;
         text-decoration: none !important;
-        color: #3db88a;
+        color: #8b97a8;
         font-size: 10px;
         font-weight: 700;
         letter-spacing: 0.2px;
@@ -329,8 +329,8 @@
         position: relative;
     }
 
-    .nav-item.active { color: #f5c518; }
-    .nav-item.active span { border-bottom: 2px solid #f5c518; padding-bottom: 1px; }
+    .nav-item.active { color: #e8b84a; }
+    .nav-item.active span { border-bottom: 2px solid #e8b84a; padding-bottom: 1px; }
 
     .nav-item i { font-size: 20px; }
     .nav-item span { font-size: 10px; font-weight: 700; }
@@ -346,14 +346,14 @@
         width: 54px;
         height: 54px;
         border-radius: 50%;
-        background: linear-gradient(145deg, #2563eb, #123b66);
+        background: linear-gradient(145deg, #2dd4a8, #1fa88a);
         display: flex;
         align-items: center;
         justify-content: center;
         box-shadow:
-            0 0 0 3px #e8f0fa,
-            0 0 0 5px #2563eb,
-            0 6px 20px rgba(37,99,235,0.45);
+            0 0 0 3px #0b0f14,
+            0 0 0 5px #2dd4a8,
+            0 6px 20px rgba(45,212,168,0.55);
         font-size: 22px;
         color: #fff;
         margin-top: -18px;
@@ -370,19 +370,18 @@
     <!-- HEADER -->
     <div class="header-bg">
         <a href="{{ route('user.account') }}"><i class="fas fa-chevron-left"></i></a>
-        <span class="page-accent-icon navy"><i class="fas fa-money-bill-transfer"></i></span>
-        <h1>@lang('Withdrawal Records')</h1>
+        <h1>Withdrawal Records</h1>
         <a href="{{ route('user.home') }}"><i class="fas fa-times"></i></a>
     </div>
 
     <!-- TABS -->
     <div class="tabs-container">
         <a href="{{ route('user.withdraw.history', ['status' => 'all']) }}" 
-           class="tab-btn {{ request('status', 'all') == 'all' ? 'active' : '' }}">@lang('ALL')</a>
+           class="tab-btn {{ request('status', 'all') == 'all' ? 'active' : '' }}">ALL</a>
         <a href="{{ route('user.withdraw.history', ['status' => 'pending']) }}" 
-           class="tab-btn {{ request('status') == 'pending' ? 'active' : '' }}">@lang('PENDING')</a>
+           class="tab-btn {{ request('status') == 'pending' ? 'active' : '' }}">PENDING</a>
         <a href="{{ route('user.withdraw.history', ['status' => 'approved']) }}" 
-           class="tab-btn {{ request('status') == 'approved' ? 'active' : '' }}">@lang('SUCCESS')</a>
+           class="tab-btn {{ request('status') == 'approved' ? 'active' : '' }}">SUCCESS</a>
     </div>
 
     <!-- TABLE HEADER -->
@@ -394,7 +393,7 @@
     </div>
 
     <!-- DATA ROWS -->
-    <div style="min-height: 60vh; background: #fff;">
+    <div style="min-height: 60vh; background: #151b24;">
         @forelse($withdraws as $withdraw)
             @php
                 $statusClass = match($withdraw->status) {
@@ -409,7 +408,7 @@
                     3 => 'Rejected',
                     default => 'Pending'
                 };
-                $methodName = optional($withdraw->method)->name ?? 'Withdraw';
+                $methodName = $withdraw->method->name ?? 'Withdraw';
                 
                 $details = [];
                 if($withdraw->withdraw_information){
@@ -424,7 +423,7 @@
             @endphp
             <div class="data-row" onclick="showDetails({{ json_encode($details) }}, '{{ $withdraw->status == 3 ? $withdraw->admin_feedback : '' }}', '{{ __($methodName) }}', '{{ showDateTime($withdraw->created_at, 'd M Y, h:i A') }}', '{{ $withdraw->trx }}', '{{ number_format($withdraw->amount, 0) }}', '{{ $statusText }}')">
                 <div style="font-weight:700; font-size:11px;">{{ __($methodName) }}</div>
-                <div style="font-weight:700;">à§³{{ number_format($withdraw->amount, 0) }}</div>
+                <div style="font-weight:700;">৳{{ number_format($withdraw->amount, 0) }}</div>
                 <div>
                     <span class="{{ $statusClass }}">{{ $statusText }}</span>
                 </div>
@@ -442,7 +441,7 @@
 
     <!-- PAGINATION -->
     @if($withdraws->hasPages())
-        <div style="padding: 16px; text-align: center; background: #fff;">
+        <div style="padding: 16px; text-align: center; background: #151b24;">
             {{ paginateLinks($withdraws) }}
         </div>
     @endif
@@ -483,12 +482,36 @@
     </div>
 </div>
 
-@include($activeTemplate . 'partials.mobile_bottom_nav')
+<!-- BOTTOM NAVIGATION -->
+<div class="bottom-nav-container">
+    <div class="bottom-nav">
+        <a href="{{ route('user.home') }}" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="{{ route('user.promotions') }}" class="nav-item">
+            <i class="fas fa-gift"></i>
+            <span>Promotion</span>
+        </a>
+        <a href="{{ route('user.referrals') }}" class="nav-item center-item">
+            <div class="center-icon-circle"><i class="fas fa-share-nodes"></i></div>
+            <span>Invite</span>
+        </a>
+        <a href="{{ route('user.redeem.index') }}" class="nav-item">
+            <i class="fas fa-trophy"></i>
+            <span>Reward</span>
+        </a>
+        <a href="{{ route('user.account') }}" class="nav-item">
+            <i class="fas fa-user-circle"></i>
+            <span>Member</span>
+        </a>
+    </div>
+</div>
 
 <script>
     function showDetails(details, feedback, method, date, trx, amount, status) {
         document.getElementById('modalMethod').textContent = method;
-        document.getElementById('modalAmount').textContent = 'à§³' + amount;
+        document.getElementById('modalAmount').textContent = '৳' + amount;
         document.getElementById('modalTrx').textContent = trx;
         document.getElementById('modalDate').textContent = date;
         document.getElementById('modalStatus').textContent = status;

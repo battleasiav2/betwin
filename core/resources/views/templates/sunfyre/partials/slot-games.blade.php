@@ -1,4 +1,4 @@
-﻿@php
+@php
 $slotGames = [
     // JILI Slots
     ["id"=>"bdfb23c974a2517198c5443adeea77a8","name"=>"Super Ace","img"=>"https://ossimg.91admin123admin.com/91club/gamelogo/JILI/49.png"],
@@ -60,7 +60,7 @@ $slotGames = [
     ["id"=>"21ef8a7ddd39836979170a2e7584e333","name"=>"God Of Martial","img"=>"https://ossimg.91admin123admin.com/91club/gamelogo/JILI/4.png"],
     ["id"=>"d505541d522aa5ca01fc5e97cfcf2116","name"=>"Party Night","img"=>"https://ossimg.91admin123admin.com/91club/gamelogo/JILI/76.png"],
     ["id"=>"2f0c5f96cda3c6e16b3929dd6103df8e","name"=>"Wild Racer","img"=>"https://ossimg.91admin123admin.com/91club/gamelogo/JILI/166.png"],
-    ["id"=>"68724804a3cd30c749e460256b462f00","name"=>"ShÅgun","img"=>"https://ossimg.91admin123admin.com/91club/gamelogo/JILI/376.png"],
+    ["id"=>"68724804a3cd30c749e460256b462f00","name"=>"Shōgun","img"=>"https://ossimg.91admin123admin.com/91club/gamelogo/JILI/376.png"],
     ["id"=>"731e642b1fee94725e7313f3dfba8f45","name"=>"Lucky Jaguar","img"=>"https://ossimg.91admin123admin.com/91club/gamelogo/JILI/421.png"],
     ["id"=>"4bf1d6a75d91c725f89aa5985544a087","name"=>"Lucky Doggy","img"=>"https://ossimg.91admin123admin.com/91club/gamelogo/JILI/374.png"],
     ["id"=>"921cf987632d65b5e41ab5dffe16d95a","name"=>"Fruity Wheel","img"=>"https://ossimg.91admin123admin.com/91club/gamelogo/JILI/422.png"],
@@ -138,7 +138,7 @@ $slotGames = [
 
     // MG Slots
     ["id"=>"daabc9426034dc78ce3c6b5c5bb1c3d6","name"=>"Wildfire Wins","img"=>"https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_wildfireWins.png"],
-    ["id"=>"cf62dcca76ac485322840edc1cfac2e0","name"=>"Cash 'N Riches Megawaysâ„¢","img"=>"https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_cashNRichesMegaways.png"],
+    ["id"=>"cf62dcca76ac485322840edc1cfac2e0","name"=>"Cash 'N Riches Megaways™","img"=>"https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_cashNRichesMegaways.png"],
     ["id"=>"2ca3b8cad27b28796280325dbd2e8e50","name"=>"10000 Wishes","img"=>"https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_10000Wishes.png"],
     ["id"=>"42b4332beb84831f6989a9c6b57e3f00","name"=>"Aurora Wilds","img"=>"https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_auroraWilds.png"],
     ["id"=>"SMG_9potsOfGold","name"=>"9 Pots of Gold","img"=>"https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_9potsOfGold.png"],
@@ -150,7 +150,7 @@ $slotGames = [
 @foreach ($slotGames as $game)
     <div class="swiper-slide game-item-box game-card" data-category="slot">
         @auth
-            <a href="{{ url('user/jili/launch?game_code='.$game['id'].'&provider=jili') }}" class="game-card-img">
+            <a href="{{ url('user/jili/launch?game_code='.$game['id']) }}" class="game-card-img">
         @else
             <a href="{{ route('user.login') }}" class="game-card-img">
         @endauth

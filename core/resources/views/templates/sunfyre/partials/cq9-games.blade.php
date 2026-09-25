@@ -1,4 +1,4 @@
-﻿@php
+@php
     $cq9Games = [
         ["id" => "7057b9185aaee613216ff18352ad1c2f", "name" => "Hot Spin", "img" => "https://ossimg.diuacting.com/DiuWin/gamelogo/CQ9/19.png"],
         ["id" => "7148d1ecd2f6787e3d4cfae4580a7b86", "name" => "5 God beasts", "img" => "https://ossimg.diuacting.com/DiuWin/gamelogo/CQ9/117.png"],
@@ -64,7 +64,7 @@
         ["id" => "186", "name" => "Fire Queen 2", "img" => "https://ossimg.diuacting.com/DiuWin/gamelogo/CQ9/186.png"],
         ["id" => "200", "name" => "Alice Run", "img" => "https://ossimg.diuacting.com/DiuWin/gamelogo/CQ9/200.png"],
         ["id" => "38", "name" => "All Wilds", "img" => "https://ossimg.diuacting.com/DiuWin/gamelogo/CQ9/38.png"],
-        ["id" => "GB16", "name" => "CHICAGOâ…¡", "img" => "https://ossimg.diuacting.com/DiuWin/gamelogo/CQ9/GB16.png"],
+        ["id" => "GB16", "name" => "CHICAGOⅡ", "img" => "https://ossimg.diuacting.com/DiuWin/gamelogo/CQ9/GB16.png"],
         ["id" => "222", "name" => "Loy Krathong", "img" => "https://ossimg.diuacting.com/DiuWin/gamelogo/CQ9/222.png"],
         ["id" => "70", "name" => "Wanbao Dino", "img" => "https://ossimg.diuacting.com/DiuWin/gamelogo/CQ9/70.png"],
         ["id" => "GB3", "name" => "Coin Spinner", "img" => "https://ossimg.diuacting.com/DiuWin/gamelogo/CQ9/GB3.png"],
@@ -205,7 +205,7 @@
 @foreach ($cq9Games as $game)
     <div class="swiper-slide game-item-box game-card" data-category="cq9">
         @auth
-            <a href="{{ url('user/jili/launch?game_code='.$game['id'].'&provider=cq9') }}" class="game-card-img">
+            <a href="{{ url('user/jili/launch?game_code='.$game['id']) }}" class="game-card-img">
         @else
             <a href="{{ route('user.login') }}" class="game-card-img">
         @endauth

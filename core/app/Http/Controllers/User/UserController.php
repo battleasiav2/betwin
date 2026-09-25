@@ -44,21 +44,6 @@ class UserController extends Controller {
         return view('Template::user.dashboard', compact('pageTitle', 'games', 'widget', 'user', 'slides'));
     }
 
-    public function liveBalance() {
-        $user = auth()->user()->fresh();
-        $balance = round((float) $user->balance, 2);
-        $cur = __(gs('cur_text'));
-
-        return response()->json([
-            'code'            => 0,
-            'balance'         => $balance,
-            'balance_text'    => showAmount($balance, currencyFormat: false),
-            'balance_display' => showAmount($balance) . ' ' . $cur,
-            'cur_text'        => $cur,
-            'cur_sym'         => gs('cur_sym'),
-        ]);
-    }
-
     public function account() {
         $pageTitle = 'My Account';
         $user = auth()->user();
@@ -67,40 +52,7 @@ class UserController extends Controller {
 
     public function depositHistory(Request $request) {
         $pageTitle = 'Deposit History';
-        $query = auth()->user()->deposits()
-            ->where('status', '!=', Status::PAYMENT_INITIATE)
-            ->searchable(['trx'])
-            ->with(['gateway']);
-
-        // UI filter: today / yesterday / week (and optional all)
-        $date = $request->date;
-        if ($date === 'today') {
-            $query->whereDate('created_at', Carbon::today());
-        } elseif ($date === 'yesterday') {
-            $query->whereDate('created_at', Carbon::yesterday());
-        } elseif ($date === 'week') {
-            $query->where('created_at', '>=', Carbon::now()->subDays(7));
-        }
-
-        if ($request->filled('status')) {
-            $statusMap = [
-                '1' => Status::PAYMENT_SUCCESS,
-                'approved' => Status::PAYMENT_SUCCESS,
-                'success' => Status::PAYMENT_SUCCESS,
-                '2' => Status::PAYMENT_PENDING,
-                'pending' => Status::PAYMENT_PENDING,
-                'processing' => Status::PAYMENT_PENDING,
-                '3' => Status::PAYMENT_REJECT,
-                'rejected' => Status::PAYMENT_REJECT,
-                'reject' => Status::PAYMENT_REJECT,
-            ];
-            $key = strtolower((string) $request->status);
-            if (isset($statusMap[$key])) {
-                $query->where('status', $statusMap[$key]);
-            }
-        }
-
-        $deposits = $query->orderBy('id', 'desc')->paginate(getPaginate());
+        $deposits  = auth()->user()->deposits()->searchable(['trx'])->with(['gateway'])->orderBy('id', 'desc')->paginate(getPaginate());
         return view('Template::user.deposit_history', compact('pageTitle', 'deposits'));
     }
 
@@ -258,32 +210,22 @@ class UserController extends Controller {
     public function gameLog(Request $request) {
         $pageTitle = "Game Logs";
         $user = auth()->user();
-        // Default last 7 days (UI "All time" sends no days — keep that as all)
-        $days = $request->has('days') ? $request->days : '7days';
-        if ($days === null || $days === '') {
-            $days = 'all';
-        }
-        $provider = $request->provider;
+        $days = $request->days ?? 'today';
+        $provider = $request->provider; 
 
         $query = GameLog::where('user_id', $user->id);
 
         if ($provider) {
-            $query->where(function ($q) use ($provider) {
-                $q->where('game_name', 'LIKE', '%' . $provider . '%')
-                    ->orWhere('game_name', 'LIKE', '%' . strtoupper($provider) . '%');
-            });
+            $query->where('game_name', 'LIKE', '%' . strtoupper($provider) . '%');
         }
 
-        if ($days === 'today') {
+        if ($days == 'today') {
             $query->whereDate('created_at', Carbon::today());
-        } elseif ($days === 'yesterday') {
+        } elseif ($days == 'yesterday') {
             $query->whereDate('created_at', Carbon::yesterday());
-        } elseif ($days === '7days') {
+        } elseif ($days == '7days') {
             $query->where('created_at', '>=', Carbon::now()->subDays(7));
-        } elseif ($days === '30days') {
-            $query->where('created_at', '>=', Carbon::now()->subDays(30));
         }
-        // 'all' / unknown => no date filter
 
         $widget['bet_amount'] = (clone $query)->sum('invest');
         $widget['valid_bet'] = (clone $query)->sum('invest');

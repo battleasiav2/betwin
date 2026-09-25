@@ -8,8 +8,8 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body { 
-        background-color: #0b0b0b; 
-        color: #ffffff; 
+        background-color: #0b0f14; 
+        color: #e8eef5; 
         font-family: 'Segoe UI', sans-serif; 
         padding-bottom: 90px;
         -webkit-tap-highlight-color: transparent;
@@ -19,14 +19,16 @@
         min-height: 100vh;
     }
 
-    /* â”€â”€â”€ REWARD HEADER â”€â”€â”€ */
+    /* ─── REWARD HEADER ─── */
     .reward-header { 
-        background: linear-gradient(180deg, #FF6B4A 0%, #FF9F4A 100%); 
+        background: linear-gradient(180deg, #151b24 0%, #1a2330 55%, #0f1419 100%); 
         height: 220px; 
         border-bottom-left-radius: 30px; 
         border-bottom-right-radius: 30px; 
         position: relative;
         padding: 24px 16px;
+        border-bottom: 1px solid rgba(232,184,74,0.28);
+        box-shadow: inset 0 -1px 0 rgba(45,212,168,0.12);
     }
     .reward-header-top {
         display: flex;
@@ -57,17 +59,18 @@
         margin-top: 16px;
     }
 
-    /* â”€â”€â”€ PROFILE CARD â”€â”€â”€ */
+    /* ─── PROFILE CARD ─── */
     .profile-card { 
-        background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%); 
+        background: linear-gradient(135deg, #151b24 0%, #1a2330 100%); 
         border-radius: 20px; 
-        box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
+        box-shadow: 0 10px 30px rgba(0,0,0,0.45); 
         margin-top: -80px; 
-        color: #333;
+        color: #e8eef5;
         padding: 20px;
         margin-left: 16px;
         margin-right: 16px;
         position: relative;
+        border: 1px solid rgba(255,255,255,0.08);
     }
     .sign-in-tag {
         position: absolute;
@@ -104,20 +107,20 @@
 
     .vip-progress-bar {
         width: 100%;
-        background: #e5e7eb;
+        background: rgba(255,255,255,0.08);
         border-radius: 999px;
         height: 8px;
-        box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        box-shadow: inset 0 1px 3px rgba(0,0,0,0.25);
         margin-top: 4px;
     }
     .vip-progress-fill {
-        background: linear-gradient(to right, #f97316, #ea580c);
+        background: linear-gradient(to right, #e8b84a, #2dd4a8);
         height: 8px;
         border-radius: 999px;
         transition: width 0.5s;
     }
 
-    /* â”€â”€â”€ GRID BUTTONS â”€â”€â”€ */
+    /* ─── GRID BUTTONS ─── */
     .grid-container {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -143,10 +146,10 @@
     }
     .grid-btn:active { transform: scale(0.95); }
 
-    .bg-green-grad { background: linear-gradient(135deg, #10B981 0%, #059669 100%); }
-    .bg-blue-grad { background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%); }
-    .bg-pink-grad { background: linear-gradient(135deg, #EC4899 0%, #DB2777 100%); }
-    .bg-orange-grad { background: linear-gradient(135deg, #F97316 0%, #EA580C 100%); }
+    .bg-green-grad { background: linear-gradient(135deg, rgba(45,212,168,0.22) 0%, #151b24 70%); border-color: rgba(45,212,168,0.35); }
+    .bg-blue-grad { background: linear-gradient(135deg, rgba(232,184,74,0.2) 0%, #151b24 70%); border-color: rgba(232,184,74,0.35); }
+    .bg-pink-grad { background: linear-gradient(135deg, rgba(45,212,168,0.16) 0%, #1a2330 70%); border-color: rgba(45,212,168,0.28); }
+    .bg-orange-grad { background: linear-gradient(135deg, rgba(232,184,74,0.16) 0%, #1a2330 70%); border-color: rgba(232,184,74,0.28); }
 
     .btn-icon {
         width: 48px;
@@ -184,7 +187,7 @@
         text-align: center;
     }
 
-    /* â”€â”€â”€ MODALS â”€â”€â”€ */
+    /* ─── MODALS ─── */
     .modal-overlay {
         position: fixed;
         inset: 0;
@@ -197,29 +200,31 @@
     }
     .modal-overlay.hidden { display: none; }
     .modal-box {
-        background: #ffffff;
+        background: #151b24;
         border-radius: 16px;
         width: 100%;
         max-width: 400px;
         padding: 24px;
         position: relative;
+        border: 1px solid rgba(255,255,255,0.08);
+        color: #e8eef5;
     }
     .modal-close {
         position: absolute;
         top: 12px;
         right: 16px;
-        color: #9ca3af;
+        color: #8b97a8;
         font-size: 24px;
         cursor: pointer;
         background: none;
         border: none;
     }
-    .modal-close:hover { color: #333; }
+    .modal-close:hover { color: #e8eef5; }
     .modal-title {
         font-size: 20px;
         font-weight: 900;
         text-align: center;
-        color: #059669;
+        color: #e8b84a;
         margin-bottom: 24px;
         text-transform: uppercase;
         letter-spacing: 0.5px;
@@ -230,17 +235,17 @@
     }
     .modal-empty i {
         font-size: 48px;
-        color: #e5e7eb;
+        color: rgba(255,255,255,0.12);
         margin-bottom: 12px;
     }
     .modal-empty p {
-        color: #9ca3af;
+        color: #8b97a8;
         font-weight: 700;
         text-transform: uppercase;
         font-size: 12px;
     }
 
-    /* â”€â”€â”€ NOTIFICATION TICKER â”€â”€â”€ */
+    /* ─── NOTIFICATION TICKER ─── */
     .notification-frame {
         margin-top: 24px;
         background: rgba(207, 166, 67, 0.05);
@@ -273,7 +278,7 @@
         opacity: 0;
     }
 
-    /* â”€â”€â”€ BOTTOM NAV â”€â”€â”€ */
+    /* ─── BOTTOM NAV ─── */
     .bottom-nav-container {
         position: fixed;
         bottom: 0;
@@ -283,19 +288,19 @@
         max-width: 480px;
         z-index: 10000;
         padding: 0 10px 8px 10px;
-        background: #e8f0fa;
+        background: #0b0f14;
     }
 
     .bottom-nav {
         width: 100%;
         height: 58px;
-        background: linear-gradient(180deg, #0e3d2c 0%, #0a2d1f 100%);
+        background: linear-gradient(180deg, #1a2330 0%, #151b24 100%);
         border-radius: 999px;
-        border: 1.5px solid #1a5c40;
+        border: 1.5px solid #2a3544;
         box-shadow:
-            0 0 0 2px #e8f0fa,
-            inset 0 1px 0 rgba(37,99,235,0.12),
-            0 -2px 0 0 #2563eb,
+            0 0 0 2px #0b0f14,
+            inset 0 1px 0 rgba(30,200,130,0.18),
+            0 -2px 0 0 #2dd4a8,
             0 4px 24px rgba(0,0,0,0.5);
         display: flex;
         align-items: center;
@@ -312,7 +317,7 @@
         gap: 3px;
         flex: 1;
         text-decoration: none !important;
-        color: #3db88a;
+        color: #8b97a8;
         font-size: 10px;
         font-weight: 700;
         letter-spacing: 0.2px;
@@ -321,8 +326,8 @@
         position: relative;
     }
 
-    .nav-item.active { color: #f5c518; }
-    .nav-item.active span { border-bottom: 2px solid #f5c518; padding-bottom: 1px; }
+    .nav-item.active { color: #e8b84a; }
+    .nav-item.active span { border-bottom: 2px solid #e8b84a; padding-bottom: 1px; }
 
     .nav-item i { font-size: 20px; }
     .nav-item span { font-size: 10px; font-weight: 700; }
@@ -338,14 +343,14 @@
         width: 54px;
         height: 54px;
         border-radius: 50%;
-        background: linear-gradient(145deg, #2563eb, #123b66);
+        background: linear-gradient(145deg, #2dd4a8, #1fa88a);
         display: flex;
         align-items: center;
         justify-content: center;
         box-shadow:
-            0 0 0 3px #e8f0fa,
-            0 0 0 5px #2563eb,
-            0 6px 20px rgba(37,99,235,0.45);
+            0 0 0 3px #0b0f14,
+            0 0 0 5px #2dd4a8,
+            0 6px 20px rgba(0,188,140,0.55);
         font-size: 22px;
         color: #fff;
         margin-top: -18px;
@@ -381,12 +386,12 @@
             </div>
             <div style="flex: 1;">
                 <div style="display: flex; align-items: center; gap: 8px;">
-                    <h2 style="font-weight: 900; color: #333; font-size: 18px;">{{ auth()->user()->username }}</h2>
+                    <h2 style="font-weight: 900; color: #e8eef5; font-size: 18px;">{{ auth()->user()->username }}</h2>
                     <i onclick="copyText('{{ auth()->user()->username }}')" class="far fa-copy" style="color:#9ca3af; font-size:12px; cursor:pointer;"></i>
                 </div>
-                <p style="color:#6b7280; font-size:12px; font-weight:600;">@lang('Nickname:') {{ auth()->user()->username }}</p>
-                <div style="display: flex; align-items: center; gap: 4px; color:#333; font-weight:900; margin-top: 4px;">
-                    <span style="font-size:18px;">à§³ {{ number_format(auth()->user()->balance, 2) }}</span>
+                <p style="color:#6b7280; font-size:12px; font-weight:600;">Nickname: {{ auth()->user()->username }}</p>
+                <div style="display: flex; align-items: center; gap: 4px; color:#e8eef5; font-weight:900; margin-top: 4px;">
+                    <span style="font-size:18px;">৳ {{ number_format(auth()->user()->balance, 2) }}</span>
                     <i class="fas fa-sync-alt" style="color:#9ca3af; font-size:12px; margin-left:8px; cursor:pointer;" onclick="location.reload()"></i>
                 </div>
             </div>
@@ -426,7 +431,7 @@
         <!-- Invite Friends -->
         <a href="{{ route('user.referrals') }}" class="grid-btn bg-pink-grad">
             <div class="btn-icon"><i class="fas fa-user-plus"></i></div>
-            <span class="grid-label">@lang('Invite Friends')</span>
+            <span class="grid-label">Invite Friends</span>
         </a>
 
         <!-- Lucky Tickets -->
@@ -465,12 +470,36 @@
     <div class="modal-box" style="text-align:center;">
         <button onclick="closeModal('modal-temu')" class="modal-close">&times;</button>
         <i class="fas fa-ticket-alt" style="color:#fed7aa; font-size:48px; margin-bottom:16px;"></i>
-        <h3 style="font-size:20px; font-weight:900; color:#333; margin-bottom:8px; text-transform:uppercase;">Lucky Tickets</h3>
+        <h3 style="font-size:20px; font-weight:900; color:#e8eef5; margin-bottom:8px; text-transform:uppercase;">Lucky Tickets</h3>
         <p style="color:#9ca3af; font-size:14px; font-weight:700; text-transform:uppercase;">You have 0 active tickets</p>
     </div>
 </div>
 
-@include($activeTemplate . 'partials.mobile_bottom_nav')
+<!-- BOTTOM NAVIGATION -->
+<div class="bottom-nav-container">
+    <div class="bottom-nav">
+        <a href="{{ route('user.home') }}" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="{{ route('user.promotions') }}" class="nav-item">
+            <i class="fas fa-gift"></i>
+            <span>Promotion</span>
+        </a>
+        <a href="{{ route('user.referrals') }}" class="nav-item center-item">
+            <div class="center-icon-circle"><i class="fas fa-share-nodes"></i></div>
+            <span>Invite</span>
+        </a>
+        <a href="{{ route('user.redeem.index') }}" class="nav-item active">
+            <i class="fas fa-trophy"></i>
+            <span>Reward</span>
+        </a>
+        <a href="{{ route('user.account') }}" class="nav-item">
+            <i class="fas fa-user-circle"></i>
+            <span>Member</span>
+        </a>
+    </div>
+</div>
 
 <script>
     function openModal(id) {
@@ -504,7 +533,7 @@
     function getNewMessage() {
         const num = prefixes[Math.floor(Math.random() * prefixes.length)] + "******" + Math.floor(10 + Math.random() * 90);
         const amt = amounts[Math.floor(Math.random() * amounts.length)];
-        return `ðŸŽ‰ User ${num} successfully redeemed à§³${amt}`;
+        return `🎉 User ${num} successfully redeemed ৳${amt}`;
     }
 
     function rotateMessage() {

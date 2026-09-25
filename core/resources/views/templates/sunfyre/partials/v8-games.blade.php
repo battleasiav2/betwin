@@ -1,4 +1,4 @@
-﻿@php
+@php
     $v8Games = [
         ["id" => "ed8f32f7545713e569bad0c57132b2a9", "name" => "Three Cards", "img" => "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/v8/Three-Cards.png"],
         ["id" => "1c91f676fcae7b3fdd118526ece1084a", "name" => "Fishing Wars", "img" => "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/v8/Fishing-Wars.png"],
@@ -44,7 +44,7 @@
 @foreach ($v8Games as $game)
     <div class="swiper-slide game-item-box game-card" data-category="v8">
         @auth
-            <a href="{{ url('user/jili/launch?game_code='.$game['id'].'&provider=v8') }}" class="game-card-img">
+            <a href="{{ url('user/jili/launch?game_code='.$game['id']) }}" class="game-card-img">
         @else
             <a href="{{ route('user.login') }}" class="game-card-img">
         @endauth

@@ -7,71 +7,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title> {{ gs()->siteName(__($pageTitle)) }}</title>
     @include('partials.seo')
-
-    @php
-        $baseColor = ltrim((string) gs('base_color'), '#') ?: '123B66';
-        $secondColor = ltrim((string) gs('secondary_color'), '#') ?: '2563EB';
-        $colorCache = substr(md5($baseColor . $secondColor), 0, 8);
-        // Inline HSL so first paint matches admin color (no green FOUC from main.css defaults)
-        $hexToHsl = static function (string $hex): array {
-            $hex = str_pad(preg_replace('/[^a-f0-9]/i', '', $hex), 6, '0');
-            $r = hexdec(substr($hex, 0, 2)) / 255;
-            $g = hexdec(substr($hex, 2, 2)) / 255;
-            $b = hexdec(substr($hex, 4, 2)) / 255;
-            $min = min($r, $g, $b);
-            $max = max($r, $g, $b);
-            $d = $max - $min;
-            $l = ($max + $min) / 2;
-            if ($d < 0.00001) {
-                $h = 0;
-                $s = 0;
-            } else {
-                $s = $d / (1 - abs(2 * $l - 1));
-                if ($max === $r) {
-                    $h = fmod(($g - $b) / $d, 6);
-                } elseif ($max === $g) {
-                    $h = ($b - $r) / $d + 2;
-                } else {
-                    $h = ($r - $g) / $d + 4;
-                }
-                $h = round($h * 60);
-                if ($h < 0) {
-                    $h += 360;
-                }
-                $s = round($s * 100);
-            }
-            return ['h' => (int) $h, 's' => (int) $s, 'l' => (int) round($l * 100)];
-        };
-        $baseHsl = $hexToHsl($baseColor);
-        $secondHsl = $hexToHsl($secondColor);
-    @endphp
-
-    {{-- Critical colors BEFORE any stylesheet — stops 1-frame green/gold flash --}}
-    <style id="critical-theme-color">
-        :root {
-            --base-h: {{ $baseHsl['h'] }};
-            --base-s: {{ $baseHsl['s'] }}%;
-            --base-l: {{ $baseHsl['l'] }}%;
-            --base-two-h: {{ $secondHsl['h'] }};
-            --base-two-s: {{ $secondHsl['s'] }}%;
-            --base-two-l: {{ $secondHsl['l'] }}%;
-            --bg-deep: #e8f0fa !important;
-            --bg-main: #f5f7fa !important;
-            --bg-card: #ffffff !important;
-            --bg-color: #e8f0fa !important;
-            --teal: #2563eb !important;
-            --teal-light: #2563eb !important;
-            --green-btn: #2563eb !important;
-            --header-color: #123b66 !important;
-            --text-main: #172033 !important;
-            --text-muted: #6b7280 !important;
-        }
-        html, body {
-            background: #e8f0fa !important;
-            background-image: none !important;
-            color: #172033 !important;
-        }
-    </style>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -79,28 +14,23 @@
 
     <link href="{{ asset('assets/global/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/global/css/all.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ asset('assets/global/css/line-awesome.min.css') }}">
     <link href="{{ asset('assets/global/css/lightcase.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/global/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'css/slick.css') }}">
     <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'css/odometer.css') }}">
     <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'css/iconmoon.css') }}">
-    <link
-        href="{{ asset($activeTemplateTrue . 'css/color.php') }}?color={{ $baseColor }}&secondColor={{ $secondColor }}&v={{ $colorCache }}"
-        rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'css/main.css') }}?v={{ $colorCache }}">
-    <link href="{{ asset($activeTemplateTrue . 'css/custom.css') }}?v={{ $colorCache }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'css/theme.css') }}?v=52-{{ $colorCache }}">
+    <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'css/main.css') }}">
+    <link href="{{ asset($activeTemplateTrue . 'css/custom.css') }}" rel="stylesheet">
 
     @stack('style-lib')
     <link rel="manifest" href="{{ route('pwa.configuration') }}">
-    <meta name="theme-color" content="#123B66">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="{{ gs('site_name') }}">
     @stack('style')
+
+    <link
+        href="{{ asset($activeTemplateTrue . 'css/color.php') }}?color={{ gs('base_color') }}&secondColor={{ gs('secondary_color') }}"
+        rel="stylesheet">
+    <link href="{{ asset($activeTemplateTrue . 'css/clean-dark.css') }}" rel="stylesheet">
 </head>
 
 @php echo loadExtension('google-analytics') @endphp
@@ -173,8 +103,6 @@
 
     @stack('script')
 
-    @include($activeTemplate . 'partials.live_balance')
-
     <script>
         (function($) {
             "use strict";
@@ -182,7 +110,7 @@
             // Removed Loader Script
 
             $(".langSel").on("click", function() {
-                window.location.href = "{{ url('/change') }}/" + $(this).data('lang_code');
+                window.location.href = "{{ route('home') }}/change/" + $(this).data('lang_code');
             });
 
             $('.policy').on('click', function() {
@@ -272,18 +200,12 @@
             if ('serviceWorker' in navigator) {
                 try {
                     await navigator.serviceWorker.register(
-                        "{{ asset('assets/global/js/pwa/serviceworker.js') }}",
-                        { scope: '/' }
-                    );
+                        "{{ asset('assets/global/js/pwa/serviceworker.js') }}");
                 } catch (e) {
                     console.warn('SW registration failed');
                 }
             }
         }
-        window.addEventListener('beforeinstallprompt', function (e) {
-            e.preventDefault();
-            window.__b369PwaPrompt = e;
-        });
         window.addEventListener('load', () => {
             registerSW();
         });

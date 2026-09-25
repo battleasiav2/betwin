@@ -107,9 +107,6 @@ class SiteController extends Controller {
         $policy      = Frontend::where('tempname', activeTemplateName())->where('slug', $slug)->where('data_keys', 'policy_pages.element')->firstOrFail();
         $pageTitle   = $policy->data_values->title;
         $seoContents = $policy->seo_content;
-        if (empty($seoContents) || (is_object($seoContents) && empty((array) $seoContents))) {
-            $seoContents = null;
-        }
         $seoImage    = @$seoContents->image ? frontendImage('policy_pages', $seoContents->image, getFileSize('seo'), true) : null;
         return view('Template::policy', compact('policy', 'pageTitle', 'seoContents', 'seoImage'));
     }
@@ -220,45 +217,25 @@ class SiteController extends Controller {
         $gs   = gs();
         $json = [
             "name"             => $gs->site_name,
-            "short_name"       => $gs->site_name,
-            "id"               => "/",
-            "start_url"        => url('/'),
-            "scope"            => url('/'),
+            "sign"             => $gs->site_name,
+            "start_url"        => route('home'),
             "display"          => "standalone",
-            "orientation"      => "portrait",
-            "background_color" => "#F5F7FA",
-            "theme_color"      => "#123B66",
-            "description"      => $gs->site_name . " App",
-            "lang"             => "bn",
-            "dir"              => "ltr",
-            "categories"       => ["games", "entertainment"],
+            "background_color" => "#5900b3",
+            "theme_color"      => "black",
+            "description"      => $gs->site_name . " PWA",
             "icons"            => [
-                [
-                    "src"   => getImage(getFilePath('logoIcon') . '/pwa_favicon.webp'),
-                    "sizes" => "192x192",
-                    "type"  => "image/webp",
-                    "purpose" => "any",
-                ],
-                [
-                    "src"   => getImage(getFilePath('logoIcon') . '/pwa_thumb.webp'),
-                    "sizes" => "512x512",
-                    "type"  => "image/webp",
-                    "purpose" => "any",
-                ],
                 [
                     "src"   => getImage(getFilePath('logoIcon') . '/pwa_favicon.png'),
                     "sizes" => "192x192",
                     "type"  => "image/png",
-                    "purpose" => "any",
                 ],
                 [
                     "src"   => getImage(getFilePath('logoIcon') . '/pwa_thumb.png'),
                     "sizes" => "512x512",
                     "type"  => "image/png",
-                    "purpose" => "any",
                 ],
             ],
         ];
-        return response()->json($json)->header('Content-Type', 'application/manifest+json');
+        return response()->json($json);
     }
 }

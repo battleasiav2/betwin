@@ -6,14 +6,14 @@
 
 <style>
     :root {
-        --bg-color: #e8f0fa;
-        --header-color: #154b77;
-        --accent-color: #43a047;
-        --card-bg: #ffffff;
-        --text-main: #333333;
-        --text-muted: #64748b;
-        --border-color: #e2e8f0;
-        --blue-light: #e0f2fe;
+        --bg-color: #0b0f14;
+        --header-color: #e8b84a;
+        --accent-color: #2dd4a8;
+        --card-bg: #151b24;
+        --text-main: #e8eef5;
+        --text-muted: #8b97a8;
+        --border-color: rgba(255, 255, 255, 0.08);
+        --blue-light: rgba(45, 212, 168, 0.12);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -33,9 +33,9 @@
         min-height: 100vh;
     }
 
-    /* â”€â”€â”€ HEADER â”€â”€â”€ */
+    /* ─── HEADER ─── */
     .header-bg { 
-        background: linear-gradient(135deg, #0f395c 0%, #1a5c92 100%);
+        background: linear-gradient(135deg, #0f1419 0%, #151b24 55%, #1a2330 100%);
         padding: 16px; 
         display: flex; 
         justify-content: space-between; 
@@ -67,7 +67,7 @@
         cursor: pointer;
     }
 
-    /* â”€â”€â”€ FILTER BAR â”€â”€â”€ */
+    /* ─── FILTER BAR ─── */
     .filter-bar {
         background-color: var(--card-bg);
         padding: 12px 16px;
@@ -81,21 +81,21 @@
         z-index: 30;
     }
     .filter-date-badge {
-        background: #e0f2fe;
-        color: #154b77;
+        background: rgba(45,212,168,0.12);
+        color: #e8b84a;
         font-size: 11px;
         font-weight: 800;
         text-transform: uppercase;
         letter-spacing: 0.5px;
         padding: 6px 12px;
         border-radius: 4px;
-        border: 1px solid #bae6fd;
+        border: 1px solid rgba(45,212,168,0.3);
         display: flex;
         align-items: center;
         gap: 6px;
     }
     .filter-open-btn {
-        color: #154b77;
+        color: #e8b84a;
         font-size: 12px;
         font-weight: 900;
         text-transform: uppercase;
@@ -112,11 +112,11 @@
     }
     .filter-open-btn:active { transform: scale(0.95); }
 
-    /* â”€â”€â”€ TABLE HEADER â”€â”€â”€ */
+    /* ─── TABLE HEADER ─── */
     .tbl-header {
         display: grid; 
         grid-template-columns: 1fr 1fr 1fr 1fr;
-        background-color: #e0f2fe; 
+        background-color: rgba(45,212,168,0.12); 
         padding: 12px 5px; 
         font-size: 11px; 
         font-weight: 800; 
@@ -131,7 +131,7 @@
     }
     .tbl-col:last-child { border-right: none; }
 
-    /* â”€â”€â”€ DATA ROW â”€â”€â”€ */
+    /* ─── DATA ROW ─── */
     .data-row {
         display: grid; 
         grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -143,7 +143,7 @@
         background-color: var(--card-bg); 
         transition: background 0.2s;
     }
-    .data-row:active { background-color: #f8fafc; }
+    .data-row:active { background-color: #0f1419; }
     
     .st-approved { 
         color: #166534; 
@@ -182,7 +182,7 @@
         width: 100%;
     }
 
-    /* â”€â”€â”€ EMPTY STATE â”€â”€â”€ */
+    /* ─── EMPTY STATE ─── */
     .no-data { 
         display: flex; 
         flex-direction: column; 
@@ -190,7 +190,7 @@
         justify-content: center; 
         min-height: 60vh;
         opacity: 0.8; 
-        background: #ffffff;
+        background: #151b24;
     }
     .no-data .empty-icon-wrap {
         width: 64px;
@@ -215,7 +215,7 @@
         letter-spacing: 0.5px;
     }
 
-    /* â”€â”€â”€ FILTER MODAL â”€â”€â”€ */
+    /* ─── FILTER MODAL ─── */
     .filter-modal {
         position: fixed; 
         inset: 0; 
@@ -229,7 +229,7 @@
     .filter-modal.open { transform: translateX(0); }
     
     .filter-modal-header {
-        background: linear-gradient(135deg, #0f395c 0%, #1a5c92 100%);
+        background: linear-gradient(135deg, #0f1419 0%, #151b24 55%, #1a2330 100%);
         padding: 16px;
         display: flex;
         justify-content: space-between;
@@ -256,11 +256,11 @@
         padding: 16px;
         flex: 1;
         overflow-y: auto;
-        background: #ffffff;
+        background: #151b24;
     }
     .filter-modal-footer {
         padding: 16px;
-        background: #ffffff;
+        background: #151b24;
         border-top: 1px solid var(--border-color);
         padding-bottom: 32px;
     }
@@ -297,7 +297,7 @@
         background-color: var(--blue-light); 
         color: var(--header-color); 
         font-weight: 800; 
-        border-color: #bae6fd; 
+        border-color: rgba(45,212,168,0.3); 
         box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
     }
 
@@ -317,7 +317,7 @@
     }
     .apply-btn:active { transform: scale(0.98); }
 
-    /* â”€â”€â”€ BOTTOM NAV â”€â”€â”€ */
+    /* ─── BOTTOM NAV ─── */
     .bottom-nav-container {
         position: fixed;
         bottom: 0;
@@ -327,19 +327,19 @@
         max-width: 480px;
         z-index: 10000;
         padding: 0 10px 8px 10px;
-        background: #e8f0fa;
+        background: #0b0f14;
     }
 
     .bottom-nav {
         width: 100%;
         height: 58px;
-        background: linear-gradient(180deg, #0e3d2c 0%, #0a2d1f 100%);
+        background: linear-gradient(180deg, #1a2330 0%, #151b24 100%);
         border-radius: 999px;
-        border: 1.5px solid #1a5c40;
+        border: 1.5px solid #2a3544;
         box-shadow:
-            0 0 0 2px #e8f0fa,
-            inset 0 1px 0 rgba(37,99,235,0.12),
-            0 -2px 0 0 #2563eb,
+            0 0 0 2px #0b0f14,
+            inset 0 1px 0 rgba(45,212,168,0.18),
+            0 -2px 0 0 #2dd4a8,
             0 4px 24px rgba(0,0,0,0.5);
         display: flex;
         align-items: center;
@@ -356,7 +356,7 @@
         gap: 3px;
         flex: 1;
         text-decoration: none !important;
-        color: #3db88a;
+        color: #8b97a8;
         font-size: 10px;
         font-weight: 700;
         letter-spacing: 0.2px;
@@ -365,8 +365,8 @@
         position: relative;
     }
 
-    .nav-item.active { color: #f5c518; }
-    .nav-item.active span { border-bottom: 2px solid #f5c518; padding-bottom: 1px; }
+    .nav-item.active { color: #e8b84a; }
+    .nav-item.active span { border-bottom: 2px solid #e8b84a; padding-bottom: 1px; }
 
     .nav-item i { font-size: 20px; }
     .nav-item span { font-size: 10px; font-weight: 700; }
@@ -382,14 +382,14 @@
         width: 54px;
         height: 54px;
         border-radius: 50%;
-        background: linear-gradient(145deg, #2563eb, #123b66);
+        background: linear-gradient(145deg, #2dd4a8, #1fa88a);
         display: flex;
         align-items: center;
         justify-content: center;
         box-shadow:
-            0 0 0 3px #e8f0fa,
-            0 0 0 5px #2563eb,
-            0 6px 20px rgba(37,99,235,0.45);
+            0 0 0 3px #0b0f14,
+            0 0 0 5px #2dd4a8,
+            0 6px 20px rgba(45,212,168,0.55);
         font-size: 22px;
         color: #fff;
         margin-top: -18px;
@@ -406,8 +406,7 @@
     <!-- HEADER -->
     <div class="header-bg">
         <a href="{{ route('user.account') }}"><i class="fas fa-chevron-left"></i></a>
-        <span class="page-accent-icon"><i class="fas fa-file-invoice-dollar"></i></span>
-        <h1>@lang('Deposit Records')</h1>
+        <h1>Deposit Records</h1>
         <button onclick="openFilter()"><i class="fas fa-filter"></i></button>
     </div>
 
@@ -416,10 +415,9 @@
         <div class="filter-date-badge">
             <i class="far fa-calendar-alt"></i>
             <span id="currentFilterLabel">
-                @if(request('date') == 'today') Today
-                @elseif(request('date') == 'yesterday') Yesterday
+                @if(request('date') == 'yesterday') Yesterday
                 @elseif(request('date') == 'week') Last 7 days
-                @else All @endif
+                @else Today @endif
             </span>
         </div>
         <button onclick="openFilter()" class="filter-open-btn">
@@ -451,11 +449,11 @@
                     3 => 'Rejected',
                     default => 'Pending'
                 };
-                $gatewayName = optional($deposit->gateway)->name ?? ($deposit->methodName() ?: 'Deposit');
+                $gatewayName = $deposit->gateway->name ?? 'Deposit';
             @endphp
             <div class="data-row">
                 <div style="font-weight:700; font-size:11px;">{{ __($gatewayName) }}</div>
-                <div style="font-weight:700;">à§³{{ number_format($deposit->amount, 0) }}</div>
+                <div style="font-weight:700;">৳{{ number_format($deposit->amount, 0) }}</div>
                 <div>
                     <span class="{{ $statusClass }}">{{ $statusText }}</span>
                 </div>
@@ -466,14 +464,14 @@
                 <div class="empty-icon-wrap">
                     <i class="fas fa-file-invoice-dollar"></i>
                 </div>
-                <p>@lang('No Records Found')</p>
+                <p>No Records Found</p>
             </div>
         @endforelse
     </div>
 
     <!-- PAGINATION -->
     @if($deposits->hasPages())
-        <div style="padding: 16px; text-align: center; background: #fff;">
+        <div style="padding: 16px; text-align: center; background: #151b24;">
             {{ paginateLinks($deposits) }}
         </div>
     @endif
@@ -489,17 +487,15 @@
 
     <div class="filter-modal-body">
         <p class="filter-sec-title">Status</p>
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px;">
-            <div class="filter-btn f-status {{ !request('status') ? 'active' : '' }}" data-val="" onclick="selectFilter(this, 'status')">All</div>
-            <div class="filter-btn f-status {{ request('status') == 'pending' ? 'active' : '' }}" data-val="pending" onclick="selectFilter(this, 'status')">Processing</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+            <div class="filter-btn f-status {{ request('status') == 'pending' || !request('status') ? 'active' : '' }}" data-val="pending" onclick="selectFilter(this, 'status')">Processing</div>
             <div class="filter-btn f-status {{ request('status') == 'rejected' ? 'active' : '' }}" data-val="rejected" onclick="selectFilter(this, 'status')">Rejected</div>
             <div class="filter-btn f-status {{ request('status') == 'approved' ? 'active' : '' }}" data-val="approved" onclick="selectFilter(this, 'status')">Approved</div>
         </div>
 
         <p class="filter-sec-title">Date</p>
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px;">
-            <div class="filter-btn f-date {{ !request('date') ? 'active' : '' }}" data-val="" onclick="selectFilter(this, 'date')">All</div>
-            <div class="filter-btn f-date {{ request('date') == 'today' ? 'active' : '' }}" data-val="today" onclick="selectFilter(this, 'date')">Today</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+            <div class="filter-btn f-date {{ request('date') == 'today' || !request('date') ? 'active' : '' }}" data-val="today" onclick="selectFilter(this, 'date')">Today</div>
             <div class="filter-btn f-date {{ request('date') == 'yesterday' ? 'active' : '' }}" data-val="yesterday" onclick="selectFilter(this, 'date')">Yesterday</div>
             <div class="filter-btn f-date {{ request('date') == 'week' ? 'active' : '' }}" data-val="week" onclick="selectFilter(this, 'date')">Last 7 days</div>
         </div>
@@ -510,11 +506,35 @@
     </div>
 </div>
 
-@include($activeTemplate . 'partials.mobile_bottom_nav')
+<!-- BOTTOM NAVIGATION -->
+<div class="bottom-nav-container">
+    <div class="bottom-nav">
+        <a href="{{ route('user.home') }}" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="{{ route('user.promotions') }}" class="nav-item">
+            <i class="fas fa-gift"></i>
+            <span>Promotion</span>
+        </a>
+        <a href="{{ route('user.referrals') }}" class="nav-item center-item">
+            <div class="center-icon-circle"><i class="fas fa-share-nodes"></i></div>
+            <span>Invite</span>
+        </a>
+        <a href="{{ route('user.redeem.index') }}" class="nav-item">
+            <i class="fas fa-trophy"></i>
+            <span>Reward</span>
+        </a>
+        <a href="{{ route('user.account') }}" class="nav-item">
+            <i class="fas fa-user-circle"></i>
+            <span>Member</span>
+        </a>
+    </div>
+</div>
 
 <script>
     let selectedStatus = '{{ request('status', '') }}';
-    let selectedDate = '{{ request('date', '') }}';
+    let selectedDate = '{{ request('date', 'today') }}';
 
     function openFilter() {
         document.getElementById('filterModal').classList.add('open');

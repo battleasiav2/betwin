@@ -6,14 +6,14 @@
 
 <style>
     :root {
-        --bg-color: #e8f0fa;
-        --header-color: #154b77;
-        --accent-color: #43a047;
-        --card-bg: #ffffff;
-        --text-main: #333333;
-        --text-muted: #64748b;
-        --border-color: #e2e8f0;
-        --blue-light: #e0f2fe;
+        --bg-color: #0b0f14;
+        --header-color: #e8b84a;
+        --accent-color: #2dd4a8;
+        --card-bg: #151b24;
+        --text-main: #e8eef5;
+        --text-muted: #8b97a8;
+        --border-color: rgba(255, 255, 255, 0.08);
+        --blue-light: rgba(45, 212, 168, 0.12);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -33,9 +33,9 @@
         min-height: 100vh;
     }
 
-    /* â”€â”€â”€ HEADER â”€â”€â”€ */
+    /* ─── HEADER ─── */
     .header-bg { 
-        background: linear-gradient(135deg, #0f395c 0%, #1a5c92 100%);
+        background: linear-gradient(135deg, #0f1419 0%, #151b24 55%, #1a2330 100%);
         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         padding: 16px;
         display: flex;
@@ -61,7 +61,7 @@
         letter-spacing: 1px;
     }
 
-    /* â”€â”€â”€ CARD â”€â”€â”€ */
+    /* ─── CARD ─── */
     .white-card {
         background-color: var(--card-bg);
         border: 1px solid var(--border-color);
@@ -84,7 +84,7 @@
         display: block;
     }
 
-    /* â”€â”€â”€ PIN INPUT BOXES â”€â”€â”€ */
+    /* ─── PIN INPUT BOXES ─── */
     .pin-input-wrapper {
         display: flex;
         justify-content: center;
@@ -96,7 +96,7 @@
         text-align: center;
         font-size: 24px;
         font-weight: 900;
-        background: #f8fafc;
+        background: #0f1419;
         color: var(--header-color);
         border: 2px solid var(--border-color);
         border-radius: 10px;
@@ -107,14 +107,14 @@
     .pin-box:focus {
         border-color: var(--header-color);
         box-shadow: 0 0 0 3px rgba(21, 75, 119, 0.1);
-        background: #ffffff;
+        background: #151b24;
     }
     .pin-box.filled {
         border-color: var(--accent-color);
         background: #f0fdf4;
     }
 
-    /* â”€â”€â”€ SUBMIT BUTTON â”€â”€â”€ */
+    /* ─── SUBMIT BUTTON ─── */
     .submit-btn {
         width: 100%;
         background: linear-gradient(to bottom, #4caf50, #388e3c);
@@ -136,10 +136,10 @@
         box-shadow: 0 2px 4px rgba(67, 160, 71, 0.2);
     }
 
-    /* â”€â”€â”€ INFO BOX â”€â”€â”€ */
+    /* ─── INFO BOX ─── */
     .info-box {
         background: var(--blue-light);
-        border: 1px solid #bae6fd;
+        border: 1px solid rgba(45,212,168,0.3);
         border-left: 4px solid var(--header-color);
         border-radius: 8px;
         padding: 12px 16px;
@@ -161,7 +161,7 @@
         line-height: 1.5;
     }
 
-    /* â”€â”€â”€ BOTTOM NAV â”€â”€â”€ */
+    /* ─── BOTTOM NAV ─── */
     .bottom-nav-container {
         position: fixed;
         bottom: 0;
@@ -171,19 +171,19 @@
         max-width: 480px;
         z-index: 10000;
         padding: 0 10px 8px 10px;
-        background: #e8f0fa;
+        background: #0b0f14;
     }
 
     .bottom-nav {
         width: 100%;
         height: 58px;
-        background: linear-gradient(180deg, #0e3d2c 0%, #0a2d1f 100%);
+        background: linear-gradient(180deg, #1a2330 0%, #151b24 100%);
         border-radius: 999px;
-        border: 1.5px solid #1a5c40;
+        border: 1.5px solid #2a3544;
         box-shadow:
-            0 0 0 2px #e8f0fa,
-            inset 0 1px 0 rgba(37,99,235,0.12),
-            0 -2px 0 0 #2563eb,
+            0 0 0 2px #0b0f14,
+            inset 0 1px 0 rgba(45,212,168,0.18),
+            0 -2px 0 0 #2dd4a8,
             0 4px 24px rgba(0,0,0,0.5);
         display: flex;
         align-items: center;
@@ -200,7 +200,7 @@
         gap: 3px;
         flex: 1;
         text-decoration: none !important;
-        color: #3db88a;
+        color: #8b97a8;
         font-size: 10px;
         font-weight: 700;
         letter-spacing: 0.2px;
@@ -209,8 +209,8 @@
         position: relative;
     }
 
-    .nav-item.active { color: #f5c518; }
-    .nav-item.active span { border-bottom: 2px solid #f5c518; padding-bottom: 1px; }
+    .nav-item.active { color: #e8b84a; }
+    .nav-item.active span { border-bottom: 2px solid #e8b84a; padding-bottom: 1px; }
 
     .nav-item i { font-size: 20px; }
     .nav-item span { font-size: 10px; font-weight: 700; }
@@ -226,14 +226,14 @@
         width: 54px;
         height: 54px;
         border-radius: 50%;
-        background: linear-gradient(145deg, #2563eb, #123b66);
+        background: linear-gradient(145deg, #2dd4a8, #1fa88a);
         display: flex;
         align-items: center;
         justify-content: center;
         box-shadow:
-            0 0 0 3px #e8f0fa,
-            0 0 0 5px #2563eb,
-            0 6px 20px rgba(37,99,235,0.45);
+            0 0 0 3px #0b0f14,
+            0 0 0 5px #2dd4a8,
+            0 6px 20px rgba(45,212,168,0.55);
         font-size: 22px;
         color: #fff;
         margin-top: -18px;
@@ -251,7 +251,7 @@
     <!-- HEADER -->
     <div class="header-bg">
         <a href="{{ route('user.account') }}"><i class="fas fa-chevron-left"></i></a>
-        <h1>@lang('Change Transaction PIN')</h1>
+        <h1>Change Transaction PIN</h1>
     </div>
 
     <!-- INFO BOX -->
@@ -301,13 +301,37 @@
                 <input type="hidden" name="password_confirmation" id="confirm_pin_hidden">
             </div>
 
-            <button type="submit" class="submit-btn">@lang('Update PIN')</button>
+            <button type="submit" class="submit-btn">Update PIN</button>
         </form>
     </div>
 
 </div>
 
-@include($activeTemplate . 'partials.mobile_bottom_nav')
+<!-- BOTTOM NAVIGATION -->
+<div class="bottom-nav-container">
+    <div class="bottom-nav">
+        <a href="{{ route('user.home') }}" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="{{ route('user.promotions') }}" class="nav-item">
+            <i class="fas fa-gift"></i>
+            <span>Promotion</span>
+        </a>
+        <a href="{{ route('user.referrals') }}" class="nav-item center-item">
+            <div class="center-icon-circle"><i class="fas fa-share-nodes"></i></div>
+            <span>Invite</span>
+        </a>
+        <a href="{{ route('user.redeem.index') }}" class="nav-item">
+            <i class="fas fa-trophy"></i>
+            <span>Reward</span>
+        </a>
+        <a href="{{ route('user.account') }}" class="nav-item">
+            <i class="fas fa-user-circle"></i>
+            <span>Member</span>
+        </a>
+    </div>
+</div>
 
 <script>
     function setupPinInputs(wrapperId, hiddenInputId) {

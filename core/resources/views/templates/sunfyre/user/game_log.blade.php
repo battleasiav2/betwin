@@ -6,14 +6,14 @@
 
 <style>
     :root {
-        --bg-color: #e8f0fa;
-        --header-color: #154b77;
-        --accent-color: #43a047;
-        --card-bg: #ffffff;
-        --text-main: #333333;
-        --text-muted: #64748b;
-        --border-color: #e2e8f0;
-        --blue-light: #e0f2fe;
+        --bg-color: #0b0f14;
+        --header-color: #e8b84a;
+        --accent-color: #2dd4a8;
+        --card-bg: #151b24;
+        --text-main: #e8eef5;
+        --text-muted: #8b97a8;
+        --border-color: rgba(255, 255, 255, 0.08);
+        --blue-light: rgba(45, 212, 168, 0.12);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -33,9 +33,9 @@
         min-height: 100vh;
     }
 
-    /* â”€â”€â”€ HEADER â”€â”€â”€ */
+    /* ─── HEADER ─── */
     .header-bg { 
-        background: linear-gradient(135deg, #0f395c 0%, #1a5c92 100%);
+        background: linear-gradient(135deg, #0f1419 0%, #151b24 55%, #1a2330 100%);
         padding: 16px; 
         display: flex; 
         justify-content: space-between; 
@@ -59,7 +59,7 @@
         letter-spacing: 1px;
     }
 
-    /* â”€â”€â”€ TABS â”€â”€â”€ */
+    /* ─── TABS ─── */
     .tabs-container { 
         display: flex; 
         background-color: var(--card-bg); 
@@ -96,13 +96,13 @@
         background-color: var(--accent-color);
     }
 
-    /* â”€â”€â”€ FILTER BAR â”€â”€â”€ */
+    /* ─── FILTER BAR ─── */
     .filter-bar { 
         display: flex; 
         justify-content: space-between; 
         align-items: center; 
         padding: 12px 16px; 
-        background-color: #f8fafc; 
+        background-color: #0f1419; 
         border-bottom: 1px solid var(--border-color); 
         position: sticky;
         top: 108px;
@@ -115,7 +115,7 @@
         font-weight: 700; 
         padding: 8px 14px; 
         border-radius: 6px; 
-        border: 1px solid #bae6fd; 
+        border: 1px solid rgba(45,212,168,0.3); 
         display: flex; 
         align-items: center; 
         gap: 6px; 
@@ -133,7 +133,7 @@
         box-shadow: 0 1px 2px rgba(0,0,0,0.02);
     }
 
-    /* â”€â”€â”€ DROPDOWN â”€â”€â”€ */
+    /* ─── DROPDOWN ─── */
     .dropdown-menu { 
         display: none; 
         position: absolute; 
@@ -163,11 +163,11 @@
     .dropdown-item:last-child { border-bottom: none; }
     .dropdown-item:hover { background-color: var(--blue-light); color: var(--header-color); }
 
-    /* â”€â”€â”€ TABLE HEADER â”€â”€â”€ */
+    /* ─── TABLE HEADER ─── */
     .table-header { 
         display: grid; 
         grid-template-columns: 1fr 1.2fr 0.8fr 1fr; 
-        background-color: #e0f2fe; 
+        background-color: rgba(45,212,168,0.12); 
         padding: 12px 6px; 
         font-size: 11px; 
         font-weight: 800; 
@@ -182,7 +182,7 @@
     }
     .col-item:last-child { border-right: none; }
     
-    /* â”€â”€â”€ DATA ROW â”€â”€â”€ */
+    /* ─── DATA ROW ─── */
     .data-row { 
         display: grid; 
         grid-template-columns: 1fr 1.2fr 0.8fr 1fr; 
@@ -194,7 +194,7 @@
         background-color: var(--card-bg);
         transition: background 0.2s;
     }
-    .data-row:active { background-color: #f8fafc; }
+    .data-row:active { background-color: #0f1419; }
     
     .profit-win { 
         color: #166534; 
@@ -219,7 +219,7 @@
         font-weight: 700;
     }
 
-    /* â”€â”€â”€ EMPTY STATE â”€â”€â”€ */
+    /* ─── EMPTY STATE ─── */
     .no-data { 
         display: flex; 
         flex-direction: column; 
@@ -227,7 +227,7 @@
         justify-content: center; 
         min-height: 40vh; 
         opacity: 0.8; 
-        background: #ffffff;
+        background: #151b24;
     }
     .no-data .empty-icon {
         width: 64px;
@@ -252,7 +252,7 @@
         letter-spacing: 0.5px;
     }
 
-    /* â”€â”€â”€ MODAL â”€â”€â”€ */
+    /* ─── MODAL ─── */
     .modal-overlay {
         position: fixed;
         inset: 0;
@@ -266,7 +266,7 @@
     }
     .modal-overlay.hidden { display: none; }
     .modal-box {
-        background: #ffffff;
+        background: #151b24;
         border-radius: 12px;
         padding: 24px;
         text-align: center;
@@ -293,7 +293,7 @@
     }
     .modal-close-btn {
         width: 100%;
-        background: #154b77;
+        background: #e8b84a;
         color: #ffffff;
         font-weight: 700;
         padding: 12px 32px;
@@ -305,16 +305,16 @@
         letter-spacing: 0.5px;
         box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
-    .modal-close-btn:active { background: #0d2a45; }
+    .modal-close-btn:active { background: #0f1419; }
 
-    /* â”€â”€â”€ SUMMARY BAR â”€â”€â”€ */
+    /* ─── SUMMARY BAR ─── */
     .fixed-bottom-summary {
         position: fixed;
         bottom: 0;
         left: 0;
         width: 100%;
         z-index: 90;
-        background: #ffffff;
+        background: #151b24;
         box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
         border-top: 1px solid var(--border-color);
     }
@@ -343,7 +343,7 @@
         margin-top: 2px;
     }
 
-    /* â”€â”€â”€ BOTTOM NAV â”€â”€â”€ */
+    /* ─── BOTTOM NAV ─── */
     .bottom-nav-container {
         position: fixed;
         bottom: 0;
@@ -353,19 +353,19 @@
         max-width: 480px;
         z-index: 10000;
         padding: 0 10px 8px 10px;
-        background: #e8f0fa;
+        background: #0b0f14;
     }
 
     .bottom-nav {
         width: 100%;
         height: 58px;
-        background: linear-gradient(180deg, #0e3d2c 0%, #0a2d1f 100%);
+        background: linear-gradient(180deg, #1a2330 0%, #151b24 100%);
         border-radius: 999px;
-        border: 1.5px solid #1a5c40;
+        border: 1.5px solid #2a3544;
         box-shadow:
-            0 0 0 2px #e8f0fa,
-            inset 0 1px 0 rgba(37,99,235,0.12),
-            0 -2px 0 0 #2563eb,
+            0 0 0 2px #0b0f14,
+            inset 0 1px 0 rgba(45,212,168,0.18),
+            0 -2px 0 0 #2dd4a8,
             0 4px 24px rgba(0,0,0,0.5);
         display: flex;
         align-items: center;
@@ -382,7 +382,7 @@
         gap: 3px;
         flex: 1;
         text-decoration: none !important;
-        color: #3db88a;
+        color: #8b97a8;
         font-size: 10px;
         font-weight: 700;
         letter-spacing: 0.2px;
@@ -391,8 +391,8 @@
         position: relative;
     }
 
-    .nav-item.active { color: #f5c518; }
-    .nav-item.active span { border-bottom: 2px solid #f5c518; padding-bottom: 1px; }
+    .nav-item.active { color: #e8b84a; }
+    .nav-item.active span { border-bottom: 2px solid #e8b84a; padding-bottom: 1px; }
 
     .nav-item i { font-size: 20px; }
     .nav-item span { font-size: 10px; font-weight: 700; }
@@ -408,14 +408,14 @@
         width: 54px;
         height: 54px;
         border-radius: 50%;
-        background: linear-gradient(145deg, #2563eb, #123b66);
+        background: linear-gradient(145deg, #2dd4a8, #1fa88a);
         display: flex;
         align-items: center;
         justify-content: center;
         box-shadow:
-            0 0 0 3px #e8f0fa,
-            0 0 0 5px #2563eb,
-            0 6px 20px rgba(37,99,235,0.45);
+            0 0 0 3px #0b0f14,
+            0 0 0 5px #2dd4a8,
+            0 6px 20px rgba(45,212,168,0.55);
         font-size: 22px;
         color: #fff;
         margin-top: -18px;
@@ -448,13 +448,12 @@
     <!-- FILTER BAR -->
     <div class="filter-bar" style="position: relative;">
         <button class="date-btn" onclick="toggleDropdown()">
-            <i class="far fa-calendar-alt" style="color:#154b77;"></i>
+            <i class="far fa-calendar-alt" style="color:#e8b84a;"></i>
             <span id="selectedDate">
                 @if($days == 'today') Today
                 @elseif($days == 'yesterday') Yesterday
                 @elseif($days == '7days') Last 7 days
                 @elseif($days == '30days') Last 1 month
-                @elseif($days == 'all') All time
                 @else All time @endif
             </span> 
             <i class="fas fa-caret-down" style="margin-left:4px; font-size:10px;"></i>
@@ -465,7 +464,7 @@
             <a href="{{ route('user.game.log', ['days' => 'yesterday', 'provider' => request()->provider, 'tab' => request()->tab]) }}" class="dropdown-item">Yesterday</a>
             <a href="{{ route('user.game.log', ['days' => '7days', 'provider' => request()->provider, 'tab' => request()->tab]) }}" class="dropdown-item">Last 7 days</a>
             <a href="{{ route('user.game.log', ['days' => '30days', 'provider' => request()->provider, 'tab' => request()->tab]) }}" class="dropdown-item">Last 1 month</a>
-            <a href="{{ route('user.game.log', ['days' => 'all', 'provider' => request()->provider, 'tab' => request()->tab]) }}" class="dropdown-item">All time</a>
+            <a href="{{ route('user.game.log', ['provider' => request()->provider, 'tab' => request()->tab]) }}" class="dropdown-item">All time</a>
         </div>
 
         <button class="filter-icon-btn" onclick="openApiModal()">
@@ -485,21 +484,15 @@
     <div class="min-h-[50vh]" style="background:#fff;">
         @forelse($logs as $log)
             @php
-                $isWin = ((float) $log->win_amo > (float) $log->invest) || (int) $log->win_status !== 0;
-                $profitLoss = (float) $log->win_amo - (float) $log->invest;
-                $displayName = $log->game_name ?: (optional($log->game)->name ?? 'Game Result');
-                $provider = 'API';
-                $gn = strtolower((string) ($log->game_name ?? ''));
-                if (strlen($gn) >= 24 && ctype_xdigit($gn)) {
-                    $provider = 'SPORTS';
-                } elseif (optional($log->game)->name) {
-                    $provider = strtoupper((string) strtok($log->game->name, ' '));
-                }
+                $isWin = ($log->win_amo > $log->invest || $log->win_status != 0);
+                $profitLoss = $log->win_amo - $log->invest;
+                $displayName = $log->game ? $log->game->name : ($log->game_name ?? 'Game Result');
+                $provider = $log->provider ?? ($log->game->provider ?? 'N/A');
             @endphp
             <div class="data-row">
-                <div style="font-weight:700; font-size:11px;">{{ $provider }}</div>
+                <div style="font-weight:700; font-size:11px;">{{ strtoupper($provider) }}</div>
                 <div style="font-size:11px; color:#4b5563;">{{ __($displayName) }}</div>
-                <div style="font-weight:700;">à§³{{ number_format($log->invest, 2) }}</div>
+                <div style="font-weight:700;">৳{{ number_format($log->invest, 2) }}</div>
                 <div>
                     <span class="{{ $isWin ? 'profit-win' : 'profit-loss' }}">
                         {{ $isWin ? '+' : '' }}{{ number_format($profitLoss, 2) }}
@@ -511,7 +504,7 @@
                 <div class="empty-icon">
                     <i class="fas fa-file-invoice"></i>
                 </div>
-                <p>@lang('No Records Found')</p>
+                <p>No Records Found</p>
             </div>
         @endforelse
     </div>
@@ -529,19 +522,19 @@
 <div class="fixed-bottom-summary" style="bottom: 70px;">
     <div class="summary-inner">
         <div class="summary-item">
-            <div class="summary-value green">à§³{{ number_format($widget['bet_amount'] ?? 0, 2) }}</div>
+            <div class="summary-value green">৳{{ number_format($widget['bet_amount'] ?? 0, 2) }}</div>
             <div class="summary-label">Bet Amount</div>
         </div>
         <div class="summary-item">
-            <div class="summary-value green">à§³{{ number_format($widget['valid_bet'] ?? 0, 2) }}</div>
+            <div class="summary-value green">৳{{ number_format($widget['valid_bet'] ?? 0, 2) }}</div>
             <div class="summary-label">Valid Bet</div>
         </div>
         <div class="summary-item">
-            <div class="summary-value green">à§³{{ number_format($widget['winnings'] ?? 0, 2) }}</div>
+            <div class="summary-value green">৳{{ number_format($widget['winnings'] ?? 0, 2) }}</div>
             <div class="summary-label">Winnings</div>
         </div>
         <div class="summary-item">
-            <div class="summary-value red">à§³{{ number_format($widget['profit_loss'] ?? 0, 2) }}</div>
+            <div class="summary-value red">৳{{ number_format($widget['profit_loss'] ?? 0, 2) }}</div>
             <div class="summary-label">Profit/Loss</div>
         </div>
     </div>
@@ -553,7 +546,7 @@
         <div class="modal-icon-wrap">
             <i class="fas fa-filter"></i>
         </div>
-        <h3 style="color:#154b77; font-size:18px; font-weight:900; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">
+        <h3 style="color:#e8b84a; font-size:18px; font-weight:900; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">
             Filter Not Available
         </h3>
         <p style="font-size:12px; color:#6b7280; margin-bottom:24px; font-weight:500;">
@@ -565,7 +558,31 @@
     </div>
 </div>
 
-@include($activeTemplate . 'partials.mobile_bottom_nav')
+<!-- BOTTOM NAVIGATION -->
+<div class="bottom-nav-container">
+    <div class="bottom-nav">
+        <a href="{{ route('user.home') }}" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="{{ route('user.promotions') }}" class="nav-item">
+            <i class="fas fa-gift"></i>
+            <span>Promotion</span>
+        </a>
+        <a href="{{ route('user.referrals') }}" class="nav-item center-item">
+            <div class="center-icon-circle"><i class="fas fa-share-nodes"></i></div>
+            <span>Invite</span>
+        </a>
+        <a href="{{ route('user.redeem.index') }}" class="nav-item">
+            <i class="fas fa-trophy"></i>
+            <span>Reward</span>
+        </a>
+        <a href="{{ route('user.account') }}" class="nav-item">
+            <i class="fas fa-user-circle"></i>
+            <span>Member</span>
+        </a>
+    </div>
+</div>
 
 <script>
     function toggleDropdown() {

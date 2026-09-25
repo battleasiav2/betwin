@@ -24,10 +24,9 @@
   --box-shadow: 0px 2px 15px hsl(var(--black) / 0.05);
   /* ================================ Box Shadow End =============================== */
   /* ========================= Base Color ============================= */
-  /* Defaults match BET369WIN navy (overridden by critical inline + color.php) */
-  --base-h: 211;
-  --base-s: 70%;
-  --base-l: 24%;
+  --base-h: 35;
+  --base-s: 53%;
+  --base-l: 44%;
   --base: var(--base-h) var(--base-s) var(--base-l);
 
   /* Base Darken  */
@@ -76,9 +75,9 @@
     hsl(var(--base))
   );
   /* ========================= Base Two Color ============================= */
-  --base-two-h: 221;
-  --base-two-s: 83%;
-  --base-two-l: 53%;
+  --base-two-h: 51;
+  --base-two-s: 66%;
+  --base-two-l: 67%;
   --base-two: var(--base-two-h) var(--base-two-s) var(--base-two-l);
   /* Base Two Darken */
   --base-two-d-100: var(--base-two-h) var(--base-two-s)

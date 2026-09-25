@@ -55,8 +55,6 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
-    'apk_url' => env('APK_DOWNLOAD_URL'),
-
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

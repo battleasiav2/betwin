@@ -108,7 +108,7 @@
         }
 
         .select2-results__option--selectable {
-            color: #000 !important;
+            color: #e8eef5 !important;
         }
 
         .select2-container--open .select2-selection.select2-selection--single,

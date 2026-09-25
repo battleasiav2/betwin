@@ -1,4 +1,4 @@
-﻿@php
+@php
     $pgGames = [
         ["id" => "4afef91d3addb9ce5107abaf3342b9a5", "name" => "Dragon Hatch", "img" => "https://ossimg.91admin123admin.com/91club/gamelogo/PG/57.png"],
         ["id" => "8dcea650a5a4d96530a77e6df8f61923", "name" => "Ganesha Gold", "img" => "https://ossimg.91admin123admin.com/91club/gamelogo/PG/42.png"],
@@ -104,7 +104,7 @@
 @foreach ($pgGames as $game)
     <div class="swiper-slide game-item-box game-card" data-category="pg">
         @auth
-            <a href="{{ url('user/jili/launch?game_code='.$game['id'].'&provider=pg') }}" class="game-card-img">
+            <a href="{{ url('user/jili/launch?game_code='.$game['id']) }}" class="game-card-img">
         @else
             <a href="{{ route('user.login') }}" class="game-card-img">
         @endauth

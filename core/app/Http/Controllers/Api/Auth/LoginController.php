@@ -166,7 +166,7 @@ class LoginController extends Controller
     public function socialLogin(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'provider' => 'required|in:google,facebook,linkedin',
+            'provider' => 'required|in:google',
             'token'    => 'required',
         ]);
 

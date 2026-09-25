@@ -13,7 +13,6 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rules\Password;
 
 class RegisterController extends Controller
 {
@@ -33,30 +32,26 @@ class RegisterController extends Controller
 
     protected function validator(array $data)
     {
-        $passwordValidation = Password::min(6);
-
-        if (gs('secure_password')) {
-            $passwordValidation = $passwordValidation->mixedCase()->numbers()->symbols()->uncompromised();
+        $agree = 'nullable';
+        if (gs('agree')) {
+            $agree = 'required';
         }
 
         $validate = Validator::make($data, [
-            'firstname'    => 'required',
-            'lastname'     => 'required',
-            'username'     => 'required|unique:users|min:6',
-            'email'        => 'required|string|email|unique:users',
-            'country'      => 'required',
-            'mobile'       => 'required',
-            'password'     => ['required', 'confirmed', $passwordValidation],
-            'captcha'      => 'sometimes|required',
-            'confirm_age'  => 'accepted',
-            'agree'        => 'accepted',
+            'firstname' => 'required',
+            'lastname'  => 'required',
+            'username'  => 'required|unique:users|min:6',
+            'email'     => 'required|string|email|unique:users',
+            'country'   => 'required',
+            'mobile'    => 'required',
+            'password'  => ['required', 'confirmed'],
+            'captcha'   => 'sometimes|required',
+            'agree'     => $agree,
         ], [
-            'firstname.required'   => 'The first name field is required',
-            'lastname.required'    => 'The last name field is required',
-            'username.required'    => 'The username field is required',
-            'username.unique'      => 'The username has already been taken.',
-            'confirm_age.accepted' => 'You must confirm that you are of legal gambling age.',
-            'agree.accepted'       => 'You must accept the Terms and Conditions and Privacy Policy.',
+            'firstname.required' => 'The first name field is required',
+            'lastname.required'  => 'The last name field is required',
+            'username.required'  => 'The username field is required',
+            'username.unique'    => 'The username has already been taken.',
         ]);
 
         return $validate;

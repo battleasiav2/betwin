@@ -6,14 +6,14 @@
 
 <style>
     :root {
-        --bg-color: #e8f0fa;
-        --header-color: #154b77;
-        --accent-color: #43a047;
-        --card-bg: #ffffff;
-        --text-main: #333333;
-        --text-muted: #64748b;
-        --border-color: #e2e8f0;
-        --blue-light: #e0f2fe;
+        --bg-color: #0b0f14;
+        --header-color: #e8b84a;
+        --accent-color: #2dd4a8;
+        --card-bg: #151b24;
+        --text-main: #e8eef5;
+        --text-muted: #8b97a8;
+        --border-color: rgba(255, 255, 255, 0.08);
+        --blue-light: rgba(45, 212, 168, 0.12);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -38,9 +38,9 @@
         min-height: 100vh;
     }
 
-    /* â”€â”€â”€ HEADER â”€â”€â”€ */
+    /* ─── HEADER ─── */
     .header-bg { 
-        background: linear-gradient(135deg, #0f395c 0%, #1a5c92 100%);
+        background: linear-gradient(135deg, #0f1419 0%, #151b24 55%, #1a2330 100%);
         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         padding: 16px;
         display: flex;
@@ -72,7 +72,7 @@
         cursor: pointer;
     }
 
-    /* â”€â”€â”€ PROFILE CARD â”€â”€â”€ */
+    /* ─── PROFILE CARD ─── */
     .profile-card {
         background: var(--card-bg);
         border-radius: 12px;
@@ -85,7 +85,7 @@
     }
     .profile-bg {
         height: 90px;
-        background: linear-gradient(135deg, #154b77 0%, #0d2a45 100%);
+        background: linear-gradient(135deg, #e8b84a 0%, #0f1419 100%);
         border-bottom: 3px solid var(--accent-color);
     }
     
@@ -101,8 +101,8 @@
         width: 100%;
         height: 100%;
         border-radius: 50%;
-        background-color: #ffffff;
-        border: 3px solid #ffffff;
+        background-color: #151b24;
+        border: 3px solid #151b24;
         box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         display: flex;
         align-items: center;
@@ -128,17 +128,17 @@
         cursor: pointer;
     }
 
-    /* â”€â”€â”€ INFO CONTAINER â”€â”€â”€ */
+    /* ─── INFO CONTAINER ─── */
     .info-container {
         background-color: var(--blue-light);
-        border: 1px solid #bae6fd;
+        border: 1px solid rgba(45,212,168,0.3);
         border-left: 4px solid var(--header-color);
         border-radius: 8px;
         padding: 16px;
         margin: 0 16px 16px;
     }
 
-    /* â”€â”€â”€ LIST CARD â”€â”€â”€ */
+    /* ─── LIST CARD ─── */
     .list-card {
         background: var(--card-bg);
         border-radius: 12px;
@@ -166,7 +166,7 @@
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
-        background: #f8fafc;
+        background: #0f1419;
         border-radius: 8px;
         border: 1px solid var(--border-color);
         margin-top: 2px;
@@ -195,7 +195,7 @@
         overflow: hidden; 
         text-overflow: ellipsis; 
     }
-    .row-sub.highlight { color: #154b77; font-weight: 700; }
+    .row-sub.highlight { color: #e8b84a; font-weight: 700; }
     .row-sub.not-set { color: #9ca3af; font-style: italic; }
 
     .btn-action {
@@ -218,7 +218,7 @@
     .btn-add { 
         background: var(--blue-light); 
         color: var(--header-color); 
-        border: 1px solid #bae6fd; 
+        border: 1px solid rgba(45,212,168,0.3); 
     }
     .btn-add:active { background: #bae6fd; transform: scale(0.95); }
     .btn-verified { 
@@ -260,15 +260,15 @@
         width: 32px;
         height: 32px;
         border-radius: 50%;
-        background: #e0f2fe;
+        background: rgba(45,212,168,0.12);
         display: flex;
         align-items: center;
         justify-content: center;
         flex-shrink: 0;
-        border: 1px solid #bae6fd;
+        border: 1px solid rgba(45,212,168,0.3);
     }
 
-    /* â”€â”€â”€ BOTTOM NAV â”€â”€â”€ */
+    /* ─── BOTTOM NAV ─── */
     .bottom-nav-container {
         position: fixed;
         bottom: 0;
@@ -278,19 +278,19 @@
         max-width: 480px;
         z-index: 10000;
         padding: 0 10px 8px 10px;
-        background: #e8f0fa;
+        background: #0b0f14;
     }
 
     .bottom-nav {
         width: 100%;
         height: 58px;
-        background: linear-gradient(180deg, #0e3d2c 0%, #0a2d1f 100%);
+        background: linear-gradient(180deg, #1a2330 0%, #151b24 100%);
         border-radius: 999px;
-        border: 1.5px solid #1a5c40;
+        border: 1.5px solid #2a3544;
         box-shadow:
-            0 0 0 2px #e8f0fa,
-            inset 0 1px 0 rgba(37,99,235,0.12),
-            0 -2px 0 0 #2563eb,
+            0 0 0 2px #0b0f14,
+            inset 0 1px 0 rgba(45,212,168,0.18),
+            0 -2px 0 0 #2dd4a8,
             0 4px 24px rgba(0,0,0,0.5);
         display: flex;
         align-items: center;
@@ -307,7 +307,7 @@
         gap: 3px;
         flex: 1;
         text-decoration: none !important;
-        color: #3db88a;
+        color: #8b97a8;
         font-size: 10px;
         font-weight: 700;
         letter-spacing: 0.2px;
@@ -316,8 +316,8 @@
         position: relative;
     }
 
-    .nav-item.active { color: #f5c518; }
-    .nav-item.active span { border-bottom: 2px solid #f5c518; padding-bottom: 1px; }
+    .nav-item.active { color: #e8b84a; }
+    .nav-item.active span { border-bottom: 2px solid #e8b84a; padding-bottom: 1px; }
 
     .nav-item i { font-size: 20px; }
     .nav-item span { font-size: 10px; font-weight: 700; }
@@ -333,14 +333,14 @@
         width: 54px;
         height: 54px;
         border-radius: 50%;
-        background: linear-gradient(145deg, #2563eb, #123b66);
+        background: linear-gradient(145deg, #2dd4a8, #1fa88a);
         display: flex;
         align-items: center;
         justify-content: center;
         box-shadow:
-            0 0 0 3px #e8f0fa,
-            0 0 0 5px #2563eb,
-            0 6px 20px rgba(37,99,235,0.45);
+            0 0 0 3px #0b0f14,
+            0 0 0 5px #2dd4a8,
+            0 6px 20px rgba(45,212,168,0.55);
         font-size: 22px;
         color: #fff;
         margin-top: -18px;
@@ -357,7 +357,7 @@
     <!-- HEADER -->
     <div class="header-bg">
         <a href="{{ route('user.home') }}"><i class="fas fa-home"></i></a>
-        <h1>@lang('Personal Info')</h1>
+        <h1>Personal Info</h1>
         <a href="{{ route('user.account') }}"><i class="fas fa-times"></i></a>
     </div>
 
@@ -384,7 +384,7 @@
             </div>
 
             <div style="padding-bottom: 16px;">
-                <h2 style="color:#154b77; font-weight:900; font-size:22px; display:flex; justify-content:center; align-items:center; gap:8px;">
+                <h2 style="color:#e8b84a; font-weight:900; font-size:22px; display:flex; justify-content:center; align-items:center; gap:8px;">
                     {{ auth()->user()->username }}
                 </h2>
                 <div style="display:inline-block; background:#f0f9ff; color:#0284c7; font-size:10px; font-weight:700; padding:4px 10px; border-radius:20px; border:1px solid #bae6fd; margin-top:6px; text-transform:uppercase; letter-spacing:0.5px;">
@@ -400,7 +400,7 @@
                     VIP Points (VP) 
                     <span style="color:#43a047; margin-left:4px; font-weight:900; font-size:15px;">0</span>
                 </span>
-                <a href="#" style="color:#154b77; font-weight:700; display:flex; align-items:center; gap:4px; text-decoration:none; background:#eff6ff; padding:6px 10px; border-radius:6px; border:1px solid #bfdbfe;">
+                <a href="#" style="color:#e8b84a; font-weight:700; display:flex; align-items:center; gap:4px; text-decoration:none; background:rgba(232,184,74,0.12); padding:6px 10px; border-radius:6px; border:1px solid rgba(232,184,74,0.3);">
                     My VIP <i class="fas fa-angle-double-right" style="font-size:10px;"></i>
                 </a>
             </div>
@@ -409,8 +409,8 @@
         <!-- VERIFICATION INFO -->
         <div class="info-container">
             <div style="display:flex; align-items:flex-start; gap:12px; margin-bottom:12px;">
-                <i class="fas fa-info-circle" style="color:#154b77; font-size:18px; flex-shrink:0;"></i>
-                <p style="color:#154b77; font-size:11.5px; font-weight:600; line-height:1.5;">
+                <i class="fas fa-info-circle" style="color:#e8b84a; font-size:18px; flex-shrink:0;"></i>
+                <p style="color:#e8b84a; font-size:11.5px; font-weight:600; line-height:1.5;">
                     Please complete the verification below before you proceed with withdrawal requests.
                 </p>
             </div>
@@ -418,7 +418,7 @@
             <div style="border-bottom:1px solid #bae6fd; margin-bottom:12px; opacity:0.6;"></div>
 
             <div>
-                <div style="color:#154b77; font-size:11px; font-weight:900; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;">@lang('Personal Info')</div>
+                <div style="color:#e8b84a; font-size:11px; font-weight:900; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;">Personal Info</div>
                 <div style="display:flex; flex-wrap:wrap;">
                     @if(!auth()->user()->firstname || !auth()->user()->lastname)
                         <span class="pill pill-red"><i class="fas fa-circle" style="font-size:5px;"></i> Full Name</span>
@@ -429,7 +429,7 @@
             </div>
 
             <div style="margin-top:12px;">
-                <div style="color:#154b77; font-size:11px; font-weight:900; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;">Contact Info</div>
+                <div style="color:#e8b84a; font-size:11px; font-weight:900; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;">Contact Info</div>
                 <div style="display:flex; flex-wrap:wrap;">
                     @if(!auth()->user()->mobile)
                         <span class="pill pill-yellow"><i class="fas fa-circle" style="font-size:5px;"></i> Phone Number</span>
@@ -495,11 +495,11 @@
         <!-- PRIVACY NOTICE -->
         <div class="privacy-notice">
             <div class="privacy-icon">
-                <i class="fas fa-lock" style="color:#154b77; font-size:13px;"></i>
+                <i class="fas fa-lock" style="color:#e8b84a; font-size:13px;"></i>
             </div>
             <p style="line-height:1.6; font-weight:500;">
                 For privacy and security, Information cannot be modified after confirmation. Please 
-                <a href="{{ route('ticket.open') }}" style="color:#154b77; font-weight:700; text-decoration:underline;">contact customer service</a> 
+                <a href="{{ route('ticket.open') }}" style="color:#e8b84a; font-weight:700; text-decoration:underline;">contact customer service</a> 
                 for help.
             </p>
         </div>
@@ -508,7 +508,31 @@
 
 </div>
 
-@include($activeTemplate . 'partials.mobile_bottom_nav')
+<!-- BOTTOM NAVIGATION -->
+<div class="bottom-nav-container">
+    <div class="bottom-nav">
+        <a href="{{ route('user.home') }}" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="{{ route('user.promotions') }}" class="nav-item">
+            <i class="fas fa-gift"></i>
+            <span>Promotion</span>
+        </a>
+        <a href="{{ route('user.referrals') }}" class="nav-item center-item">
+            <div class="center-icon-circle"><i class="fas fa-share-nodes"></i></div>
+            <span>Invite</span>
+        </a>
+        <a href="{{ route('user.redeem.index') }}" class="nav-item">
+            <i class="fas fa-trophy"></i>
+            <span>Reward</span>
+        </a>
+        <a href="{{ route('user.account') }}" class="nav-item">
+            <i class="fas fa-user-circle"></i>
+            <span>Member</span>
+        </a>
+    </div>
+</div>
 
 <script>
     // Avatar upload trigger

@@ -1,14 +1,14 @@
-<header class="header" id="header" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 9999; box-shadow: 0 1px 8px rgba(18, 59, 102, 0.18); background-color: #123B66;">
+<header class="header" id="header" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 9999; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); background-color: #012b27;">
     <div class="container-fluid px-3">
         <nav class="navbar d-flex justify-content-between align-items-center py-2">
 
             <div class="d-flex align-items-center gap-2">
-                <a href="{{ route('user.home') }}" class="d-flex align-items-center justify-content-center" style="color: #ffffff; font-size: 28px; text-decoration: none; cursor: pointer; margin-right: 8px; transition: 0.3s;">
+                <a href="{{ route('user.home') }}" class="d-flex align-items-center justify-content-center" style="color: #ffc107; font-size: 28px; text-decoration: none; cursor: pointer; margin-right: 8px; transition: 0.3s;">
                     <i class="las la-angle-left"></i>
                 </a>
 
                 <a class="navbar-brand logo me-0" href="{{ route('user.home') }}" style="text-decoration: none;">
-                    <img src="{{ asset('assets/images/logo_icon/logo.png') }}" alt="{{ __(gs('site_name')) }}" class="brand-logo">
+                    <img src="{{ siteLogo() }}" alt="{{ __(gs('site_name')) }}" style="max-height: 40px;">
                 </a>
             </div>
 
@@ -16,7 +16,7 @@
                 @auth
                     <div class="dropdown">
                         <a href="javascript:void(0)" class="profile-avatar" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="{{ asset('assets/new/0.png') }}" alt="Profile" style="width: 35px; height: 35px; border-radius: 50%; border: 2px solid #F4B942; object-fit: cover; cursor: pointer;">
+                            <img src="{{ asset('assets/new/0.png') }}" alt="Profile" style="width: 35px; height: 35px; border-radius: 50%; border: 2px solid #ffc107; object-fit: cover; cursor: pointer;">
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu" aria-labelledby="profileDropdown">
                             <li><a class="dropdown-item" href="{{ route('user.profile.setting') }}"><i class="las la-user"></i> @lang('প্রোফাইল')</a></li>
@@ -66,15 +66,15 @@
 
 <style>
     .custom-dropdown-menu {
-        background-color: #ffffff;
-        border: 1px solid #E8F0FA;
+        background-color: #012b27;
+        border: 1px solid #065f58;
         border-radius: 10px;
         box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         padding: 10px 0;
         min-width: 200px;
     }
     .custom-dropdown-menu .dropdown-item {
-        color: #172033;
+        color: #fff;
         font-size: 14px;
         padding: 10px 20px;
         display: flex;
@@ -84,13 +84,13 @@
     }
     .custom-dropdown-menu .dropdown-item i {
         font-size: 18px;
-        color: #2563EB;
+        color: #ffc107;
     }
     .custom-dropdown-menu .dropdown-item:hover {
-        background-color: #E8F0FA;
-        color: #123B66;
+        background-color: #024641;
+        color: #ffc107;
     }
     .custom-dropdown-menu .dropdown-divider {
-        border-top: 1px solid #E8F0FA;
+        border-top: 1px solid #065f58;
     }
 </style>

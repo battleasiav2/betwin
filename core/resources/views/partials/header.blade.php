@@ -1,4 +1,4 @@
-<header class="header" id="header" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 9999; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); background-color: #123b66;">
+<header class="header" id="header" style="position: fixed; top: 0; left: 0; width: 100%; z-index: 9999; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); background-color: #012b27;">
     <div class="container-fluid px-3">
         <nav class="navbar d-flex justify-content-between align-items-center py-2">
 
@@ -8,7 +8,7 @@
                 </a>
 
                 <a class="navbar-brand logo me-0" href="{{ route('user.home') }}" style="text-decoration: none;">
-                    <img src="{{ asset('assets/images/logo_icon/logo.png') }}" alt="{{ __(gs('site_name')) }}" class="brand-logo">
+                    <img src="{{ siteLogo() }}" alt="{{ __(gs('site_name')) }}" style="max-height: 40px;">
                 </a>
             </div>
 
@@ -66,8 +66,8 @@
 
 <style>
     .custom-dropdown-menu {
-        background-color: #123b66;
-        border: 1px solid #2a5a8a;
+        background-color: #012b27;
+        border: 1px solid #065f58;
         border-radius: 10px;
         box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         padding: 10px 0;
@@ -87,10 +87,10 @@
         color: #ffc107;
     }
     .custom-dropdown-menu .dropdown-item:hover {
-        background-color: #1a4a7a;
+        background-color: #024641;
         color: #ffc107;
     }
     .custom-dropdown-menu .dropdown-divider {
-        border-top: 1px solid #2a5a8a;
+        border-top: 1px solid #065f58;
     }
 </style>

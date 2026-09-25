@@ -81,6 +81,12 @@
                 @endforeach
             </ul>
         </div>
+        
+        <div class="version-info text-center text-uppercase">
+            <a href="mailto:support@bet369win.com" class="text--primary" style="text-decoration: none;">
+                Bet369win
+            </a>
+        </div>
     </div>
 </div>
 

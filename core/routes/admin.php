@@ -187,7 +187,6 @@ Route::middleware('admin')->group(function () {
     Route::controller('ApiGameControlController')->prefix('api-game')->name('api.game.')->group(function () {
         Route::get('manage', 'index')->name('index');
         Route::post('update/{id}', 'update')->name('update');
-        Route::post('settings', 'updateSettings')->name('settings');
     });
 
     // Promotion Management System
@@ -262,6 +261,9 @@ Route::middleware('admin')->group(function () {
         Route::get('setting/social/credentials', 'socialiteCredentials')->name('setting.socialite.credentials');
         Route::post('setting/social/credentials/update/{key}', 'updateSocialiteCredential')->name('setting.socialite.credentials.update');
         Route::post('setting/social/credentials/status/{key}', 'updateSocialiteCredentialStatus')->name('setting.socialite.credentials.status.update');
+
+        Route::get('setting/social-links', 'socialLinks')->name('setting.social.links');
+        Route::post('setting/social-links', 'socialLinksUpdate')->name('setting.social.links');
 
         // configuration
         Route::get('setting/system-configuration', 'systemConfiguration')->name('setting.system.configuration');

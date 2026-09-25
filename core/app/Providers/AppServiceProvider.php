@@ -28,15 +28,15 @@ class AppServiceProvider extends ServiceProvider {
     public function boot(): void {
         if (!cache()->get('SystemInstalled')) {
             $envFilePath = base_path('.env');
-            $uri = (string) ($_SERVER['REQUEST_URI'] ?? '');
-            $onSetup = str_contains($uri, 'setup-env.php')
-                || str_contains($uri, '/install');
-
-            if (!$onSetup) {
-                if (!file_exists($envFilePath) || empty(trim((string) @file_get_contents($envFilePath)))) {
-                    header('Location: /setup-env.php', true, 302);
-                    exit;
-                }
+            if (!file_exists($envFilePath)) {
+                header('Location: install');
+                exit;
+            }
+            $envContents = file_get_contents($envFilePath);
+            if (empty($envContents)) {
+                header('Location: install');
+                exit;
+            } else {
                 cache()->put('SystemInstalled', true);
             }
         }
@@ -72,7 +72,10 @@ class AppServiceProvider extends ServiceProvider {
         });
 
         if (gs('force_ssl')) {
-            \URL::forceScheme('https');
+            $host = request()->getHost();
+            if (!in_array($host, ['127.0.0.1', 'localhost'], true)) {
+                \URL::forceScheme('https');
+            }
         }
 
         Paginator::useBootstrapFive();

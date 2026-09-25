@@ -11,7 +11,6 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rules\Password;
 
 class RegisterController extends Controller
 {
@@ -36,22 +35,20 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        $passwordValidation = Password::min(6);
-        if (gs('secure_password')) {
-            $passwordValidation = $passwordValidation->mixedCase()->numbers()->symbols()->uncompromised();
+        $agree = 'nullable';
+        if (gs('agree')) {
+            $agree = 'required';
         }
+
         $validate = Validator::make($data, [
-            'firstname'    => 'required',
-            'lastname'     => 'required',
-            'email'        => 'required|string|email|unique:users',
-            'password'     => ['required', 'confirmed', $passwordValidation],
-            'confirm_age'  => 'accepted',
-            'agree'        => 'accepted',
+            'firstname' => 'required',
+            'lastname'  => 'required',
+            'email'     => 'required|string|email|unique:users',
+            'password'  => ['required', 'confirmed'],
+            'agree'     => $agree,
         ], [
-            'firstname.required'   => 'The first name field is required',
-            'lastname.required'    => 'The last name field is required',
-            'confirm_age.accepted' => 'You must confirm that you are of legal gambling age.',
-            'agree.accepted'       => 'You must accept the Terms and Conditions and Privacy Policy.',
+            'firstname.required' => 'The first name field is required',
+            'lastname.required'  => 'The last name field is required',
         ]);
 
         return $validate;
