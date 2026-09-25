@@ -19,7 +19,7 @@ if (!hash_equals('BET369WIN-FIX-DB-2026', $token)) {
 $root = __DIR__;
 $envPath = $root . '/core/.env';
 
-$dbPass = (string) ($_GET['db_pass'] ?? $_POST['db_pass'] ?? '^dtc?6r@eIT/tcP-');
+$dbPass = (string) ($_GET['db_pass'] ?? $_POST['db_pass'] ?? 'F1z>0Rw#e0');
 $quotedPass = '"' . str_replace(['\\', '"'], ['\\\\', '\\"'], $dbPass) . '"';
 
 $env = <<<ENV
