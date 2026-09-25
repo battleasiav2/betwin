@@ -17,6 +17,9 @@ core/bootstrap/cache/*.php
 !core/bootstrap/cache/.gitignore
 *.sql
 *.sql.gz
+!sql/
+!sql/**
+!sql/*.sql
 .DS_Store
 Thumbs.db
 router.php
