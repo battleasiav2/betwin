@@ -57,7 +57,7 @@
 @foreach ($jdbGames as $game)
     <div class="swiper-slide game-item-box game-card" data-category="jdb">
         @auth
-            <a href="{{ url('user/jili/launch?game_code='.$game['id']) }}" class="game-card-img">
+            <a href="{{ url('user/jili/launch?game_code='.$game['id'].'&provider=jdb') }}" class="game-card-img">
         @else
             <a href="{{ route('user.login') }}" class="game-card-img">
         @endauth

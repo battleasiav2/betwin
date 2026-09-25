@@ -104,7 +104,7 @@
 @foreach ($pgGames as $game)
     <div class="swiper-slide game-item-box game-card" data-category="pg">
         @auth
-            <a href="{{ url('user/jili/launch?game_code='.$game['id']) }}" class="game-card-img">
+            <a href="{{ url('user/jili/launch?game_code='.$game['id'].'&provider=pg') }}" class="game-card-img">
         @else
             <a href="{{ route('user.login') }}" class="game-card-img">
         @endauth

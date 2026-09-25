@@ -686,77 +686,7 @@
             <div class="sec-title"><i class="fas fa-dice"></i> SLOT PROVIDERS</div>
         </div>
 
-        <div class="provider-grid">
-            @if(isset($gameStatus['jili']) && $gameStatus['jili']->status != 0)
-            <div class="provider-card" data-key="jili" onclick="selectProvider('jili')">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_jili.png?v=1781595979466&source=mcdsrc" alt="JILI">
-                <span>JILI</span>
-            </div>
-            @endif
-            @if(isset($gameStatus['pg']) && $gameStatus['pg']->status != 0)
-            <div class="provider-card" data-key="pg" onclick="selectProvider('pg')">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_pg.png?v=1781595979466&source=mcdsrc" alt="PG">
-                <span>PG Soft</span>
-            </div>
-            @endif
-            @if(isset($gameStatus['jdb']) && $gameStatus['jdb']->status != 0)
-            <div class="provider-card" data-key="jdb" onclick="selectProvider('jdb')">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_jdb.png?v=1781595979466&source=mcdsrc" alt="JDB">
-                <span>JDB</span>
-            </div>
-            @endif
-            @if(isset($gameStatus['cq9']) && $gameStatus['cq9']->status != 0)
-            <div class="provider-card" data-key="cq9" onclick="selectProvider('cq9')">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-cq9.png?v=1781595979466&source=mcdsrc" alt="CQ9">
-                <span>CQ9</span>
-            </div>
-            @endif
-            @if(isset($gameStatus['idg']) && $gameStatus['idg']->status != 0)
-            <div class="provider-card" data-key="idg" onclick="selectProvider('idg')">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_dreamgaming.png?v=1781595979466&source=mcdsrc" alt="IDG">
-                <span>IDG</span>
-            </div>
-            @endif
-            @if(isset($gameStatus['km']) && $gameStatus['km']->status != 0)
-            <div class="provider-card" data-key="km" onclick="selectProvider('km')">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_kingmaker.png?v=1781595979466&source=mcdsrc" alt="KM">
-                <span>KM</span>
-            </div>
-            @endif
-            @if(isset($gameStatus['v8']) && $gameStatus['v8']->status != 0)
-            <div class="provider-card" data-key="v8" onclick="selectProvider('v8')">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_yesbingo.png?v=1781595979466&source=mcdsrc" alt="V8">
-                <span>V8</span>
-            </div>
-            @endif
-            @if(isset($gameStatus['mg']) && $gameStatus['mg']->status != 0)
-            <div class="provider-card" data-key="mg" onclick="selectProvider('mg')">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-mg.png?v=1781595979466&source=mcdsrc" alt="MG">
-                <span>MG</span>
-            </div>
-            @endif
-
-            <div class="provider-card" data-key="arcade">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-rich88.png?v=1781595979466&source=mcdsrc" alt="Arcade">
-                <span>Arcade</span>
-            </div>
-            <div class="provider-card" data-key="lottery">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-saba.png?v=1781595979466&source=mcdsrc" alt="Lottery">
-                <span>Lottery</span>
-            </div>
-            <div class="provider-card" data-key="bingo">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-playngo.png?v=1781595979466&source=mcdsrc" alt="Bingo">
-                <span>Bingo</span>
-            </div>
-            <div class="provider-card" data-key="live">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_yl.png?v=1781595979466&source=mcdsrc" alt="Live">
-                <span>Live</span>
-            </div>
-            <div class="provider-card" data-key="mini">
-                <img src="https://img.b6814jd.com/bjd/h5/assets/images/brand/white/provider-awcv2_mimi.png?v=1781595979466&source=mcdsrc" alt="Mini Game">
-                <span>Mini Game</span>
-            </div>
-        </div>
+        @include($activeTemplate . 'partials.provider-grid')
     </div>
 
     @if(isset($gameStatus['jili']) && $gameStatus['jili']->status != 0)
@@ -993,6 +923,14 @@
             target.classList.add('show-anim');
             document.querySelector('.main-footer-section').style.display = 'none';
             document.querySelector('.game-center').style.display = 'none';
+            return;
+        }
+        document.getElementById('provider-grid-container').style.display = 'block';
+        const msg = provider.toUpperCase() + ' mapped (RapidVerse). Game list coming soon.';
+        if (typeof iziToast !== 'undefined') {
+            iziToast.info({ message: msg, position: 'topRight', timeout: 2500 });
+        } else {
+            alert(msg);
         }
     }
 

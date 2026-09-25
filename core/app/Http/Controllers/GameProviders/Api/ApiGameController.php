@@ -143,17 +143,22 @@ class ApiGameController extends Controller
             }
         }
 
+        // Official docs examples: JILI, SPRIBE, EVOLUTION, PRAGMATIC, PGSOFT
+        // https://rapidverse.site/api-docs
         return match ($slug) {
-            'pg' => 'PG',
+            'pg', 'pgsoft' => 'PGSOFT',
+            'pp', 'pp_asia', 'pp_live', 'pp_live_asia', 'pragmatic' => 'PRAGMATIC',
+            'spribe', 'aviator', 'crash' => 'SPRIBE',
+            'evo', 'evo_electronic', 'casino', 'evolution' => 'EVOLUTION',
             'jdb' => 'JDB',
             'cq9' => 'CQ9',
             'g9' => 'G9',
-            'evo', 'casino' => 'EVOLUTION',
             'card365' => 'Card365',
-            'idg' => 'IDG',
+            'idg', 'dreamgaming' => 'DREAMGAMING',
             'km' => 'KM',
             'v8' => 'V8',
             'mg' => 'MG',
+            'microgaming' => 'MICROGAMING',
             'bti' => 'BTI',
             'saba', 'sb', 'sabasports' => 'SABASPORTS',
             'luckysport', 'ls' => 'LuckySport',
@@ -164,11 +169,13 @@ class ApiGameController extends Controller
             'sbo' => 'SBO',
             'dpsports', 'dps' => 'DPSports',
             'dpesports', 'esport' => 'DPEsports',
-            'spribe', 'aviator' => 'SPRIBE',
-            'pp', 'pp_asia', 'pp_live', 'pp_live_asia' => 'PP',
             'fc' => 'FC',
             'tada' => 'TADA',
-            'jili', 'hot', 'crash', 'sports', 'default' => 'JILI',
+            'sexy' => 'SEXY',
+            'sa', 'sagaming' => 'SA',
+            'habanero' => 'HABANERO',
+            'playtech' => 'PLAYTECH',
+            'jili', 'hot', 'sports', 'default', 'slot' => 'JILI',
             default => strtoupper($provider),
         };
     }

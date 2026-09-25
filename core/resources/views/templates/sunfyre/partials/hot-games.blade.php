@@ -87,9 +87,20 @@ $hotGames = [
 @endphp
 
 @foreach ($hotGames as $game)
+    @php
+        $img = $game['img'] ?? '';
+        $prov = 'jili';
+        if (stripos($img, 'spribe') !== false) $prov = 'spribe';
+        elseif (preg_match('#gamelogo/PG/#i', $img)) $prov = 'pg';
+        elseif (preg_match('#gamelogo/JDB/#i', $img)) $prov = 'jdb';
+        elseif (preg_match('#EVO_Video|/EVO/#i', $img)) $prov = 'evo';
+        elseif (preg_match('#/api/km/|/km/#i', $img)) $prov = 'km';
+        elseif (preg_match('#gamelogo/MG/#i', $img)) $prov = 'mg';
+        elseif (preg_match('#gamelogo/JILI/#i', $img)) $prov = 'jili';
+    @endphp
     <div class="swiper-slide game-item-box game-card" data-category="hot">
         @auth
-            <a href="{{ url('user/jili/launch?game_code='.$game['id']) }}" class="game-card-img">
+            <a href="{{ url('user/jili/launch?game_code='.$game['id'].'&provider='.$prov) }}" class="game-card-img">
         @else
             <a href="{{ route('user.login') }}" class="game-card-img">
         @endauth
