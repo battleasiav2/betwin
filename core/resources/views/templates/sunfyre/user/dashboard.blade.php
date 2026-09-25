@@ -627,6 +627,9 @@
         <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('casino', this)">
             <i class="fas fa-video"></i> CASINO
         </a>
+        <a href="javascript:void(0)" class="cat-pill" data-cat="favorite" onclick="filterGames('favorite', this)">
+            <i class="fas fa-heart"></i> FAV
+        </a>
         <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('table', this)">
             <i class="fas fa-table"></i> TABLE
         </a>
@@ -784,6 +787,20 @@
         </div>
     </div>
     @endif
+
+    <div class="section-container" data-provider="favorite" id="favorites-section" style="display:none;">
+        <div class="sec-header">
+            <div class="sec-title"><i class="fas fa-heart"></i> FAVORITES</div>
+            <a href="javascript:void(0)" class="btn-see-all" onclick="filterGames('hot', document.querySelector('.cat-pill'))"><i class="fas fa-arrow-left"></i> Back</a>
+        </div>
+        <div class="games-section">
+            <div class="game-grid" id="favorites-grid"></div>
+        </div>
+        <div id="favorites-empty" style="display:none;background:#151b24;border-radius:12px;padding:28px 18px;text-align:center;color:#8b97a8;border:1px solid rgba(255,255,255,0.08);">
+            <p style="margin:0 0 8px;font-weight:700;color:#e8eef5;">No favorites yet</p>
+            <p style="margin:0;font-size:13px;">Tap the heart on any game to save it here.</p>
+        </div>
+    </div>
 </div>
 
 <!-- GAME CENTER -->
@@ -883,7 +900,7 @@
 
     function filterGames(category, btn) {
         document.querySelectorAll('.cat-pill').forEach(el => el.classList.remove('active'));
-        btn.classList.add('active');
+        if (btn) btn.classList.add('active');
 
         requestAnimationFrame(() => {
             const sections = document.querySelectorAll('.section-container');
@@ -895,6 +912,23 @@
             if (category === 'slot') {
                 document.getElementById('provider-grid-container').style.display = 'block';
                 resetProviderGrid();
+                return;
+            }
+
+            if (category === 'favorite' || category === 'favourites' || category === 'favorites') {
+                const fav = document.getElementById('favorites-section');
+                if (fav) {
+                    fav.style.display = 'block';
+                    fav.classList.add('show-anim');
+                }
+                if (window.B369Fav) {
+                    window.B369Fav.renderFavoritesGrid(
+                        document.getElementById('favorites-grid'),
+                        document.getElementById('favorites-empty')
+                    );
+                }
+                document.querySelector('.main-footer-section').style.display = 'block';
+                document.querySelector('.game-center').style.display = 'block';
                 return;
             }
 

@@ -1,5 +1,8 @@
 {{-- user_header.blade.php --}}
 
+<div class="site-topbar">
+@include($activeTemplate . 'partials.apk_banner')
+
 <header class="site-header">
     <button class="hamburger-btn" onclick="toggleSidebar()">
         <div class="hamburger-icon">
@@ -15,6 +18,10 @@
         <img src="{{ asset('assets/images/logo_icon/logo.png') }}" alt="{{ __(gs('site_name')) }}" class="site-logo-img">
     </a>
     <div class="header-right">
+        <a href="{{ route('download.apk') }}" class="btn-app-install" id="headerAppInstall" title="@lang('Install App')" onclick="if(window.__b369InstallApp){event.preventDefault();window.__b369InstallApp();}">
+            <i class="fas fa-cloud-arrow-down"></i>
+            <span>APP</span>
+        </a>
         @auth
             <div class="user-balance">
                 <i class="fas fa-wallet"></i>
@@ -26,6 +33,7 @@
         @endauth
     </div>
 </header>
+</div>
 
 <div id="sidebarOverlay" onclick="toggleSidebar()" class="hidden"></div>
 
@@ -50,7 +58,7 @@
             <span class="sb-card-label">Invite friends</span>
         </a>
 
-        <a href="#" class="sb-menu-card">
+        <a href="javascript:void(0)" class="sb-menu-card" onclick="if(window.B369Fav){B369Fav.showFavorites();} if(typeof toggleSidebar==='function') toggleSidebar();">
             <div class="sb-card-icon ic-red"><i class="fa-solid fa-heart"></i></div>
             <span class="sb-card-label">Favorites</span>
         </a>
@@ -80,7 +88,7 @@
             <span class="sb-card-label">Manual Rebate</span>
         </a>
 
-        <a href="#" class="sb-menu-card">
+        <a href="javascript:void(0)" class="sb-menu-card" onclick="if(typeof filterGames==='function'){filterGames('sports', document.querySelector('.cat-pill[onclick*=\'sports\']'));} if(typeof toggleSidebar==='function') toggleSidebar();">
             <div class="sb-card-icon ic-red"><i class="fa-solid fa-cricket-bat-ball"></i></div>
             <span class="sb-card-label">Sports</span>
         </a>
@@ -115,7 +123,7 @@
             <span class="sb-card-label">Lottery</span>
         </a>
 
-        <a href="#" class="sb-menu-card">
+        <a href="{{ route('download.apk') }}" class="sb-menu-card" id="sbAppInstall" onclick="if(window.__b369InstallApp){event.preventDefault();window.__b369InstallApp();}">
             <div class="sb-card-icon ic-teal"><i class="fa-solid fa-cloud-arrow-down"></i></div>
             <span class="sb-card-label">APP Download</span>
         </a>
@@ -153,8 +161,42 @@
         --border:     rgba(255,255,255,0.08);
     }
 
+    .site-topbar {
+        position: sticky; top: 0; z-index: 100;
+        background: #0b0f14;
+    }
+
+    .apk-banner {
+        display: flex; align-items: center; gap: 10px;
+        padding: 8px 10px; min-height: 52px; box-sizing: border-box;
+        background: linear-gradient(90deg, #0d1f1a 0%, #123028 55%, #0f1419 100%);
+        color: #fff; border-bottom: 1px solid rgba(45,212,168,0.18);
+    }
+    .apk-banner.is-hidden { display: none !important; }
+    .apk-banner__close {
+        width: 26px; height: 26px; border-radius: 50%; border: 0; flex-shrink: 0;
+        background: rgba(255,255,255,0.1); color: #c8d4e0; cursor: pointer;
+        display: inline-flex; align-items: center; justify-content: center;
+    }
+    .apk-banner__icon {
+        width: 40px; height: 40px; border-radius: 10px; object-fit: cover; flex-shrink: 0;
+        background: #151b24;
+    }
+    .apk-banner__meta { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+    .apk-banner__title {
+        font-size: 13px; font-weight: 800; color: #e8eef5;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .apk-banner__stars { color: #e8b84a; font-size: 10px; display: inline-flex; gap: 2px; }
+    .apk-banner__btn {
+        flex-shrink: 0; padding: 8px 12px; border-radius: 8px; font-size: 11px; font-weight: 800;
+        text-decoration: none; color: #0b0f14; background: #2dd4a8; border: 0; cursor: pointer;
+        letter-spacing: 0.3px;
+    }
+    .apk-banner__btn:active { transform: scale(0.97); }
+
     .site-header {
-        position: sticky; top: 0; z-index: 100; height: 58px;
+        position: relative; top: auto; z-index: 1; height: 58px;
         background: rgba(11,15,20,0.92); backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);
         display: flex; align-items: center; justify-content: flex-start; gap: 8px; padding: 0 10px;
@@ -181,6 +223,21 @@
         display: block;
     }
     .header-right { display: flex; align-items: center; gap: 6px; margin-left: auto; flex-shrink: 0; }
+
+    .btn-app-install {
+        padding: 7px 10px; border-radius: 10px; font-size: 11px; font-weight: 800;
+        cursor: pointer; text-decoration: none; letter-spacing: 0.3px;
+        display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+        background: linear-gradient(135deg, rgba(45,212,168,0.22) 0%, #151b24 55%);
+        color: #2dd4a8; border: 1px solid rgba(45,212,168,0.4);
+        transition: all 0.15s; white-space: nowrap; flex-shrink: 0;
+    }
+    .btn-app-install i { font-size: 13px; }
+    .btn-app-install:active { transform: scale(0.96); }
+    @media (max-width: 380px) {
+        .btn-app-install span { display: none; }
+        .btn-app-install { padding: 8px 9px; }
+    }
 
     .btn-login {
         padding: 8px 14px; border-radius: 10px; font-size: 12px; font-weight: 800;

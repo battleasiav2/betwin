@@ -101,6 +101,13 @@
     <script src="{{ asset($activeTemplateTrue . 'js/viewport.jquery.js') }}"></script>
     <script src="{{ asset($activeTemplateTrue . 'js/main.js') }}"></script>
 
+    <script>
+        window.RV_LOGGED_IN = @json(auth()->check());
+        window.RV_LOGIN_URL = @json(route('user.login'));
+        window.RV_LAUNCH_BASE = @json(url('user/jili/launch'));
+    </script>
+    <script src="{{ asset($activeTemplateTrue . 'js/favorites.js') }}?v=1"></script>
+
     @stack('script')
 
     @include($activeTemplate . 'partials.live_balance')
@@ -197,6 +204,11 @@
                     `${colorText} ${solidText}`
             });
         })(jQuery);
+
+        window.addEventListener('beforeinstallprompt', function (e) {
+            e.preventDefault();
+            window.__b369PwaPrompt = e;
+        });
 
         async function registerSW() {
             if ('serviceWorker' in navigator) {

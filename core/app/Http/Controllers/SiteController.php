@@ -217,12 +217,15 @@ class SiteController extends Controller {
         $gs   = gs();
         $json = [
             "name"             => $gs->site_name,
-            "sign"             => $gs->site_name,
-            "start_url"        => route('home'),
+            "short_name"       => $gs->site_name,
+            "id"               => "/",
+            "start_url"        => url('/'),
+            "scope"            => url('/'),
             "display"          => "standalone",
-            "background_color" => "#5900b3",
-            "theme_color"      => "black",
-            "description"      => $gs->site_name . " PWA",
+            "orientation"      => "portrait",
+            "background_color" => "#0b0f14",
+            "theme_color"      => "#0b0f14",
+            "description"      => $gs->site_name . " App",
             "icons"            => [
                 [
                     "src"   => getImage(getFilePath('logoIcon') . '/pwa_favicon.png'),
@@ -236,6 +239,39 @@ class SiteController extends Controller {
                 ],
             ],
         ];
-        return response()->json($json);
+        return response()->json($json)->header('Content-Type', 'application/manifest+json');
+    }
+
+    /**
+     * Android APK download.
+     * Priority: APK_DOWNLOAD_URL (external) → local assets/apk/*.apk
+     */
+    public function downloadApk() {
+        $external = trim((string) (config('app.apk_url') ?: env('APK_DOWNLOAD_URL', '')));
+        if ($external !== '' && preg_match('#^https?://#i', $external)) {
+            return redirect()->away($external);
+        }
+
+        $apkDir = dirname(base_path()) . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'apk';
+        $preferred = $apkDir . DIRECTORY_SEPARATOR . 'bet369win.apk';
+        $file = is_file($preferred) ? $preferred : null;
+
+        if (!$file && is_dir($apkDir)) {
+            $found = glob($apkDir . DIRECTORY_SEPARATOR . '*.apk') ?: [];
+            $file = $found[0] ?? null;
+        }
+
+        if (!$file || !is_file($file)) {
+            $notify[] = ['error', 'APK file is not available yet. Please try again later.'];
+            return redirect()->route('home')->withNotify($notify);
+        }
+
+        $downloadName = preg_replace('/[^a-zA-Z0-9._-]/', '', basename($file)) ?: 'bet369win.apk';
+
+        return response()->download($file, $downloadName, [
+            'Content-Type'        => 'application/vnd.android.package-archive',
+            'Content-Disposition' => 'attachment; filename="' . $downloadName . '"',
+            'Cache-Control'       => 'no-cache, must-revalidate',
+        ]);
     }
 }
