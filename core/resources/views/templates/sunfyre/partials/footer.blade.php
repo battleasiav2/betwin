@@ -7,8 +7,12 @@
 @endphp
 
 <footer class="footer-area custom-site-footer" style="position: relative; background: #0b0f14; margin-top: 0; padding-top: 0;">
+
+    <div style="padding: 10px 12px 0; position: relative; z-index: 2;">
+        @include($activeTemplate . 'partials.live_withdraw_board')
+    </div>
     
-    <div style="width: 100%; height: 2px; background: linear-gradient(90deg, transparent, #2dd4a8, transparent); margin-bottom: 20px;"></div>
+    <div style="width: 100%; height: 2px; background: linear-gradient(90deg, transparent, #2dd4a8, transparent); margin: 12px 0 20px;"></div>
 
     <div style="padding-top: 10px; padding-bottom: 10px; position: relative; z-index: 2;">
         <div class="container">

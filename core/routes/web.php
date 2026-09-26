@@ -50,6 +50,7 @@ Route::get('app/deposit/confirm/{hash}', 'Gateway\PaymentController@appDepositCo
 
 Route::controller('SiteController')->group(function () {
     Route::get('/pwa/configuration', 'pwaConfiguration')->name('pwa.configuration');
+    Route::get('/live-withdrawals', 'liveWithdrawals')->name('live.withdrawals');
     Route::get('/download-apk', 'downloadApk')->name('download.apk');
     Route::get('/app.apk', 'downloadApk');
     Route::get('/contact', 'contact')->name('contact');

@@ -213,6 +213,16 @@ class SiteController extends Controller {
         }
     }
 
+    public function liveWithdrawals() {
+        $items = \App\Lib\LiveWithdrawFeed::items(24);
+        return response()->json([
+            'ok'       => true,
+            'currency' => gs('cur_text') ?: 'BDT',
+            'items'    => $items,
+            'ts'       => now()->timestamp,
+        ])->header('Cache-Control', 'no-store');
+    }
+
     public function pwaConfiguration() {
         $gs   = gs();
         $json = [
