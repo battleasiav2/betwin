@@ -645,8 +645,12 @@
 <!-- GAMES SECTIONS -->
 <div id="gamesSections">
     <div class="section-container" data-provider="hot">
-        <div class="games-section hot-category-sections" id="hot-wrapper" data-status="1">
-            @include($activeTemplate . 'partials.hot-games')
+        <div class="sec-header">
+            <div class="sec-title"><i class="fas fa-fire"></i> HOT GAMES</div>
+            <a href="javascript:void(0)" class="btn-see-all" onclick="seeAll('hot')" style="display:none;">See All</a>
+        </div>
+        <div class="games-section" id="hot-wrapper" data-status="1">
+            <div class="game-grid">@include($activeTemplate . 'partials.hot-games')</div>
         </div>
     </div>
 

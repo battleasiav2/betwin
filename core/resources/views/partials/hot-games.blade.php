@@ -84,36 +84,16 @@ $hotGames = [
     ["id"=>"bcbf0d52dfa96c70273484657331eb01","name"=>"Book of Oz","img"=>"https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_bookOfOz.png"],
     ["id"=>"e3c6bb32a3e5ba0492e2270011854803","name"=>"Ancient Fortunes: Zeus","img"=>"https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_ancientFortunesZeus.png"],
 ];
-$allGamesRow = array_slice($hotGames, 0, 6);
-$popularGames = array_slice($hotGames, 0, 8);
 @endphp
 
-<div class="cat-block">
-    <button type="button" class="cat-row-head" onclick="typeof seeAll==='function' && seeAll('hot')">
-        <span class="cat-row-head__left">
-            <i class="fas fa-th"></i>
-            <span>All games</span>
-            <i class="fas fa-chevron-right cat-row-head__chev"></i>
-        </span>
-    </button>
-    <div class="showcase-grid">
-        @foreach ($allGamesRow as $game)
-            @include($activeTemplate . 'partials.showcase-game-card', ['game' => $game, 'category' => 'hot'])
-        @endforeach
+@foreach ($hotGames as $game)
+    <div class="swiper-slide game-item-box game-card" data-category="hot">
+        @auth
+            <a href="{{ url('user/jili/launch?game_code='.$game['id']) }}" class="game-card-img">
+        @else
+            <a href="{{ route('user.login') }}" class="game-card-img">
+        @endauth
+                <img src="{{ $game['img'] }}" alt="{{ $game['name'] }}">
+            </a>
     </div>
-</div>
-
-<div class="cat-block">
-    <button type="button" class="cat-row-head" onclick="typeof seeAll==='function' && seeAll('hot')">
-        <span class="cat-row-head__left">
-            <i class="fas fa-star"></i>
-            <span>Popular</span>
-            <i class="fas fa-chevron-right cat-row-head__chev"></i>
-        </span>
-    </button>
-    <div class="showcase-grid">
-        @foreach ($popularGames as $game)
-            @include($activeTemplate . 'partials.showcase-game-card', ['game' => $game, 'category' => 'hot'])
-        @endforeach
-    </div>
-</div>
+@endforeach
