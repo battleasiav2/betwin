@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'css/odometer.css') }}">
     <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'css/iconmoon.css') }}">
     <link rel="stylesheet" href="{{ asset($activeTemplateTrue . 'css/main.css') }}">
-    <link href="{{ asset($activeTemplateTrue . 'css/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset($activeTemplateTrue . 'css/custom.css') }}?v=20260927" rel="stylesheet">
 
     @stack('style-lib')
     <link rel="manifest" href="{{ route('pwa.configuration') }}">

@@ -621,6 +621,9 @@
         <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('crash', this)">
             <i class="fas fa-chart-line"></i> CRASH
         </a>
+        <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('arcade', this)">
+            <i class="fas fa-gamepad"></i> ARCADE
+        </a>
         <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('slot', this)">
             <i class="fas fa-dice"></i> SLOT
         </a>
@@ -671,6 +674,33 @@
         </div>
         <div class="games-section" id="crash-wrapper" data-status="1">
             <div class="game-grid">@include($activeTemplate . 'partials.crash-games')</div>
+        </div>
+    </div>
+
+    <div class="section-container" data-provider="arcade" style="display:none;">
+        <div class="sec-header">
+            <div class="sec-title"><i class="fas fa-gamepad"></i> ARCADE</div>
+        </div>
+        <div class="games-section" id="arcade-wrapper" data-status="1">
+            <div class="game-grid">@include($activeTemplate . 'partials.category-games', ['cat' => 'arcade'])</div>
+        </div>
+    </div>
+
+    <div class="section-container" data-provider="table" style="display:none;">
+        <div class="sec-header">
+            <div class="sec-title"><i class="fas fa-table"></i> TABLE GAMES</div>
+        </div>
+        <div class="games-section" id="table-wrapper" data-status="1">
+            <div class="game-grid">@include($activeTemplate . 'partials.category-games', ['cat' => 'table'])</div>
+        </div>
+    </div>
+
+    <div class="section-container" data-provider="slots" style="display:none;">
+        <div class="sec-header">
+            <div class="sec-title"><i class="fas fa-dice"></i> SLOTS</div>
+        </div>
+        <div class="games-section" id="slots-wrapper" data-status="1">
+            <div class="game-grid">@include($activeTemplate . 'partials.category-games', ['cat' => 'slots'])</div>
         </div>
     </div>
 
@@ -910,6 +940,7 @@
             document.querySelector('.game-center').style.display = 'none';
 
             if (category === 'slot') {
+                showSlotsSection();
                 document.getElementById('provider-grid-container').style.display = 'block';
                 resetProviderGrid();
                 return;
@@ -932,7 +963,7 @@
                 return;
             }
 
-            if (category === 'table' || category === 'fishing' || category === 'poker') {
+            if (category === 'fishing' || category === 'poker') {
                 document.getElementById('provider-grid-container').style.display = 'block';
                 showRandomProviderGrid(['jili', 'pg']);
                 return;
@@ -969,8 +1000,20 @@
         }
     }
 
+    function showSlotsSection() {
+        const slots = document.querySelector('.section-container[data-provider="slots"]');
+        if (slots) {
+            slots.style.display = 'block';
+            slots.classList.add('show-anim');
+        }
+    }
+
     function backToProviders() {
         document.querySelectorAll('.section-container').forEach(s => { s.style.display = 'none'; s.classList.remove('show-anim'); });
+        const activePill = document.querySelector('.cat-pill.active');
+        if (activePill && (activePill.getAttribute('onclick') || '').indexOf("'slot'") !== -1) {
+            showSlotsSection();
+        }
         document.getElementById('provider-grid-container').style.display = 'block';
     }
 

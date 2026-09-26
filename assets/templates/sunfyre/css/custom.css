@@ -701,3 +701,19 @@ a.sports-logo-tile img {
     font-size: 12px !important;
   }
 }
+
+/* Arcade / Table / Slots category tiles — all art is 3:4 so nothing gets cropped */
+.cat-tile-card .game-card-img,
+.cat-tile-card a.game-card-img {
+  aspect-ratio: 3 / 4 !important;
+  background: #0f1622 !important;
+}
+.cat-tile-card .game-card-img img,
+.cat-tile-card a.game-card-img img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  object-fit: cover !important;
+  object-position: center top !important;
+}
