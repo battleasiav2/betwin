@@ -2,8 +2,6 @@
 
 namespace App\Lib;
 
-use App\Constants\Status;
-use App\Models\User;
 use App\Models\Withdrawal;
 use Illuminate\Support\Facades\Cache;
 
@@ -11,7 +9,7 @@ class LiveWithdrawFeed
 {
     public static function items(int $limit = 24): array
     {
-        return Cache::remember('live_withdraw_feed_v1', 20, function () use ($limit) {
+        return Cache::remember('live_withdraw_feed_v2', 20, function () use ($limit) {
             $currency = (string) (gs('cur_text') ?: 'BDT');
             $items = [];
 
@@ -41,40 +39,27 @@ class LiveWithdrawFeed
                 // keep going with synthetic feed
             }
 
-            if (count($items) < $limit) {
-                $need = $limit - count($items);
-                $users = User::query()
-                    ->whereNotNull('mobile')
-                    ->where('mobile', '!=', '')
-                    ->where('status', Status::USER_ACTIVE)
-                    ->inRandomOrder()
-                    ->limit(max($need * 2, 20))
-                    ->get(['id', 'mobile', 'username', 'image']);
+            $amounts = [500, 800, 1000, 1200, 1500, 2000, 2500, 3000, 4500, 5000, 6500, 8000, 10000, 12000, 15000, 20000, 25000, 32000, 45000, 50000, 68000, 85000];
+            $prefixes = ['013', '014', '015', '016', '017', '018', '019'];
+            $used = [];
+            $guard = 0;
 
-                $amounts = [500, 800, 1000, 1200, 1500, 2000, 2500, 3000, 4500, 5000, 6500, 8000, 10000, 12000, 15000, 20000, 25000, 32000, 45000, 50000, 68000, 85000];
-                $used = [];
-
-                foreach ($users as $user) {
-                    if (count($items) >= $limit) {
-                        break;
-                    }
-                    $mobile = preg_replace('/\D+/', '', (string) $user->mobile);
-                    if (strlen($mobile) < 10 || isset($used[$mobile])) {
-                        continue;
-                    }
-                    $used[$mobile] = true;
-                    $seed = crc32($mobile . date('YmdH'));
-                    $amount = $amounts[$seed % count($amounts)];
-                    $mins = 1 + ($seed % 45);
-                    $items[] = self::formatItem(
-                        $mobile,
-                        (float) $amount,
-                        $currency,
-                        (string) ($user->image ?? ''),
-                        $mins <= 1 ? 'just now' : $mins . ' min ago',
-                        false
-                    );
+            while (count($items) < $limit && $guard++ < $limit * 5) {
+                $mobile = $prefixes[array_rand($prefixes)] . str_pad((string) mt_rand(0, 99999999), 8, '0', STR_PAD_LEFT);
+                if (isset($used[$mobile])) {
+                    continue;
                 }
+                $used[$mobile] = true;
+                $mins = mt_rand(1, 45);
+                $items[] = self::formatItem(
+                    $mobile,
+                    (float) $amounts[array_rand($amounts)],
+                    $currency,
+                    '',
+                    $mins <= 1 ? 'just now' : $mins . ' min ago',
+                    false,
+                    -$mins
+                );
             }
 
             // Keep feed feeling "live": shuffle lightly but keep newest-looking first.
@@ -86,7 +71,7 @@ class LiveWithdrawFeed
         });
     }
 
-    protected static function formatItem(string $mobile, float $amount, string $currency, string $image, string $when, bool $real): array
+    protected static function formatItem(string $mobile, float $amount, string $currency, string $image, string $when, bool $real, int $sort = 0): array
     {
         $digits = preg_replace('/\D+/', '', $mobile);
         $masked = self::maskMobile($digits);
@@ -100,7 +85,7 @@ class LiveWithdrawFeed
             'when'     => $when,
             'winner'   => true,
             'real'     => $real,
-            'sort'     => $real ? 1000 + (int) $amount : (int) $amount,
+            'sort'     => $real ? 1000000 + (int) $amount : $sort,
         ];
     }
 
