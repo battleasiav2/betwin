@@ -640,3 +640,64 @@ label.required:after {
   overflow: hidden !important;
   text-overflow: ellipsis !important;
 }
+
+/* Sports provider logos — contain + padded tiles (good size, not cropped) */
+.sports-provider-card {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.sports-provider-card .sports-logo-tile,
+a.sports-logo-tile {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  aspect-ratio: 1 / 1 !important;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  padding: 12% !important;
+  box-sizing: border-box !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28) !important;
+  transition: transform 0.18s ease, box-shadow 0.18s ease !important;
+}
+.sports-logo-tile--dark {
+  background: linear-gradient(160deg, #1a2233 0%, #0d121c 100%) !important;
+}
+.sports-logo-tile--light {
+  background: linear-gradient(160deg, #ffffff 0%, #eef3f9 100%) !important;
+  border-color: rgba(18, 59, 102, 0.1) !important;
+}
+.sports-provider-card .sports-logo-tile img,
+a.sports-logo-tile img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  display: block !important;
+  border-radius: 0 !important;
+  transform: scale(1.02);
+}
+.sports-provider-card:active .sports-logo-tile,
+.sports-provider-card .sports-logo-tile:active {
+  transform: scale(0.97);
+}
+.sports-provider-card .game-card-name {
+  margin-top: 4px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.2px !important;
+  color: #dce6f2 !important;
+}
+@media (min-width: 768px) {
+  .sports-provider-card .sports-logo-tile,
+  a.sports-logo-tile {
+    padding: 14% !important;
+    border-radius: 16px !important;
+  }
+  .sports-provider-card .game-card-name {
+    font-size: 12px !important;
+  }
+}
