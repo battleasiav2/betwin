@@ -115,7 +115,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    animation: lwbScroll 42s linear infinite;
+    animation: lwbScroll 22s linear infinite;
 }
 .lwb-list:hover { animation-play-state: paused; }
 @keyframes lwbScroll {
