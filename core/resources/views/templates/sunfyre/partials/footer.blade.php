@@ -28,18 +28,18 @@
 
                     <div class="footer-icons d-flex align-items-center">
                         @if($fb)
-                        <a href="{{ $fb }}" target="_blank" rel="noopener noreferrer" style="background: #1877f2; width: 26px; height: 26px; display: flex; justify-content: center; align-items: center; border-radius: 50%; margin-right: 8px; color: white; text-decoration: none; font-size: 12px;">
-                            <i class="fab fa-facebook-f"></i>
+                        <a href="{{ $fb }}" target="_blank" rel="noopener noreferrer" class="footer-social-btn" aria-label="Facebook" style="width: 28px; height: 28px; display: flex; justify-content: center; align-items: center; border-radius: 50%; margin-right: 8px; overflow: hidden; text-decoration: none;">
+                            <img src="{{ asset('assets/images/social/facebook.svg') }}" alt="Facebook" style="width: 100%; height: 100%; object-fit: cover; display: block;">
                         </a>
                         @endif
                         @if($tg)
-                        <a href="{{ $tg }}" target="_blank" rel="noopener noreferrer" style="background: #0088cc; width: 26px; height: 26px; display: flex; justify-content: center; align-items: center; border-radius: 50%; margin-right: 8px; color: white; text-decoration: none; font-size: 12px;">
-                            <i class="fab fa-telegram-plane"></i>
+                        <a href="{{ $tg }}" target="_blank" rel="noopener noreferrer" class="footer-social-btn" aria-label="Telegram" style="width: 28px; height: 28px; display: flex; justify-content: center; align-items: center; border-radius: 50%; margin-right: 8px; overflow: hidden; text-decoration: none;">
+                            <img src="{{ asset('assets/images/social/telegram.svg') }}" alt="Telegram" style="width: 100%; height: 100%; object-fit: cover; display: block;">
                         </a>
                         @endif
                         @if($wa)
-                        <a href="{{ $wa }}" target="_blank" rel="noopener noreferrer" style="background: #25d366; width: 26px; height: 26px; display: flex; justify-content: center; align-items: center; border-radius: 50%; margin-right: 8px; color: white; text-decoration: none; font-size: 12px;">
-                            <i class="fab fa-whatsapp"></i>
+                        <a href="{{ $wa }}" target="_blank" rel="noopener noreferrer" class="footer-social-btn" aria-label="WhatsApp" style="width: 28px; height: 28px; display: flex; justify-content: center; align-items: center; border-radius: 50%; margin-right: 8px; overflow: hidden; text-decoration: none;">
+                            <img src="{{ asset('assets/images/social/whatsapp.svg') }}" alt="WhatsApp" style="width: 100%; height: 100%; object-fit: cover; display: block;">
                         </a>
                         @endif
                         <span style="background: white; color: #d9534f; width: 26px; height: 26px; display: flex; justify-content: center; align-items: center; border-radius: 50%; font-weight: bold; border: 1px solid #d9534f; font-size: 9px;">
