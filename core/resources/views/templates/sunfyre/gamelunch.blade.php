@@ -45,15 +45,32 @@
         border-bottom: 2px solid #e8b84a;
     }
 
-    .game-bal {
+    .game-home-btn {
         margin-right: auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 36px;
+        padding: 0 12px;
+        border-radius: 10px;
+        border: 1px solid rgba(232, 184, 74, 0.55);
+        background: #064e46;
+        color: #e8b84a;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 800;
+        flex-shrink: 0;
+    }
+
+    .game-bal {
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: flex-end;
         justify-content: center;
         line-height: 1.15;
         color: #fff;
         min-width: 0;
+        text-align: right;
     }
 
     .game-bal__label {
@@ -148,6 +165,9 @@
 
 <div class="game-container">
     <div class="game-topbar">
+        <a href="{{ route('user.home') }}" class="game-home-btn" id="gameHomeBtn">
+            <i class="fas fa-home"></i> @lang('Home')
+        </a>
         @auth
         <div class="game-bal" title="@lang('Site wallet')">
             <span class="game-bal__label">@lang('Main')</span>
