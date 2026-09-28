@@ -6,6 +6,7 @@
   'use strict';
 
   var KEY = 'b369_favorites_v1';
+  var RECENT_KEY = 'b369_recent_v1';
   var LOGIN = window.RV_LOGIN_URL || '/user/login';
   var LAUNCH = window.RV_LAUNCH_BASE || '/user/jili/launch';
   var LOGGED = !!window.RV_LOGGED_IN;
@@ -219,6 +220,89 @@
     decorate(gridEl);
   }
 
+  function loadRecent() {
+    try {
+      var raw = localStorage.getItem(RECENT_KEY);
+      var arr = raw ? JSON.parse(raw) : [];
+      return Array.isArray(arr) ? arr : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function pushRecent(game) {
+    if (!game || !game.id) return;
+    var items = loadRecent();
+    var i = findIndex(items, game.id, game.provider);
+    if (i >= 0) items.splice(i, 1);
+    items.unshift({
+      id: String(game.id),
+      provider: String(game.provider || 'jili').toLowerCase(),
+      name: game.name || 'Game',
+      img: game.img || '',
+      at: Date.now()
+    });
+    if (items.length > 24) items = items.slice(0, 24);
+    try { localStorage.setItem(RECENT_KEY, JSON.stringify(items)); } catch (e) {}
+  }
+
+  function bannerCard(game) {
+    var href = LOGGED
+      ? LAUNCH + '?game_code=' + encodeURIComponent(game.id) + '&provider=' + encodeURIComponent(game.provider || 'jili')
+      : LOGIN;
+    var el = document.createElement('div');
+    el.className = 'game-card';
+    el.dataset.status = '1';
+    el.setAttribute('data-game-id', game.id);
+    el.setAttribute('data-provider', game.provider || 'jili');
+    el.setAttribute('data-game-name', game.name || 'Game');
+    if (game.img) el.setAttribute('data-game-img', game.img);
+    var imgHtml = game.img
+      ? '<img src="' + esc(game.img) + '" alt="' + esc(game.name || 'Game') + '" loading="lazy" referrerpolicy="no-referrer">'
+      : '';
+    el.innerHTML =
+      '<a href="' + esc(href) + '" class="game-card-img" title="' + esc(game.name || 'Game') + '">' +
+      imgHtml + '</a>';
+    return el;
+  }
+
+  function showPop(mode) {
+    var hot = document.getElementById('hot-grid');
+    var extra = document.getElementById('pop-extra-grid');
+    var empty = document.getElementById('pop-empty');
+    if (!hot || !extra) return;
+    var tabs = document.querySelectorAll('.pop-tab');
+    for (var t = 0; t < tabs.length; t++) {
+      tabs[t].classList.toggle('active', tabs[t].getAttribute('data-pop') === mode);
+    }
+    if (mode === 'popular') {
+      hot.style.display = '';
+      extra.style.display = 'none';
+      extra.innerHTML = '';
+      if (empty) empty.style.display = 'none';
+      return;
+    }
+    hot.style.display = 'none';
+    var items = mode === 'favorite' ? load() : loadRecent();
+    extra.innerHTML = '';
+    if (!items.length) {
+      extra.style.display = 'none';
+      if (empty) {
+        empty.style.display = 'block';
+        empty.textContent = mode === 'favorite'
+          ? 'No favorites yet. Tap the heart on a game.'
+          : 'No recent games yet. Open a game and it will show here.';
+      }
+      return;
+    }
+    if (empty) empty.style.display = 'none';
+    extra.style.display = '';
+    var frag = document.createDocumentFragment();
+    items.forEach(function (game) { frag.appendChild(bannerCard(game)); });
+    extra.appendChild(frag);
+    decorate(extra);
+  }
+
   function showFavorites() {
     if (typeof window.filterGames === 'function') {
       var pill = document.querySelector('.cat-pill[data-cat="favorite"]');
@@ -253,6 +337,20 @@
     }
   };
 
+  document.addEventListener('click', function (e) {
+    var tab = e.target.closest ? e.target.closest('.pop-tab') : null;
+    if (tab) {
+      e.preventDefault();
+      showPop(tab.getAttribute('data-pop') || 'popular');
+      return;
+    }
+    var link = e.target.closest ? e.target.closest('a[href*="game_code="]') : null;
+    if (!link) return;
+    var card = link.closest('.game-card') || link;
+    var game = parseCard(card);
+    if (game) pushRecent(game);
+  });
+
   document.addEventListener('DOMContentLoaded', function () {
     decorate(document);
     var obs = new MutationObserver(function (mutations) {
@@ -273,5 +371,7 @@
 
   document.addEventListener('b369:fav-changed', function () {
     syncHearts();
+    var favTab = document.querySelector('.pop-tab.active[data-pop="favorite"]');
+    if (favTab) showPop('favorite');
   });
 })(window, document);

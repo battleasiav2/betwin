@@ -344,45 +344,46 @@
         border-radius: 10px;
     }
 
-    /* ─── CATEGORY NAV — underline rail ─── */
+    /* ─── CATEGORY NAV — icon cards ─── */
     .cat-nav-wrap {
-        padding: 8px 10px 0; overflow-x: auto; white-space: nowrap;
+        padding: 10px 10px 4px; overflow-x: auto; white-space: nowrap;
         scrollbar-width: none; -ms-overflow-style: none;
     }
     .cat-nav-wrap::-webkit-scrollbar { display: none; }
     .cat-nav-inner {
-        display: inline-flex;
-        gap: 4px;
-        padding: 4px;
-        margin-bottom: 8px;
-        border-radius: 12px;
-        background: rgba(255,255,255,0.03);
-        border: 1px solid rgba(255,255,255,0.06);
+        display: flex;
+        gap: 8px;
+        padding: 0 2px 8px;
+        margin: 0;
+        background: transparent;
+        border: 0;
     }
     .cat-pill {
-        display: inline-flex; align-items: center; gap: 6px;
-        padding: 8px 14px; border-radius: 9px; font-size: 11px; font-weight: 800;
-        text-decoration: none; color: #8b97a8; letter-spacing: 0.6px;
-        text-transform: uppercase;
-        background: transparent; border: 1px solid transparent;
-        transition: all 0.2s; white-space: nowrap; cursor: pointer;
+        display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+        flex: 0 0 auto;
+        width: 74px; height: 78px; padding: 8px 6px 7px;
+        border-radius: 14px; font-size: 11px; font-weight: 700;
+        text-decoration: none; color: #d5dde8; letter-spacing: 0;
+        text-transform: none;
+        background: #1a1d22; border: 1px solid rgba(255,255,255,0.06);
+        transition: background 0.15s, color 0.15s; white-space: nowrap; cursor: pointer;
         position: relative;
     }
-    .cat-pill i { font-size: 12px; opacity: 0.85; }
-    .cat-pill.active, .cat-pill:active {
-        background: rgba(232,184,74,0.12);
-        border-color: rgba(232,184,74,0.35);
-        color: #e8b84a;
+    .cat-pill i, .cat-pill .cat-glyph, .cat-pill .cat-svg {
+        font-size: 22px; line-height: 1; height: 24px;
+        display: flex; align-items: center; justify-content: center;
+        color: #e8b84a; opacity: 1;
+    }
+    .cat-pill .cat-svg { width: 22px; height: 22px; display: block; }
+    .cat-pill .cat-glyph { font-size: 15px; font-weight: 900; letter-spacing: -0.4px; }
+    .cat-pill.active {
+        background: #2f9d52;
+        border-color: #2f9d52;
+        color: #fff;
         box-shadow: none;
     }
-    .cat-pill.active::after {
-        content: '';
-        position: absolute;
-        left: 12px; right: 12px; bottom: 3px;
-        height: 2px;
-        border-radius: 2px;
-        background: #e8b84a;
-    }
+    .cat-pill.active i, .cat-pill.active .cat-glyph, .cat-pill.active .cat-svg { color: #fff; }
+    .cat-pill.active::after { display: none; }
 
     /* Category section */
     .cat-section {
@@ -595,34 +596,34 @@
 <nav class="cat-nav-wrap">
     <div class="cat-nav-inner">
         <a href="javascript:void(0)" class="cat-pill active" onclick="filterGames('hot', this)">
-            <i class="fas fa-fire"></i> HOT
+            <i class="fas fa-crown"></i><span>Popular</span>
         </a>
         <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('sports', this)">
-            <i class="fas fa-futbol"></i> SPORTS
-        </a>
-        <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('crash', this)">
-            <i class="fas fa-chart-line"></i> CRASH
-        </a>
-        <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('arcade', this)">
-            <i class="fas fa-gamepad"></i> ARCADE
-        </a>
-        <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('slot', this)">
-            <i class="fas fa-dice"></i> SLOT
+            <i class="fas fa-futbol"></i><span>Sports</span>
         </a>
         <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('casino', this)">
-            <i class="fas fa-video"></i> CASINO
+            <svg class="cat-svg" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.2c2.6 3.2 6.6 6.8 6.6 10.2a4.1 4.1 0 0 1-6.9 3l.5 4.1h-2.4l.5-4.1a4.1 4.1 0 0 1-6.9-3C3.4 9 7.4 5.4 12 2.2z"/></svg><span>Casino</span>
         </a>
-        <a href="javascript:void(0)" class="cat-pill" data-cat="favorite" onclick="filterGames('favorite', this)">
-            <i class="fas fa-heart"></i> FAV
+        <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('slot', this)">
+            <span class="cat-glyph">777</span><span>Slots</span>
         </a>
         <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('table', this)">
-            <i class="fas fa-table"></i> TABLE
+            <svg class="cat-svg" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="8.2" ry="5.4" fill="none" stroke="currentColor" stroke-width="1.8"/><ellipse cx="12" cy="12" rx="3.2" ry="2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span>Table</span>
+        </a>
+        <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('crash', this)">
+            <i class="fas fa-rocket"></i><span>Crash</span>
         </a>
         <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('fishing', this)">
-            <i class="fas fa-fish"></i> FISHING
+            <i class="fas fa-fish"></i><span>Fishing</span>
+        </a>
+        <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('arcade', this)">
+            <i class="fas fa-gamepad"></i><span>Arcade</span>
+        </a>
+        <a href="javascript:void(0)" class="cat-pill" data-cat="favorite" onclick="filterGames('favorite', this)">
+            <i class="fas fa-heart"></i><span>Fav</span>
         </a>
         <a href="javascript:void(0)" class="cat-pill" onclick="filterGames('poker', this)">
-            <i class="fas fa-spade"></i> POKER
+            <i class="fas fa-diamond"></i><span>Poker</span>
         </a>
     </div>
 </nav>
@@ -634,8 +635,15 @@
             <div class="sec-title"><i class="fas fa-fire"></i> HOT GAMES</div>
             <a href="javascript:void(0)" class="btn-see-all" onclick="seeAll('hot')" style="display:none;">See All</a>
         </div>
+        <div class="pop-tabs" role="tablist">
+            <button type="button" class="pop-tab active" data-pop="popular">Most Popular</button>
+            <button type="button" class="pop-tab" data-pop="recent">Recent Play</button>
+            <button type="button" class="pop-tab" data-pop="favorite">Favorite</button>
+        </div>
         <div class="games-section" id="hot-wrapper" data-status="1">
-            <div class="game-grid">@include($activeTemplate . 'partials.hot-games')</div>
+            <div class="game-grid" id="hot-grid">@include($activeTemplate . 'partials.hot-games')</div>
+            <div class="game-grid" id="pop-extra-grid" style="display:none"></div>
+            <div id="pop-empty" style="display:none"></div>
         </div>
     </div>
 
@@ -645,7 +653,7 @@
             <a href="javascript:void(0)" class="btn-see-all" onclick="seeAll('sports')">See All</a>
         </div>
         <div class="games-section" id="sports-wrapper" data-status="1">
-            <div class="game-grid">@include($activeTemplate . 'partials.sports-games')</div>
+            <div class="game-grid sports-grid">@include($activeTemplate . 'partials.sports-games')</div>
         </div>
     </div>
 
