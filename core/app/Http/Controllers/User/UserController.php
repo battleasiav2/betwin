@@ -44,6 +44,12 @@ class UserController extends Controller {
         return view('Template::user.dashboard', compact('pageTitle', 'games', 'widget', 'user', 'slides'));
     }
 
+    public function matches()
+    {
+        $pageTitle = 'Live Battles';
+        return view('Template::user.matches', compact('pageTitle'));
+    }
+
     public function liveBalance() {
         $user = auth()->user()->fresh();
         $balance = round((float) $user->balance, 2);

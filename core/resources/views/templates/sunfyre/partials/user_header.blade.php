@@ -14,7 +14,7 @@
             <span class="hb-line l3"></span>
         </div>
     </button>
-    <a class="navbar-brand logo me-auto" href="{{ route('home') }}" style="text-decoration: none; margin-left: 8px; display:flex; align-items:center;">
+    <a class="navbar-brand logo me-auto" href="{{ route('home') }}" style="text-decoration: none; margin-left: 2px; display:flex; align-items:center; gap:6px;">
         <img src="{{ asset('assets/images/logo_icon/logo.png') }}" alt="{{ __(gs('site_name')) }}" class="site-logo-img">
     </a>
     <div class="header-right">
@@ -196,23 +196,25 @@
     .apk-banner__btn:active { transform: scale(0.97); }
 
     .site-header {
-        position: relative; top: auto; z-index: 1; height: 58px;
+        position: relative; top: auto; z-index: 1; height: 46px;
         background: rgba(11,15,20,0.92); backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);
-        display: flex; align-items: center; justify-content: flex-start; gap: 8px; padding: 0 10px;
+        display: flex; align-items: center; justify-content: flex-start; gap: 4px; padding: 0 8px;
     }
     .navbar-brand.logo {
-        flex: 1 1 auto;
+        flex: 0 1 auto;
         min-width: 0;
-        margin-left: 4px !important;
-        margin-right: 6px;
+        margin-left: 0 !important;
+        margin-right: 0;
         overflow: hidden;
+        gap: 6px;
     }
     .site-logo-img {
-        height: 36px;
+        height: 28px;
         width: auto;
         max-width: 100%;
         object-fit: contain;
+        object-position: left center;
         display: block;
     }
     .sidebar-logo-img {

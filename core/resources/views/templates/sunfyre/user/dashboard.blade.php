@@ -35,8 +35,8 @@
         font-family: 'Segoe UI', Arial, sans-serif;
         background: var(--bg-deep);
         color: var(--text-main);
-        padding-bottom: 70px;
-        min-height: 100vh;
+        padding-bottom: 0;
+        min-height: 0;
         -webkit-tap-highlight-color: transparent;
         user-select: none;
         background-image: linear-gradient(135deg, #0b0f14 0%, #0f1419 50%, #0b0f14 100%);
@@ -57,10 +57,13 @@
     .announce-bar marquee { font-size: 12px; color: var(--text-muted); font-weight: 500; }
 
     /* ─── SLIDER ─── */
-    .slider-wrap { padding: 10px 10px 4px; }
-    .swiper.mainSlider { border-radius: 12px; overflow: hidden; }
+    .slider-wrap { padding: 10px 10px 0; overflow: visible; margin-bottom: 4px; }
+    .swiper.mainSlider,
+    .mainSlider .swiper-wrapper,
+    .mainSlider .swiper-slide { height: 170px !important; max-height: 170px; }
+    .swiper.mainSlider { border-radius: 12px; overflow: hidden; margin-bottom: 0; }
     .mainSlider .home-banner {
-        width: 100%; height: 170px; display: flex !important; border-radius: 12px;
+        width: 100%; height: 170px !important; max-height: 170px; display: flex !important; border-radius: 12px;
     }
     .home-banner {
         position: relative;
@@ -76,12 +79,12 @@
         width: 100% !important;
         height: 100% !important;
         object-fit: cover !important;
-        object-position: 72% center !important;
-        opacity: 0.42 !important;
+        object-position: center center !important;
+        opacity: 0.72 !important;
         border-radius: 12px !important;
         z-index: 0 !important;
         pointer-events: none;
-        filter: saturate(0.95) contrast(1.05);
+        filter: saturate(1.05) contrast(1.05);
     }
     .home-banner::before {
         content: '';
@@ -271,13 +274,16 @@
     @media (min-width: 600px) { .game-grid { grid-template-columns: repeat(4, 1fr); } }
     @media (min-width: 900px) {
         .game-grid { grid-template-columns: repeat(6, 1fr); }
-        .mainSlider .home-banner { height: 240px; }
+        .swiper.mainSlider,
+        .mainSlider .swiper-wrapper,
+        .mainSlider .swiper-slide,
+        .mainSlider .home-banner { height: 240px !important; max-height: 240px; }
         .hb-title { font-size: 28px; }
         .hb-sub { font-size: 13px; }
         .hb-kicker { font-size: 10px; padding: 4px 10px; }
         .hb-games img.hb-g { width: 72px !important; height: 72px !important; }
         .hb-games img.hb-g:nth-child(1) { width: 90px !important; height: 90px !important; }
-        .home-banner .hb-art { opacity: 0.48 !important; }
+        .home-banner .hb-art { opacity: 0.78 !important; }
     }
 
     .game-card {
@@ -500,8 +506,9 @@
 
     .game-tag, .game-item__title, h4 { display: none !important; }
     .main-footer-section {
-        margin-top: 25px;
-        padding-bottom: 90px; /* clear fixed bottom nav */
+        margin-top: 18px !important;
+        margin-bottom: 0 !important;
+        padding-bottom: 108px !important;
     }
     .main-footer-section .footer-area {
         margin-top: 0 !important;
@@ -536,61 +543,31 @@
         <div class="swiper-wrapper">
             <div class="swiper-slide">
                 <div class="home-banner hb-1">
-                    <img class="hb-art" src="{{ asset($activeTemplateTrue . 'images/banner/gaming-bg.png') }}" alt="" loading="lazy">
+                    <video class="hb-art" src="{{ asset('assets/videos/hero/battle.mp4') }}" muted playsinline preload="auto"></video>
                     <div class="hb-content">
-                        <span class="hb-kicker">Welcome</span>
-                        <h3 class="hb-title"><span>BET369WIN</span></h3>
-                        <p class="hb-sub">Premium slots, sports &amp; casino — play in style</p>
-                    </div>
-                    <div class="hb-games">
-                        <img class="hb-g" src="https://ossimg.91admin123admin.com/91club/gamelogo/JILI/49.png" alt="" loading="lazy" referrerpolicy="no-referrer">
-                        <img class="hb-g" src="https://ossimg.91admin123admin.com/91club/gamelogo/JILI/109.png" alt="" loading="lazy" referrerpolicy="no-referrer">
-                        <img class="hb-g" src="https://ossimg.91admin123admin.com/91club/gamelogo/PG/126.png" alt="" loading="lazy" referrerpolicy="no-referrer">
+                        <span class="hb-kicker">Battle</span>
+                        <h3 class="hb-title">Squad <span>Live</span></h3>
+                        <p class="hb-sub">Drop in. Fight. Take the win.</p>
                     </div>
                 </div>
             </div>
             <div class="swiper-slide">
                 <div class="home-banner hb-2">
-                    <img class="hb-art" src="{{ asset($activeTemplateTrue . 'images/banner/gaming-slots.png') }}" alt="" loading="lazy">
+                    <video class="hb-art" src="{{ asset('assets/videos/hero/squad.mp4') }}" muted playsinline preload="metadata"></video>
                     <div class="hb-content">
-                        <span class="hb-kicker">Jackpot</span>
-                        <h3 class="hb-title">Spin &amp; <span>Win Big</span></h3>
-                        <p class="hb-sub">Hot slots every day — bigger pots, faster fun</p>
-                    </div>
-                    <div class="hb-games">
-                        <img class="hb-g" src="https://ossimg.91admin123admin.com/91club/gamelogo/JILI/35.png" alt="" loading="lazy" referrerpolicy="no-referrer">
-                        <img class="hb-g" src="https://ossimg.91admin123admin.com/91club/gamelogo/JILI/51.png" alt="" loading="lazy" referrerpolicy="no-referrer">
-                        <img class="hb-g" src="https://ossimg.91admin123admin.com/91club/gamelogo/JILI/134.png" alt="" loading="lazy" referrerpolicy="no-referrer">
+                        <span class="hb-kicker">Esports</span>
+                        <h3 class="hb-title">Team <span>Fight</span></h3>
+                        <p class="hb-sub">Three styles. One after another.</p>
                     </div>
                 </div>
             </div>
             <div class="swiper-slide">
                 <div class="home-banner hb-3">
-                    <img class="hb-art" src="{{ asset($activeTemplateTrue . 'images/banner/gaming-sports.png') }}" alt="" loading="lazy">
+                    <video class="hb-art" src="{{ asset('assets/videos/hero/match.mp4') }}" muted playsinline preload="metadata"></video>
                     <div class="hb-content">
-                        <span class="hb-kicker">Sports</span>
-                        <h3 class="hb-title">Bet Live. <span>Feel It</span></h3>
-                        <p class="hb-sub">Football, cricket &amp; more — odds that move with you</p>
-                    </div>
-                    <div class="hb-games">
-                        <img class="hb-g" src="https://spribe.co/assets/images/games/Av-new@2x.png?v=2.5.61" alt="" loading="lazy" referrerpolicy="no-referrer">
-                        <img class="hb-g" src="https://ossimg.91admin123admin.com/91club/gamelogo/JILI/77.png" alt="" loading="lazy" referrerpolicy="no-referrer">
-                        <img class="hb-g" src="https://ossimg.91admin123admin.com/91club/gamelogo/PG/74.png" alt="" loading="lazy" referrerpolicy="no-referrer">
-                    </div>
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="home-banner hb-4">
-                    <img class="hb-art" src="{{ asset($activeTemplateTrue . 'images/banner/gaming-bg.png') }}" alt="" loading="lazy">
-                    <div class="hb-content">
-                        <span class="hb-kicker">Bonus</span>
-                        <h3 class="hb-title">Deposit. <span>Play Fast</span></h3>
-                        <p class="hb-sub">Instant top-up · smooth withdraw · secure wallet</p>
-                    </div>
-                    <div class="hb-games">
-                        <img class="hb-g" src="https://ossimg.91admin123admin.com/91club/gamelogo/PG/135.png" alt="" loading="lazy" referrerpolicy="no-referrer">
-                        <img class="hb-g" src="https://ossimg.91admin123admin.com/91club/gamelogo/JILI/103.png" alt="" loading="lazy" referrerpolicy="no-referrer">
-                        <img class="hb-g" src="https://ossimg.91admin123admin.com/91club/gamelogo/JILI/110.png" alt="" loading="lazy" referrerpolicy="no-referrer">
+                        <span class="hb-kicker">Match</span>
+                        <h3 class="hb-title">Play <span>Live</span></h3>
+                        <p class="hb-sub">Battle, squad, and match — on repeat.</p>
                     </div>
                 </div>
             </div>
@@ -598,6 +575,8 @@
         <div class="swiper-pagination" style="bottom:10px"></div>
     </div>
 </div>
+
+@include($activeTemplate . 'partials.live_pulse')
 
 <!-- DEPOSIT & WITHDRAW -->
 <div class="quick-actions">
@@ -608,6 +587,9 @@
         <i class="fas fa-arrow-up-from-bracket"></i> Withdraw
     </a>
 </div>
+
+@include($activeTemplate . 'partials.live_battles', ['battleVariant' => 'live'])
+@include($activeTemplate . 'partials.live_battles', ['battleVariant' => 'prize'])
 
 <!-- CATEGORY PILLS -->
 <nav class="cat-nav-wrap">
@@ -888,11 +870,36 @@
 
 @push('script')
 <script>
-    new Swiper('.mainSlider', {
-        loop: true,
-        autoplay: { delay: 3500, disableOnInteraction: false },
-        pagination: { el: '.swiper-pagination', clickable: true }
-    });
+    (function () {
+        const slider = document.querySelector('.mainSlider');
+        if (!slider || typeof Swiper === 'undefined') return;
+        const swiper = new Swiper(slider, {
+            loop: true,
+            speed: 700,
+            pagination: { el: '.swiper-pagination', clickable: true }
+        });
+
+        function playActive() {
+            slider.querySelectorAll('video').forEach(function (video) {
+                video.pause();
+                video.onended = null;
+            });
+            const active = swiper.slides[swiper.activeIndex];
+            const video = active ? active.querySelector('video') : null;
+            if (!video) return;
+            video.currentTime = 0;
+            video.onended = function () { swiper.slideNext(); };
+            const attempt = video.play();
+            if (attempt && typeof attempt.catch === 'function') {
+                attempt.catch(function () {
+                    setTimeout(function () { swiper.slideNext(); }, 6000);
+                });
+            }
+        }
+
+        swiper.on('slideChangeTransitionEnd', playActive);
+        playActive();
+    })();
 
     const providerGridEl = document.querySelector('#provider-grid-container .provider-grid');
     const originalProviderCards = providerGridEl ? Array.from(providerGridEl.children) : [];

@@ -35,8 +35,8 @@
         font-family: 'Segoe UI', Arial, sans-serif;
         background: var(--bg-deep);
         color: var(--text-main);
-        padding-bottom: 70px;
-        min-height: 100vh;
+        padding-bottom: 0;
+        min-height: 0;
         -webkit-tap-highlight-color: transparent;
         user-select: none;
         background-image: linear-gradient(135deg, #0b0f14 0%, #0f1419 50%, #0b0f14 100%);
@@ -500,8 +500,9 @@
 
     .game-tag, .game-item__title, h4 { display: none !important; }
     .main-footer-section {
-        margin-top: 25px;
-        padding-bottom: 90px; /* clear fixed bottom nav */
+        margin-top: 18px !important;
+        margin-bottom: 0 !important;
+        padding-bottom: 108px !important;
     }
     .main-footer-section .footer-area {
         margin-top: 0 !important;

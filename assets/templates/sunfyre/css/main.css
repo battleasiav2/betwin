@@ -3078,25 +3078,25 @@ input[type="number"] {
 /* ================================= Header Css End =========================== */
 /* ============= Footer Start Here ======================= */
 .footer-area {
-  margin-top: 250px;
+  margin-top: 0;
   position: relative;
 }
 
 @media screen and (max-width: 1399px) {
   .footer-area {
-    margin-top: 220px;
+    margin-top: 0;
   }
 }
 
 @media screen and (max-width: 767px) {
   .footer-area {
-    margin-top: 170px;
+    margin-top: 0;
   }
 }
 
 @media screen and (max-width: 575px) {
   .footer-area {
-    margin-top: 120px;
+    margin-top: 0;
   }
 }
 

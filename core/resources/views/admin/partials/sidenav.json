@@ -46,6 +46,13 @@
     "menu_active": "admin.payout*"
 },
     
+    "live_matches": {
+        "keyword": ["Match", "Live Battle", "PUBG", "Tournament"],
+        "title": "Live Matches",
+        "icon": "las la-trophy",
+        "route_name": "admin.match.index",
+        "menu_active": "admin.match.*"
+    },
     "api_game_manage": {
         "keyword": [
             "API Game",
