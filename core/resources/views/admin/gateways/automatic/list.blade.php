@@ -42,7 +42,7 @@
                                         </td>
                                         <td>
                                             <div class="button--group">
-                                                <a href="{{ route('admin.gateway.automatic.edit', $gateway->alias) }}" class="btn btn-sm btn-outline--primary editGatewayBtn">
+                                                <a href="{{ route('admin.gateway.automatic.edit', $gateway->code) }}" class="btn btn-sm btn-outline--primary editGatewayBtn">
                                                     <i class="la la-pencil"></i>@lang('Edit')
                                                 </a>
 

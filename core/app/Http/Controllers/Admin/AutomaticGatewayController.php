@@ -18,11 +18,11 @@ class AutomaticGatewayController extends Controller {
     }
 
     public function edit($alias) {
-        $gateway   = Gateway::automatic()->with('currencies', 'currencies.method')->where('alias', $alias)->firstOrFail();
+        $gateway   = $this->findAutomaticGateway($alias);
         $pageTitle = 'Update Gateway';
 
-        $supportedCurrencies = collect($gateway->supported_currencies)->except($gateway->currencies->pluck('currency'));
-        $parameters          = collect(json_decode($gateway->gateway_parameters));
+        $supportedCurrencies = $this->supportedCurrencyMap($gateway)->except($gateway->currencies->pluck('currency'));
+        $parameters          = $this->normalizeGatewayParameters($gateway);
         $globalParameters    = null;
         $hasCurrencies       = false;
         $currencyIndex       = 1;
@@ -41,7 +41,7 @@ class AutomaticGatewayController extends Controller {
         $this->gatewayValidator($request)->validate();
         $this->gatewayCurrencyValidator($request, $gateway)->validate();
 
-        $parameters = collect(json_decode($gateway->gateway_parameters));
+        $parameters = $this->normalizeGatewayParameters($gateway);
 
         foreach ($parameters->where('global', true) as $key => $pram) {
             $parameters[$key]->value = $request->global[$key];
@@ -95,7 +95,7 @@ class AutomaticGatewayController extends Controller {
         RequiredConfig::configured('deposit_method');
 
         $notify[] = ['success', $gateway->name . ' updated successfully'];
-        return to_route('admin.gateway.automatic.edit', $gateway->alias)->withNotify($notify);
+        return to_route('admin.gateway.automatic.edit', $gateway->code)->withNotify($notify);
     }
 
     public function remove($id) {
@@ -123,8 +123,8 @@ class AutomaticGatewayController extends Controller {
         $customAttributes = [];
         $validationRule   = [];
 
-        $paramList           = collect(json_decode($gateway->gateway_parameters));
-        $supportedCurrencies = collect($gateway->supported_currencies)->flip()->implode(',');
+        $paramList           = $this->normalizeGatewayParameters($gateway);
+        $supportedCurrencies = $this->supportedCurrencyCodes($gateway);
 
         foreach ($paramList->where('global', true) as $key => $pram) {
             $validationRule['global.' . $key]   = 'required';
@@ -171,6 +171,78 @@ class AutomaticGatewayController extends Controller {
 
     private function currencyIdentifier($name, $default = '') {
         return $name ?? $default;
+    }
+
+    private function findAutomaticGateway($alias) {
+        $query = Gateway::automatic()->with('currencies', 'currencies.method');
+
+        if (ctype_digit((string) $alias)) {
+            $gateway = (clone $query)->where('code', $alias)->first();
+            if ($gateway) {
+                return $gateway;
+            }
+        }
+
+        return $query->where('alias', $alias)->firstOrFail();
+    }
+
+    private function normalizeGatewayParameters(Gateway $gateway) {
+        $decoded = json_decode($gateway->gateway_parameters ?: '');
+        $items   = collect($decoded ?: []);
+        $first   = $items->first();
+
+        if (is_object($first) && (property_exists($first, 'title') || property_exists($first, 'global'))) {
+            return $items;
+        }
+
+        $currency = $gateway->relationLoaded('currencies')
+            ? $gateway->currencies->first()
+            : $gateway->currencies()->first();
+        $currencyValues = json_decode($currency->gateway_parameter ?? '');
+        if (is_object($currencyValues)) {
+            $currencyFirst = collect($currencyValues)->first();
+            if (!is_object($currencyFirst)) {
+                $items = collect($currencyValues);
+            }
+        }
+
+        $titles = [
+            'mchId'      => 'Merchant ID',
+            'secret_key' => 'Secret Key',
+            'pay_type'   => 'Pay Type',
+            'api_url'    => 'API URL',
+        ];
+
+        return $items->map(function ($value, $key) use ($titles) {
+            return (object) [
+                'title'  => $titles[$key] ?? keyToTitle((string) $key),
+                'global' => true,
+                'value'  => is_scalar($value) ? (string) $value : '',
+            ];
+        });
+    }
+
+    private function supportedCurrencyMap(Gateway $gateway) {
+        $list = collect($gateway->supported_currencies ?? []);
+        if ($list->isEmpty()) {
+            return $list;
+        }
+
+        $numericKeys = $list->keys()->every(function ($key) {
+            return is_int($key) || ctype_digit((string) $key);
+        });
+
+        if (!$numericKeys) {
+            return $list;
+        }
+
+        return $list->mapWithKeys(function ($code) {
+            return [$code => $code];
+        });
+    }
+
+    private function supportedCurrencyCodes(Gateway $gateway) {
+        return $this->supportedCurrencyMap($gateway)->keys()->implode(',');
     }
 
 }
