@@ -38,80 +38,37 @@ class ProcessController extends Controller
             return json_encode($send);
         }
         
-        // Default values (fallback)
-        $mchId = 'akashwebd';
-        $secretKey = '309e59f250d3ceeeefdfe95afcb594cacadf0bcb487093434e4b03e009cefecf';
-        $payType = 'bkash'; // default
-        
-        // Dynamically detect pay_type from gateway name
+        $account = self::accountConfig($gatewayCurrency);
+        if (!$account) {
+            \Log::error('Akpay merchant is not configured in admin');
+            $send['error'] = true;
+            $send['message'] = 'Payment gateway is not configured';
+            return json_encode($send);
+        }
+
+        $mchId = $account['mchId'];
+        $secretKey = $account['secret_key'];
+        $payType = 'bkash';
+        $namedType = false;
+
         $gatewayName = $gatewayCurrency->name ?? '';
         \Log::info('Gateway Name:', ['name' => $gatewayName]);
-        
-        // Set pay_type based on gateway name
+
         if (stripos($gatewayName, 'NAGAD') !== false) {
             $payType = 'nagad';
-            \Log::info('Detected payment type: NAGAD');
+            $namedType = true;
         } elseif (stripos($gatewayName, 'BKASH') !== false) {
             $payType = 'bkash';
-            \Log::info('Detected payment type: BKASH');
+            $namedType = true;
         } elseif (stripos($gatewayName, 'ROCKET') !== false) {
             $payType = 'rocket';
-            \Log::info('Detected payment type: ROCKET');
-        } else {
-            // Try to get from gateway_parameter if available
-            \Log::info('Could not detect from name, will try gateway_parameter');
+            $namedType = true;
+        } elseif (!empty($account['pay_type'])) {
+            $payType = $account['pay_type'];
         }
-        
-        // Try to get parameters from gateway_parameter if it exists
-        if (property_exists($gatewayCurrency, 'gateway_parameter') && $gatewayCurrency->gateway_parameter) {
-            $gatewayParam = $gatewayCurrency->gateway_parameter;
-            \Log::info('Gateway Parameter raw:', ['parameter' => $gatewayParam]);
-            
-            if (is_string($gatewayParam)) {
-                $akpayAcc = json_decode($gatewayParam, true);
-                if ($akpayAcc) {
-                    if (isset($akpayAcc['mchId'])) {
-                        $mchId = $akpayAcc['mchId'];
-                    }
-                    if (isset($akpayAcc['secret_key'])) {
-                        $secretKey = $akpayAcc['secret_key'];
-                    }
-                    if (isset($akpayAcc['pay_type'])) {
-                        $payType = $akpayAcc['pay_type'];
-                        \Log::info('pay_type from gateway_parameter:', ['pay_type' => $payType]);
-                    }
-                    \Log::info('Config from gateway_parameter (string):', $akpayAcc);
-                }
-            } elseif (is_array($gatewayParam) && isset($gatewayParam['mchId'])) {
-                $mchId = $gatewayParam['mchId'];
-                $secretKey = $gatewayParam['secret_key'] ?? $secretKey;
-                if (isset($gatewayParam['pay_type'])) {
-                    $payType = $gatewayParam['pay_type'];
-                }
-                \Log::info('Config from gateway_parameter (array):', $gatewayParam);
-            }
-        }
-        
-        // Alternative: Get from gatewayCurrency->parameter if it exists
-        if (property_exists($gatewayCurrency, 'parameter') && $gatewayCurrency->parameter) {
-            $akpayAcc = json_decode($gatewayCurrency->parameter, true);
-            if ($akpayAcc) {
-                if (isset($akpayAcc['mchId'])) {
-                    $mchId = $akpayAcc['mchId'];
-                }
-                if (isset($akpayAcc['secret_key'])) {
-                    $secretKey = $akpayAcc['secret_key'];
-                }
-                if (isset($akpayAcc['pay_type'])) {
-                    $payType = $akpayAcc['pay_type'];
-                    \Log::info('pay_type from parameter field:', ['pay_type' => $payType]);
-                }
-                \Log::info('Config from parameter field:', $akpayAcc);
-            }
-        }
-        
+
         // Final fallback: If still not set, try to detect from gateway_alias
-        if ($payType == 'bkash' && isset($gatewayCurrency->gateway_alias)) {
+        if (!$namedType && $payType == 'bkash' && isset($gatewayCurrency->gateway_alias)) {
             $gatewayAlias = strtolower($gatewayCurrency->gateway_alias);
             if (strpos($gatewayAlias, 'nagad') !== false) {
                 $payType = 'nagad';
@@ -123,10 +80,9 @@ class ProcessController extends Controller
         }
         
         \Log::info('Final Akpay Config:', [
-            'mchId' => $mchId, 
+            'mchId' => $mchId,
             'pay_type' => $payType,
             'gateway_name' => $gatewayName,
-            'secret_key_preview' => substr($secretKey, 0, 10) . '...'
         ]);
         
         // API URL
@@ -272,8 +228,6 @@ class ProcessController extends Controller
         }
         
         $string = implode('&', $query) . "&key=" . $secretKey;
-        
-        \Log::info('Sign string to hash:', ['string' => $string]);
         $sign = strtolower(md5($string));
         \Log::info('Generated MD5 sign:', ['sign' => $sign]);
         
@@ -335,39 +289,13 @@ class ProcessController extends Controller
             return 'success';
         }
         
-        // Get secret key
         $gatewayCurrency = $deposit->gatewayCurrency();
-        $secretKey = '309e59f250d3ceeeefdfe95afcb594cacadf0bcb487093434e4b03e009cefecf';
-        
-        \Log::info('IPN: Looking for secret key in gateway configuration');
-        
-        // Try to get from gateway_parameter
-        if ($gatewayCurrency) {
-            if (property_exists($gatewayCurrency, 'gateway_parameter') && $gatewayCurrency->gateway_parameter) {
-                $gatewayParam = $gatewayCurrency->gateway_parameter;
-                if (is_string($gatewayParam)) {
-                    $akpayAcc = json_decode($gatewayParam, true);
-                    if ($akpayAcc && isset($akpayAcc['secret_key'])) {
-                        $secretKey = $akpayAcc['secret_key'];
-                        \Log::info('IPN: Secret key found in gateway_parameter');
-                    }
-                } elseif (is_array($gatewayParam) && isset($gatewayParam['secret_key'])) {
-                    $secretKey = $gatewayParam['secret_key'];
-                    \Log::info('IPN: Secret key found in gateway_parameter array');
-                }
-            }
-            
-            // Alternative: Get from parameter field
-            if (property_exists($gatewayCurrency, 'parameter') && $gatewayCurrency->parameter) {
-                $akpayAcc = json_decode($gatewayCurrency->parameter, true);
-                if ($akpayAcc && isset($akpayAcc['secret_key'])) {
-                    $secretKey = $akpayAcc['secret_key'];
-                    \Log::info('IPN: Secret key found in parameter field');
-                }
-            }
+        $account = self::accountConfig($gatewayCurrency);
+        if (!$account) {
+            \Log::error('IPN: Akpay merchant is not configured');
+            return 'fail';
         }
-        
-        \Log::info('IPN: Using secret key', ['preview' => substr($secretKey, 0, 10) . '...']);
+        $secretKey = $account['secret_key'];
         
         // Verify signature
         $signParams = [];
@@ -450,5 +378,32 @@ class ProcessController extends Controller
         \Log::warning('IPN: Payment not successful', ['status' => $status]);
         \Log::info('========== AKPAY IPN FAILED ==========');
         return 'fail';
+    }
+
+    private static function accountConfig($gatewayCurrency): ?array
+    {
+        if (!$gatewayCurrency) {
+            return null;
+        }
+
+        $raw = $gatewayCurrency->gateway_parameter ?? null;
+        if (is_string($raw)) {
+            $raw = json_decode($raw, true);
+        }
+        if (!is_array($raw)) {
+            return null;
+        }
+
+        $mchId = trim((string) ($raw['mchId'] ?? ''));
+        $secretKey = trim((string) ($raw['secret_key'] ?? ''));
+        if ($mchId === '' || $secretKey === '') {
+            return null;
+        }
+
+        return [
+            'mchId' => $mchId,
+            'secret_key' => $secretKey,
+            'pay_type' => trim((string) ($raw['pay_type'] ?? '')),
+        ];
     }
 }
