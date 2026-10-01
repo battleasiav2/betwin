@@ -678,31 +678,76 @@ label.required:after {
 }
 
 /* Company lists only — icon left, name right */
-.provider-grid,
-.section-container[data-provider="sports"] .game-grid {
+.provider-grid {
   grid-template-columns: 1fr 1fr !important;
   gap: 8px !important;
 }
 @media (min-width: 700px) {
-  .provider-grid,
-  .section-container[data-provider="sports"] .game-grid {
+  .provider-grid {
     grid-template-columns: repeat(3, 1fr) !important;
   }
 }
 @media (min-width: 1100px) {
-  .provider-grid,
-  .section-container[data-provider="sports"] .game-grid {
+  .provider-grid {
     grid-template-columns: repeat(5, 1fr) !important;
   }
 }
-.section-container[data-provider="sports"] .game-card-fav {
-  top: 50% !important;
-  right: 6px !important;
-  bottom: auto !important;
-  transform: translateY(-50%) !important;
-  width: 22px !important;
-  height: 22px !important;
+/* Sports lobbies — square rounded logo cards, name under the image */
+.sports-provider-card {
   background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.sports-provider-card .sports-logo-tile,
+a.sports-logo-tile {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  aspect-ratio: 1 / 1 !important;
+  width: 100% !important;
+  height: auto !important;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  padding: 12% !important;
+  box-sizing: border-box !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28) !important;
+}
+.sports-logo-tile--dark {
+  background: linear-gradient(160deg, #1a2233 0%, #0d121c 100%) !important;
+}
+.sports-logo-tile--light {
+  background: linear-gradient(160deg, #ffffff 0%, #eef3f9 100%) !important;
+  border-color: rgba(18, 59, 102, 0.1) !important;
+}
+.sports-provider-card .sports-logo-tile img,
+a.sports-logo-tile img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  display: block !important;
+  border-radius: 0 !important;
+}
+.sports-provider-card .game-card-name {
+  margin-top: 4px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.2px !important;
+  color: #dce6f2 !important;
+  text-align: center !important;
+}
+@media (min-width: 768px) {
+  .sports-provider-card .sports-logo-tile,
+  a.sports-logo-tile {
+    padding: 14% !important;
+    border-radius: 16px !important;
+  }
+  .sports-provider-card .game-card-name {
+    font-size: 12px !important;
+  }
 }
 .provider-card {
   flex-direction: row !important;
@@ -731,57 +776,20 @@ label.required:after {
   font-size: 13px !important;
   line-height: 1.2 !important;
 }
-a.sports-row {
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  gap: 8px !important;
-  min-height: 48px !important;
+/* Poster tiles keep the full 3:4 art, including the name on the image */
+.game-grid:not(.sports-grid) .game-card-img,
+.game-grid:not(.sports-grid) a.game-card-img {
+  aspect-ratio: 3 / 4 !important;
+  width: 100% !important;
   height: auto !important;
-  padding: 8px 10px !important;
-  border-radius: 10px !important;
-  background: #1c2128 !important;
-  border: 1px solid rgba(255, 255, 255, 0.06) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
-  box-shadow: none !important;
   overflow: hidden !important;
-  text-decoration: none !important;
-  color: #e8eef5 !important;
-  aspect-ratio: auto !important;
 }
-a.sports-row:active {
-  transform: scale(0.98);
-  background: #242a33 !important;
-}
-.sports-row__icon {
-  width: 28px;
-  height: 28px;
-  flex: 0 0 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-}
-.sports-row__icon img {
-  width: 26px !important;
-  height: 26px !important;
-  max-width: 26px !important;
-  max-height: 26px !important;
-  object-fit: contain !important;
-  display: block !important;
-  border-radius: 4px !important;
-}
-.sports-row__name {
-  min-width: 0;
-  font-size: 13px !important;
-  font-weight: 700 !important;
-  line-height: 1.2 !important;
-  color: #e8eef5 !important;
-  text-align: left !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  padding: 0 !important;
+.game-grid:not(.sports-grid) .game-card-img img,
+.game-grid:not(.sports-grid) a.game-card-img img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
 }
 
 /* Arcade / Table / Slots category tiles — all art is 3:4 so nothing gets cropped */

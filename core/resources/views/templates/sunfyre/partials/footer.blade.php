@@ -14,23 +14,22 @@
     
     <div style="width: 100%; height: 2px; background: linear-gradient(90deg, transparent, #2dd4a8, transparent); margin: 12px 0 20px;"></div>
 
-    <div style="padding-top: 10px; padding-bottom: 10px; position: relative; z-index: 2;">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-auto">
+    <div class="footer-brand" style="padding: 10px 16px; position: relative; z-index: 2;">
+        <div class="footer-brand__row" style="display: flex; align-items: center; gap: 14px;">
+                <div style="flex: 0 0 70px;">
                     <div class="footer-circle-logo" style="width: 70px; height: 70px; border-radius: 50%; overflow: hidden; border: 2px solid #e8b84a; display: flex; align-items: center; justify-content: center; background: #000;">
-                        <img src="{{ asset('assets/images/frontend/footer/logo.png') }}" alt="{{ gs('site_name') }}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                        <img src="{{ asset('assets/images/logo_icon/logo.png') }}" alt="{{ gs('site_name') }}" style="width: 100%; height: 100%; object-fit: contain;">
                     </div>
                 </div>
 
-                <div class="col ps-3">
+                <div style="min-width: 0; flex: 1;">
                     <div class="footer-description">
                         <p style="font-size: 12px; line-height: 1.55; margin-bottom: 12px; color: #c5ced8; text-align: left;">
                             {{ gs('site_name') }} website is operated by company, under license number GLH-OCCHKTW07080120 issued to it and regulated by Gaming Services Provider N.V., authorized by the Government of Curaçao under license number 365JAZ.
                         </p>
                     </div>
 
-                    <div class="footer-icons d-flex align-items-center">
+                    <div class="footer-icons" style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px;">
                         @if($fb)
                         <a href="{{ $fb }}" target="_blank" rel="noopener noreferrer" class="footer-social-btn" aria-label="Facebook" style="width: 36px; height: 36px; display: flex; justify-content: center; align-items: center; border-radius: 50%; margin-right: 10px; overflow: hidden; text-decoration: none;">
                             <img src="{{ asset('assets/images/social/facebook.svg') }}" alt="Facebook" style="width: 100%; height: 100%; object-fit: cover; display: block;">
@@ -51,7 +50,6 @@
                         </span>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 

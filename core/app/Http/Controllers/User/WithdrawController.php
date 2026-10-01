@@ -8,8 +8,10 @@ use App\Models\AdminNotification;
 use App\Models\Transaction;
 use App\Models\Withdrawal;
 use App\Models\WithdrawMethod;
+use App\Models\User;
 use App\Models\UserWithdrawMethod;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WithdrawController extends Controller
 {
@@ -144,31 +146,42 @@ class WithdrawController extends Controller
             return back()->withNotify($notify)->withInput();
         }
 
-        if ($request->amount > $user->balance) {
-            $notify[] = ['error', 'Insufficient balance for withdrawal'];
-            return back()->withNotify($notify)->withInput();
-        }
-
         $charge = $method->fixed_charge + ($request->amount * $method->percent_charge / 100);
         $afterCharge = $request->amount - $charge;
         $finalAmount = $afterCharge * $method->rate;
 
-        $withdraw = new Withdrawal();
-        $withdraw->method_id = $method->id;
-        $withdraw->user_id = $user->id;
-        $withdraw->amount = $request->amount;
-        $withdraw->currency = $method->currency;
-        $withdraw->rate = $method->rate;
-        $withdraw->charge = $charge;
-        $withdraw->final_amount = $finalAmount;
-        $withdraw->after_charge = $afterCharge;
-        $withdraw->trx = getTrx();
-        $withdraw->withdraw_information = ['Wallet Number' => $boundMethod->wallet_number]; 
-        $withdraw->status = Status::PAYMENT_PENDING;
-        $withdraw->save();
+        try {
+            $withdraw = DB::transaction(function () use ($request, $method, $boundMethod, $charge, $afterCharge, $finalAmount) {
+                $user = User::where('id', auth()->id())->lockForUpdate()->first();
+                if (!$user || $request->amount > $user->balance) {
+                    throw new \RuntimeException('insufficient');
+                }
 
-        $user->balance -= $withdraw->amount;
-        $user->save();
+                $withdraw = new Withdrawal();
+                $withdraw->method_id = $method->id;
+                $withdraw->user_id = $user->id;
+                $withdraw->amount = $request->amount;
+                $withdraw->currency = $method->currency;
+                $withdraw->rate = $method->rate;
+                $withdraw->charge = $charge;
+                $withdraw->final_amount = $finalAmount;
+                $withdraw->after_charge = $afterCharge;
+                $withdraw->trx = getTrx();
+                $withdraw->withdraw_information = ['Wallet Number' => $boundMethod->wallet_number];
+                $withdraw->status = Status::PAYMENT_PENDING;
+                $withdraw->save();
+
+                $user->balance -= $withdraw->amount;
+                $user->save();
+
+                return [$withdraw, $user];
+            });
+        } catch (\RuntimeException $e) {
+            $notify[] = ['error', 'Insufficient balance for withdrawal'];
+            return back()->withNotify($notify)->withInput();
+        }
+
+        [$withdraw, $user] = $withdraw;
 
         $transaction = new Transaction();
         $transaction->user_id = $withdraw->user_id;

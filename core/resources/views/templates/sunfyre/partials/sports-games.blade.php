@@ -79,15 +79,15 @@ $fallbackSvg = function (string $label, string $bg1 = '#0f766e', string $bg2 = '
         $prov = $game['provider'] ?? 'luckysport';
         $tile = $game['tile'] ?? 'dark';
     @endphp
-    @auth
-        <a href="{{ url('user/jili/launch?game_code='.$game['id'].'&provider='.$prov) }}" class="game-card sports-provider-card sports-row" data-category="sports" data-provider="{{ $prov }}" data-game-id="{{ $game['id'] }}" data-game-name="{{ $game['name'] }}" data-game-img="{{ $img }}" title="{{ $game['name'] }}">
-    @else
-        <a href="{{ route('user.login') }}" class="game-card sports-provider-card sports-row" data-category="sports" data-provider="{{ $prov }}" data-game-id="{{ $game['id'] }}" data-game-name="{{ $game['name'] }}" data-game-img="{{ $img }}" title="{{ $game['name'] }}">
-    @endauth
-            <span class="sports-row__icon">
-                <img src="{{ $img }}" alt="" loading="lazy" decoding="async"
+    <div class="swiper-slide game-item-box game-card sports-provider-card" data-category="sports" data-provider="{{ $prov }}" data-game-id="{{ $game['id'] }}" data-game-name="{{ $game['name'] }}" data-game-img="{{ $img }}">
+        @auth
+            <a href="{{ url('user/jili/launch?game_code='.$game['id'].'&provider='.$prov) }}" class="game-card-img sports-logo-tile sports-logo-tile--{{ $tile }}" title="{{ $game['name'] }}">
+        @else
+            <a href="{{ route('user.login') }}" class="game-card-img sports-logo-tile sports-logo-tile--{{ $tile }}" title="{{ $game['name'] }}">
+        @endauth
+                <img src="{{ $img }}" alt="{{ $game['name'] }}" loading="lazy" decoding="async"
                      onerror="this.onerror=null;this.src='{{ $fallbackSvg($game['name']) }}';">
-            </span>
-            <span class="sports-row__name">{{ $game['name'] }}</span>
-        </a>
+            </a>
+        <div class="game-card-name">{{ $game['name'] }}</div>
+    </div>
 @endforeach

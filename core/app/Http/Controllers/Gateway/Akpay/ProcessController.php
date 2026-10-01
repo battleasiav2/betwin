@@ -8,6 +8,7 @@ use App\Models\Transaction;
 use App\Http\Controllers\Gateway\PaymentController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class ProcessController extends Controller
 {
@@ -334,44 +335,48 @@ class ProcessController extends Controller
         $isSuccess = ($status == 'success' || $status == 'paid' || $tradeStatus == 'success' || $tradeStatus == 'paid');
         
         if ($isSuccess) {
-            \Log::info('IPN: Payment successful, processing deposit');
-            
-            // Update deposit
-            $deposit->status = 1;
-            $deposit->save();
-            
-            // Update user balance
-            $user = User::find($deposit->user_id);
-            if ($user) {
-                $oldBalance = $user->balance;
-                $user->balance += $deposit->amount;
+            if (isset($data['money']) && abs((float) $data['money'] - (float) $deposit->final_amount) > 0.05) {
+                \Log::error('IPN: Amount mismatch');
+                return 'fail';
+            }
+
+            try {
+            $credited = DB::transaction(function () use ($deposit, $data) {
+                $locked = Deposit::where('id', $deposit->id)->lockForUpdate()->first();
+                if (!$locked || (int) $locked->status !== 0) {
+                    return false;
+                }
+
+                $user = User::where('id', $locked->user_id)->lockForUpdate()->first();
+                if (!$user) {
+                    throw new \RuntimeException('user missing');
+                }
+
+                $locked->status = 1;
+                $locked->save();
+
+                $user->balance += $locked->amount;
                 $user->save();
-                
-                \Log::info('IPN: User balance updated', [
-                    'user_id' => $user->id,
-                    'old_balance' => $oldBalance,
-                    'added_amount' => $deposit->amount,
-                    'new_balance' => $user->balance
-                ]);
-                
-                // Create transaction record
+
                 $transaction = new Transaction();
                 $transaction->user_id = $user->id;
-                $transaction->amount = $deposit->amount;
+                $transaction->amount = $locked->amount;
                 $transaction->post_balance = $user->balance;
-                $transaction->charge = $deposit->charge;
+                $transaction->charge = $locked->charge;
                 $transaction->trx_type = '+';
                 $transaction->details = 'Deposit Via Akpay - Transaction ID: ' . ($data['trade_no'] ?? $data['out_trade_no']);
-                $transaction->trx = $deposit->trx;
+                $transaction->trx = $locked->trx;
                 $transaction->remark = 'deposit';
                 $transaction->save();
-                
-                \Log::info('IPN: Transaction record created', ['transaction_id' => $transaction->id]);
-            } else {
-                \Log::error('IPN: User not found', ['user_id' => $deposit->user_id]);
+
+                return true;
+            });
+            } catch (\Throwable $e) {
+                \Log::error('IPN: credit failed');
+                return 'fail';
             }
-            
-            \Log::info('========== AKPAY IPN PROCESSED SUCCESSFULLY ==========');
+
+            \Log::info('========== AKPAY IPN PROCESSED SUCCESSFULLY ==========', ['credited' => $credited]);
             return 'success';
         }
         

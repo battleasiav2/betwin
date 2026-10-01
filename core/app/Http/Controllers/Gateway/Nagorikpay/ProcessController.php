@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Deposit;
 use App\Models\Gateway;
+use App\Models\Transaction;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 class ProcessController extends Controller
@@ -86,18 +89,32 @@ class ProcessController extends Controller
 
                 $depositId = $verify['metadata']['deposit_id'] ?? null;
 
-                $deposit = Deposit::where('id', $depositId)
-                    ->where('status', 0)
-                    ->first();
+                if ($depositId) {
+                    DB::transaction(function () use ($depositId) {
+                        $deposit = Deposit::where('id', $depositId)->where('status', 0)->lockForUpdate()->first();
+                        if (!$deposit) {
+                            return;
+                        }
+                        $user = User::where('id', $deposit->user_id)->lockForUpdate()->first();
+                        if (!$user) {
+                            return;
+                        }
+                        $deposit->status = 1;
+                        $deposit->save();
+                        $user->balance += $deposit->amount;
+                        $user->save();
 
-                if ($deposit) {
-                    $deposit->status = 1;
-                    $deposit->save();
-
-                    // Add balance to user
-                    $user = $deposit->user;
-                    $user->balance += $deposit->amount;
-                    $user->save();
+                        $transaction = new Transaction();
+                        $transaction->user_id = $user->id;
+                        $transaction->amount = $deposit->amount;
+                        $transaction->post_balance = $user->balance;
+                        $transaction->charge = $deposit->charge;
+                        $transaction->trx_type = '+';
+                        $transaction->details = 'Deposit Via Nagorikpay';
+                        $transaction->trx = $deposit->trx;
+                        $transaction->remark = 'deposit';
+                        $transaction->save();
+                    });
                 }
 
                 return redirect()->route('user.deposit')

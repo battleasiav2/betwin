@@ -12,6 +12,7 @@ use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Promotion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller {
     public function deposit() {
@@ -57,6 +58,18 @@ class PaymentController extends Controller {
         $charge      = $gate->fixed_charge + ($request->amount * $gate->percent_charge / 100);
         $payable     = $request->amount + $charge;
         $finalAmount = $payable * $gate->rate;
+
+        $recent = Deposit::where('user_id', $user->id)
+            ->where('method_code', $gate->method_code)
+            ->where('method_currency', strtoupper($gate->currency))
+            ->where('amount', $request->amount)
+            ->where('status', Status::PAYMENT_INITIATE)
+            ->orderBy('id', 'desc')
+            ->first();
+        if ($recent && $recent->created_at && $recent->created_at->gt(now()->subSeconds(25))) {
+            session()->put('Track', $recent->trx);
+            return to_route('user.deposit.confirm');
+        }
 
         $data                  = new Deposit();
         $data->user_id         = $user->id;
@@ -123,11 +136,19 @@ class PaymentController extends Controller {
     }
 
     public static function userDataUpdate($deposit, $isManual = null) {
-        if ($deposit->status == Status::PAYMENT_INITIATE || $deposit->status == Status::PAYMENT_PENDING) {
+        DB::transaction(function () use ($deposit, $isManual) {
+            $deposit = Deposit::where('id', $deposit->id)->lockForUpdate()->first();
+            if (!$deposit || ($deposit->status != Status::PAYMENT_INITIATE && $deposit->status != Status::PAYMENT_PENDING)) {
+                return;
+            }
+
             $deposit->status = Status::PAYMENT_SUCCESS;
             $deposit->save();
 
-            $user = User::find($deposit->user_id);
+            $user = User::where('id', $deposit->user_id)->lockForUpdate()->first();
+            if (!$user) {
+                return;
+            }
             $user->balance += $deposit->amount;
             $user->turnover_requirement += $deposit->amount;
 
@@ -197,7 +218,7 @@ class PaymentController extends Controller {
                 'trx'             => $deposit->trx,
                 'post_balance'    => showAmount($user->balance),
             ]);
-        }
+        });
     }
 
     public function manualDepositConfirm() {

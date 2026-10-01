@@ -9,7 +9,9 @@ use App\Models\AdminNotification;
 use App\Models\Transaction;
 use App\Models\Withdrawal;
 use App\Models\WithdrawMethod;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class WithdrawController extends Controller
@@ -142,16 +144,31 @@ class WithdrawController extends Controller
             }
         }
 
-        if ($withdraw->amount > $user->balance) {
-            $notify[] = 'Your request amount is larger then your current balance';
+        try {
+            [$withdraw, $user] = DB::transaction(function () use ($withdraw, $userData) {
+                $locked = Withdrawal::where('id', $withdraw->id)->where('status', Status::PAYMENT_INITIATE)->lockForUpdate()->first();
+                if (!$locked) {
+                    throw new \RuntimeException('already');
+                }
+                $lockedUser = User::where('id', $locked->user_id)->lockForUpdate()->first();
+                if (!$lockedUser || $locked->amount > $lockedUser->balance) {
+                    throw new \RuntimeException('balance');
+                }
+
+                $locked->status = Status::PAYMENT_PENDING;
+                $locked->withdraw_information = $userData;
+                $locked->save();
+                $lockedUser->balance -= $locked->amount;
+                $lockedUser->save();
+
+                return [$locked, $lockedUser];
+            });
+        } catch (\RuntimeException $e) {
+            $notify[] = $e->getMessage() === 'already'
+                ? 'Withdrawal request not found'
+                : 'Your request amount is larger then your current balance';
             return responseError('validation_error', $notify);
         }
-
-        $withdraw->status               = Status::PAYMENT_PENDING;
-        $withdraw->withdraw_information = $userData;
-        $withdraw->save();
-        $user->balance -= $withdraw->amount;
-        $user->save();
 
         $transaction               = new Transaction();
         $transaction->user_id      = $withdraw->user_id;

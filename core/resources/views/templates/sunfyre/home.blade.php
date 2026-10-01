@@ -267,10 +267,11 @@
 
     /* ─── GAME GRID ─── */
     .games-section { padding: 0 10px; margin-bottom: 6px; }
-    .game-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    @media (min-width: 600px) { .game-grid { grid-template-columns: repeat(4, 1fr); } }
+    .game-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+    .game-grid > * { min-width: 0; }
+    @media (min-width: 600px) { .game-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
     @media (min-width: 900px) {
-        .game-grid { grid-template-columns: repeat(6, 1fr); }
+        .game-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
         .mainSlider .home-banner { height: 240px; }
         .hb-title { font-size: 28px; }
         .hb-sub { font-size: 13px; }
@@ -286,7 +287,8 @@
         transition: all 0.2s; text-decoration: none; display: block; box-shadow: 0 4px 0 rgba(0,0,0,0.4);
     }
     .game-card:active { transform: scale(0.94) translateY(3px); border-color: var(--teal-light); box-shadow: 0 1px 0 rgba(0,0,0,0.4); }
-    .game-card-img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+    .game-card-img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; display: block; overflow: hidden; }
+    .game-card-img img { width: 100%; height: 100%; object-fit: cover; object-position: center center; display: block; }
 
     .game-card-fav {
         position: absolute; top: 5px; right: 5px; width: 26px; height: 26px;
