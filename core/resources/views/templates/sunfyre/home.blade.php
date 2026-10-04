@@ -991,6 +991,11 @@
     }
 
     function selectProvider(provider) {
+        const card = document.querySelector('.provider-card[data-key="' + provider + '"]');
+        if (card && card.dataset.launch) {
+            window.location.href = card.dataset.launch;
+            return;
+        }
         document.getElementById('provider-grid-container').style.display = 'none';
         let target = document.querySelector('.section-container[data-provider="' + provider + '"]');
         if (target) {

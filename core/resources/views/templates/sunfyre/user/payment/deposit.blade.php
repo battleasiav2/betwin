@@ -27,7 +27,7 @@
                     <div class="gateway-wrapper mb-3">
                         <div class="row g-2 justify-content-center">
                             @foreach ($gatewayCurrency as $data)
-                            <div class="col-4">
+                            <div class="col-6 col-sm-4">
                                 <label for="{{ titleToKey($data->name) }}" class="gateway-card">
                                     <input type="radio" name="gateway" id="{{ titleToKey($data->name) }}" value="{{ $data->method_code }}" class="gateway-input" hidden @if($loop->first) checked @endif
                                         data-gateway='@json($data)'
@@ -215,9 +215,9 @@
         background: var(--mp-card2);
         border: 1px solid var(--mp-border);
         border-radius: 12px;
-        padding: 10px 4px 8px;
+        padding: 18px 8px 16px;
         display: flex; flex-direction: column; align-items: center; justify-content: center;
-        height: 112px; width: 100%; position: relative; overflow: hidden;
+        min-height: 118px; height: auto; width: 100%; position: relative; overflow: hidden;
         transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
     }
     .gateway-card .thumb { display: flex; align-items: center; justify-content: center; margin-bottom: 6px; width: 100%; }
@@ -225,7 +225,12 @@
     .gateway-card .name {
         font-size: 12px; font-weight: 800; color: var(--mp-text);
         line-height: 1.2; text-align: center; width: 100%;
-        white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 4px;
+        white-space: normal; overflow: visible; text-overflow: unset;
+        word-break: break-word; padding: 0 2px;
+    }
+    @media (max-width: 575.98px) {
+        .gateway-card .name { font-size: 13px; }
+        .gateway-card .thumb img { width: 84px; height: 56px; }
     }
     .vip-tag {
         position: absolute; top: 0; left: 0;

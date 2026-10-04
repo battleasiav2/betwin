@@ -113,6 +113,17 @@
                             </div>
                         </div>
 
+                        <div class="form-group mb-3">
+                            <label class="money-label">@lang('Receive Number') <span class="text-danger">*</span></label>
+                            <div class="d-flex align-items-center custom-input-box {{ auth()->user()->turnover_requirement > 0 ? 'is-locked' : '' }}">
+                                <span class="currency-sym"><i class="fas fa-mobile-alt"></i></span>
+                                <input type="tel" name="payout_number" id="payout_number" class="form-control amount-input border-0 bg-transparent"
+                                    placeholder="01XXXXXXXXX" maxlength="11" inputmode="numeric" autocomplete="off"
+                                    {{ auth()->user()->turnover_requirement > 0 ? 'readonly' : 'required' }} style="box-shadow: none;">
+                            </div>
+                            <small class="hint-text">এই নম্বর অ্যাডমিন দেখবে। অ্যাপ্রুভ করলে তবেই উইথড্র হবে।</small>
+                        </div>
+
                         <div class="form-group mb-4">
                             <label class="money-label">@lang('Transaction PIN')</label>
                             <div class="d-flex justify-content-between gap-2" id="withdraw-pin-container">
@@ -506,6 +517,20 @@
 
         let currentMethodId = null;
 
+        $('.withdraw-form').on('submit', function(e) {
+            let wallet = ($('#payout_number').val() || '').replace(/\D/g, '');
+            $('#payout_number').val(wallet);
+            if (wallet.length !== 11 || !/^01[3-9][0-9]{8}$/.test(wallet)) {
+                e.preventDefault();
+                alert('ভুল নম্বর! ১১ ডিজিটের মোবাইল নম্বর দিন যা ০১ দিয়ে শুরু।');
+                return false;
+            }
+        });
+
+        $('#payout_number').on('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11);
+        });
+
         $('.gateway-radio').on('change', function() {
             let el = $(this);
             let isBound = el.data('bound') == 1;
@@ -528,15 +553,17 @@
             if(isBound) {
                 $('.bind-action-area').hide();
                 $('.card-number-display').text(wallet).fadeIn();
-                @if(auth()->user()->turnover_requirement <= 0)
-                    $('.submit-btn').removeAttr('disabled');
-                @endif
+                if (!$('#payout_number').val()) {
+                    $('#payout_number').val(String(wallet).replace(/\D/g, '').slice(0, 11));
+                }
             } else {
                 $('.card-number-display').hide();
                 $('.bind-action-area').css('display', 'flex').fadeIn();
                 $('.bind-action-area').addClass('flex-column align-items-center');
-                $('.submit-btn').attr('disabled', true);
             }
+            @if(auth()->user()->turnover_requirement <= 0)
+                $('.submit-btn').removeAttr('disabled');
+            @endif
         });
 
         $('.bind-trigger').on('click', function() {

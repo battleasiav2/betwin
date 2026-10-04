@@ -110,7 +110,8 @@ class WithdrawController extends Controller
         $request->validate([
             'method_code' => 'required',
             'amount' => 'required|numeric',
-            'trans_pin' => 'required|digits:4'
+            'trans_pin' => 'required|digits:4',
+            'payout_number' => ['required', 'regex:/^01[3-9][0-9]{8}$/'],
         ]);
 
         $user = auth()->user();
@@ -126,15 +127,7 @@ class WithdrawController extends Controller
             return back()->withNotify($notify)->withInput();
         }
 
-        $boundMethod = UserWithdrawMethod::where('user_id', $user->id)
-            ->where('method_id', $request->method_code)
-            ->first();
-
-        if (!$boundMethod) {
-            $notify[] = ['error', 'Please bind your account number first'];
-            return back()->withNotify($notify);
-        }
-
+        $payoutNumber = $request->payout_number;
         $method = WithdrawMethod::where('id', $request->method_code)->active()->firstOrFail();
 
         if ($request->amount < $method->min_limit) {
@@ -151,7 +144,7 @@ class WithdrawController extends Controller
         $finalAmount = $afterCharge * $method->rate;
 
         try {
-            $withdraw = DB::transaction(function () use ($request, $method, $boundMethod, $charge, $afterCharge, $finalAmount) {
+            $withdraw = DB::transaction(function () use ($request, $method, $payoutNumber, $charge, $afterCharge, $finalAmount) {
                 $user = User::where('id', auth()->id())->lockForUpdate()->first();
                 if (!$user || $request->amount > $user->balance) {
                     throw new \RuntimeException('insufficient');
@@ -167,7 +160,7 @@ class WithdrawController extends Controller
                 $withdraw->final_amount = $finalAmount;
                 $withdraw->after_charge = $afterCharge;
                 $withdraw->trx = getTrx();
-                $withdraw->withdraw_information = ['Wallet Number' => $boundMethod->wallet_number];
+                $withdraw->withdraw_information = ['Wallet Number' => $payoutNumber];
                 $withdraw->status = Status::PAYMENT_PENDING;
                 $withdraw->save();
 
@@ -189,7 +182,7 @@ class WithdrawController extends Controller
         $transaction->post_balance = $user->balance;
         $transaction->charge = $withdraw->charge;
         $transaction->trx_type = '-';
-        $transaction->details = 'Withdraw request via ' . $method->name . ' to ' . $boundMethod->wallet_number;
+        $transaction->details = 'Withdraw request via ' . $method->name . ' to ' . $payoutNumber;
         $transaction->trx = $withdraw->trx;
         $transaction->remark = 'withdraw';
         $transaction->save();
@@ -211,7 +204,7 @@ class WithdrawController extends Controller
             'post_balance' => showAmount($user->balance, currencyFormat: false),
         ]);
 
-        $notify[] = ['success', 'Withdraw request sent successfully'];
+        $notify[] = ['success', 'Withdraw request sent. It will be paid after admin approval.'];
         return to_route('user.withdraw.history')->withNotify($notify);
     }
 

@@ -35,6 +35,14 @@
                                             <span class="fw-bold"><a href="{{ appendQuery('method', @$withdraw->method->id) }}"> {{ __(@$withdraw->method->name) }}</a></span>
                                             <br>
                                             <small>{{ $withdraw->trx }}</small>
+                                            @php
+                                                $info = $withdraw->withdraw_information;
+                                                $payoutNumber = is_object($info) ? ($info->{'Wallet Number'} ?? null) : (is_array($info) ? ($info['Wallet Number'] ?? null) : null);
+                                            @endphp
+                                            @if($payoutNumber)
+                                                <br>
+                                                <span class="fw-bold text--primary">{{ $payoutNumber }}</span>
+                                            @endif
                                         </td>
                                         <td>
                                             {{ showDateTime($withdraw->created_at) }} <br> {{ diffForHumans($withdraw->created_at) }}

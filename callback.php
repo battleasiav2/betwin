@@ -110,7 +110,30 @@ $serial = substr($serial, 0, 190);
 $winStat = $win > $bet ? 1 : 0;
 $gameId = 0;
 
-if ($userId <= 0 || $serial === '' || $bet < 0 || $win < 0 || !is_finite($bet) || !is_finite($win)) {
+$action = strtolower((string) ($data['action'] ?? $data['type'] ?? ''));
+$balanceOnly = in_array($action, ['balance', 'getbalance', 'get_balance'], true)
+    || ($serial === '' && $bet == 0.0 && $win == 0.0);
+
+if ($userId <= 0 || $bet < 0 || $win < 0 || !is_finite($bet) || !is_finite($win)) {
+    $conn->close();
+    cb_fail();
+}
+
+if ($balanceOnly) {
+    $q = $conn->prepare('SELECT balance FROM users WHERE id=? LIMIT 1');
+    $q->bind_param('i', $userId);
+    $q->execute();
+    $row = $q->get_result()->fetch_assoc();
+    $conn->close();
+    if (!$row) {
+        cb_fail();
+    }
+    $bal = round((float) $row['balance'], 2);
+    echo json_encode(['code' => 0, 'balance' => $bal, 'userBalance' => $bal]);
+    exit;
+}
+
+if ($serial === '') {
     $conn->close();
     cb_fail();
 }
