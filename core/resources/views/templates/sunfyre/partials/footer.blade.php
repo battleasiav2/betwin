@@ -4,6 +4,7 @@
     $wa = trim(@$socialLinks->whatsapp ?? '');
     $tg = trim(@$socialLinks->telegram ?? '');
     $fb = trim(@$socialLinks->facebook ?? '');
+    $support = trim(@$socialLinks->support ?? '');
 @endphp
 
 <footer class="footer-area custom-site-footer" style="position: relative; background: #0b0f14; margin-top: 0 !important; padding-top: 8px; padding-bottom: 8px;">
@@ -43,6 +44,11 @@
                         @if($wa)
                         <a href="{{ $wa }}" target="_blank" rel="noopener noreferrer" class="footer-social-btn" aria-label="WhatsApp" style="width: 36px; height: 36px; display: flex; justify-content: center; align-items: center; border-radius: 50%; margin-right: 10px; overflow: hidden; text-decoration: none;">
                             <img src="{{ asset('assets/images/social/whatsapp.svg') }}" alt="WhatsApp" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                        </a>
+                        @endif
+                        @if($support)
+                        <a href="{{ $support }}" target="_blank" rel="noopener noreferrer" class="footer-social-btn" aria-label="Support" style="width: 36px; height: 36px; display: flex; justify-content: center; align-items: center; border-radius: 50%; margin-right: 10px; overflow: hidden; text-decoration: none;">
+                            <img src="{{ asset('assets/images/social/support.svg') }}" alt="Support" style="width: 100%; height: 100%; object-fit: cover; display: block;">
                         </a>
                         @endif
                         <span style="background: white; color: #d9534f; width: 26px; height: 26px; display: flex; justify-content: center; align-items: center; border-radius: 50%; font-weight: bold; border: 1px solid #d9534f; font-size: 9px;">

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Frontend;
 use App\Rules\FileTypeValidate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use App\Lib\RequiredConfig;
 
 class GeneralSettingController extends Controller
@@ -278,6 +279,7 @@ class GeneralSettingController extends Controller
 
     public function socialLinks()
     {
+        $this->ensureSocialLinksColumn();
         $pageTitle = 'Social Links';
         $links = gs('social_links');
         return view('admin.setting.social_links', compact('pageTitle', 'links'));
@@ -286,18 +288,20 @@ class GeneralSettingController extends Controller
     public function socialLinksUpdate(Request $request)
     {
         $request->validate([
-            'whatsapp' => 'nullable|string|max:255',
-            'telegram' => 'nullable|string|max:255',
-            'facebook' => 'nullable|string|max:255',
-            'support'  => 'nullable|string|max:255',
+            'whatsapp' => 'nullable|string|max:500',
+            'telegram' => 'nullable|string|max:500',
+            'facebook' => 'nullable|string|max:500',
+            'support'  => 'nullable|string|max:500',
         ]);
 
+        $this->ensureSocialLinksColumn();
+        \Cache::forget('GeneralSetting');
         $general = gs();
         $general->social_links = [
-            'whatsapp' => $request->whatsapp ?: '',
-            'telegram' => $request->telegram ?: '',
-            'facebook' => $request->facebook ?: '',
-            'support'  => $request->support ?: '',
+            'whatsapp' => $this->cleanSocialUrl($request->whatsapp),
+            'telegram' => $this->cleanSocialUrl($request->telegram),
+            'facebook' => $this->cleanSocialUrl($request->facebook),
+            'support'  => $this->cleanSocialUrl($request->support),
         ];
         $general->save();
 
@@ -350,6 +354,29 @@ class GeneralSettingController extends Controller
 
         $notify[] = ['success', ucfirst($key) . ' credential updated successfully'];
         return back()->withNotify($notify);
+    }
+
+    private function ensureSocialLinksColumn(): void
+    {
+        if (Schema::hasColumn('general_settings', 'social_links')) {
+            return;
+        }
+        Schema::table('general_settings', function ($table) {
+            $table->text('social_links')->nullable();
+        });
+        \Cache::forget('GeneralSetting');
+    }
+
+    private function cleanSocialUrl($url): string
+    {
+        $url = trim((string) $url);
+        if ($url === '') {
+            return '';
+        }
+        if (!preg_match('#^[a-z][a-z0-9+.-]*://#i', $url)) {
+            $url = 'https://' . ltrim($url, '/');
+        }
+        return $url;
     }
 
     private function uploadImage($file, $fileName, $resize = null)

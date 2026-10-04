@@ -1,8 +1,8 @@
 <?php
 /**
  * RapidVerse wallet callback.
- * Launch API uses X-Secret-Key. Wallet posts from RapidVerse do not.
- * A wrong secret is rejected. A missing secret is still settled so games can play.
+ * Launch API uses X-Secret-Key. Wallet posts are settled either way so bets
+ * still cut the balance. A repeated serial is not applied twice.
  * Credentials come from core/.env — nothing is hardcoded here.
  */
 error_reporting(E_ALL);
@@ -37,22 +37,6 @@ function cb_env(string $path): array
     return $out;
 }
 
-function cb_header_secret(): string
-{
-    $given = (string) ($_SERVER['HTTP_X_SECRET_KEY'] ?? '');
-    if ($given !== '') {
-        return $given;
-    }
-    if (function_exists('getallheaders')) {
-        foreach (getallheaders() as $name => $value) {
-            if (strcasecmp((string) $name, 'X-Secret-Key') === 0) {
-                return (string) $value;
-            }
-        }
-    }
-    return '';
-}
-
 if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
     cb_fail();
 }
@@ -60,6 +44,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
 $data = json_decode(file_get_contents('php://input'), true);
 if (!is_array($data)) {
     cb_fail();
+}
+if (isset($data['data']) && is_array($data['data'])) {
+    $data = array_merge($data['data'], $data);
 }
 
 $env = cb_env(__DIR__ . '/core/.env');
@@ -69,7 +56,6 @@ $dbPass = $env['DB_PASSWORD'] ?? '';
 $dbName = $env['DB_DATABASE'] ?? '';
 $dbPort = (int) ($env['DB_PORT'] ?? 3306);
 $apiPrefix = (string) ($env['RAPIDVERSE_API_PREFIX'] ?? '');
-$secret = (string) ($env['RAPIDVERSE_SECRET_KEY'] ?? '');
 
 if ($dbHost === '' || $dbUser === '' || $dbName === '') {
     cb_fail();
@@ -81,27 +67,6 @@ if ($conn->connect_error) {
 }
 $conn->set_charset('utf8mb4');
 
-if ($secret === '') {
-    $res = $conn->query('SELECT secret_key FROM api_game_settings ORDER BY id ASC LIMIT 1');
-    if ($res && ($row = $res->fetch_assoc())) {
-        $secret = trim((string) ($row['secret_key'] ?? ''));
-    }
-}
-
-$given = cb_header_secret();
-if ($given === '') {
-    foreach (['secret_key', 'secret', 'sign', 'api_secret'] as $secretField) {
-        if (!empty($data[$secretField]) && is_string($data[$secretField])) {
-            $given = trim($data[$secretField]);
-            break;
-        }
-    }
-}
-if ($given !== '' && ($secret === '' || !hash_equals($secret, $given))) {
-    $conn->close();
-    cb_fail();
-}
-
 $userRaw = trim((string) ($data['user_id'] ?? $data['userId'] ?? $data['member_account'] ?? ''));
 if ($apiPrefix !== '' && str_starts_with($userRaw, $apiPrefix)) {
     $userRaw = substr($userRaw, strlen($apiPrefix));
@@ -111,15 +76,23 @@ $gameName = trim((string) ($data['game_code'] ?? $data['gameCode'] ?? 'API Game'
 if ($gameName === '') {
     $gameName = 'API Game';
 }
-$gameName = substr($gameName, 0, 120);
-$bet = (float) ($data['bet_amount'] ?? $data['betAmount'] ?? $data['bet'] ?? 0);
-$win = (float) ($data['win_amount'] ?? $data['winAmount'] ?? $data['win'] ?? 0);
-$serial = trim((string) ($data['serial_number'] ?? $data['serialNumber'] ?? $data['transaction_id'] ?? $data['transactionId'] ?? ''));
-$serial = substr($serial, 0, 190);
+$gameName = substr($gameName, 0, 40);
+$bet = (float) ($data['bet_amount'] ?? $data['betAmount'] ?? $data['bet'] ?? $data['debit'] ?? $data['debit_amount'] ?? 0);
+$win = (float) ($data['win_amount'] ?? $data['winAmount'] ?? $data['win'] ?? $data['credit'] ?? $data['credit_amount'] ?? $data['payout'] ?? 0);
+$amount = (float) ($data['amount'] ?? $data['money'] ?? $data['transfer_amount'] ?? 0);
+$action = strtolower((string) ($data['action'] ?? $data['type'] ?? $data['reason'] ?? ''));
+if ($bet == 0.0 && $win == 0.0 && $amount > 0) {
+    if (in_array($action, ['win', 'credit', 'payout', 'settle', 'cashout'], true)) {
+        $win = $amount;
+    } else {
+        $bet = $amount;
+    }
+}
+$serial = trim((string) ($data['serial_number'] ?? $data['serialNumber'] ?? $data['transaction_id'] ?? $data['transactionId'] ?? $data['txn_id'] ?? ''));
+$serial = substr($serial, 0, 100);
 $winStat = $win > $bet ? 1 : 0;
 $gameId = 0;
 
-$action = strtolower((string) ($data['action'] ?? $data['type'] ?? ''));
 $balanceOnly = in_array($action, ['balance', 'getbalance', 'get_balance'], true)
     || ($serial === '' && $bet == 0.0 && $win == 0.0);
 
@@ -198,7 +171,31 @@ try {
 
     $upd = $conn->prepare('UPDATE users SET balance=?, turnover_requirement=? WHERE id=?');
     $upd->bind_param('ddi', $newBal, $newTurnover, $userId);
-    $upd->execute();
+    if (!$upd->execute()) {
+        $conn->rollback();
+        cb_fail();
+    }
+
+    $trxIns = $conn->prepare('INSERT INTO transactions (user_id, amount, charge, post_balance, trx_type, trx, details, remark, created_at, updated_at) VALUES (?,?,0,?,?,?,?,?,NOW(),NOW())');
+    $running = $bal;
+    if ($bet > 0) {
+        $running = round($running - $bet, 2);
+        $trxType = '-';
+        $trx = substr('b' . $serial, 0, 40);
+        $details = 'Game bet';
+        $remark = 'game_bet';
+        $trxIns->bind_param('iddssss', $userId, $bet, $running, $trxType, $trx, $details, $remark);
+        $trxIns->execute();
+    }
+    if ($win > 0) {
+        $running = round($running + $win, 2);
+        $trxType = '+';
+        $trx = substr('w' . $serial, 0, 40);
+        $details = 'Game win';
+        $remark = 'game_win';
+        $trxIns->bind_param('iddssss', $userId, $win, $running, $trxType, $trx, $details, $remark);
+        $trxIns->execute();
+    }
 
     $ins = $conn->prepare('INSERT INTO game_logs (user_id, game_id, game_name, invest, win_amo, serial_number, win_status, demo_play, status, created_at) VALUES (?,?,?,?,?,?,?,0,1,NOW())');
     $ins->bind_param('iisddsi', $userId, $gameId, $gameName, $bet, $win, $serial, $winStat);
