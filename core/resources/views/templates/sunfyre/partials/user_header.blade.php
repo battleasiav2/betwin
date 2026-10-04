@@ -18,7 +18,7 @@
         <img src="{{ asset('assets/images/logo_icon/logo.png') }}" alt="{{ __(gs('site_name')) }}" class="site-logo-img">
     </a>
     <div class="header-right">
-        <a href="{{ route('download.apk') }}" class="btn-app-install" id="headerAppInstall" title="@lang('Install App')" onclick="if(window.__b369InstallApp){event.preventDefault();window.__b369InstallApp();}">
+        <a href="{{ route('download.apk') }}" class="btn-app-install" id="headerAppInstall" title="@lang('Install App')" download>
             <i class="fas fa-cloud-arrow-down"></i>
             <span>APP</span>
         </a>
@@ -123,7 +123,7 @@
             <span class="sb-card-label">Lottery</span>
         </a>
 
-        <a href="{{ route('download.apk') }}" class="sb-menu-card" id="sbAppInstall" onclick="if(window.__b369InstallApp){event.preventDefault();window.__b369InstallApp();}">
+        <a href="{{ route('download.apk') }}" class="sb-menu-card" id="sbAppInstall" download>
             <div class="sb-card-icon ic-teal"><i class="fa-solid fa-cloud-arrow-down"></i></div>
             <span class="sb-card-label">APP Download</span>
         </a>

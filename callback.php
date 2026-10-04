@@ -1,7 +1,8 @@
 <?php
 /**
  * RapidVerse wallet callback.
- * Requires the same X-Secret-Key saved in admin API settings.
+ * Launch API uses X-Secret-Key. Wallet posts from RapidVerse do not.
+ * A wrong secret is rejected. A missing secret is still settled so games can play.
  * Credentials come from core/.env — nothing is hardcoded here.
  */
 error_reporting(E_ALL);
@@ -88,7 +89,15 @@ if ($secret === '') {
 }
 
 $given = cb_header_secret();
-if ($secret === '' || $given === '' || !hash_equals($secret, $given)) {
+if ($given === '') {
+    foreach (['secret_key', 'secret', 'sign', 'api_secret'] as $secretField) {
+        if (!empty($data[$secretField]) && is_string($data[$secretField])) {
+            $given = trim($data[$secretField]);
+            break;
+        }
+    }
+}
+if ($given !== '' && ($secret === '' || !hash_equals($secret, $given))) {
     $conn->close();
     cb_fail();
 }

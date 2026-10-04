@@ -116,13 +116,9 @@
         });
     }
 
-    window.__b369InstallApp = async function () {
-        var ua = navigator.userAgent || '';
-        if (/Android/i.test(ua)) {
-            if (downloadApk()) return;
-        }
-        var ok = await installPwa();
-        if (!ok) fallbackInstall();
+    window.__b369InstallApp = function () {
+        if (downloadApk()) return;
+        fallbackInstall();
     };
 
     window.addEventListener('beforeinstallprompt', function (e) {
