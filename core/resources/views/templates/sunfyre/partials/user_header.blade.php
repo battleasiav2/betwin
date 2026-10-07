@@ -53,6 +53,13 @@
             <span class="sb-card-label">Hot Games</span>
         </a>
 
+        @if(auth()->check() && auth()->user()->is_agent)
+        <a href="{{ route('user.agent') }}" class="sb-menu-card">
+            <div class="sb-card-icon ic-gold"><i class="fa-solid fa-user-tie"></i></div>
+            <span class="sb-card-label">Agent</span>
+        </a>
+        @endif
+
         <a href="{{ route('user.referrals') }}" class="sb-menu-card">
             <div class="sb-card-icon ic-teal"><i class="fa-solid fa-user-group"></i></div>
             <span class="sb-card-label">Invite friends</span>

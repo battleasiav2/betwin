@@ -3,7 +3,7 @@
 
 @php
     $refCode = auth()->user()->username ?? 'REF' . rand(100000, 999999);
-    $refLink = route('user.register', ['ref' => $refCode]);
+    $refLink = url('/?reference=' . $refCode);
     
     // Safe fallback for referrals count - use your actual model relation
     $totalReferrals = 0;

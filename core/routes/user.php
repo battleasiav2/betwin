@@ -81,6 +81,8 @@ Route::middleware('auth')->name('user.')->group(function () {
                 Route::any('deposit/history', 'depositHistory')->name('deposit.history');
                 Route::get('transactions', 'transactions')->name('transactions');
                 Route::get('referral', 'referrals')->name('referrals');
+                Route::get('agent', 'agent')->name('agent');
+                Route::post('agent/transfer', 'agentTransfer')->name('agent.transfer');
 
                 Route::post('add-device-token', 'addDeviceToken')->name('add.device.token');
 

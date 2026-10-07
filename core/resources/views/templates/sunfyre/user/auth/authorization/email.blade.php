@@ -1,169 +1,32 @@
 @extends($activeTemplate . 'layouts.app')
 
 @section('app')
-    <section class="login-section">
-        <div class="login-header">
-            <a href="{{ route('home') }}" class="back-btn">
-                <i class="fas fa-chevron-left"></i>
-            </a>
-        </div>
-
-        <div class="container">
-            <div class="login-wrapper">
-                <h1 class="site-name">{{ __(gs('site_name')) }}</h1>
-                <h2 class="page-title">Email Verification</h2>
-                
-                <div class="verification-area">
-                    <form action="{{ route('user.verify.email') }}" method="POST" class="submit-form login-form">
-                        @csrf
-                        <p class="register-text">
-                            @lang('A 6 digit verification code sent to your email address'): <br>
-                            <span class="text-white">{{ showEmailAddress(auth()->user()->email) }}</span>
-                        </p>
-
-                        <div class="mb-4">
-                            @include($activeTemplate . 'partials.verification_code')
-                        </div>
-
-                        <div class="form-group">
-                            <button type="submit" class="submit-btn w-100">@lang('Submit')</button>
-                        </div>
-
-                        <div class="register-text mt-4">
-                            <p>
-                                @lang('If you don\'t get any code'), <br>
-                                <span class="countdown-wrapper">@lang('try again after') <span id="countdown" class="fw-bold">--</span> @lang('seconds')</span> 
-                                <a href="{{ route('user.send.verify.code', 'email') }}" class="try-again-link d-none"> @lang('Try again')</a>
-                            </p>
-                        </div>
-                    </form>
-                </div>
-            </div>
+    <section class="gate-page">
+        <div class="gate-card">
+            <a href="{{ route('home') }}" class="gate-back"><i class="fas fa-chevron-left"></i> @lang('Back')</a>
+            <div class="gate-logo"><img src="{{ siteLogo() }}" alt="{{ gs('site_name') }}"></div>
+            <div class="gate-kicker">Verify</div>
+            <h1 class="gate-title">@lang('Email Verification')</h1>
+            <form action="{{ route('user.verify.email') }}" method="POST" class="submit-form">
+                @csrf
+                <p class="gate-text">
+                    @lang('A 6 digit verification code sent to your email address')<br>
+                    <span class="text-white">{{ showEmailAddress(auth()->user()->email) }}</span>
+                </p>
+                @include($activeTemplate . 'partials.verification_code')
+                <button type="submit" class="gate-btn">@lang('Submit')</button>
+                <p class="gate-note">
+                    @lang('If you don\'t get any code'),
+                    <span class="countdown-wrapper">@lang('try again after') <span id="countdown" class="fw-bold">--</span> @lang('seconds')</span>
+                    <a href="{{ route('user.send.verify.code', 'email') }}" class="try-again-link d-none">@lang('Try again')</a>
+                </p>
+            </form>
         </div>
     </section>
 @endsection
 
 @push('style')
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Russo+One&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-dark: #0b0f14; 
-            --input-bg: #151b24;
-            --border-color: rgba(255,255,255,0.12);
-            --primary-gold: #e8b84a; 
-            --text-white: #ffffff;
-            --icon-color: #2dd4a8;
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-dark);
-        }
-
-        .login-section {
-            min-height: 100vh;
-            background-color: var(--bg-dark);
-            background-image: url('{{ asset('assets/images/login_bg.jpg') }}');
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            padding: 15px;
-            touch-action: manipulation;
-        }
-
-        .login-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(11, 15, 20, 0.94);
-            z-index: 0;
-        }
-
-        .login-header {
-            position: relative;
-            z-index: 10;
-            margin-bottom: 10px;
-        }
-
-        .back-btn {
-            color: var(--primary-gold);
-            font-size: 18px; 
-            text-decoration: none;
-            padding: 5px;
-            display: inline-block;
-        }
-
-        .container {
-            position: relative;
-            z-index: 2;
-            flex: 1;
-            display: flex;
-            align-items: flex-start; 
-            justify-content: center;
-            padding-top: 10vh;
-        }
-
-        .login-wrapper {
-            width: 100%;
-            max-width: 420px; 
-            text-align: center;
-        }
-
-        .site-name {
-            font-family: 'Russo One', sans-serif;
-            color: var(--primary-gold);
-            font-size: 32px;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .page-title {
-            color: var(--primary-gold);
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        .register-text {
-            color: #ccc;
-            font-size: 13px;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-
-        .register-text a {
-            color: var(--icon-color);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .text-white { color: #fff !important; }
-
-        .submit-btn {
-            width: 100%;
-            background: var(--primary-gold);
-            color: #000;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            transition: background 0.3s;
-        }
-
-        .submit-btn:hover {
-            background: #d4a84a;
-        }
-    </style>
+    @include($activeTemplate . 'partials.auth_gate_style')
 @endpush
 
 @push('script')

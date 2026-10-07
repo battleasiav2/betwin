@@ -6,6 +6,7 @@ use App\Constants\Status;
 use App\Http\Controllers\Controller;
 use App\Lib\FormProcessor;
 use App\Models\AdminNotification;
+use App\Models\CommissionLog;
 use App\Models\Deposit;
 use App\Models\GatewayCurrency;
 use App\Models\Transaction;
@@ -180,6 +181,26 @@ class PaymentController extends Controller {
                 }
             }
 
+            $bonusPercent = (float) (gs('deposit_bonus_percent') ?? 0);
+            if (!$deposit->promotion_id && $bonusPercent > 0) {
+                $bonusAmount = round($deposit->amount * $bonusPercent / 100, 2);
+                if ($bonusAmount > 0) {
+                    $user->balance += $bonusAmount;
+                    $user->turnover_requirement += $bonusAmount;
+
+                    $bonusTrx = new Transaction();
+                    $bonusTrx->user_id = $user->id;
+                    $bonusTrx->amount = $bonusAmount;
+                    $bonusTrx->post_balance = $user->balance;
+                    $bonusTrx->charge = 0;
+                    $bonusTrx->trx_type = '+';
+                    $bonusTrx->details = 'Deposit bonus ' . getAmount($bonusPercent) . '%';
+                    $bonusTrx->trx = $deposit->trx;
+                    $bonusTrx->remark = 'deposit_bonus';
+                    $bonusTrx->save();
+                }
+            }
+
             $user->save();
 
             $methodName = $deposit->methodName();
@@ -204,7 +225,33 @@ class PaymentController extends Controller {
             }
 
             $general = gs();
-            if ($general->dc) {
+            ensureAgentColumns();
+            $paidAgent = false;
+            if ($user->ref_by && (int) $user->ref_by !== (int) $user->id) {
+                $agent = User::where('id', $user->ref_by)->lockForUpdate()->first();
+                if ($agent && (int) $agent->is_agent === 1 && (int) $agent->status === Status::USER_ACTIVE) {
+                    $paidAgent = true;
+                    $percent = min(20, (float) $agent->agent_percent);
+                    $alreadyPaid = CommissionLog::where('user_id', $agent->id)->where('trx', $deposit->trx)->exists();
+                    if ($percent > 0 && !$alreadyPaid) {
+                        $commission = round((float) $deposit->amount * $percent / 100, 2);
+                        if ($commission > 0) {
+                            $agent->agent_balance = round((float) $agent->agent_balance + $commission, 2);
+                            $agent->save();
+                            CommissionLog::create([
+                                'user_id'  => $agent->id,
+                                'who'      => $user->id,
+                                'level'    => '1 level Agent Commission',
+                                'amount'   => $commission,
+                                'main_amo' => $agent->agent_balance,
+                                'title'    => 'Deposit Commission',
+                                'trx'      => $deposit->trx,
+                            ]);
+                        }
+                    }
+                }
+            }
+            if (!$paidAgent && $general->dc) {
                 levelCommission($user->id, $deposit->amount, 'Deposit Commission');
             }
 

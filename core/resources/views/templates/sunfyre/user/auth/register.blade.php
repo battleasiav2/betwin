@@ -404,7 +404,7 @@
 
                     <div class="auth-field">
                         <i class="fa-solid fa-lock left-icon"></i>
-                        <input type="password" name="password" id="passwordInput" placeholder="@lang('Password')" required>
+                        <input type="password" name="password" id="passwordInput" placeholder="@lang('Password')" required minlength="4" autocomplete="new-password">
                         <i class="fa-solid fa-eye-slash right-icon toggle-password" id="togglePass" onclick="togglePassword()"></i>
                     </div>
 
@@ -461,12 +461,6 @@
     </div>
 </div>
 
-@if(gs('secure_password'))
-    @push('script-lib')
-        <script src="{{ asset('assets/global/js/secure_password.js') }}"></script>
-    @endpush
-@endif
-
 <script>
     function togglePassword() {
         const input = document.getElementById('passwordInput');
@@ -520,6 +514,13 @@
         });
 
         document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            var pass = document.getElementById('passwordInput');
+            document.getElementById('passwordConfirmInput').value = pass.value;
+            if (pass.value.length < 4) {
+                e.preventDefault();
+                pass.focus();
+                return false;
+            }
             var mobile = mobileInput.value;
             if (!mobile.startsWith('0') || mobile.length !== 11) {
                 e.preventDefault();

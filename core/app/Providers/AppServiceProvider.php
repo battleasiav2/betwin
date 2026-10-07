@@ -40,6 +40,11 @@ class AppServiceProvider extends ServiceProvider {
                 cache()->put('SystemInstalled', true);
             }
         }
+        try {
+            ensureAgentColumns();
+        } catch (\Throwable $e) {
+        }
+
         $viewShare['emptyMessage'] = 'Data not found';
         view()->share($viewShare);
 

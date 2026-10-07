@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Constants\Status;
 use App\Http\Controllers\Controller;
 use App\Lib\UserNotificationSender;
+use App\Models\CommissionLog;
 use App\Models\Deposit;
 use App\Models\NotificationLog;
 use App\Models\Transaction;
@@ -86,6 +87,7 @@ class ManageUsersController extends Controller {
     }
 
     public function detail($id) {
+        ensureAgentColumns();
         $user      = User::findOrFail($id);
         $pageTitle = 'User Detail - ' . $user->username;
 
@@ -93,7 +95,15 @@ class ManageUsersController extends Controller {
         $totalWithdrawals = Withdrawal::where('user_id', $user->id)->approved()->sum('amount');
         $totalTransaction = Transaction::where('user_id', $user->id)->count();
         $countries        = json_decode(file_get_contents(resource_path('views/partials/country.json')));
-        return view('admin.users.detail', compact('pageTitle', 'user', 'totalDeposit', 'totalWithdrawals', 'totalTransaction', 'countries'));
+        $agentStats       = agentEarnings($user->id);
+        $agentLogs        = CommissionLog::where('user_id', $user->id)
+            ->where('level', 'like', '%Agent Commission%')
+            ->with('userFrom')
+            ->latest()
+            ->limit(15)
+            ->get();
+        $agentDepositAmounts = Deposit::whereIn('trx', $agentLogs->pluck('trx'))->pluck('amount', 'trx');
+        return view('admin.users.detail', compact('pageTitle', 'user', 'totalDeposit', 'totalWithdrawals', 'totalTransaction', 'countries', 'agentStats', 'agentLogs', 'agentDepositAmounts'));
     }
 
     public function kycDetails($id) {
@@ -399,6 +409,29 @@ class ManageUsersController extends Controller {
         ]);
         User::query()->update(['demo_balance' => $request->demo_balance]);
         $notify[] = ['success', 'Demo balance updated successfully'];
+        return back()->withNotify($notify);
+    }
+
+    public function updateAgent(Request $request, $id) {
+        ensureAgentColumns();
+        $request->validate([
+            'is_agent'      => 'required|in:0,1',
+            'agent_percent' => 'required|numeric|min:0|max:20',
+        ]);
+
+        $user = User::findOrFail($id);
+        $appoint = (int) $request->is_agent === 1;
+
+        if ($appoint && (int) $user->status !== Status::USER_ACTIVE) {
+            $notify[] = ['error', 'Only an active user can be appointed as an agent'];
+            return back()->withNotify($notify);
+        }
+
+        $user->is_agent = $appoint ? 1 : 0;
+        $user->agent_percent = $appoint ? round((float) $request->agent_percent, 2) : 0;
+        $user->save();
+
+        $notify[] = ['success', $appoint ? 'Agent appointed' : 'Agent access removed'];
         return back()->withNotify($notify);
     }
 }

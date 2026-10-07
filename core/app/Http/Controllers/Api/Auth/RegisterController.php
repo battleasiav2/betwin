@@ -44,7 +44,7 @@ class RegisterController extends Controller
             'firstname' => 'required',
             'lastname'  => 'required',
             'email'     => 'required|string|email|unique:users',
-            'password'  => ['required', 'confirmed'],
+            'password'  => ['required', 'confirmed', 'min:4'],
             'agree'     => $agree,
         ], [
             'firstname.required' => 'The first name field is required',
@@ -59,6 +59,9 @@ class RegisterController extends Controller
         if (!gs('registration')) {
             $notify[] = 'Registration not allowed';
             return responseError('validation_error', $notify);
+        }
+        if (!$request->filled('password_confirmation')) {
+            $request->merge(['password_confirmation' => $request->password]);
         }
         $validator = $this->validator($request->all());
         if ($validator->fails()) {
@@ -90,11 +93,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        ensureAgentColumns();
         $referBy = @$data['reference'];
+        $referUser = null;
         if ($referBy) {
-            $referUser = User::where('username', $referBy)->first();
-        } else {
-            $referUser = null;
+            $referUser = User::where('username', $referBy)
+                ->where('is_agent', 1)
+                ->where('status', Status::USER_ACTIVE)
+                ->first();
         }
         //User Create
         $user            = new User();

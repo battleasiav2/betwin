@@ -100,6 +100,17 @@
                             </div>
                             <div class="col-xl-4 col-sm-6">
                                 <div class="form-group">
+                                    <label>@lang('Deposit Bonus')</label>
+                                    <div class="input-group">
+                                        <input class="form-control" name="deposit_bonus_percent" type="number"
+                                            value="{{ getAmount(gs('deposit_bonus_percent')) }}" step="any" min="0" max="100" required>
+                                        <span class="input-group-text">%</span>
+                                    </div>
+                                    <small class="text-muted">@lang('0 means no bonus. Applied on every approved deposit.')</small>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-sm-6">
+                                <div class="form-group">
                                     <label>@lang('User Demo Balance')</label>
                                     <div class="input-group">
                                         <input class="form-control" name="demo_balance" type="number"

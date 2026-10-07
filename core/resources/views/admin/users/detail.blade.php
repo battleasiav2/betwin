@@ -231,6 +231,83 @@
                     </form>
                 </div>
             </div>
+
+            <div class="card mt-30">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">@lang('Agent')</h5>
+                </div>
+                <div class="card-body">
+                    <form action="{{ route('admin.users.agent', $user->id) }}" method="POST">
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>@lang('Appoint as agent')</label>
+                                    <select name="is_agent" class="form-control" required>
+                                        <option value="0" @selected(!$user->is_agent)>@lang('No')</option>
+                                        <option value="1" @selected($user->is_agent)>@lang('Yes')</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>@lang('Deposit commission %') (0-20)</label>
+                                    <input type="number" step="0.01" min="0" max="20" name="agent_percent" class="form-control" value="{{ getAmount($user->agent_percent) }}" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>@lang('Agent balance')</label>
+                                    <input type="text" class="form-control" value="{{ showAmount($user->agent_balance) }}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>@lang('Invite link')</label>
+                                    <input type="text" class="form-control" value="{{ url('/?reference=' . $user->username) }}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn--primary w-100 h-45">@lang('Save Agent')</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row mt-3">
+                        <div class="col-md-3"><small class="text-muted">@lang('Today')</small><div>{{ showAmount($agentStats['commission_today']) }}</div></div>
+                        <div class="col-md-3"><small class="text-muted">@lang('Yesterday')</small><div>{{ showAmount($agentStats['commission_yesterday']) }}</div></div>
+                        <div class="col-md-3"><small class="text-muted">@lang('This month')</small><div>{{ showAmount($agentStats['commission_month']) }}</div></div>
+                        <div class="col-md-3"><small class="text-muted">@lang('Last month')</small><div>{{ showAmount($agentStats['commission_last_month']) }}</div></div>
+                        <div class="col-md-3 mt-2"><small class="text-muted">@lang('Total commission')</small><div>{{ showAmount($agentStats['commission_total']) }}</div></div>
+                        <div class="col-md-3 mt-2"><small class="text-muted">@lang('Moved to wallet')</small><div>{{ showAmount($agentStats['moved_total']) }}</div></div>
+                        <div class="col-md-3 mt-2"><small class="text-muted">@lang('Players')</small><div>{{ $agentStats['players_total'] }}</div></div>
+                        <div class="col-md-3 mt-2"><small class="text-muted">@lang('Player deposits')</small><div>{{ showAmount($agentStats['deposit_total']) }}</div></div>
+                    </div>
+                    @if($agentLogs->count())
+                        <div class="table-responsive mt-3">
+                            <table class="table table--light">
+                                <thead>
+                                    <tr>
+                                        <th>@lang('Player')</th>
+                                        <th>@lang('Deposit')</th>
+                                        <th>@lang('Commission')</th>
+                                        <th>@lang('Date')</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($agentLogs as $log)
+                                        <tr>
+                                            <td>{{ $log->userFrom->username ?? '-' }}</td>
+                                            <td>{{ showAmount($agentDepositAmounts[$log->trx] ?? 0) }}</td>
+                                            <td>{{ showAmount($log->amount) }}</td>
+                                            <td>{{ showDateTime($log->created_at) }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @endif
+                </div>
+            </div>
         </div>
     </div>
 

@@ -85,6 +85,13 @@
                         <p>সতর্ক থাকুন — Telegram/Facebook এ ভুয়া ডিপোজিট সার্ভিস দিয়ে স্ক্যাম হতে পারে!</p>
                     </div>
 
+                    @if((float) (gs('deposit_bonus_percent') ?? 0) > 0)
+                    <div class="money-note mb-3" style="border: 1px solid rgba(232,184,74,0.35); background: rgba(232,184,74,0.08);">
+                        <i class="fas fa-gift" style="color:#e8b84a;"></i>
+                        <p>প্রতি ডিপোজিটে <b>{{ getAmount(gs('deposit_bonus_percent')) }}%</b> বোনাস যোগ হবে।</p>
+                    </div>
+                    @endif
+
                     <div class="money-label">@lang('Deposit Amounts')</div>
                     <div class="amount-grid mb-3">
                         @php $amounts = [100, 500, 1000, 3000, 5000, 10000, 20000, 25000]; @endphp

@@ -52,12 +52,12 @@
         }
 
         .verification-code span {
-            background-color: var(--input-bg) !important;
-            border: 1px solid var(--border-color) !important;
-            color: var(--primary-gold) !important;
-            border-radius: 6px !important;
-            width: clamp(35px, 12vw, 45px) !important;
-            height: clamp(40px, 14vw, 50px) !important;
+            background-color: #0b0f14 !important;
+            border: 1px solid rgba(255,255,255,0.12) !important;
+            color: #e8b84a !important;
+            border-radius: 12px !important;
+            width: clamp(40px, 12vw, 46px) !important;
+            height: clamp(48px, 14vw, 54px) !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;

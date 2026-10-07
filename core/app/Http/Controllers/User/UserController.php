@@ -288,4 +288,82 @@ class UserController extends Controller {
         $promotions = \App\Models\Promotion::where('status', 1)->latest()->get();
         return view('Template::user.promotions', compact('pageTitle', 'promotions'));
     }
+
+    public function agent() {
+        ensureAgentColumns();
+        $pageTitle = 'Agent';
+        $user = auth()->user()->fresh();
+        $downline = collect();
+        $depositTotals = collect();
+        $logs = collect();
+        $depositAmounts = collect();
+        $transfers = collect();
+        $stats = null;
+
+        if ($user->is_agent) {
+            $stats = agentEarnings($user->id);
+            $downline = User::where('ref_by', $user->id)
+                ->select('id', 'username', 'created_at')
+                ->orderByDesc('id')
+                ->paginate(15, ['*'], 'players');
+            $depositTotals = Deposit::whereIn('user_id', $downline->pluck('id'))
+                ->where('status', Status::PAYMENT_SUCCESS)
+                ->selectRaw('user_id, SUM(amount) as total')
+                ->groupBy('user_id')
+                ->pluck('total', 'user_id');
+            $logs = CommissionLog::where('user_id', $user->id)
+                ->where('level', 'like', '%Agent Commission%')
+                ->with('userFrom')
+                ->latest()
+                ->paginate(15, ['*'], 'logs');
+            $depositAmounts = Deposit::whereIn('trx', $logs->pluck('trx'))->pluck('amount', 'trx');
+            $transfers = Transaction::where('user_id', $user->id)
+                ->where('remark', 'agent_transfer')
+                ->latest()
+                ->paginate(15, ['*'], 'moves');
+        }
+
+        return view('Template::user.agent', compact('pageTitle', 'user', 'downline', 'depositTotals', 'logs', 'depositAmounts', 'transfers', 'stats'));
+    }
+
+    public function agentTransfer(Request $request) {
+        ensureAgentColumns();
+        $request->validate([
+            'amount' => 'required|numeric|min:1',
+        ]);
+        $amount = round((float) $request->amount, 2);
+
+        try {
+            DB::transaction(function () use ($amount) {
+                $user = User::where('id', auth()->id())->lockForUpdate()->first();
+                if (!$user || !(int) $user->is_agent || (int) $user->status !== Status::USER_ACTIVE) {
+                    throw new \RuntimeException('not_agent');
+                }
+                if ($amount > round((float) $user->agent_balance, 2)) {
+                    throw new \RuntimeException('low');
+                }
+
+                $user->agent_balance = round((float) $user->agent_balance - $amount, 2);
+                $user->balance = round((float) $user->balance + $amount, 2);
+                $user->save();
+
+                $transaction = new Transaction();
+                $transaction->user_id = $user->id;
+                $transaction->amount = $amount;
+                $transaction->post_balance = $user->balance;
+                $transaction->charge = 0;
+                $transaction->trx_type = '+';
+                $transaction->details = 'Agent commission moved to wallet';
+                $transaction->trx = getTrx();
+                $transaction->remark = 'agent_transfer';
+                $transaction->save();
+            });
+        } catch (\RuntimeException $e) {
+            $notify[] = ['error', $e->getMessage() === 'low' ? 'Agent balance is not enough' : 'Only an active agent can move commission'];
+            return back()->withNotify($notify);
+        }
+
+        $notify[] = ['success', 'Commission moved to your wallet'];
+        return back()->withNotify($notify);
+    }
 }

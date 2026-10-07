@@ -21,6 +21,7 @@ class GeneralSettingController extends Controller
 
     public function general()
     {
+        $this->ensureDepositBonusColumn();
         $pageTitle       = 'General Setting';
         $timezones       = timezone_identifiers_list();
         $currentTimezone = array_search(config('app.timezone'), $timezones);
@@ -39,6 +40,7 @@ class GeneralSettingController extends Controller
             'currency_format'                 => 'required|in:1,2,3',
             'paginate_number'                 => 'required|integer',
             'register_bonus'                  => 'required|numeric|gt:0',
+            'deposit_bonus_percent'           => 'required|numeric|gte:0|max:100',
             'demo_balance'                    => 'required|numeric|gt:0',
             'min_balance'                     => 'required|numeric|gt:0',
             'balance_transfer_fixed_charge'   => 'required|numeric|gte:0',
@@ -51,6 +53,8 @@ class GeneralSettingController extends Controller
         $timezones = timezone_identifiers_list();
         $timezone = isset($timezones[$request->timezone]) ? $timezones[$request->timezone] : 'UTC';
 
+        $this->ensureDepositBonusColumn();
+        \Cache::forget('GeneralSetting');
         $general                                  = gs();
         $general->site_name                       = $request->site_name;
         $general->cur_text                        = $request->cur_text;
@@ -60,6 +64,7 @@ class GeneralSettingController extends Controller
         $general->secondary_color                 = str_replace('#', '', $request->secondary_color);
         $general->currency_format                 = $request->currency_format;
         $general->register_bonus                  = $request->register_bonus;
+        $general->deposit_bonus_percent           = $request->deposit_bonus_percent;
         $general->demo_balance                    = $request->demo_balance;
         $general->min_balance                     = $request->min_balance;
         $general->balance_transfer_fixed_charge   = $request->balance_transfer_fixed_charge;
@@ -354,6 +359,17 @@ class GeneralSettingController extends Controller
 
         $notify[] = ['success', ucfirst($key) . ' credential updated successfully'];
         return back()->withNotify($notify);
+    }
+
+    private function ensureDepositBonusColumn(): void
+    {
+        if (Schema::hasColumn('general_settings', 'deposit_bonus_percent')) {
+            return;
+        }
+        Schema::table('general_settings', function ($table) {
+            $table->decimal('deposit_bonus_percent', 8, 2)->default(0);
+        });
+        \Cache::forget('GeneralSetting');
     }
 
     private function ensureSocialLinksColumn(): void

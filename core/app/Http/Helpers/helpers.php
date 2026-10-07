@@ -535,6 +535,89 @@ function buildResponse($remark, $status, $notify, $data = null) {
     return response()->json($response);
 }
 
+function ensureAgentColumns(): void
+{
+    static $done = false;
+    if ($done || \Illuminate\Support\Facades\Cache::get('users_agent_columns')) {
+        $done = true;
+        return;
+    }
+    if (!\Illuminate\Support\Facades\Schema::hasTable('users')) {
+        return;
+    }
+    $columns = [
+        'is_agent' => 'TINYINT NOT NULL DEFAULT 0',
+        'agent_percent' => 'DECIMAL(5,2) NOT NULL DEFAULT 0',
+        'agent_balance' => 'DECIMAL(28,8) NOT NULL DEFAULT 0',
+    ];
+    foreach ($columns as $name => $definition) {
+        if (!\Illuminate\Support\Facades\Schema::hasColumn('users', $name)) {
+            \Illuminate\Support\Facades\DB::statement("ALTER TABLE users ADD COLUMN {$name} {$definition}");
+        }
+    }
+    \Illuminate\Support\Facades\Cache::forever('users_agent_columns', 1);
+    $done = true;
+}
+
+function agentEarnings(int $agentId): array
+{
+    $now = \Carbon\Carbon::now();
+    $binds = [
+        $now->copy()->startOfDay()->toDateTimeString(), $now->copy()->endOfDay()->toDateTimeString(),
+        $now->copy()->subDay()->startOfDay()->toDateTimeString(), $now->copy()->subDay()->endOfDay()->toDateTimeString(),
+        $now->copy()->startOfMonth()->toDateTimeString(), $now->copy()->endOfMonth()->toDateTimeString(),
+        $now->copy()->subMonthNoOverflow()->startOfMonth()->toDateTimeString(), $now->copy()->subMonthNoOverflow()->endOfMonth()->toDateTimeString(),
+    ];
+    $money = 'COALESCE(SUM(amount),0) as total,
+        COALESCE(SUM(CASE WHEN created_at BETWEEN ? AND ? THEN amount ELSE 0 END),0) as today,
+        COALESCE(SUM(CASE WHEN created_at BETWEEN ? AND ? THEN amount ELSE 0 END),0) as yesterday,
+        COALESCE(SUM(CASE WHEN created_at BETWEEN ? AND ? THEN amount ELSE 0 END),0) as this_month,
+        COALESCE(SUM(CASE WHEN created_at BETWEEN ? AND ? THEN amount ELSE 0 END),0) as last_month';
+    $count = 'COUNT(*) as total,
+        COALESCE(SUM(CASE WHEN created_at BETWEEN ? AND ? THEN 1 ELSE 0 END),0) as today,
+        COALESCE(SUM(CASE WHEN created_at BETWEEN ? AND ? THEN 1 ELSE 0 END),0) as yesterday,
+        COALESCE(SUM(CASE WHEN created_at BETWEEN ? AND ? THEN 1 ELSE 0 END),0) as this_month,
+        COALESCE(SUM(CASE WHEN created_at BETWEEN ? AND ? THEN 1 ELSE 0 END),0) as last_month';
+
+    $commission = \App\Models\CommissionLog::where('user_id', $agentId)
+        ->where('level', 'like', '%Agent Commission%')
+        ->selectRaw($money, $binds)
+        ->first();
+    $deposits = \App\Models\Deposit::where('status', \App\Constants\Status::PAYMENT_SUCCESS)
+        ->whereIn('user_id', function ($query) use ($agentId) {
+            $query->select('id')->from('users')->where('ref_by', $agentId);
+        })
+        ->selectRaw($money, $binds)
+        ->first();
+    $players = \App\Models\User::where('ref_by', $agentId)->selectRaw($count, $binds)->first();
+    $moved = \App\Models\Transaction::where('user_id', $agentId)
+        ->where('remark', 'agent_transfer')
+        ->selectRaw($money, $binds)
+        ->first();
+
+    return [
+        'commission_today' => (float) $commission->today,
+        'commission_yesterday' => (float) $commission->yesterday,
+        'commission_month' => (float) $commission->this_month,
+        'commission_last_month' => (float) $commission->last_month,
+        'commission_total' => (float) $commission->total,
+        'deposit_today' => (float) $deposits->today,
+        'deposit_yesterday' => (float) $deposits->yesterday,
+        'deposit_month' => (float) $deposits->this_month,
+        'deposit_last_month' => (float) $deposits->last_month,
+        'deposit_total' => (float) $deposits->total,
+        'players_today' => (int) $players->today,
+        'players_yesterday' => (int) $players->yesterday,
+        'players_month' => (int) $players->this_month,
+        'players_last_month' => (int) $players->last_month,
+        'players_total' => (int) $players->total,
+        'moved_today' => (float) $moved->today,
+        'moved_month' => (float) $moved->this_month,
+        'moved_last_month' => (float) $moved->last_month,
+        'moved_total' => (float) $moved->total,
+    ];
+}
+
 function responseSuccess($remark, $notify, $data = null) {
     return buildResponse($remark, 'success', $notify, $data);
 }
