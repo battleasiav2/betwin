@@ -34,10 +34,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Russo+One&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #002e2a; 
-            --input-bg: #003b36;
-            --border-color: #004d40;
-            --primary-gold: #FFD700; 
+            --bg-dark: #0b0f14; 
+            --input-bg: #151b24;
+            --border-color: rgba(255,255,255,0.12);
+            --primary-gold: #e8b84a; 
             --text-white: #ffffff;
             --icon-color: #2dd4a8;
         }
@@ -61,7 +61,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 46, 42, 0.95);
+            background: rgba(11, 15, 20, 0.94);
             z-index: 0;
         }
 
@@ -138,7 +138,7 @@
         }
 
         .viser-form-data select option {
-            background-color: #003b36 !important;
+            background-color: #151b24 !important;
             color: #fff !important;
         }
 
@@ -148,7 +148,7 @@
         }
 
         .viser-form-data input[type="file"]::file-selector-button {
-            background: linear-gradient(135deg, #FFD700 0%, #B8860B 100%);
+            background: linear-gradient(135deg, #e8b84a 0%, #B8860B 100%);
             color: #000;
             border: none;
             padding: 5px 12px;
@@ -174,7 +174,7 @@
         }
 
         .submit-btn:hover {
-            background: #e6c200;
+            background: #d4a84a;
         }
 
         input:-webkit-autofill {

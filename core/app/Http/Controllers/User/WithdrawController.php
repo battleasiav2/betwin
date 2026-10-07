@@ -215,7 +215,12 @@ class WithdrawController extends Controller
         if ($request->search) {
             $withdraws = $withdraws->where('trx', $request->search);
         }
-        $withdraws = $withdraws->with('method')->orderBy('id', 'desc')->paginate(getPaginate());
+        if ($request->status === 'pending') {
+            $withdraws = $withdraws->where('status', Status::PAYMENT_PENDING);
+        } elseif (in_array($request->status, ['approved', 'success'], true)) {
+            $withdraws = $withdraws->where('status', Status::PAYMENT_SUCCESS);
+        }
+        $withdraws = $withdraws->with('method')->orderBy('id', 'desc')->paginate(getPaginate())->withQueryString();
         return view('Template::user.withdraw.log', compact('pageTitle', 'withdraws'));
     }
 }

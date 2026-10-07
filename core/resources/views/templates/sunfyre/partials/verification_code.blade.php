@@ -17,10 +17,10 @@
     <link rel="stylesheet" href="{{ asset('assets/global/css/verification-code.css') }}">
     <style>
         :root {
-            --bg-dark: #002e2a; 
-            --input-bg: #003b36;
-            --border-color: #004d40;
-            --primary-gold: #FFD700; 
+            --bg-dark: #0b0f14; 
+            --input-bg: #151b24;
+            --border-color: rgba(255,255,255,0.12);
+            --primary-gold: #e8b84a; 
         }
 
         .verification-code {
@@ -69,7 +69,7 @@
 
         .verification-code #verification-code:focus ~ .boxes span {
             border-color: var(--primary-gold) !important;
-            box-shadow: 0 0 5px rgba(255, 215, 0, 0.2);
+            box-shadow: 0 0 5px rgba(232, 184, 74, 0.25);
         }
 
         .verification-code span::after, 

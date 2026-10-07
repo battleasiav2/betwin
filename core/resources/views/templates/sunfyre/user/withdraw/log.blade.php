@@ -403,7 +403,7 @@
                     default => 'st-pending'
                 };
                 $statusText = match($withdraw->status) {
-                    1 => 'Approved',
+                    1 => 'Success',
                     2 => 'Pending',
                     3 => 'Rejected',
                     default => 'Pending'
