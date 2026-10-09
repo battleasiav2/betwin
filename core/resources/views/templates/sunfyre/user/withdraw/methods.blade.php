@@ -2,11 +2,8 @@
 
 @section('content')
 @php
-    $payMethods = $withdrawMethod->filter(function ($method) {
-        $name = strtolower($method->name);
-        return str_contains($name, 'bkash') || str_contains($name, 'nagad');
-    })->values();
     $locked = auth()->user()->turnover_requirement > 0;
+    $payMethods = $withdrawMethod->values();
 @endphp
 <div class="wd-page">
     <div class="wd-wrap">
@@ -32,7 +29,19 @@
             <div class="wd-label">Select</div>
             <div class="wd-picks">
                 @forelse($payMethods as $data)
-                    @php $slug = str_contains(strtolower($data->name), 'nagad') ? 'nagad' : 'bkash'; @endphp
+                    @php
+                        $compact = preg_replace('/[^a-z]/', '', strtolower($data->name));
+                        if (str_contains($compact, 'nagad')) {
+                            $slug = 'nagad';
+                            $title = 'Nagad';
+                        } elseif (str_contains($compact, 'bkash')) {
+                            $slug = 'bkash';
+                            $title = 'bKash';
+                        } else {
+                            $slug = 'other';
+                            $title = __($data->name);
+                        }
+                    @endphp
                     <label class="wd-pick wd-{{ $slug }}">
                         <input type="radio" name="method_code" value="{{ $data->id }}" class="gateway-radio"
                             data-min="{{ getAmount($data->min_limit) }}"
@@ -40,14 +49,15 @@
                             data-charge-percent="{{ $data->percent_charge }}"
                             data-charge-fixed="{{ $data->fixed_charge }}"
                             data-currency="{{ $data->currency }}"
-                            data-name="{{ $slug }}"
+                            data-title="{{ $title }}"
                             @if($locked) disabled @endif>
                         <span class="wd-mark"></span>
-                        <span class="wd-brand">{{ $slug === 'nagad' ? 'Nagad' : 'bKash' }}</span>
+                        <img src="{{ getImage(getFilePath('withdrawMethod') . '/' . $data->image) }}" alt="{{ $title }}">
+                        <span class="wd-brand">{{ $title }}</span>
                         <small>Personal</small>
                     </label>
                 @empty
-                    <p class="wd-empty">bKash বা Nagad এখন চালু নেই।</p>
+                    <p class="wd-empty">এখন কোনো উইথড্র মেথড চালু নেই। অ্যাডমিন থেকে bKash আর Nagad অন করুন।</p>
                 @endforelse
             </div>
 
@@ -144,7 +154,9 @@
         padding: 14px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1); background: #0b0f14; cursor: pointer;
     }
     .wd-pick input { position: absolute; opacity: 0; pointer-events: none; }
+    .wd-pick img { width: 28px; height: 28px; object-fit: contain; border-radius: 6px; margin-bottom: 6px; }
     .wd-brand { font-size: 18px; font-weight: 800; }
+    .wd-other .wd-brand { color: #e8b84a; }
     .wd-pick small { color: #8b97a8; }
     .wd-bkash .wd-brand { color: #ff4b8b; }
     .wd-nagad .wd-brand { color: #ff9f2e; }
@@ -227,8 +239,7 @@
 
         $('.gateway-radio').on('change', function () {
             const el = $(this);
-            const name = String(el.data('name') || '');
-            const title = name === 'nagad' ? 'Nagad' : 'bKash';
+            const title = String(el.data('title') || 'wallet');
             const prompt = 'Enter your ' + title + ' personal number';
             $('#payoutLabel').text(prompt);
             $('#payout_number').attr('placeholder', prompt);
