@@ -84,6 +84,7 @@ class AutomaticGatewayController extends Controller {
                 $gatewayCurrency->max_amount        = $currency['max_amount'];
                 $gatewayCurrency->fixed_charge      = $currency['fixed_charge'];
                 $gatewayCurrency->percent_charge    = $currency['percent_charge'];
+                $gatewayCurrency->deposit_bonus_percent = $currency['deposit_bonus_percent'] ?? 0;
                 $gatewayCurrency->rate              = $currency['rate'];
                 $gatewayCurrency->symbol            = $currency['symbol'];
                 $gatewayCurrency->method_code       = $code;
@@ -141,6 +142,7 @@ class AutomaticGatewayController extends Controller {
                 $validationRule['currency.' . $key . '.max_amount']     = 'required|numeric|gt:0|gte:currency.' . $key . '.min_amount';
                 $validationRule['currency.' . $key . '.fixed_charge']   = 'required|numeric|gte:0';
                 $validationRule['currency.' . $key . '.percent_charge'] = 'required|numeric|gte:0|max:100';
+                $validationRule['currency.' . $key . '.deposit_bonus_percent'] = 'required|numeric|gte:0|max:100';
                 $validationRule['currency.' . $key . '.rate']           = 'required|numeric|gt:0';
 
                 $supportedCurrencies = explode(',', $supportedCurrencies);
@@ -154,6 +156,7 @@ class AutomaticGatewayController extends Controller {
                 $customAttributes['currency.' . $key . '.max_amount']     = $currencyIdentifier . ' ' . keyToTitle('max_amount');
                 $customAttributes['currency.' . $key . '.fixed_charge']   = $currencyIdentifier . ' ' . keyToTitle('fixed_charge');
                 $customAttributes['currency.' . $key . '.percent_charge'] = $currencyIdentifier . ' ' . keyToTitle('percent_charge');
+                $customAttributes['currency.' . $key . '.deposit_bonus_percent'] = $currencyIdentifier . ' deposit bonus';
                 $customAttributes['currency.' . $key . '.rate']           = $currencyIdentifier . ' ' . keyToTitle('rate');
                 $customAttributes['currency.' . $key . '.currency']       = $currencyIdentifier . ' ' . keyToTitle('currency');
                 $customAttributes['currency.' . $key . '.symbol']         = $currencyIdentifier . ' ' . keyToTitle('symbol');

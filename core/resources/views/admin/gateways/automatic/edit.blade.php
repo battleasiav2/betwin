@@ -145,6 +145,13 @@
                                                                 <div class="input-group-text">%</div>
                                                             </div>
                                                         </div>
+                                                        <div class="form-group">
+                                                            <label>@lang('Deposit Bonus')</label>
+                                                            <div class="input-group">
+                                                                <input type="number" step="any" class="form-control" name="currency[{{ $currencyIndex }}][deposit_bonus_percent]" value="{{ getAmount($gatewayCurrency->deposit_bonus_percent ?? 0) }}" min="0" max="100" required>
+                                                                <div class="input-group-text">%</div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -276,6 +283,13 @@
                                                     <div class="input-group">
                                                         <div class="input-group-text">%</div>
                                                         <input disabled type="number" step="any" class="form-control" name="currency[{{ $currencyIndex }}][percent_charge]" required>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>@lang('Deposit Bonus')</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-text">%</div>
+                                                        <input disabled type="number" step="any" class="form-control" name="currency[{{ $currencyIndex }}][deposit_bonus_percent]" value="0" min="0" max="100" required>
                                                     </div>
                                                 </div>
                                             </div>

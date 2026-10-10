@@ -136,7 +136,40 @@ class PaymentController extends Controller {
         return view("Template::$data->view", compact('data', 'pageTitle', 'deposit'));
     }
 
+    public static function creditDepositBonus($user, $deposit): float
+    {
+        if ($deposit->promotion_id) {
+            return 0;
+        }
+        $methodCurrency = $deposit->gatewayCurrency();
+        $methodPercent = (float) ($methodCurrency->deposit_bonus_percent ?? 0);
+        $bonusPercent = $methodPercent > 0 ? $methodPercent : (float) (gs('deposit_bonus_percent') ?? 0);
+        if ($bonusPercent <= 0) {
+            return 0;
+        }
+        $bonusAmount = round(((float) $deposit->amount) * $bonusPercent / 100, 2);
+        if ($bonusAmount <= 0) {
+            return 0;
+        }
+        $user->balance += $bonusAmount;
+        $user->turnover_requirement += $bonusAmount;
+
+        $bonusTrx = new Transaction();
+        $bonusTrx->user_id = $user->id;
+        $bonusTrx->amount = $bonusAmount;
+        $bonusTrx->post_balance = $user->balance;
+        $bonusTrx->charge = 0;
+        $bonusTrx->trx_type = '+';
+        $bonusTrx->details = 'Deposit bonus ' . getAmount($bonusPercent) . '%';
+        $bonusTrx->trx = $deposit->trx;
+        $bonusTrx->remark = 'deposit_bonus';
+        $bonusTrx->save();
+
+        return $bonusAmount;
+    }
+
     public static function userDataUpdate($deposit, $isManual = null) {
+        ensureGatewayBonusColumn();
         DB::transaction(function () use ($deposit, $isManual) {
             $deposit = Deposit::where('id', $deposit->id)->lockForUpdate()->first();
             if (!$deposit || ($deposit->status != Status::PAYMENT_INITIATE && $deposit->status != Status::PAYMENT_PENDING)) {
@@ -181,25 +214,7 @@ class PaymentController extends Controller {
                 }
             }
 
-            $bonusPercent = (float) (gs('deposit_bonus_percent') ?? 0);
-            if (!$deposit->promotion_id && $bonusPercent > 0) {
-                $bonusAmount = round($deposit->amount * $bonusPercent / 100, 2);
-                if ($bonusAmount > 0) {
-                    $user->balance += $bonusAmount;
-                    $user->turnover_requirement += $bonusAmount;
-
-                    $bonusTrx = new Transaction();
-                    $bonusTrx->user_id = $user->id;
-                    $bonusTrx->amount = $bonusAmount;
-                    $bonusTrx->post_balance = $user->balance;
-                    $bonusTrx->charge = 0;
-                    $bonusTrx->trx_type = '+';
-                    $bonusTrx->details = 'Deposit bonus ' . getAmount($bonusPercent) . '%';
-                    $bonusTrx->trx = $deposit->trx;
-                    $bonusTrx->remark = 'deposit_bonus';
-                    $bonusTrx->save();
-                }
-            }
+            self::creditDepositBonus($user, $deposit);
 
             $user->save();
 

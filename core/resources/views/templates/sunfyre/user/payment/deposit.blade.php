@@ -40,6 +40,9 @@
                                             <img src="{{ getImage(getFilePath('gateway') . '/' . $data->method->image) }}" alt="{{ $data->name }}">
                                         </div>
                                         <span class="name">{{ __($data->name) }}</span>
+                                        @if((float) ($data->deposit_bonus_percent ?? 0) > 0)
+                                            <span class="bonus-tag">+{{ getAmount($data->deposit_bonus_percent) }}%</span>
+                                        @endif
                                         <div class="check-mark"><i class="las la-check-circle"></i></div>
                                     </div>
                                 </label>
@@ -238,6 +241,11 @@
     @media (max-width: 575.98px) {
         .gateway-card .name { font-size: 13px; }
         .gateway-card .thumb img { width: 84px; height: 56px; }
+    }
+    .bonus-tag {
+        position: absolute; top: 6px; right: 6px;
+        background: #f5c518; color: #111; font-size: 11px; font-weight: 900;
+        line-height: 1; padding: 4px 6px; border-radius: 6px; z-index: 3;
     }
     .vip-tag {
         position: absolute; top: 0; left: 0;

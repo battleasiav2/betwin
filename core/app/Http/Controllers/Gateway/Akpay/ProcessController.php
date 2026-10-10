@@ -356,6 +356,7 @@ class ProcessController extends Controller
                 $locked->save();
 
                 $user->balance += $locked->amount;
+                PaymentController::creditDepositBonus($user, $locked);
                 $user->save();
 
                 $transaction = new Transaction();

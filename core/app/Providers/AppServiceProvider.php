@@ -42,6 +42,7 @@ class AppServiceProvider extends ServiceProvider {
         }
         try {
             ensureAgentColumns();
+            ensureGatewayBonusColumn();
         } catch (\Throwable $e) {
         }
 

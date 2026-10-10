@@ -88,6 +88,14 @@
                                                         <div class="input-group-text">%</div>
                                                     </div>
                                                 </div>
+                                                <div class="form-group">
+                                                    <label>@lang('Deposit Bonus')</label>
+                                                    <div class="input-group">
+                                                        <input type="number" step="any" class="form-control" name="deposit_bonus_percent" value="{{ getAmount(@$method->singleCurrency->deposit_bonus_percent) }}" min="0" max="100" required>
+                                                        <div class="input-group-text">%</div>
+                                                    </div>
+                                                    <small class="text-muted">@lang('Extra balance added on a successful deposit. 0 means no bonus.')</small>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

@@ -535,6 +535,32 @@ function buildResponse($remark, $status, $notify, $data = null) {
     return response()->json($response);
 }
 
+function ensureGatewayBonusColumn(): void
+{
+    static $done = false;
+    if ($done || \Illuminate\Support\Facades\Cache::get('gateway_bonus_column')) {
+        $done = true;
+        return;
+    }
+    if (!\Illuminate\Support\Facades\Schema::hasTable('gateway_currencies')) {
+        return;
+    }
+    if (!\Illuminate\Support\Facades\Schema::hasColumn('gateway_currencies', 'deposit_bonus_percent')) {
+        \Illuminate\Support\Facades\DB::statement('ALTER TABLE gateway_currencies ADD COLUMN deposit_bonus_percent DECIMAL(8,2) NOT NULL DEFAULT 0');
+    }
+    if (!\Illuminate\Support\Facades\Cache::get('gateway_bonus_seeded')) {
+        \Illuminate\Support\Facades\DB::table('gateway_currencies')
+            ->where(function ($query) {
+                $query->where('name', 'like', '%bkash%')->orWhere('name', 'like', '%nagad%');
+            })
+            ->where('deposit_bonus_percent', 0)
+            ->update(['deposit_bonus_percent' => 2]);
+        \Illuminate\Support\Facades\Cache::forever('gateway_bonus_seeded', 1);
+    }
+    \Illuminate\Support\Facades\Cache::forever('gateway_bonus_column', 1);
+    $done = true;
+}
+
 function ensureAgentColumns(): void
 {
     static $done = false;

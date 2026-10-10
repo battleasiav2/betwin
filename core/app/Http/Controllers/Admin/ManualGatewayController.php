@@ -68,6 +68,7 @@ class ManualGatewayController extends Controller {
         $gatewayCurrency->max_amount     = $request->max_limit;
         $gatewayCurrency->fixed_charge   = $request->fixed_charge;
         $gatewayCurrency->percent_charge = $request->percent_charge;
+        $gatewayCurrency->deposit_bonus_percent = $request->deposit_bonus_percent;
         $gatewayCurrency->rate           = $request->rate;
         $gatewayCurrency->save();
 
@@ -121,6 +122,7 @@ class ManualGatewayController extends Controller {
             $singleCurrency->max_amount     = $request->max_limit;
             $singleCurrency->fixed_charge   = $request->fixed_charge;
             $singleCurrency->percent_charge = $request->percent_charge;
+            $singleCurrency->deposit_bonus_percent = $request->deposit_bonus_percent;
             $singleCurrency->rate           = $request->rate;
             $singleCurrency->save();
         }
@@ -138,6 +140,7 @@ class ManualGatewayController extends Controller {
             'max_limit'      => 'required|numeric|gt:min_limit',
             'fixed_charge'   => 'required|numeric|gte:0',
             'percent_charge' => 'required|numeric|between:0,100',
+            'deposit_bonus_percent' => 'required|numeric|gte:0|max:100',
             'image'          => [$isUpdate ? 'nullable' : 'required', 'image', new FileTypeValidate(['jpg', 'jpeg', 'png'])],
             'instruction'    => 'required',
         ];

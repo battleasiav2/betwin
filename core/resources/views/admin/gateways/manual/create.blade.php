@@ -91,6 +91,13 @@
                                                         <div class="input-group-text">%</div>
                                                     </div>
                                                 </div>
+                                                <div class="form-group">
+                                                    <label>@lang('Deposit Bonus')</label>
+                                                    <div class="input-group">
+                                                        <input type="number" step="any" class="form-control" name="deposit_bonus_percent" required min="0" max="100" value="{{ old('deposit_bonus_percent', 0) }}">
+                                                        <div class="input-group-text">%</div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
