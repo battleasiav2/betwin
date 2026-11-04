@@ -158,13 +158,14 @@ class NotifyProcess {
 
         //Getting the notification message from database if use and template exist
         //If not exist, get the message which have sent via method
+        $globalBody = gs($globalTemplate) ?? '';
         if ($user && $template) {
-            $message = $this->replaceShortCode($user->fullname, $user->username, gs($globalTemplate), $template->$body);
+            $message = $this->replaceShortCode($user->fullname, $user->username, $globalBody, $template->$body ?? '');
             if (empty($message)) {
-                $message = $template->$body;
+                $message = $template->$body ?? '';
             }
         } else {
-            $message = $this->replaceShortCode($this->receiverName, $this->toAddress, gs($globalTemplate), $this->message);
+            $message = $this->replaceShortCode($this->receiverName, $this->toAddress, $globalBody, $this->message ?? '');
         }
 
         //replace the all short code of template

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\PasswordReset;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Throwable;
 
 class ForgotPasswordController extends Controller
 {
@@ -45,19 +46,19 @@ class ForgotPasswordController extends Controller
         $password->created_at = \Carbon\Carbon::now();
         $password->save();
 
-        $userIpInfo = getIpInfo();
-        $userBrowserInfo = osBrowser();
-        notify($user, 'PASS_RESET_CODE', [
-            'code' => $code,
-            'operating_system' => @$userBrowserInfo['os_platform'],
-            'browser' => @$userBrowserInfo['browser'],
-            'ip' => @$userIpInfo['ip'],
-            'time' => @$userIpInfo['time']
-        ], ['email']);
+        try {
+            sendPasswordResetCodeMail($user, $code);
+        } catch (Throwable $e) {
+            \Log::error('password_reset_mail_failed', [
+                'email' => $user->email,
+                'error' => $e->getMessage(),
+            ]);
+            $notify[] = ['error', 'Could not send code to your email. Please try again in a minute.'];
+            return back()->withNotify($notify);
+        }
 
-        $email = $user->email;
-        session()->put('pass_res_mail', $email);
-        $notify[] = ['success', 'Password reset email sent successfully'];
+        session()->put('pass_res_mail', $user->email);
+        $notify[] = ['success', 'Password reset code sent to your email'];
         return to_route('user.password.code.verify')->withNotify($notify);
     }
 

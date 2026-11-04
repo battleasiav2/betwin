@@ -43,6 +43,9 @@ try {
     $gs->en = 1;
     $gs->email_from = $from;
     $gs->email_from_name = $fromName;
+    if (empty($gs->email_template)) {
+        $gs->email_template = '<div>{{message}}</div>';
+    }
     $gs->mail_config = $mailConfig;
     $gs->save();
 
@@ -50,37 +53,44 @@ try {
     Illuminate\Support\Facades\Cache::flush();
 
     foreach (['PASS_RESET_CODE', 'PASS_RESET_DONE', 'DEFAULT'] as $act) {
-        Illuminate\Support\Facades\DB::table('notification_templates')
-            ->where('act', $act)
-            ->update([
-                'email_status' => 1,
-                'email_sent_from_address' => $from,
-                'email_sent_from_name' => $fromName,
-            ]);
+        $row = Illuminate\Support\Facades\DB::table('notification_templates')->where('act', $act)->first();
+        $update = [
+            'email_status' => 1,
+            'email_sent_from_address' => $from,
+            'email_sent_from_name' => $fromName,
+        ];
+        if ($row && trim((string) ($row->email_body ?? '')) === '') {
+            $update['email_body'] = $act === 'PASS_RESET_CODE'
+                ? 'Your password reset code is: {{code}}'
+                : '{{message}}';
+        }
+        if ($row && trim((string) ($row->subject ?? '')) === '') {
+            $update['subject'] = $act === 'PASS_RESET_CODE' ? 'Password Reset Code' : 'Notification';
+        }
+        Illuminate\Support\Facades\DB::table('notification_templates')->where('act', $act)->update($update);
     }
 
     echo "OK smtp+cache cleared\n";
     echo 'mail_name=' . (string) (gs('mail_config')->name ?? '') . "\n";
     echo 'en=' . (int) gs('en') . "\n";
 
-    $mail = new PHPMailer\PHPMailer\PHPMailer(true);
-    $mail->isSMTP();
-    $mail->Host = $host;
-    $mail->SMTPAuth = true;
-    $mail->Username = $username;
-    $mail->Password = $password;
-    $mail->SMTPSecure = $enc === 'ssl'
-        ? PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_SMTPS
-        : PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
-    $mail->Port = $port;
-    $mail->CharSet = 'UTF-8';
-    $mail->setFrom($from, $fromName);
-    $mail->addAddress($testTo);
-    $mail->isHTML(true);
-    $mail->Subject = 'BET369WIN SMTP OK';
-    $mail->Body = 'Live SMTP working at ' . date('c') . '. You can use Forgot Password now.';
-    $mail->send();
-    echo "SMTP_SENT_OK to {$testTo}\n";
+    $tpl = Illuminate\Support\Facades\DB::table('notification_templates')->where('act', 'PASS_RESET_CODE')->first();
+    echo 'tpl_status=' . (int) ($tpl->email_status ?? -1) . ' body_len=' . strlen((string) ($tpl->email_body ?? '')) . "\n";
+
+    $errors = Illuminate\Support\Facades\DB::table('admin_notifications')->orderByDesc('id')->limit(5)->get(['id', 'title', 'created_at']);
+    echo "recent_admin_errors:\n";
+    foreach ($errors as $err) {
+        echo '- #' . $err->id . ' ' . $err->created_at . ' ' . $err->title . "\n";
+    }
+
+    $code = (string) random_int(100000, 999999);
+    $user = (object) [
+        'email' => $testTo,
+        'fullname' => explode('@', $testTo)[0],
+        'username' => explode('@', $testTo)[0],
+    ];
+    sendPasswordResetCodeMail($user, $code);
+    echo "SMTP_CODE_SENT_OK to {$testTo} code={$code}\n";
 } catch (Throwable $e) {
     http_response_code(500);
     echo 'FAIL ' . $e->getMessage();

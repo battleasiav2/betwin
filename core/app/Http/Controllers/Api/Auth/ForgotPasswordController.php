@@ -46,15 +46,19 @@ class ForgotPasswordController extends Controller
         $password->created_at = Carbon::now();
         $password->save();
 
-        $userIpInfo = getIpInfo();
-        $userBrowserInfo = osBrowser();
-        notify($user, 'PASS_RESET_CODE', [
-            'code' => $code,
-            'operating_system' => isset($userBrowserInfo['os_platform']) ? $userBrowserInfo['os_platform'] : '',
-            'browser' => isset($userBrowserInfo['browser']) ? $userBrowserInfo['browser'] : '',
-            'ip' => isset($userIpInfo['ip']) ? $userIpInfo['ip'] : '',
-            'time' => isset($userIpInfo['time']) ? $userIpInfo['time'] : ''
-        ], ['email']);
+        try {
+            sendPasswordResetCodeMail($user, $code);
+        } catch (\Throwable $e) {
+            \Log::error('password_reset_mail_failed_api', [
+                'email' => $user->email,
+                'error' => $e->getMessage(),
+            ]);
+            return response()->json([
+                'remark' => 'email_error',
+                'status' => 'error',
+                'message' => ['error' => ['Could not send code to your email. Please try again.']],
+            ]);
+        }
 
         $email = $user->email;
         $response[] = 'Verification code sent to mail';

@@ -214,6 +214,76 @@ function notify($user, $templateName, $shortCodes = null, $sendVia = null, $crea
     $notify->send();
 }
 
+/**
+ * Send HTML mail via configured SMTP. Throws on failure.
+ */
+function sendSmtpMail(string $toEmail, string $toName, string $subject, string $htmlBody): void
+{
+    if (!gs('en')) {
+        throw new RuntimeException('Email notification is disabled');
+    }
+    $config = gs('mail_config');
+    if (!$config || (($config->name ?? '') !== 'smtp')) {
+        throw new RuntimeException('SMTP is not configured');
+    }
+    $from = (string) (gs('email_from') ?: ($config->username ?? ''));
+    $fromName = (string) (gs('email_from_name') ?: gs('site_name') ?: 'BET369WIN');
+    if ($from === '' || $toEmail === '') {
+        throw new RuntimeException('Missing from/to email address');
+    }
+
+    $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+    $mail->isSMTP();
+    $mail->Host = (string) $config->host;
+    $mail->SMTPAuth = true;
+    $mail->Username = (string) $config->username;
+    $mail->Password = (string) $config->password;
+    if (($config->enc ?? 'ssl') === 'ssl') {
+        $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_SMTPS;
+    } else {
+        $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+    }
+    $mail->Port = (int) ($config->port ?: 465);
+    $mail->CharSet = 'UTF-8';
+    $mail->setFrom($from, $fromName);
+    $mail->addAddress($toEmail, $toName !== '' ? $toName : explode('@', $toEmail)[0]);
+    $mail->addReplyTo($from, $fromName);
+    $mail->isHTML(true);
+    $mail->Subject = $subject;
+    $mail->Body = $htmlBody;
+    $mail->send();
+}
+
+function sendPasswordResetCodeMail(object $user, string $code): void
+{
+    $name = (string) ($user->fullname ?: $user->username ?: explode('@', (string) $user->email)[0]);
+    $site = (string) (gs('site_name') ?: 'BET369WIN');
+    $subject = $site . ' - Password Reset Code';
+    $body = '<p>Hello ' . e($name) . ',</p>'
+        . '<p>Your password reset verification code is:</p>'
+        . '<p style="font-size:28px;font-weight:700;letter-spacing:6px;">' . e($code) . '</p>'
+        . '<p>This code was requested for your ' . e($site) . ' account.</p>'
+        . '<p>If you did not request this, you can ignore this email.</p>';
+
+    try {
+        sendSmtpMail((string) $user->email, $name, $subject, $body);
+        return;
+    } catch (Throwable $smtpError) {
+        session()->forget('mail_error');
+        notify($user, 'PASS_RESET_CODE', [
+            'code' => $code,
+            'operating_system' => '',
+            'browser' => '',
+            'ip' => '',
+            'time' => '',
+        ], ['email'], false);
+        if ($mailError = session()->pull('mail_error')) {
+            throw new RuntimeException($mailError, 0, $smtpError);
+        }
+        throw $smtpError;
+    }
+}
+
 function getPaginate($paginate = null) {
     if (!$paginate) {
         $paginate = gs('paginate_number');
