@@ -145,7 +145,8 @@ class PaymentController extends Controller {
         $methodCurrency = $deposit->gatewayCurrency();
         $methodPercent = (float) ($methodCurrency->deposit_bonus_percent ?? 0);
         $globalPercent = (float) (gs('deposit_bonus_percent') ?? 0);
-        $bonusPercent = $methodPercent > 0 ? $methodPercent : ($globalPercent > 0 ? $globalPercent : 5);
+        // Method percent first, then admin General Setting. Admin can set 0 to disable.
+        $bonusPercent = $methodPercent > 0 ? $methodPercent : $globalPercent;
         if ($bonusPercent <= 0) {
             return 0;
         }

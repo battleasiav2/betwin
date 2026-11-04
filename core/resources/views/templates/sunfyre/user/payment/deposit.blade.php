@@ -40,8 +40,14 @@
                                             <img src="{{ getImage(getFilePath('gateway') . '/' . $data->method->image) }}" alt="{{ $data->name }}">
                                         </div>
                                         <span class="name">{{ __($data->name) }}</span>
-                                        @if((float) ($data->deposit_bonus_percent ?? 0) > 0)
-                                            <span class="bonus-tag">+{{ getAmount($data->deposit_bonus_percent) }}%</span>
+                                        @php
+                                            $bonusShow = (float) ($data->deposit_bonus_percent ?? 0);
+                                            if ($bonusShow <= 0) {
+                                                $bonusShow = (float) (gs('deposit_bonus_percent') ?? 0);
+                                            }
+                                        @endphp
+                                        @if($bonusShow > 0)
+                                            <span class="bonus-tag">+{{ getAmount($bonusShow) }}%</span>
                                         @endif
                                         <div class="check-mark"><i class="las la-check-circle"></i></div>
                                     </div>

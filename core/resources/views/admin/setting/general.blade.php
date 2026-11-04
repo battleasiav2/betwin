@@ -106,7 +106,7 @@
                                             value="{{ getAmount(gs('deposit_bonus_percent')) }}" step="any" min="0" max="100" required>
                                         <span class="input-group-text">%</span>
                                     </div>
-                                    <small class="text-muted">@lang('0 means no bonus. Applied on every approved deposit.')</small>
+                                    <small class="text-muted">@lang('Default is 5%. Change anytime from here. 0 means no bonus. Applied on every approved deposit and updates payment method badges.')</small>
                                 </div>
                             </div>
                             <div class="col-xl-4 col-sm-6">

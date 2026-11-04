@@ -538,7 +538,7 @@ function buildResponse($remark, $status, $notify, $data = null) {
 function ensureGatewayBonusColumn(): void
 {
     static $done = false;
-    if ($done || \Illuminate\Support\Facades\Cache::get('gateway_bonus_seeded_5pct')) {
+    if ($done || \Illuminate\Support\Facades\Cache::get('gateway_bonus_admin_ready')) {
         $done = true;
         return;
     }
@@ -548,13 +548,24 @@ function ensureGatewayBonusColumn(): void
     if (!\Illuminate\Support\Facades\Schema::hasColumn('gateway_currencies', 'deposit_bonus_percent')) {
         \Illuminate\Support\Facades\DB::statement('ALTER TABLE gateway_currencies ADD COLUMN deposit_bonus_percent DECIMAL(8,2) NOT NULL DEFAULT 0');
     }
-    \Illuminate\Support\Facades\DB::table('gateway_currencies')->update(['deposit_bonus_percent' => 5]);
-    if (\Illuminate\Support\Facades\Schema::hasTable('general_settings') && \Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'deposit_bonus_percent')) {
-        \Illuminate\Support\Facades\DB::table('general_settings')->update(['deposit_bonus_percent' => 5]);
+    if (\Illuminate\Support\Facades\Schema::hasTable('general_settings')) {
+        if (!\Illuminate\Support\Facades\Schema::hasColumn('general_settings', 'deposit_bonus_percent')) {
+            \Illuminate\Support\Facades\DB::statement('ALTER TABLE general_settings ADD COLUMN deposit_bonus_percent DECIMAL(8,2) NOT NULL DEFAULT 5');
+        }
+        $globalBonus = (float) (\Illuminate\Support\Facades\DB::table('general_settings')->value('deposit_bonus_percent') ?? 0);
+        if ($globalBonus <= 0) {
+            \Illuminate\Support\Facades\DB::table('general_settings')->update(['deposit_bonus_percent' => 5]);
+            $globalBonus = 5;
+        }
+        if (!\Illuminate\Support\Facades\Cache::get('gateway_bonus_synced_once')) {
+            \Illuminate\Support\Facades\DB::table('gateway_currencies')->update(['deposit_bonus_percent' => $globalBonus]);
+            \Illuminate\Support\Facades\Cache::forever('gateway_bonus_synced_once', 1);
+        }
     }
     \Illuminate\Support\Facades\Cache::forever('gateway_bonus_column', 1);
     \Illuminate\Support\Facades\Cache::forever('gateway_bonus_seeded', 1);
     \Illuminate\Support\Facades\Cache::forever('gateway_bonus_seeded_5pct', 1);
+    \Illuminate\Support\Facades\Cache::forever('gateway_bonus_admin_ready', 1);
     $done = true;
 }
 

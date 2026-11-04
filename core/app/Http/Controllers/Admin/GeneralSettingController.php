@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Frontend;
 use App\Rules\FileTypeValidate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use App\Lib\RequiredConfig;
 
@@ -65,6 +66,11 @@ class GeneralSettingController extends Controller
         $general->currency_format                 = $request->currency_format;
         $general->register_bonus                  = $request->register_bonus;
         $general->deposit_bonus_percent           = $request->deposit_bonus_percent;
+        if (Schema::hasColumn('gateway_currencies', 'deposit_bonus_percent')) {
+            DB::table('gateway_currencies')->update([
+                'deposit_bonus_percent' => round((float) $request->deposit_bonus_percent, 2),
+            ]);
+        }
         $general->demo_balance                    = $request->demo_balance;
         $general->min_balance                     = $request->min_balance;
         $general->balance_transfer_fixed_charge   = $request->balance_transfer_fixed_charge;
