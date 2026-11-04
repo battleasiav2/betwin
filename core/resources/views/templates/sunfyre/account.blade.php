@@ -470,12 +470,6 @@
                 <span class="menu-label">2FA Security</span>
             </a>
 
-            <!-- Transaction PIN -->
-            <a href="{{ route('user.withdraw.pin.change') }}" class="menu-item">
-                <div class="icon-box"><i class="fas fa-lock"></i></div>
-                <span class="menu-label">Transaction PIN</span>
-            </a>
-
             <!-- Support -->
             <a href="{{ route('ticket.open') }}" class="menu-item">
                 <div class="icon-box"><i class="fas fa-headphones-alt"></i></div>

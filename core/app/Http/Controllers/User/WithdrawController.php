@@ -110,7 +110,6 @@ class WithdrawController extends Controller
         $request->validate([
             'method_code' => 'required',
             'amount' => 'required|numeric',
-            'trans_pin' => 'required|digits:4',
             'payout_number' => ['required', 'regex:/^01[3-9][0-9]{8}$/'],
         ]);
 
@@ -119,11 +118,6 @@ class WithdrawController extends Controller
         /* Turnover Requirement Check */
         if ($user->turnover_requirement > 0) {
             $notify[] = ['error', 'Please complete your turnover requirement: ' . showAmount($user->turnover_requirement)];
-            return back()->withNotify($notify)->withInput();
-        }
-
-        if ($user->withdraw_pin != $request->trans_pin) {
-            $notify[] = ['error', 'Invalid Transaction PIN'];
             return back()->withNotify($notify)->withInput();
         }
 

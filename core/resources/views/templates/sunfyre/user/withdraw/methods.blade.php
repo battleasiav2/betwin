@@ -97,57 +97,12 @@
                         <small class="wd-meta">এই নম্বর অ্যাডমিন দেখবে। অ্যাপ্রুভ করলে তবেই উইথড্র হবে।</small>
                     </div>
 
-                    <div class="wd-pin-head">
-                        <label class="money-label">@lang('Transaction PIN')</label>
-                        <a href="{{ route('user.withdraw.pin.change') }}">Change PIN</a>
-                    </div>
-                    <div class="wd-pins" id="withdraw-pin-container">
-                        <input type="tel" class="pin-box" maxlength="1" inputmode="numeric" {{ $locked ? 'disabled' : '' }}>
-                        <input type="tel" class="pin-box" maxlength="1" inputmode="numeric" {{ $locked ? 'disabled' : '' }}>
-                        <input type="tel" class="pin-box" maxlength="1" inputmode="numeric" {{ $locked ? 'disabled' : '' }}>
-                        <input type="tel" class="pin-box" maxlength="1" inputmode="numeric" {{ $locked ? 'disabled' : '' }}>
-                    </div>
-                    <input type="hidden" name="trans_pin" id="final_pin">
-
                     <button type="submit" class="btn btn-submit confirm-withdraw w-100" @if($locked || $payMethods->isEmpty()) disabled @endif>@lang('CONFIRM WITHDRAW')</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
-@if(!auth()->user()->withdraw_pin)
-<div class="modal fade" id="pinSetupModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content wd-modal">
-            <div class="modal-body">
-                <h2>Set Withdraw PIN</h2>
-                <p>প্রতিবার উইথড্রের জন্য ৪ সংখ্যার পিন লাগবে।</p>
-                <form action="{{ route('user.withdraw.pin.store') }}" method="post">
-                    @csrf
-                    <label class="money-label">New PIN</label>
-                    <div class="wd-pins" id="setup-pin-container">
-                        <input type="tel" class="pin-box" maxlength="1" inputmode="numeric">
-                        <input type="tel" class="pin-box" maxlength="1" inputmode="numeric">
-                        <input type="tel" class="pin-box" maxlength="1" inputmode="numeric">
-                        <input type="tel" class="pin-box" maxlength="1" inputmode="numeric">
-                    </div>
-                    <input type="hidden" name="pin" id="final_setup_pin">
-                    <label class="money-label">Confirm PIN</label>
-                    <div class="wd-pins" id="confirm-pin-container">
-                        <input type="tel" class="pin-box" maxlength="1" inputmode="numeric">
-                        <input type="tel" class="pin-box" maxlength="1" inputmode="numeric">
-                        <input type="tel" class="pin-box" maxlength="1" inputmode="numeric">
-                        <input type="tel" class="pin-box" maxlength="1" inputmode="numeric">
-                    </div>
-                    <input type="hidden" name="confirm_pin" id="final_confirm_pin">
-                    <button type="submit" class="btn btn-submit active-btn w-100">Save PIN</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-@endif
 @endsection
 
 @push('style')
@@ -257,13 +212,6 @@
     }
     .wd-meta, .wd-charge { display: block; margin-top: 6px; color: #8b97a8; font-size: 12px; }
     .wd-charge { color: #ff8a96; }
-    .wd-pin-head { display: flex; justify-content: space-between; align-items: flex-end; }
-    .wd-pin-head a { color: #e8b84a; font-size: 12px; text-decoration: none; margin-bottom: 8px; }
-    .wd-pins { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; width: 100%; }
-    .pin-box {
-        width: 100%; min-width: 0; box-sizing: border-box; height: 52px; text-align: center; font-size: 22px; font-weight: 800;
-        border-radius: 12px; border: 1px solid var(--mp-border); background: #0f1419; color: var(--mp-text); padding: 0;
-    }
     .btn-submit {
         margin-top: 16px; background: rgba(255,255,255,0.04) !important; border: 1px solid rgba(255,255,255,0.12) !important;
         color: var(--mp-muted) !important; font-size: 15px; font-weight: 900; border-radius: 14px; padding: 13px;
@@ -274,9 +222,6 @@
         box-shadow: 0 8px 22px rgba(45,212,168,0.35);
     }
     .wd-empty { color: var(--mp-muted); margin: 0; }
-    .wd-modal { background: #151b24; color: #e8eef5; border-radius: 18px; border: 1px solid var(--mp-border); }
-    .wd-modal h2 { margin: 0 0 8px; font-size: 18px; }
-    .wd-modal p { color: #8b97a8; font-size: 13px; }
 </style>
 @endpush
 
@@ -284,35 +229,6 @@
 <script>
     (function ($) {
         "use strict";
-
-        @if(!auth()->user()->withdraw_pin)
-            new bootstrap.Modal(document.getElementById('pinSetupModal')).show();
-        @endif
-
-        function setupPinInputs(containerId, hiddenInputId) {
-            const container = $('#' + containerId);
-            const inputs = container.find('.pin-box');
-            const hiddenInput = $('#' + hiddenInputId);
-            if (!container.length || !hiddenInput.length) return;
-            inputs.on('input', function () {
-                this.value = this.value.replace(/[^0-9]/g, '');
-                if (this.value.length === 1) $(this).next('.pin-box').focus();
-                updateHiddenValue();
-            });
-            inputs.on('keydown', function (e) {
-                if (e.key === 'Backspace' && this.value.length === 0) $(this).prev('.pin-box').focus();
-                setTimeout(updateHiddenValue, 10);
-            });
-            function updateHiddenValue() {
-                let pin = '';
-                inputs.each(function () { pin += $(this).val(); });
-                hiddenInput.val(pin);
-            }
-        }
-
-        setupPinInputs('withdraw-pin-container', 'final_pin');
-        setupPinInputs('setup-pin-container', 'final_setup_pin');
-        setupPinInputs('confirm-pin-container', 'final_confirm_pin');
 
         $('#payout_number').on('input', function () {
             this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11);
@@ -360,11 +276,6 @@
             if (!/^01[3-9][0-9]{8}$/.test(wallet)) {
                 e.preventDefault();
                 alert('সঠিক ১১ ডিজিটের পার্সোনাল নম্বর দিন।');
-                return false;
-            }
-            if (($('#final_pin').val() || '').length !== 4) {
-                e.preventDefault();
-                alert('৪ সংখ্যার ট্রানজেকশন পিন দিন।');
                 return false;
             }
         });
