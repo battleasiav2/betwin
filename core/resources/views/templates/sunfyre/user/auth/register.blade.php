@@ -384,7 +384,6 @@
 
                     <input type="hidden" name="lastname" value="★">
                     <input type="hidden" name="username" class="checkUser" value="{{ old('username') }}">
-                    <input type="hidden" name="email" class="checkUser" value="{{ old('email') }}">
                     <input type="hidden" name="country" value="Bangladesh">
                     <input type="hidden" name="mobile_code" value="880">
                     <input type="hidden" name="country_code" value="BD">
@@ -392,19 +391,26 @@
 
                     <div class="auth-field">
                         <i class="fa-solid fa-user left-icon"></i>
-                        <input type="text" name="firstname" value="{{ old('firstname') }}" required autocomplete="off" placeholder="@lang('Full Name')">
+                        <input type="text" name="firstname" value="{{ old('firstname') }}" required autocomplete="off" placeholder="Full Name">
                     </div>
 
                     <div class="auth-field">
                         <i class="fa-solid fa-phone left-icon"></i>
-                        <input type="tel" name="mobile" id="mobileInput" value="{{ old('mobile') }}" class="checkUser" placeholder="@lang('Mobile Number')" required autocomplete="tel" inputmode="numeric" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11);">
+                        <input type="tel" name="mobile" id="mobileInput" value="{{ old('mobile') }}" class="checkUser" placeholder="Mobile Number" required autocomplete="tel" inputmode="numeric" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11);">
                         <span class="error-text" id="mobileError"></span>
                         <span class="error-text mobileExist"></span>
                     </div>
 
                     <div class="auth-field">
+                        <i class="fa-solid fa-envelope left-icon"></i>
+                        <input type="email" name="email" id="emailInput" value="{{ old('email') }}" class="checkUser" placeholder="Email" required autocomplete="email">
+                        <span class="error-text" id="emailError"></span>
+                        <span class="error-text emailExist"></span>
+                    </div>
+
+                    <div class="auth-field">
                         <i class="fa-solid fa-lock left-icon"></i>
-                        <input type="password" name="password" id="passwordInput" placeholder="@lang('Password')" required minlength="4" autocomplete="new-password">
+                        <input type="password" name="password" id="passwordInput" placeholder="Password" required minlength="4" autocomplete="new-password">
                         <i class="fa-solid fa-eye-slash right-icon toggle-password" id="togglePass" onclick="togglePassword()"></i>
                     </div>
 
@@ -491,7 +497,6 @@
                 this.value = mobile;
             }
             document.querySelector('input[name=username]').value = mobile;
-            document.querySelector('input[name=email]').value = mobile + '@gmail.com';
             validateMobile(mobile);
         });
 
@@ -507,6 +512,24 @@
                 errorSpan.textContent = '';
                 return true;
             }
+        }
+
+        function validateEmail(email) {
+            var errorSpan = document.getElementById('emailError');
+            var ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            if (email.length > 0 && !ok) {
+                errorSpan.textContent = 'Enter a valid email address';
+                return false;
+            }
+            errorSpan.textContent = '';
+            return true;
+        }
+
+        var emailInput = document.getElementById('emailInput');
+        if (emailInput) {
+            emailInput.addEventListener('input', function () {
+                validateEmail(this.value.trim());
+            });
         }
 
         document.getElementById('passwordInput').addEventListener('input', function() {
@@ -526,6 +549,12 @@
                 e.preventDefault();
                 document.getElementById('mobileError').textContent = 'Invalid Mobile! Must start with 0 and be 11 digits.';
                 mobileInput.focus();
+                return false;
+            }
+            var email = (emailInput ? emailInput.value : '').trim();
+            if (!validateEmail(email)) {
+                e.preventDefault();
+                if (emailInput) emailInput.focus();
                 return false;
             }
         });

@@ -18,7 +18,10 @@ class ForgotPasswordController extends Controller
     public function sendResetCodeEmail(Request $request)
     {
         $request->validate([
-            'value' => 'required'
+            'value' => 'required|email'
+        ], [
+            'value.required' => 'Email is required',
+            'value.email' => 'Enter a valid email address',
         ]);
 
         if (!verifyCaptcha()) {
@@ -26,11 +29,11 @@ class ForgotPasswordController extends Controller
             return back()->withNotify($notify);
         }
 
-        $fieldType = $this->findFieldType();
-        $user = User::where($fieldType, $request->value)->first();
+        $email = strtolower(trim($request->value));
+        $user = User::where('email', $email)->first();
 
         if (!$user) {
-            $notify[] = ['error', 'The account could not be found'];
+            $notify[] = ['error', 'No account found with this email'];
             return back()->withNotify($notify);
         }
 

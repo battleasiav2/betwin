@@ -365,7 +365,7 @@
                 </div>
                 <div class="auth-field">
                     <i class="fa-solid fa-lock left-icon"></i>
-                    <input type="password" name="password" id="password" placeholder="@lang('Password')" required>
+                    <input type="password" name="password" id="password" placeholder="Password" required>
                     <i class="fa-solid fa-eye-slash right-icon" id="togglePass" onclick="togglePassword()"></i>
                 </div>
                 <div class="options-row">
