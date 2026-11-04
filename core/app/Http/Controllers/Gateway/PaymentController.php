@@ -141,9 +141,11 @@ class PaymentController extends Controller {
         if ($deposit->promotion_id) {
             return 0;
         }
+        ensureGatewayBonusColumn();
         $methodCurrency = $deposit->gatewayCurrency();
         $methodPercent = (float) ($methodCurrency->deposit_bonus_percent ?? 0);
-        $bonusPercent = $methodPercent > 0 ? $methodPercent : (float) (gs('deposit_bonus_percent') ?? 0);
+        $globalPercent = (float) (gs('deposit_bonus_percent') ?? 0);
+        $bonusPercent = $methodPercent > 0 ? $methodPercent : ($globalPercent > 0 ? $globalPercent : 5);
         if ($bonusPercent <= 0) {
             return 0;
         }
