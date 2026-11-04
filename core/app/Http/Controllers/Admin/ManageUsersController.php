@@ -429,6 +429,9 @@ class ManageUsersController extends Controller {
 
         $user->is_agent = $appoint ? 1 : 0;
         $user->agent_percent = $appoint ? round((float) $request->agent_percent, 2) : 0;
+        if ($appoint && empty($user->agent_code)) {
+            $user->agent_code = generateAgentCode();
+        }
         $user->save();
 
         $notify[] = ['success', $appoint ? 'Agent appointed' : 'Agent access removed'];

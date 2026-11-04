@@ -564,7 +564,7 @@ function ensureGatewayBonusColumn(): void
 function ensureAgentColumns(): void
 {
     static $done = false;
-    if ($done || \Illuminate\Support\Facades\Cache::get('users_agent_columns')) {
+    if ($done || (\Illuminate\Support\Facades\Cache::get('users_agent_columns') && \Illuminate\Support\Facades\Schema::hasColumn('users', 'agent_code'))) {
         $done = true;
         return;
     }
@@ -575,14 +575,46 @@ function ensureAgentColumns(): void
         'is_agent' => 'TINYINT NOT NULL DEFAULT 0',
         'agent_percent' => 'DECIMAL(5,2) NOT NULL DEFAULT 0',
         'agent_balance' => 'DECIMAL(28,8) NOT NULL DEFAULT 0',
+        'agent_code' => 'VARCHAR(6) NULL DEFAULT NULL',
     ];
     foreach ($columns as $name => $definition) {
         if (!\Illuminate\Support\Facades\Schema::hasColumn('users', $name)) {
             \Illuminate\Support\Facades\DB::statement("ALTER TABLE users ADD COLUMN {$name} {$definition}");
         }
     }
+    $agents = \Illuminate\Support\Facades\DB::table('users')
+        ->where('is_agent', 1)
+        ->where(function ($query) {
+            $query->whereNull('agent_code')->orWhere('agent_code', '');
+        })
+        ->pluck('id');
+    foreach ($agents as $agentId) {
+        \Illuminate\Support\Facades\DB::table('users')->where('id', $agentId)->update([
+            'agent_code' => generateAgentCode(),
+        ]);
+    }
     \Illuminate\Support\Facades\Cache::forever('users_agent_columns', 1);
     $done = true;
+}
+
+function generateAgentCode(): string
+{
+    do {
+        $code = (string) random_int(100000, 999999);
+    } while (\Illuminate\Support\Facades\DB::table('users')->where('agent_code', $code)->exists());
+    return $code;
+}
+
+function findActiveAgentByReference(?string $reference)
+{
+    $reference = trim((string) $reference);
+    if ($reference === '') {
+        return null;
+    }
+    return \App\Models\User::where('agent_code', $reference)
+        ->where('is_agent', 1)
+        ->where('status', \App\Constants\Status::USER_ACTIVE)
+        ->first();
 }
 
 function agentEarnings(int $agentId): array

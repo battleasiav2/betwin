@@ -26,9 +26,16 @@
             <p class="agent-muted">আপনি এখনো এজেন্ট নন। অ্যাডমিন নিয়োগ দিলে এই পেজে কমিশন ও লিংক দেখা যাবে।</p>
         </div>
     @else
-        @php $link = url('/?reference=' . $user->username); @endphp
+        @php
+            if (empty($user->agent_code)) {
+                $user->agent_code = generateAgentCode();
+                $user->save();
+            }
+            $link = url('/?reference=' . $user->agent_code);
+        @endphp
         <div class="agent-card">
             <h1>Agent</h1>
+            <div class="agent-stat"><span>এজেন্ট কোড</span><b>{{ $user->agent_code }}</b></div>
             <div class="agent-stat"><span>কমিশন রেট</span><b>{{ getAmount($user->agent_percent) }}%</b></div>
             <div class="agent-stat"><span>এজেন্ট ব্যালেন্স</span><b>{{ showAmount($user->agent_balance) }}</b></div>
             <div class="agent-grid">

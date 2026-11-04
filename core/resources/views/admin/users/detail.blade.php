@@ -261,10 +261,16 @@
                                     <input type="text" class="form-control" value="{{ showAmount($user->agent_balance) }}" readonly>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>@lang('Agent code')</label>
+                                    <input type="text" class="form-control" value="{{ $user->agent_code ?: '-' }}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label>@lang('Invite link')</label>
-                                    <input type="text" class="form-control" value="{{ url('/?reference=' . $user->username) }}" readonly>
+                                    <input type="text" class="form-control" value="{{ $user->agent_code ? url('/?reference=' . $user->agent_code) : '-' }}" readonly>
                                 </div>
                             </div>
                             <div class="col-md-12">

@@ -86,14 +86,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         ensureAgentColumns();
-        $referBy = session()->get('reference');
-        $referUser = null;
-        if ($referBy) {
-            $referUser = User::where('username', $referBy)
-                ->where('is_agent', 1)
-                ->where('status', Status::USER_ACTIVE)
-                ->first();
-        }
+        $referUser = findActiveAgentByReference(session()->get('reference'));
 
         $user               = new User();
         $user->email        = strtolower($data['email']);
