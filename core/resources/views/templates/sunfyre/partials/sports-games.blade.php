@@ -3,14 +3,14 @@
 $sportsGames = [
     [
         'id' => '92b24e4c25107367a80e0fe1a97c24e4',
-        'name' => 'Lucky Sport',
+        'name' => 'CRICKET',
         'provider' => 'luckysport',
         'img' => asset('assets/images/sports/lucky.webp'),
         'tile' => 'dark',
     ],
     [
         'id' => '08ced9dd788aed11ff3c7f387ae0f063',
-        'name' => 'SABA Sports',
+        'name' => 'ALL SPORTS',
         'provider' => 'sabasports',
         'img' => asset('assets/images/sports/saba.jpg'),
         'tile' => 'light',
