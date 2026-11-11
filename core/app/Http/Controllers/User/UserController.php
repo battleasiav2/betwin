@@ -301,6 +301,9 @@ class UserController extends Controller {
         $stats = null;
 
         if ($user->is_agent) {
+            // Credit any missed agent commissions (e.g. older Akpay deposits).
+            \App\Http\Controllers\Gateway\PaymentController::backfillAgentCommissionsForAgent((int) $user->id);
+            $user = $user->fresh();
             $stats = agentEarnings($user->id);
             $downline = User::where('ref_by', $user->id)
                 ->select('id', 'username', 'created_at')

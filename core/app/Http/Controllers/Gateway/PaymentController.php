@@ -136,6 +136,98 @@ class PaymentController extends Controller {
         return view("Template::$data->view", compact('data', 'pageTitle', 'deposit'));
     }
 
+    /**
+     * Credit agent wallet commission for a successful referred deposit.
+     * Safe to call more than once for the same trx (idempotent via CommissionLog).
+     */
+    public static function creditAgentDepositCommission($user, $deposit): bool
+    {
+        ensureAgentColumns();
+        if (!$user || !$deposit) {
+            return false;
+        }
+        if (!$user->ref_by || (int) $user->ref_by === (int) $user->id) {
+            return false;
+        }
+
+        $agent = User::where('id', $user->ref_by)->lockForUpdate()->first();
+        if (!$agent || (int) $agent->is_agent !== 1 || (int) $agent->status !== Status::USER_ACTIVE) {
+            return false;
+        }
+
+        $percent = min(20, max(0, (float) $agent->agent_percent));
+        if ($percent <= 0) {
+            return true; // agent referral exists; skip multilevel commission
+        }
+
+        $alreadyPaid = CommissionLog::where('user_id', $agent->id)->where('trx', $deposit->trx)->exists();
+        if ($alreadyPaid) {
+            return true;
+        }
+
+        $commission = round((float) $deposit->amount * $percent / 100, 2);
+        if ($commission <= 0) {
+            return true;
+        }
+
+        $agent->agent_balance = round((float) $agent->agent_balance + $commission, 2);
+        $agent->save();
+
+        CommissionLog::create([
+            'user_id'  => $agent->id,
+            'who'      => $user->id,
+            'level'    => '1 level Agent Commission',
+            'amount'   => $commission,
+            'main_amo' => $agent->agent_balance,
+            'title'    => 'Deposit Commission',
+            'trx'      => $deposit->trx,
+        ]);
+
+        return true;
+    }
+
+    /**
+     * Backfill missed agent commissions for successful deposits (e.g. old Akpay path).
+     */
+    public static function backfillAgentCommissionsForAgent(int $agentId, int $limit = 200): int
+    {
+        ensureAgentColumns();
+        $agent = User::where('id', $agentId)->where('is_agent', 1)->first();
+        if (!$agent) {
+            return 0;
+        }
+
+        $playerIds = User::where('ref_by', $agentId)->pluck('id');
+        if ($playerIds->isEmpty()) {
+            return 0;
+        }
+
+        $paidTrx = CommissionLog::where('user_id', $agentId)->pluck('trx')->filter()->values()->all();
+        $deposits = Deposit::whereIn('user_id', $playerIds)
+            ->where('status', Status::PAYMENT_SUCCESS)
+            ->when(!empty($paidTrx), fn ($q) => $q->whereNotIn('trx', $paidTrx))
+            ->orderByDesc('id')
+            ->limit($limit)
+            ->get();
+
+        $fixed = 0;
+        foreach ($deposits as $deposit) {
+            $before = CommissionLog::where('user_id', $agentId)->where('trx', $deposit->trx)->exists();
+            if ($before) {
+                continue;
+            }
+            DB::transaction(function () use ($deposit) {
+                $user = User::where('id', $deposit->user_id)->lockForUpdate()->first();
+                self::creditAgentDepositCommission($user, $deposit);
+            });
+            if (CommissionLog::where('user_id', $agentId)->where('trx', $deposit->trx)->exists()) {
+                $fixed++;
+            }
+        }
+
+        return $fixed;
+    }
+
     public static function creditDepositBonus($user, $deposit): float
     {
         if ($deposit->promotion_id) {
@@ -243,32 +335,7 @@ class PaymentController extends Controller {
             }
 
             $general = gs();
-            ensureAgentColumns();
-            $paidAgent = false;
-            if ($user->ref_by && (int) $user->ref_by !== (int) $user->id) {
-                $agent = User::where('id', $user->ref_by)->lockForUpdate()->first();
-                if ($agent && (int) $agent->is_agent === 1 && (int) $agent->status === Status::USER_ACTIVE) {
-                    $paidAgent = true;
-                    $percent = min(20, (float) $agent->agent_percent);
-                    $alreadyPaid = CommissionLog::where('user_id', $agent->id)->where('trx', $deposit->trx)->exists();
-                    if ($percent > 0 && !$alreadyPaid) {
-                        $commission = round((float) $deposit->amount * $percent / 100, 2);
-                        if ($commission > 0) {
-                            $agent->agent_balance = round((float) $agent->agent_balance + $commission, 2);
-                            $agent->save();
-                            CommissionLog::create([
-                                'user_id'  => $agent->id,
-                                'who'      => $user->id,
-                                'level'    => '1 level Agent Commission',
-                                'amount'   => $commission,
-                                'main_amo' => $agent->agent_balance,
-                                'title'    => 'Deposit Commission',
-                                'trx'      => $deposit->trx,
-                            ]);
-                        }
-                    }
-                }
-            }
+            $paidAgent = self::creditAgentDepositCommission($user, $deposit);
             if (!$paidAgent && $general->dc) {
                 levelCommission($user->id, $deposit->amount, 'Deposit Commission');
             }

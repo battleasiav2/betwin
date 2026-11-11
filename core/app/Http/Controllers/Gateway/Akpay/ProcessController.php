@@ -3,12 +3,9 @@
 namespace App\Http\Controllers\Gateway\Akpay;
 
 use App\Models\Deposit;
-use App\Models\User;
-use App\Models\Transaction;
 use App\Http\Controllers\Gateway\PaymentController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
 
 class ProcessController extends Controller
 {
@@ -340,44 +337,15 @@ class ProcessController extends Controller
                 return 'fail';
             }
 
+            // Use shared deposit success path so deposit bonus + agent 20% commission both apply.
             try {
-            $credited = DB::transaction(function () use ($deposit, $data) {
-                $locked = Deposit::where('id', $deposit->id)->lockForUpdate()->first();
-                if (!$locked || (int) $locked->status !== 0) {
-                    return false;
-                }
-
-                $user = User::where('id', $locked->user_id)->lockForUpdate()->first();
-                if (!$user) {
-                    throw new \RuntimeException('user missing');
-                }
-
-                $locked->status = 1;
-                $locked->save();
-
-                $user->balance += $locked->amount;
-                PaymentController::creditDepositBonus($user, $locked);
-                $user->save();
-
-                $transaction = new Transaction();
-                $transaction->user_id = $user->id;
-                $transaction->amount = $locked->amount;
-                $transaction->post_balance = $user->balance;
-                $transaction->charge = $locked->charge;
-                $transaction->trx_type = '+';
-                $transaction->details = 'Deposit Via Akpay - Transaction ID: ' . ($data['trade_no'] ?? $data['out_trade_no']);
-                $transaction->trx = $locked->trx;
-                $transaction->remark = 'deposit';
-                $transaction->save();
-
-                return true;
-            });
+                PaymentController::userDataUpdate($deposit);
             } catch (\Throwable $e) {
-                \Log::error('IPN: credit failed');
+                \Log::error('IPN: credit failed', ['error' => $e->getMessage()]);
                 return 'fail';
             }
 
-            \Log::info('========== AKPAY IPN PROCESSED SUCCESSFULLY ==========', ['credited' => $credited]);
+            \Log::info('========== AKPAY IPN PROCESSED SUCCESSFULLY ==========');
             return 'success';
         }
         
