@@ -177,7 +177,7 @@
         background: var(--gold-text) !important; width: 18px !important; border-radius: 3px !important;
     }
 
-    /* ─── DEPOSIT & WITHDRAW — glass action tiles ─── */
+    /* ─── DEPOSIT & WITHDRAW — minimal ─── */
     .quick-actions {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -185,66 +185,38 @@
         padding: 12px 12px 6px;
     }
     .qa-btn {
-        position: relative;
         display: flex;
         align-items: center;
-        gap: 12px;
-        padding: 12px 14px;
-        border-radius: 14px;
-        font-size: 14px;
-        font-weight: 800;
-        text-decoration: none;
-        letter-spacing: 0.3px;
-        overflow: hidden;
-        border: 1px solid rgba(255,255,255,0.08);
-        background: #151b24;
-        color: #e8eef5;
-        box-shadow: none;
-        transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
-    }
-    .qa-btn::before {
-        content: '';
-        position: absolute;
-        inset: 0 auto 0 0;
-        width: 3px;
-        border-radius: 14px 0 0 14px;
-    }
-    .qa-btn i {
-        width: 38px;
-        height: 38px;
-        border-radius: 11px;
-        display: inline-flex;
-        align-items: center;
         justify-content: center;
+        gap: 8px;
+        padding: 13px 16px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        letter-spacing: 0.15px;
+        box-shadow: none;
+        transition: transform 0.12s ease, background 0.15s ease;
+    }
+    .qa-btn::before { content: none; display: none; }
+    .qa-btn i {
         font-size: 15px;
         flex-shrink: 0;
+        background: transparent;
+        box-shadow: none;
     }
     .qa-btn.deposit {
-        background: linear-gradient(135deg, rgba(45,212,168,0.14) 0%, #151b24 55%);
-        border-color: rgba(45,212,168,0.28);
-        color: #e8eef5;
-        box-shadow: none;
-        border-bottom: 1px solid rgba(45,212,168,0.28);
-    }
-    .qa-btn.deposit::before { background: #2dd4a8; }
-    .qa-btn.deposit i {
-        background: rgba(45,212,168,0.18);
+        background: rgba(45,212,168,0.14);
+        border: 1px solid rgba(45,212,168,0.32);
         color: #2dd4a8;
-        box-shadow: inset 0 0 0 1px rgba(45,212,168,0.35);
     }
+    .qa-btn.deposit i { color: #2dd4a8; }
     .qa-btn.withdraw {
-        background: linear-gradient(135deg, rgba(232,184,74,0.14) 0%, #151b24 55%);
-        border-color: rgba(232,184,74,0.28);
-        color: #e8eef5;
-        box-shadow: none;
-        border-bottom: 1px solid rgba(232,184,74,0.28);
-    }
-    .qa-btn.withdraw::before { background: #e8b84a; }
-    .qa-btn.withdraw i {
-        background: rgba(232,184,74,0.18);
+        background: rgba(232,184,74,0.14);
+        border: 1px solid rgba(232,184,74,0.32);
         color: #e8b84a;
-        box-shadow: inset 0 0 0 1px rgba(232,184,74,0.35);
     }
+    .qa-btn.withdraw i { color: #e8b84a; }
     .qa-btn:active { transform: scale(0.98); }
 
     /* ─── SECTION HEADER ─── */
@@ -256,14 +228,14 @@
     .sec-title i { font-size: 18px; color: var(--gold-text); }
 
     .btn-see-all {
-        padding: 6px 13px; border-radius: 7px; font-size: 12px; font-weight: 800;
-        color: var(--gold-text);
-        background: linear-gradient(180deg, rgba(232,184,74,0.18) 0%, rgba(232,184,74,0.10) 100%);
-        border: 1px solid rgba(232,184,74,0.4); border-bottom: 2px solid rgba(232,184,74,0.6);
-        text-decoration: none; transition: all 0.15s; box-shadow: 0 3px 0 rgba(0,0,0,0.3);
+        padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 600;
+        color: #2dd4a8;
+        background: transparent;
+        border: 1px solid rgba(45,212,168,0.4);
+        text-decoration: none; transition: background 0.15s; box-shadow: none;
         display: inline-flex; align-items: center;
     }
-    .btn-see-all:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(0,0,0,0.3); }
+    .btn-see-all:active { background: rgba(45,212,168,0.12); }
 
     /* ─── GAME GRID ─── */
     .games-section { padding: 0 10px; margin-bottom: 6px; }

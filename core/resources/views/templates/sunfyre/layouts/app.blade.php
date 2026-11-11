@@ -30,7 +30,7 @@
     <link
         href="{{ asset($activeTemplateTrue . 'css/color.php') }}?color={{ gs('base_color') }}&secondColor={{ gs('secondary_color') }}"
         rel="stylesheet">
-    <link href="{{ asset($activeTemplateTrue . 'css/clean-dark.css') }}" rel="stylesheet">
+    <link href="{{ asset($activeTemplateTrue . 'css/clean-dark.css') }}?v=20261111btn" rel="stylesheet">
 </head>
 
 @php echo loadExtension('google-analytics') @endphp

@@ -234,12 +234,12 @@
     .header-right { display: flex; align-items: center; gap: 6px; margin-left: auto; flex-shrink: 0; }
 
     .btn-app-install {
-        padding: 7px 10px; border-radius: 10px; font-size: 11px; font-weight: 800;
-        cursor: pointer; text-decoration: none; letter-spacing: 0.3px;
+        padding: 7px 12px; border-radius: 999px; font-size: 11px; font-weight: 600;
+        cursor: pointer; text-decoration: none; letter-spacing: 0.2px;
         display: inline-flex; align-items: center; justify-content: center; gap: 5px;
-        background: linear-gradient(135deg, rgba(45,212,168,0.22) 0%, #151b24 55%);
-        color: #2dd4a8; border: 1px solid rgba(45,212,168,0.4);
-        transition: all 0.15s; white-space: nowrap; flex-shrink: 0;
+        background: rgba(45,212,168,0.12);
+        color: #2dd4a8; border: 1px solid rgba(45,212,168,0.35);
+        transition: all 0.15s; white-space: nowrap; flex-shrink: 0; box-shadow: none;
     }
     .btn-app-install i { font-size: 13px; }
     .btn-app-install:active { transform: scale(0.96); }
@@ -249,31 +249,23 @@
     }
 
     .btn-login {
-        padding: 8px 14px; border-radius: 10px; font-size: 12px; font-weight: 800;
+        padding: 7px 14px; border-radius: 999px; font-size: 12px; font-weight: 600;
         cursor: pointer; text-decoration: none;
         display: inline-flex; align-items: center; justify-content: center; transition: all 0.15s;
-        position: relative; overflow: hidden;
-        background: linear-gradient(135deg, rgba(45,212,168,0.14) 0%, #151b24 55%);
-        color: #e8eef5; border: 1px solid rgba(45,212,168,0.28); box-shadow: none;
+        background: transparent;
+        color: #2dd4a8; border: 1px solid rgba(45,212,168,0.45); box-shadow: none;
     }
-    .btn-login::before {
-        content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
-        background: #2dd4a8; border-radius: 10px 0 0 10px;
-    }
+    .btn-login::before { content: none; display: none; }
     .btn-login:active { transform: scale(0.98); }
 
     .btn-register {
-        padding: 8px 14px; border-radius: 10px; font-size: 12px; font-weight: 800;
+        padding: 7px 14px; border-radius: 999px; font-size: 12px; font-weight: 600;
         cursor: pointer; text-decoration: none;
         display: inline-flex; align-items: center; justify-content: center; transition: all 0.15s;
-        position: relative; overflow: hidden;
-        background: linear-gradient(135deg, rgba(232,184,74,0.14) 0%, #151b24 55%);
-        color: #e8eef5; border: 1px solid rgba(232,184,74,0.28); box-shadow: none;
+        background: #e8b84a;
+        color: #0b0f14; border: 1px solid #e8b84a; box-shadow: none;
     }
-    .btn-register::before {
-        content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
-        background: #e8b84a; border-radius: 10px 0 0 10px;
-    }
+    .btn-register::before { content: none; display: none; }
     .btn-register:active { transform: scale(0.98); }
 
     .user-balance {
