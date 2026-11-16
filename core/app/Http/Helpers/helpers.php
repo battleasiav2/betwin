@@ -754,6 +754,101 @@ function agentEarnings(int $agentId): array
     ];
 }
 
+function manualGatewayWalletNumber($gateway): string
+{
+    if (!$gateway) {
+        return '';
+    }
+    $raw = $gateway->gateway_parameters ?? null;
+    if (is_string($raw)) {
+        $raw = json_decode($raw);
+    }
+    if (is_array($raw)) {
+        $raw = (object) $raw;
+    }
+    return trim((string) ($raw->wallet_number ?? ''));
+}
+
+/**
+ * Ensure bKash / Nagad / Rocket manual deposit methods exist (admin can edit numbers).
+ */
+function ensureManualMobileBanks(): void
+{
+    static $done = false;
+    if ($done || \Illuminate\Support\Facades\Cache::get('manual_mobile_banks_ready_v1')) {
+        $done = true;
+        return;
+    }
+    if (!\Illuminate\Support\Facades\Schema::hasTable('gateways') || !\Illuminate\Support\Facades\Schema::hasTable('forms')) {
+        return;
+    }
+    ensureGatewayBonusColumn();
+
+    $banks = [
+        ['alias' => 'bkash', 'name' => 'bKash', 'instruction' => 'Send money (Payment) to the bKash number shown, then submit the TRX ID.'],
+        ['alias' => 'nagad', 'name' => 'Nagad', 'instruction' => 'Send money (Payment) to the Nagad number shown, then submit the TRX ID.'],
+        ['alias' => 'rocket', 'name' => 'Rocket', 'instruction' => 'Send money (Payment) to the Rocket number shown, then submit the TRX ID.'],
+    ];
+
+    $lastCode = (int) (\App\Models\Gateway::manual()->orderByDesc('code')->value('code') ?: 999);
+
+    foreach ($banks as $bank) {
+        $exists = \App\Models\Gateway::where(function ($q) use ($bank) {
+            $q->where('alias', $bank['alias'])->orWhere('name', $bank['name']);
+        })->first();
+        if ($exists) {
+            continue;
+        }
+
+        $form = new \App\Models\Form();
+        $form->act = 'manual_deposit';
+        $form->form_data = [
+            'trx_id' => [
+                'name' => 'TRX ID',
+                'label' => 'trx_id',
+                'is_required' => 'required',
+                'instruction' => 'Enter the transaction ID from your payment SMS',
+                'extensions' => '',
+                'options' => [],
+                'type' => 'text',
+                'width' => '12',
+            ],
+        ];
+        $form->save();
+
+        $lastCode++;
+        $method = new \App\Models\Gateway();
+        $method->code = $lastCode;
+        $method->form_id = $form->id;
+        $method->name = $bank['name'];
+        $method->alias = $bank['alias'];
+        $method->image = null;
+        $method->status = \App\Constants\Status::ENABLE;
+        $method->gateway_parameters = json_encode(['wallet_number' => '']);
+        $method->supported_currencies = [];
+        $method->crypto = \App\Constants\Status::DISABLE;
+        $method->description = $bank['instruction'];
+        $method->save();
+
+        $currency = new \App\Models\GatewayCurrency();
+        $currency->name = $bank['name'];
+        $currency->gateway_alias = $bank['alias'];
+        $currency->currency = gs('cur_text') ?: 'BDT';
+        $currency->symbol = '';
+        $currency->method_code = $lastCode;
+        $currency->min_amount = 100;
+        $currency->max_amount = 25000;
+        $currency->fixed_charge = 0;
+        $currency->percent_charge = 0;
+        $currency->deposit_bonus_percent = (float) (gs('deposit_bonus_percent') ?? 5);
+        $currency->rate = 1;
+        $currency->save();
+    }
+
+    \Illuminate\Support\Facades\Cache::forever('manual_mobile_banks_ready_v1', 1);
+    $done = true;
+}
+
 function responseSuccess($remark, $notify, $data = null) {
     return buildResponse($remark, 'success', $notify, $data);
 }

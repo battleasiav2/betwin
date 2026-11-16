@@ -21,7 +21,14 @@
                                         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 mb-15">
                                             <div class="form-group">
                                                 <label>@lang('Gateway Name')</label>
-                                                <input type="text" class="form-control " name="name" value="{{ old('name') }}" required />
+                                                <input type="text" class="form-control " name="name" value="{{ old('name') }}" required placeholder="bKash / Nagad / Rocket" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 mb-15">
+                                            <div class="form-group">
+                                                <label>@lang('Wallet Number')</label>
+                                                <input type="text" class="form-control" name="wallet_number" value="{{ old('wallet_number') }}" placeholder="01XXXXXXXXX" />
+                                                <small class="text-muted">@lang('User will send money to this number')</small>
                                             </div>
                                         </div>
                                         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4 mb-15">

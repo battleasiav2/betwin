@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller {
     public function deposit() {
+        ensureManualMobileBanks();
+        ensureGatewayBonusColumn();
         $gatewayCurrency = GatewayCurrency::whereHas('method', function ($gate) {
             $gate->where('status', Status::ENABLE);
         })->with('method')->orderby('name')->get();
@@ -372,12 +374,30 @@ class PaymentController extends Controller {
         abort_if(!$data, 404);
         $gatewayCurrency = $data->gatewayCurrency();
         $gateway         = $gatewayCurrency->method;
-        $formData        = $gateway->form->form_data;
 
-        $formProcessor  = new FormProcessor();
-        $validationRule = $formProcessor->valueValidation($formData);
-        $request->validate($validationRule);
-        $userData = $formProcessor->processFormData($request, $formData);
+        if (!manualGatewayWalletNumber($gateway)) {
+            $notify[] = ['error', 'Deposit number is not configured yet'];
+            return back()->withNotify($notify);
+        }
+
+        $formData = $gateway->form->form_data ?? null;
+        if ($formData && count((array) $formData) > 0) {
+            $formProcessor  = new FormProcessor();
+            $validationRule = $formProcessor->valueValidation($formData);
+            $request->validate($validationRule);
+            $userData = $formProcessor->processFormData($request, $formData);
+        } else {
+            $request->validate([
+                'trx_id' => 'required|string|min:5|max:100',
+            ], [
+                'trx_id.required' => 'TRX ID is required',
+            ]);
+            $userData = [[
+                'name'  => 'TRX ID',
+                'type'  => 'text',
+                'value' => trim((string) $request->trx_id),
+            ]];
+        }
 
         $data->detail = $userData;
         $data->status = Status::PAYMENT_PENDING;
@@ -399,7 +419,7 @@ class PaymentController extends Controller {
             'trx'             => $data->trx,
         ]);
 
-        $notify[] = ['success', 'You have deposit request has been taken'];
+        $notify[] = ['success', 'Deposit request submitted. Wait for admin approval.'];
         return to_route('user.deposit.history')->withNotify($notify);
     }
 }

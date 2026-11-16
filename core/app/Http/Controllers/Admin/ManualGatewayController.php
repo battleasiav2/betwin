@@ -13,6 +13,7 @@ use App\Lib\RequiredConfig;
 
 class ManualGatewayController extends Controller {
     public function index() {
+        ensureManualMobileBanks();
         $pageTitle = 'Manual Gateways';
         $gateways  = Gateway::manual()->orderBy('id', 'desc')->get();
         return view('admin.gateways.manual.list', compact('pageTitle', 'gateways'));
@@ -52,7 +53,9 @@ class ManualGatewayController extends Controller {
         $method->image                = $filename;
         $method->alias                = strtolower(trim(str_replace(' ', '_', $request->name)));
         $method->status               = Status::ENABLE;
-        $method->gateway_parameters   = json_encode([]);
+        $method->gateway_parameters   = json_encode([
+            'wallet_number' => trim((string) $request->wallet_number),
+        ]);
         $method->supported_currencies = [];
         $method->crypto               = Status::DISABLE;
         $method->description          = $request->instruction;
@@ -105,7 +108,9 @@ class ManualGatewayController extends Controller {
         $method->name                 = $request->name;
         $method->image                = $filename;
         $method->alias                = strtolower(trim(str_replace(' ', '_', $request->name)));
-        $method->gateway_parameters   = json_encode([]);
+        $method->gateway_parameters   = json_encode([
+            'wallet_number' => trim((string) $request->wallet_number),
+        ]);
         $method->supported_currencies = [];
         $method->crypto               = Status::DISABLE;
         $method->description          = $request->instruction;
@@ -143,6 +148,7 @@ class ManualGatewayController extends Controller {
             'deposit_bonus_percent' => 'required|numeric|gte:0|max:100',
             'image'          => [$isUpdate ? 'nullable' : 'required', 'image', new FileTypeValidate(['jpg', 'jpeg', 'png'])],
             'instruction'    => 'required',
+            'wallet_number'  => 'nullable|string|max:40',
         ];
 
         $generatorValidation = $formProcessor->generatorValidation();

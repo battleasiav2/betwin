@@ -12,6 +12,7 @@
                             <thead>
                             <tr>
                                 <th>@lang('Gateway')</th>
+                                <th>@lang('Wallet Number')</th>
                                 <th>@lang('Status')</th>
                                 <th>@lang('Action')</th>
                             </tr>
@@ -22,7 +23,14 @@
                                     <td>
                                         {{__($gateway->name)}}
                                     </td>
-
+                                    <td>
+                                        @php $walletNo = manualGatewayWalletNumber($gateway); @endphp
+                                        @if($walletNo)
+                                            <span class="fw-bold">{{ $walletNo }}</span>
+                                        @else
+                                            <span class="text--danger">@lang('Not set')</span>
+                                        @endif
+                                    </td>
                                     <td>
                                         @php
                                             echo $gateway->statusBadge

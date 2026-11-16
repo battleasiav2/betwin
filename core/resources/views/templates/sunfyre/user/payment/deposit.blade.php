@@ -45,7 +45,11 @@
                                             if ($bonusShow <= 0) {
                                                 $bonusShow = (float) (gs('deposit_bonus_percent') ?? 0);
                                             }
+                                            $walletShow = manualGatewayWalletNumber($data->method);
                                         @endphp
+                                        @if($walletShow)
+                                            <span class="wallet-tag">{{ $walletShow }}</span>
+                                        @endif
                                         @if($bonusShow > 0)
                                             <span class="bonus-tag">+{{ getAmount($bonusShow) }}%</span>
                                         @endif
@@ -252,6 +256,11 @@
         position: absolute; top: 6px; right: 6px;
         background: #f5c518; color: #111; font-size: 11px; font-weight: 900;
         line-height: 1; padding: 4px 6px; border-radius: 6px; z-index: 3;
+    }
+    .wallet-tag {
+        display: block; margin-top: 6px;
+        font-size: 11px; font-weight: 700; color: #e8b84a;
+        letter-spacing: 0.3px;
     }
     .vip-tag {
         position: absolute; top: 0; left: 0;

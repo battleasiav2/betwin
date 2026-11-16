@@ -20,13 +20,20 @@
                                 </div>
                                 <div class="gateway-content">
                                     <div class="row">
-                                        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+                                        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3">
                                             <div class="form-group">
                                                 <label>@lang('Gateway Name')</label>
                                                 <input type="text" class="form-control" name="name" value="{{ $method->name }}" required />
                                             </div>
                                         </div>
-                                        <div class="col-xl-3 col-md-6">
+                                        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3">
+                                            <div class="form-group">
+                                                <label>@lang('Wallet Number')</label>
+                                                <input type="text" class="form-control" name="wallet_number" value="{{ manualGatewayWalletNumber($method) }}" placeholder="01XXXXXXXXX" />
+                                                <small class="text-muted">@lang('Shown to users for Send Money')</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-2 col-md-6">
                                             <div class="form-group">
                                                 <label>@lang('Currency')</label>
                                                 <input type="text" name="currency" class="form-control border-radius-5" value="{{ @$method->singleCurrency->currency }}" required />
