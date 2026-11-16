@@ -37,7 +37,20 @@
                                     <div class="card-body-content">
                                         <div class="vip-tag"><i class="las la-crown"></i> VIP</div>
                                         <div class="thumb">
-                                            <img src="{{ getImage(getFilePath('gateway') . '/' . $data->method->image) }}" alt="{{ $data->name }}">
+                                            @php
+                                                $gwImage = $data->method->image ?? null;
+                                                $brandKey = manualBankBrandKey($data->name, $data->method->alias ?? null);
+                                                $brandIcon = manualBankBrandIconUrl($brandKey);
+                                            @endphp
+                                            @if($gwImage)
+                                                <img src="{{ getImage(getFilePath('gateway') . '/' . $gwImage) }}" alt="{{ $data->name }}">
+                                            @elseif($brandIcon)
+                                                <img src="{{ $brandIcon }}" alt="{{ $data->name }}" class="brand-fallback-img">
+                                            @elseif($brandKey)
+                                                <div class="gw-brand gw-{{ $brandKey }}">{{ strtoupper($brandKey) }}</div>
+                                            @else
+                                                <img src="{{ getImage(getFilePath('gateway') . '/' . $gwImage) }}" alt="{{ $data->name }}">
+                                            @endif
                                         </div>
                                         <span class="name">{{ __($data->name) }}</span>
                                         @php
@@ -262,6 +275,18 @@
         font-size: 11px; font-weight: 700; color: #e8b84a;
         letter-spacing: 0.3px;
     }
+    .brand-fallback-img {
+        width: 84px !important; height: 56px !important; object-fit: contain !important;
+        border-radius: 8px; background: transparent;
+    }
+    .gw-brand {
+        width: 84px; height: 56px; border-radius: 8px;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 13px; font-weight: 800; color: #fff; letter-spacing: 0.3px;
+    }
+    .gw-bkash { background: #E2136E; }
+    .gw-nagad { background: #F15A22; }
+    .gw-rocket { background: #8C3494; }
     .vip-tag {
         position: absolute; top: 0; left: 0;
         background: linear-gradient(90deg, #e8b84a, #2dd4a8);

@@ -11,8 +11,20 @@
         <div class="row justify-content-center">
             <div class="col-lg-6 col-md-8 col-12">
 
+                @php
+                    $brandKey = manualBankBrandKey($method->name, $gateway->alias ?? null);
+                    $brandIcon = manualBankBrandIconUrl($brandKey);
+                @endphp
                 <div class="money-hero deposit-hero">
-                    <div class="money-hero-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <div class="money-hero-icon">
+                        @if($gateway->image)
+                            <img src="{{ getImage(getFilePath('gateway') . '/' . $gateway->image) }}" alt="{{ $method->name }}" style="width:42px;height:42px;object-fit:contain;border-radius:8px;">
+                        @elseif($brandIcon)
+                            <img src="{{ $brandIcon }}" alt="{{ $method->name }}" style="width:42px;height:42px;object-fit:contain;border-radius:8px;">
+                        @else
+                            <i class="fas fa-mobile-alt"></i>
+                        @endif
+                    </div>
                     <div>
                         <h1 class="money-hero-title">{{ __($method->name) }}</h1>
                         <p class="money-hero-sub">@lang('Send money · submit TRX ID')</p>

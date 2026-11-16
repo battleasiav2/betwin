@@ -21,7 +21,26 @@ class PaymentController extends Controller {
         ensureGatewayBonusColumn();
         $gatewayCurrency = GatewayCurrency::whereHas('method', function ($gate) {
             $gate->where('status', Status::ENABLE);
-        })->with('method')->orderby('name')->get();
+        })->with('method')->orderby('name')->get()
+            ->filter(function ($row) {
+                $method = $row->method;
+                if (!$method) {
+                    return false;
+                }
+                // Hide empty manual placeholders (no wallet number yet).
+                if ((int) $method->code >= 1000 && manualGatewayWalletNumber($method) === '') {
+                    $brand = manualBankBrandKey($method->name, $method->alias);
+                    if (in_array($method->alias, ['bkash', 'nagad', 'rocket', 'bkash_manual', 'nagad_manual', 'rocket_manual'], true) || $brand) {
+                        // Keep named manual methods that admin already uses (have image or custom alias),
+                        // only drop obvious auto-seed aliases without wallet.
+                        if (in_array($method->alias, ['bkash', 'nagad', 'rocket', 'bkash_manual', 'nagad_manual', 'rocket_manual'], true)) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            })
+            ->values();
         $pageTitle = 'Deposit Methods';
         return view('Template::user.payment.deposit', compact('gatewayCurrency', 'pageTitle'));
     }

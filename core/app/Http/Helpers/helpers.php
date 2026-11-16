@@ -769,13 +769,49 @@ function manualGatewayWalletNumber($gateway): string
     return trim((string) ($raw->wallet_number ?? ''));
 }
 
+function manualBankBrandKey(?string $name, ?string $alias = null): ?string
+{
+    $hay = strtolower(trim(($name ?? '') . ' ' . ($alias ?? '')));
+    $hay = preg_replace('/[^a-z0-9]+/', '', $hay) ?? '';
+    if (str_contains($hay, 'bkash') || str_contains($hay, 'bkas')) {
+        return 'bkash';
+    }
+    if (str_contains($hay, 'nagad')) {
+        return 'nagad';
+    }
+    if (str_contains($hay, 'rocket')) {
+        return 'rocket';
+    }
+    return null;
+}
+
+function manualBankBrandIconUrl(?string $brand): ?string
+{
+    if (!$brand) {
+        return null;
+    }
+    $rel = 'assets/images/manual/' . $brand . '.svg';
+    $candidates = [
+        public_path($rel),
+        base_path('../' . $rel),
+        dirname(base_path()) . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $rel),
+    ];
+    foreach ($candidates as $file) {
+        if ($file && is_file($file)) {
+            return asset($rel);
+        }
+    }
+    // Site docroot usually serves /assets from project root.
+    return asset($rel);
+}
+
 /**
- * Ensure bKash / Nagad / Rocket manual deposit methods exist (admin can edit numbers).
+ * Ensure one usable manual method per brand; hide empty auto-seeded duplicates.
  */
 function ensureManualMobileBanks(): void
 {
     static $done = false;
-    if ($done || \Illuminate\Support\Facades\Cache::get('manual_mobile_banks_ready_v1')) {
+    if ($done || \Illuminate\Support\Facades\Cache::get('manual_mobile_banks_ready_v3')) {
         $done = true;
         return;
     }
@@ -785,18 +821,36 @@ function ensureManualMobileBanks(): void
     ensureGatewayBonusColumn();
 
     $banks = [
-        ['alias' => 'bkash', 'name' => 'bKash', 'instruction' => 'Send money (Payment) to the bKash number shown, then submit the TRX ID.'],
-        ['alias' => 'nagad', 'name' => 'Nagad', 'instruction' => 'Send money (Payment) to the Nagad number shown, then submit the TRX ID.'],
-        ['alias' => 'rocket', 'name' => 'Rocket', 'instruction' => 'Send money (Payment) to the Rocket number shown, then submit the TRX ID.'],
+        ['alias' => 'bkash_manual', 'name' => 'bKash Manual', 'brand' => 'bkash', 'instruction' => 'Send money (Payment) to the bKash number shown, then submit the TRX ID.'],
+        ['alias' => 'nagad_manual', 'name' => 'Nagad Manual', 'brand' => 'nagad', 'instruction' => 'Send money (Payment) to the Nagad number shown, then submit the TRX ID.'],
+        ['alias' => 'rocket_manual', 'name' => 'Rocket Manual', 'brand' => 'rocket', 'instruction' => 'Send money (Payment) to the Rocket number shown, then submit the TRX ID.'],
     ];
+
+    // Disable empty placeholder seeds (old aliases without wallet/number).
+    $placeholders = \App\Models\Gateway::manual()
+        ->whereIn('alias', ['bkash', 'nagad', 'rocket', 'bkash_manual', 'nagad_manual', 'rocket_manual'])
+        ->get();
+    foreach ($placeholders as $gw) {
+        $wallet = manualGatewayWalletNumber($gw);
+        if ($wallet === '') {
+            $gw->status = \App\Constants\Status::DISABLE;
+            if (empty($gw->image)) {
+                $brand = manualBankBrandKey($gw->name, $gw->alias);
+                // keep disabled until admin sets number; image stays null (UI uses SVG fallback)
+            }
+            $gw->save();
+        }
+    }
 
     $lastCode = (int) (\App\Models\Gateway::manual()->orderByDesc('code')->value('code') ?: 999);
 
     foreach ($banks as $bank) {
-        $exists = \App\Models\Gateway::where(function ($q) use ($bank) {
-            $q->where('alias', $bank['alias'])->orWhere('name', $bank['name']);
-        })->first();
-        if ($exists) {
+        $brand = $bank['brand'];
+        // If any manual method for this brand already exists, do not create another.
+        $existingManual = \App\Models\Gateway::manual()->get()->first(function ($gw) use ($brand) {
+            return manualBankBrandKey($gw->name, $gw->alias) === $brand;
+        });
+        if ($existingManual) {
             continue;
         }
 
@@ -823,7 +877,7 @@ function ensureManualMobileBanks(): void
         $method->name = $bank['name'];
         $method->alias = $bank['alias'];
         $method->image = null;
-        $method->status = \App\Constants\Status::ENABLE;
+        $method->status = \App\Constants\Status::DISABLE; // admin enables after setting wallet number
         $method->gateway_parameters = json_encode(['wallet_number' => '']);
         $method->supported_currencies = [];
         $method->crypto = \App\Constants\Status::DISABLE;
@@ -845,7 +899,7 @@ function ensureManualMobileBanks(): void
         $currency->save();
     }
 
-    \Illuminate\Support\Facades\Cache::forever('manual_mobile_banks_ready_v1', 1);
+    \Illuminate\Support\Facades\Cache::forever('manual_mobile_banks_ready_v3', 1);
     $done = true;
 }
 
