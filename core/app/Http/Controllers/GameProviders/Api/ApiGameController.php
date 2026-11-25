@@ -112,7 +112,7 @@ class ApiGameController extends Controller
     private function getApiSettings(): array
     {
         $defaults = [
-            'api_url'      => env('RAPIDVERSE_API_URL', 'https://www.rapidverse.site/api/versev1'),
+            'api_url'      => $this->useLiveApiUrl(env('RAPIDVERSE_API_URL', 'https://rapidverse.live/api/versev1')),
             'api_token'    => env('RAPIDVERSE_API_TOKEN', ''),
             'secret_key'   => env('RAPIDVERSE_SECRET_KEY', ''),
             'callback_url' => env('RAPIDVERSE_CALLBACK_URL', 'https://bet369win.com/callback.php'),
@@ -128,13 +128,32 @@ class ApiGameController extends Controller
             return $defaults;
         }
 
+        $apiUrl = $this->useLiveApiUrl($row->api_url ?: $defaults['api_url']);
+        if ((string) $row->api_url !== $apiUrl) {
+            DB::table('api_game_settings')->where('id', $row->id)->update([
+                'api_url' => $apiUrl,
+                'updated_at' => now(),
+            ]);
+        }
+
         return [
-            'api_url'      => $row->api_url ?: $defaults['api_url'],
+            'api_url'      => $apiUrl,
             'api_token'    => $row->api_token ?: $defaults['api_token'],
             'secret_key'   => $row->secret_key ?: $defaults['secret_key'],
             'callback_url' => $row->callback_url ?: $defaults['callback_url'],
             'api_prefix'   => (isset($row->api_prefix) && $row->api_prefix !== '') ? $row->api_prefix : $defaults['api_prefix'],
         ];
+    }
+
+    private function useLiveApiUrl(?string $url): string
+    {
+        $live = 'https://rapidverse.live/api/versev1';
+        $url = trim((string) $url);
+        if ($url === '' || preg_match('#https?://(?:www\.)?rapidverse\.site(?:/|$)#i', $url)) {
+            return $live;
+        }
+
+        return preg_replace('#https?://www\.rapidverse\.live#i', 'https://rapidverse.live', $url) ?: $live;
     }
 
     private function getVendorCode(string $provider): string

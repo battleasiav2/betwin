@@ -12,7 +12,7 @@ foreach (file($envPath, FILE_IGNORE_NEW_LINES|FILE_SKIP_EMPTY_LINES) as $line) {
 }
 $conn = new mysqli($db["host"],$db["user"],$db["pass"],$db["name"],(int)$db["port"]);
 $conn->set_charset("utf8mb4");
-$url = "https://www.rapidverse.site/api/versev1";
+$url = "https://rapidverse.live/api/versev1";
 $conn->query("UPDATE api_game_settings SET api_url='".$conn->real_escape_string($url)."', updated_at=NOW()");
 $r = $conn->query("SELECT api_url FROM api_game_settings ORDER BY id ASC LIMIT 1")->fetch_assoc();
 echo "api_url=".$r["api_url"]."\n";
